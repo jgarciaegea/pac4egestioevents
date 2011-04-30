@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<classpath>
-	<classpathentry path="" kind="src"/>
-	<classpathentry path="org.eclipse.jdt.launching.JRE_CONTAINER" kind="con"/>
-	<classpathentry path="C:/Users/Home/Documents/UOC/TDP/PAC3/Driver Postgree SQL/postgresql-8.3-603.jdbc3.jar" kind="lib"/>
-	<classpathentry path="" kind="output"/>
-</classpath>
