@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ConceptoGasto implements Serializable{
-	
+	ffff
 	//variables
 	private static final long serialVersionID = 4L;
 
