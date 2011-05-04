@@ -1,6 +1,5 @@
 package uoc.edu.tds.pec4.utils;
 
-import java.awt.*;
 import javax.swing.*;
 
 /**
