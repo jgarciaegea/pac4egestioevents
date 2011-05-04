@@ -8,7 +8,7 @@ public class Evento implements BeanInterface, Serializable{
 	private static final long serialVersionUID = 1L;
 
 	private Integer idEvento;
-	private Integer idCentro;
+	private CentroDocente centroDocente;
 	private TipoEvento tipoEvento;
 	private Integer estado;
 	private Integer plazas;
@@ -39,17 +39,17 @@ public class Evento implements BeanInterface, Serializable{
 	}
 
 	/**
-	 * @return the idCentro
+	 * @return the centroDocente
 	 */
-	public Integer getIdCentro() {
-		return idCentro;
+	public CentroDocente getCentroDocente() {
+		return centroDocente;
 	}
 
 	/**
-	 * @param idCentro the idCentro to set
+	 * @param centroDocente the centroDocente to set
 	 */
-	public void setIdCentro(Integer idCentro) {
-		this.idCentro = idCentro;
+	public void setCentroDocente(CentroDocente centroDocente) {
+		this.centroDocente = centroDocente;
 	}
 
 	/**
@@ -267,7 +267,7 @@ public class Evento implements BeanInterface, Serializable{
 	 * @param fechaInicioInscripcion
 	 * @param fechaFinInscripcion
 	 */
-	public Evento(Integer idEvento, Integer idCentro, TipoEvento tipoEvento,
+	public Evento(Integer idEvento, CentroDocente centroDocente, TipoEvento tipoEvento,
 			Integer estado, Integer plazas, Integer umbral, Integer duracion,
 			Integer precio, String nombre, String descripcion,
 			String motivoEstado, Date fechaCelebracion, Date fechaAlta,
@@ -275,7 +275,7 @@ public class Evento implements BeanInterface, Serializable{
 			Date fechaFinInscripcion) {
 		super();
 		this.idEvento = idEvento;
-		this.idCentro = idCentro;
+		this.centroDocente = centroDocente;
 		this.tipoEvento = tipoEvento;
 		this.estado = estado;
 		this.plazas = plazas;
