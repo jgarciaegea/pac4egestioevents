@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<section name="org.eclipse.ui.views.problem">
+	</section>
+	<section name="CleanDialogSettings">
+		<item value="516" key="DIALOG_WIDTH"/>
+		<item value="158" key="DIALOG_Y_ORIGIN"/>
+		<item value="372" key="DIALOG_HEIGHT"/>
+		<item value="311" key="DIALOG_X_ORIGIN"/>
+		<item value="false" key="TOGGLE_SELECTED"/>
+	</section>
+</section>

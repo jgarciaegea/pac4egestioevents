@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<item value="500" key="CommitDialog.weights.0"/>
+	<item value="500" key="CommitDialog.weights.1"/>
+	<item value="174" key="CommitDialog.location.y"/>
+	<item value="558" key="passwordStores.size.y"/>
+	<item value="73" key="CommitDialog.location.x"/>
+	<item value="548" key="passwordStores.size.x"/>
+	<item value="22" key="passwordStores.location.y"/>
+	<item value="295" key="passwordStores.location.x"/>
+	<item value="1138" key="CommitDialog.size.x"/>
+	<item value="448" key="CommitDialog.size.y"/>
+	<section name="CommitWizard">
+		<item value="false" key="ShowCompare"/>
+		<item value="500" key="VWeight2"/>
+		<item value="500" key="VWeight1"/>
+	</section>
+	<section name="NewLocationWizard">
+		<list key="ConfigurationWizardMainPage.STORE_URL_ID">
+			<item value="http://pac4egestioevents.googlecode.com/svn"/>
+		</list>
+	</section>
+</section>

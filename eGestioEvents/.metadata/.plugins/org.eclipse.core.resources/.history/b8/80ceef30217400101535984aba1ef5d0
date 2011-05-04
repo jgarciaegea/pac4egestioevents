@@ -1,0 +1,25 @@
+/**
+ * @author jgarcia
+ *
+ */
+package uoc.edu.tds.pec4.beans;
+//Máquina 1ddd
+
+public class Evento {
+	private Integer id_evento;
+	private Integer id_centro;
+	private String nombre;
+	private String descripcion;
+	private Date fecha_celebracion;
+	private Date fecha_alta;
+	private Integer estado;
+	private Date fecha_estado;
+	private String motivo_estado;
+	private Integer id_tipo_evento;
+	private Integer plazas;
+	private Integer umbral;
+	private Date fecha_inicio_inscripcion;
+	private Date fecha_fin_inscripcion;
+	private Integer duracion;
+	private Integer precio;
+}
