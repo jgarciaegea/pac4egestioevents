@@ -12,7 +12,7 @@ public class TipoEvento implements BeanInterface, Serializable{
 	private String descripcion;
 	private String descripcionAmpliada;
 	private String motivoEstado;
-	private Date fecha_estado;
+	private Date fechaEstado;
 	
 	/**
 	 * Constructor con par‡metros
@@ -21,17 +21,17 @@ public class TipoEvento implements BeanInterface, Serializable{
 	 * @param descripcion
 	 * @param descripcionAmpliada
 	 * @param motivoEstado
-	 * @param fecha_estado
+	 * @param fechaEstado
 	 */
 	public TipoEvento(Integer idTipoEvento, Integer estado, String descripcion,
-			String descripcionAmpliada, String motivoEstado, Date fecha_estado) {
+			String descripcionAmpliada, String motivoEstado, Date fechaEstado) {
 		super();
 		this.idTipoEvento = idTipoEvento;
 		this.estado = estado;
 		this.descripcion = descripcion;
 		this.descripcionAmpliada = descripcionAmpliada;
 		this.motivoEstado = motivoEstado;
-		this.fecha_estado = fecha_estado;
+		this.fechaEstado = fechaEstado;
 	}
 
 	/**
@@ -112,16 +112,17 @@ public class TipoEvento implements BeanInterface, Serializable{
 	}
 
 	/**
-	 * @return the fecha_estado
+	 * @return the fechaEstado
 	 */
-	public Date getFecha_estado() {
-		return fecha_estado;
+	public Date getFechaEstado() {
+		return fechaEstado;
 	}
 
 	/**
-	 * @param fecha_estado the fecha_estado to set
+	 * @param fechaEstado the fechaEstado to set
 	 */
-	public void setFecha_estado(Date fecha_estado) {
-		this.fecha_estado = fecha_estado;
+	public void setFechaEstado(Date fechaEstado) {
+		this.fechaEstado = fechaEstado;
 	}
+
 }
