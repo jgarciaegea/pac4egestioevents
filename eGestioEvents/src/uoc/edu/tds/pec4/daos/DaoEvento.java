@@ -15,7 +15,7 @@ public class DaoEvento extends DaoEntidad<Evento>{
 	}
 	
 	@Override
-	public void deleteById(Evento objecte) throws Exception {
+	public void delete(Evento objecte) throws Exception {
 		PreparedStatement ps = null;
 		try {
 			ps = con.prepareStatement("DELETE FROM EVENTO WHERE ID_EVENTO = ?");

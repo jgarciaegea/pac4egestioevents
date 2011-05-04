@@ -50,7 +50,7 @@ public class GestorEvento extends GestorEntidad<Evento>{
 	public void eliminaEntidad(Evento criteris) throws Exception {
 		try{
 			DaoEvento dao = new DaoEvento(connection);
-			dao.deleteById(criteris);
+			dao.delete(criteris);
 		}catch(Exception e){
 			e.printStackTrace();
 		}
