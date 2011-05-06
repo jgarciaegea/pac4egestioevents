@@ -5,9 +5,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import uoc.edu.tds.pec4.beans.Administrador;
-import uoc.edu.tds.pec4.beans.Asistente;
-import uoc.edu.tds.pec4.beans.PersonalSecretaria;
 import uoc.edu.tds.pec4.beans.Usuario;
 import uoc.edu.tds.pec4.daos.DaoUsuario;
 import uoc.edu.tds.pec4.dtos.DTOAdministrador;
@@ -22,6 +19,10 @@ import uoc.edu.tds.pec4.dtos.DTOUsuario;
 
 public class GestorUsuario  extends GestorEntidad<DTOUsuario>{
 
+	private static final int ADMINISTRADOR = 1;
+	private static final int SECRETARIA = 2;
+	private static final int ASISTENTE = 3;
+	
 	public GestorUsuario(Connection connection) throws Exception {
 		super(connection);
 	}
@@ -36,13 +37,12 @@ public class GestorUsuario  extends GestorEntidad<DTOUsuario>{
 		try{
 			
 			DaoUsuario dao = new DaoUsuario(connection);
-			List<Usuario> lstUsuarios = dao.select(getTypeDTO(criteris));
+			List<Usuario> lstUsuarios = dao.select(criteris.getUsuario());
 			
 			if(lstUsuarios != null && lstUsuarios.size() > 0){
 				List<DTOUsuario> lstUsu = new ArrayList<DTOUsuario>();
 				for(Usuario usu : lstUsuarios){
-					
-					lstUsu.add(getTypeBean(usu));
+					lstUsu.add(getTypeDTO(usu));
 				}
 				return lstUsu;
 			}
@@ -75,64 +75,44 @@ public class GestorUsuario  extends GestorEntidad<DTOUsuario>{
 		throw new UnsupportedOperationException("Método no implementado");
 	}
 	
-	
-	
 	@SuppressWarnings("unchecked")
-	private <B extends Usuario> B getTypeDTO(DTOUsuario criteris) throws Exception{
+	private <B extends DTOUsuario> B getTypeDTO(Usuario usu) throws Exception{
 		try{
-			if(criteris instanceof DTOAsistente){
-				return (B) ((DTOAsistente) criteris).getAsistente();
-			}else if(criteris instanceof DTOPersonalSecretaria){
-				return (B) ((DTOPersonalSecretaria) criteris).getSecretaria();
-			}else if(criteris instanceof DTOAdministrador){
-				return (B) ((DTOAdministrador) criteris).getAdministrador();
-			}
-		}catch(Exception e){
-			throw new Exception();
-		}
-		return null;
-	}
-	
-	
-	@SuppressWarnings("unchecked")
-	private <B extends DTOUsuario> B getTypeBean(Usuario usu) throws Exception{
-		try{
-			if(usu instanceof Administrador){
-				DTOAdministrador dtoAdministrador = new DTOAdministrador();
-				dtoAdministrador.setAdministrador((Administrador)usu);
-				rellenaObjeto(dtoAdministrador);
-				return (B) dtoAdministrador;
-				
-			}else if(usu instanceof PersonalSecretaria){
-				DTOPersonalSecretaria dtoPersonal = new DTOPersonalSecretaria();
-				dtoPersonal.setSecretaria((PersonalSecretaria)usu);
-				rellenaObjeto(dtoPersonal);
-				return (B) dtoPersonal;
-				
-			}else if(usu instanceof Asistente){
-				
-				DTOAsistente dtoAsistente = new DTOAsistente();
-				dtoAsistente.setAsistente((Asistente)usu);
-				rellenaObjeto(dtoAsistente);
-				
-				//Añadimios el DTORol
-				GestorTipoRol gestorTipoRol = new GestorTipoRol(connection);
-				DTOTipoRol dtoTipoRol = gestorTipoRol.consultaEntidadById(dtoAsistente.getAsistente().getIdRol());
-				if(dtoTipoRol != null) dtoAsistente.setDtoTipoRol(dtoTipoRol);
-				
-				//Añadimios el DTODatosBancarios
-				GestorDatosBancarios gestorDatosBancarios = new GestorDatosBancarios(connection);
-				DTODatosBancarios dtoDatosBancarios = gestorDatosBancarios.consultaEntidadById(dtoAsistente.getAsistente().getIdDatosBancarios());
-				if(dtoDatosBancarios != null) dtoAsistente.setDtoDatosBancarios(dtoDatosBancarios);
-				
-				return (B) dtoAsistente;
-				
+			if(usu.getTipoUsuario()==null) throw new Exception("El tipo de usuario ha de estar informado");
+			switch(usu.getTipoUsuario()){
+				case ADMINISTRADOR:
+					DTOAdministrador dtoAdministrador = new DTOAdministrador();
+					dtoAdministrador.setUsuario(usu);
+					rellenaObjeto(dtoAdministrador);
+					return (B) dtoAdministrador;
+				case SECRETARIA:
+					DTOPersonalSecretaria dtoPersonal = new DTOPersonalSecretaria();
+					dtoPersonal.setUsuario(usu);
+					rellenaObjeto(dtoPersonal);
+					return (B) dtoPersonal;
+				case ASISTENTE:
+					DTOAsistente dtoAsistente = new DTOAsistente();
+					dtoAsistente.setUsuario(usu);
+					rellenaObjeto(dtoAsistente);
+					
+					//Añadimios el DTORol
+					GestorTipoRol gestorTipoRol = new GestorTipoRol(connection);
+					DTOTipoRol dtoTipoRol = gestorTipoRol.consultaEntidadById(dtoAsistente.getUsuario().getIdRol());
+					if(dtoTipoRol != null) dtoAsistente.setDtoTipoRol(dtoTipoRol);
+					
+					//Añadimios el DTODatosBancarios
+					GestorDatosBancarios gestorDatosBancarios = new GestorDatosBancarios(connection);
+					DTODatosBancarios dtoDatosBancarios = gestorDatosBancarios.consultaEntidadById(dtoAsistente.getUsuario().getIdDatosBancarios());
+					if(dtoDatosBancarios != null) dtoAsistente.setDtoDatosBancarios(dtoDatosBancarios);
+					
+					return (B) dtoAsistente;
+				default:
+					throw new Exception("El tipo de usuario " + usu.getTipoUsuario() + " no está contemplado");
 			}
 		}catch(Exception e){
 			throw new Exception();
 		}
 		
-		return null;
 	}
 	
 	/*
