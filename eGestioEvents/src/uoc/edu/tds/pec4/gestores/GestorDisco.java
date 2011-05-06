@@ -18,15 +18,11 @@ public class GestorDisco {
 	private static String url;
 	
 	public GestorDisco() throws Exception{
-		inicializar();	
+		inicializar();
 		openConnection();
 	}
 	
 	public GestorDisco(Connection connection) throws Exception{
-		if(this.connection == null){
-			inicializar();	
-			openConnection();
-		}
 		this.connection=connection;
 	}
 	
@@ -49,8 +45,13 @@ public class GestorDisco {
 	
 	private synchronized void openConnection() throws Exception{
 		try {
+			
+			if (!isClosedConnection()) {
+				return; //Si ya esta la conexion abierta no hacemos nada
+			}
+			
 			Connection cn = DriverManager.getConnection(url,user,password);
-			this.connection = cn;
+			connection = cn;
 		} catch (SQLException e) {
 			throw new SQLException(e.getMessage());
 		}
@@ -67,8 +68,12 @@ public class GestorDisco {
 	}
 	
 	public synchronized Connection getConnection() throws Exception{
-		return this.connection;
+		return connection;
 	}
+	
+	public boolean isClosedConnection() throws Exception {
+		return (connection == null || connection.isClosed());
+	}	
 	
 	
 }
