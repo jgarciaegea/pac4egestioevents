@@ -16,43 +16,13 @@ public class Universidad implements BeanInterface, Serializable{
 	private static final long serialVersionUID = 1L;
 
 	private Integer idUniversidad;
-	private Integer id_contacto;
-	private Integer estado;
 	private String nombre;
-	private String motivoEstado;
+	private Integer idContacto;
 	private Date fechaAlta;
+	private Integer estado;
 	private Date fechaEstado;
+	private String motivoEstado;
 	
-	/**
-	 * Constructor con par‡metros
-	 * @param idUniversidad
-	 * @param id_contacto
-	 * @param estado
-	 * @param nombre
-	 * @param motivoEstado
-	 * @param fechaAlta
-	 * @param fechaEstado
-	 */
-	public Universidad(Integer idUniversidad, Integer id_contacto,
-			Integer estado, String nombre, String motivoEstado, Date fechaAlta,
-			Date fechaEstado) {
-		super();
-		this.idUniversidad = idUniversidad;
-		this.id_contacto = id_contacto;
-		this.estado = estado;
-		this.nombre = nombre;
-		this.motivoEstado = motivoEstado;
-		this.fechaAlta = fechaAlta;
-		this.fechaEstado = fechaEstado;
-	}
-
-	/**
-	 * Constructor b‡sico
-	 */
-	public Universidad() {
-		super();
-	}
-
 	/**
 	 * @return the idUniversidad
 	 */
@@ -65,20 +35,6 @@ public class Universidad implements BeanInterface, Serializable{
 	 */
 	public void setIdUniversidad(Integer idUniversidad) {
 		this.idUniversidad = idUniversidad;
-	}
-
-	/**
-	 * @return the id_contacto
-	 */
-	public Integer getId_contacto() {
-		return id_contacto;
-	}
-
-	/**
-	 * @param id_contacto the id_contacto to set
-	 */
-	public void setId_contacto(Integer id_contacto) {
-		this.id_contacto = id_contacto;
 	}
 
 	/**
@@ -149,6 +105,14 @@ public class Universidad implements BeanInterface, Serializable{
 	 */
 	public void setFechaEstado(Date fechaEstado) {
 		this.fechaEstado = fechaEstado;
+	}
+
+	public Integer getIdContacto() {
+		return idContacto;
+	}
+
+	public void setIdContacto(Integer idContacto) {
+		this.idContacto = idContacto;
 	}
 	
 }

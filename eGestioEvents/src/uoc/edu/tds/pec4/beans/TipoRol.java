@@ -10,24 +10,6 @@ public class TipoRol implements BeanInterface, Serializable{
 	private String descripcion;
 	
 	/**
-	 * Constructor con par‡metros
-	 * @param idRol
-	 * @param descripcion
-	 */
-	public TipoRol(Integer idRol, String descripcion) {
-		super();
-		this.idRol = idRol;
-		this.descripcion = descripcion;
-	}
-	
-	/**
-	 * Constructor b‡sico
-	 */
-	public TipoRol() {
-		super();
-	}
-	
-	/**
 	 * @return the idRol
 	 */
 	public Integer getIdRol() {
