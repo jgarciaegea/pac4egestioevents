@@ -3,13 +3,9 @@ package uoc.edu.tds.pec4.daos;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import uoc.edu.tds.pec4.beans.Administrador;
-import uoc.edu.tds.pec4.beans.Asistente;
-import uoc.edu.tds.pec4.beans.PersonalSecretaria;
 import uoc.edu.tds.pec4.beans.Usuario;
 
 
@@ -73,7 +69,25 @@ public class DaoUsuario extends DaoEntidad<Usuario>{
 			
 			rs = ps.executeQuery();
 			while (rs.next()) {
-				lstUsuarios.add(getObject(1,rs));
+				Usuario usu = new Usuario();
+				usu.setCodigo(rs.getString("codigo"));
+				usu.setNombre(rs.getString("nombre"));
+				usu.setApellidos(rs.getString("apellidos"));
+				usu.setSexo(rs.getString("sexo"));
+				usu.setFechaNacimiento(rs.getDate("fecha_nacimiento"));
+				usu.setFechaAlta(rs.getDate("fecha_alta"));
+				usu.setFechaContraseña(rs.getDate("fecha_contrasena"));
+				usu.setContraseña(rs.getString("contrasena"));
+				usu.setCambiarContraseña(rs.getBoolean("cambiar_contrasena"));
+				usu.setFechaEstado(rs.getDate("fecha_estado"));
+				usu.setMotivoEstado(rs.getString("motivo_estado"));
+				usu.setTipoUsuario(rs.getInt("tipo_usuario"));
+				usu.setIdCentro(rs.getInt("id_centro"));
+				usu.setIdDocumentoIdentificacion(rs.getInt("id_documento_identificacion"));
+				usu.setIdContacto(rs.getInt("id_contacto"));
+				usu.setIdRol(rs.getInt("id_rol"));
+				usu.setIdDatosBancarios(rs.getInt("id_datos_bancarios"));
+				lstUsuarios.add(usu);
 			}		
 			return (lstUsuarios.isEmpty() || lstUsuarios.size() == 0) ? null:lstUsuarios;
 		}catch(Exception e){
@@ -91,60 +105,6 @@ public class DaoUsuario extends DaoEntidad<Usuario>{
 	@Override
 	public void delete(Usuario criteris) throws Exception {
 		throw new UnsupportedOperationException("Método no implementado");
-	}
-	
-	
-	/*
-	 * Obtiene el objeto ya parseado.
-	 * En principioo solo pueden ser administradores, personal de secretaría o Asistentes
-	 */
-	@SuppressWarnings("unchecked")
-	private <B extends Usuario> B getObject(Integer tipoUsuario, ResultSet rs) throws Exception{
-		if(tipoUsuario != null){
-			switch(tipoUsuario){
-				case 1:
-					Administrador admin = new Administrador();
-					rellenaObjeto(rs,admin);
-					return (B) admin;
-				case 2:
-					PersonalSecretaria personal = new PersonalSecretaria();
-					rellenaObjeto(rs,personal);
-					return (B) personal;
-				case 3:
-					Asistente asis = new Asistente();
-					rellenaObjeto(rs,asis);
-					asis.setIdRol(rs.getInt("id_rol"));
-					asis.setIdDatosBancarios(rs.getInt("id_datos_bancarios"));
-					return (B) asis;
-			}
-		}
-		return null;
-	}
-	
-	
-	/*
-	 * Rellenamos la información genérica para todos los tipos de objeto Usuario
-	 */
-	private <B extends Usuario> void rellenaObjeto (ResultSet rs, B usu) throws Exception{
-		try{
-			usu.setCodigo(rs.getString("codigo"));
-			usu.setNombre(rs.getString("nombre"));
-			usu.setApellidos(rs.getString("apellidos"));
-			usu.setSexo(rs.getString("sexo"));
-			usu.setFechaNacimiento(rs.getDate("fecha_nacimiento"));
-			usu.setFechaAlta(rs.getDate("fecha_alta"));
-			usu.setFechaContraseña(rs.getDate("fecha_contrasena"));
-			usu.setContraseña(rs.getString("contrasena"));
-			usu.setCambiarContraseña(rs.getBoolean("cambiar_contrasena"));
-			usu.setFechaEstado(rs.getDate("fecha_estado"));
-			usu.setMotivoEstado(rs.getString("motivo_estado"));
-			usu.setTipoUsuario(rs.getInt("tipo_usuario"));
-			usu.setIdCentro(rs.getInt("id_centro"));
-			usu.setIdDocumentoIdentificacion(rs.getInt("id_documento_identificacion"));
-			usu.setIdContacto(rs.getInt("id_contacto"));
-		}catch(Exception e){
-			throw new SQLException();
-		}
 	}
 	
 }
