@@ -16,9 +16,13 @@ public class GestorPais extends GestorEntidad<DTOPais>{
 	
 	@Override
 	public DTOPais consultaEntidad(DTOPais criteris) throws Exception {
-		List<DTOPais> lstPais = this.consultaEntidades(criteris);
-		if(lstPais != null && lstPais.size() > 0){
-			return lstPais.get(0);
+		try{
+			List<DTOPais> lstPais = this.consultaEntidades(criteris);
+			if(lstPais != null && lstPais.size() > 0){
+				return lstPais.get(0);
+			}
+		}catch(Exception e){
+			throw e;
 		}
 		return null;
 	}
@@ -44,11 +48,15 @@ public class GestorPais extends GestorEntidad<DTOPais>{
 	}
 	
 	public DTOPais consultaEntidadById(Integer idPais)  throws Exception {
-		DTOPais dtoPais = new DTOPais();
-		Pais pais = new Pais();
-		pais.setIdPais(idPais);
-		dtoPais.setPais(pais);
-		return this.consultaEntidad(dtoPais);
+		try{
+			DTOPais dtoPais = new DTOPais();
+			Pais pais = new Pais();
+			pais.setIdPais(idPais);
+			dtoPais.setPais(pais);
+			return this.consultaEntidad(dtoPais);
+		}catch(Exception e){
+			throw e;
+		}
 	}
 	
 	@Override

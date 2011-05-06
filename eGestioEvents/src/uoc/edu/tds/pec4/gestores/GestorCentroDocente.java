@@ -49,9 +49,13 @@ public class GestorCentroDocente extends GestorEntidad<DTOCentroDocente>{
 
 	@Override
 	public DTOCentroDocente consultaEntidad(DTOCentroDocente criteris) throws Exception {
-		List<DTOCentroDocente> lstCentroDoc = this.consultaEntidades(criteris);
-		if(lstCentroDoc != null && lstCentroDoc.size() > 0){
-			return lstCentroDoc.get(0);
+		try{
+			List<DTOCentroDocente> lstCentroDoc = this.consultaEntidades(criteris);
+			if(lstCentroDoc != null && lstCentroDoc.size() > 0){
+				return lstCentroDoc.get(0);
+			}
+		}catch(Exception e){
+			throw e;
 		}
 		return null;
 	}

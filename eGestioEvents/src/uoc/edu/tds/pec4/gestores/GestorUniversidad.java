@@ -17,9 +17,13 @@ public class GestorUniversidad extends GestorEntidad<DTOUniversidad>{
 	
 	@Override
 	public DTOUniversidad consultaEntidad(DTOUniversidad criteris) throws Exception {
-		List<DTOUniversidad> lstUnive = this.consultaEntidades(criteris);
-		if(lstUnive != null && lstUnive.size() > 0){
-			return lstUnive.get(0);
+		try{
+			List<DTOUniversidad> lstUnive = this.consultaEntidades(criteris);
+			if(lstUnive != null && lstUnive.size() > 0){
+				return lstUnive.get(0);
+			}
+		}catch(Exception e){
+			throw e;
 		}
 		return null;
 	}

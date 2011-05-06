@@ -17,9 +17,13 @@ public class GestorContacto extends GestorEntidad<DTOContacto>{
 	
 	@Override
 	public DTOContacto consultaEntidad(DTOContacto criteris) throws Exception {
-		List<DTOContacto> lstContr = this.consultaEntidades(criteris);
-		if(lstContr != null && lstContr.size() > 0){
-			return lstContr.get(0);
+		try{
+			List<DTOContacto> lstContr = this.consultaEntidades(criteris);
+			if(lstContr != null && lstContr.size() > 0){
+				return lstContr.get(0);
+			}
+		}catch(Exception e){
+			throw e;
 		}
 		return null;
 	}
@@ -53,11 +57,15 @@ public class GestorContacto extends GestorEntidad<DTOContacto>{
 	}
 	
 	public DTOContacto consultaEntidadById(Integer idContacto) throws Exception{
-		DTOContacto dtoContacto = new DTOContacto();
-		Contacto contacto = new Contacto();
-		contacto.setIdContacto(idContacto);
-		dtoContacto.setContacto(contacto);
-		return this.consultaEntidad(dtoContacto);
+		try{
+			DTOContacto dtoContacto = new DTOContacto();
+			Contacto contacto = new Contacto();
+			contacto.setIdContacto(idContacto);
+			dtoContacto.setContacto(contacto);
+			return this.consultaEntidad(dtoContacto);
+		}catch(Exception e){
+			throw e;
+		}
 	}
 
 	@Override
