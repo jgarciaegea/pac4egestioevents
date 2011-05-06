@@ -3,7 +3,7 @@ package uoc.edu.tds.pec4.beans;
 import java.io.Serializable;
 import java.sql.Date;
 
-public abstract class Usuario implements BeanInterface,Serializable{
+public class Usuario implements BeanInterface,Serializable{
 
 	private static final long serialVersionUID = 1L;
 	private Date fechaAlta;
@@ -22,6 +22,8 @@ public abstract class Usuario implements BeanInterface,Serializable{
 	private String sexo;
 	private Date fechaNacimiento;
 	private Date fechaEstado;
+	private Integer idRol;
+	private Integer idDatosBancarios;
 	
 	public Date getFechaAlta() {
 		return fechaAlta;
@@ -118,6 +120,18 @@ public abstract class Usuario implements BeanInterface,Serializable{
 	}
 	public void setFechaEstado(Date fechaEstado) {
 		this.fechaEstado = fechaEstado;
+	}
+	public Integer getIdRol() {
+		return idRol;
+	}
+	public void setIdRol(Integer idRol) {
+		this.idRol = idRol;
+	}
+	public Integer getIdDatosBancarios() {
+		return idDatosBancarios;
+	}
+	public void setIdDatosBancarios(Integer idDatosBancarios) {
+		this.idDatosBancarios = idDatosBancarios;
 	}
 	
 }
