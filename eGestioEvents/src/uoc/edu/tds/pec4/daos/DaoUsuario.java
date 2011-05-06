@@ -46,6 +46,9 @@ public class DaoUsuario extends DaoEntidad<Usuario>{
 			if(criteris.getIdCentro() !=null) sb.append("AND id_centro = ? ");
 			if(criteris.getIdDocumentoIdentificacion() !=null) sb.append("AND id_documento_identificacion = ? ");
 			if(criteris.getIdContacto() !=null) sb.append("AND id_contacto = ? ");
+			if(criteris.getEstado() !=null) sb.append("AND estado = ? ");
+			if(criteris.getIdDatosBancarios() !=null) sb.append("AND id_datos_bancarios = ? ");
+			if(criteris.getIdRol() !=null) sb.append("AND id_rol = ? ");
 			
 			ps = con.prepareStatement(sb.toString(), ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
 			
@@ -66,6 +69,9 @@ public class DaoUsuario extends DaoEntidad<Usuario>{
 			if(criteris.getIdCentro()!=null) {ps.setInt(i, criteris.getIdCentro()); i++;}
 			if(criteris.getIdDocumentoIdentificacion()!=null) {ps.setInt(i, criteris.getIdDocumentoIdentificacion()); i++;}
 			if(criteris.getIdContacto()!=null) {ps.setInt(i, criteris.getIdContacto()); i++;}
+			if(criteris.getEstado()!=null) {ps.setInt(i, criteris.getEstado()); i++;}
+			if(criteris.getIdDatosBancarios()!=null) {ps.setInt(i, criteris.getIdDatosBancarios()); i++;}
+			if(criteris.getIdRol()!=null) {ps.setInt(i, criteris.getIdRol()); i++;}
 			
 			rs = ps.executeQuery();
 			while (rs.next()) {
@@ -86,6 +92,7 @@ public class DaoUsuario extends DaoEntidad<Usuario>{
 				usu.setIdDocumentoIdentificacion(rs.getInt("id_documento_identificacion"));
 				usu.setIdContacto(rs.getInt("id_contacto"));
 				usu.setIdRol(rs.getInt("id_rol"));
+				usu.setEstado(rs.getInt("estado"));
 				usu.setIdDatosBancarios(rs.getInt("id_datos_bancarios"));
 				lstUsuarios.add(usu);
 			}		

@@ -59,6 +59,7 @@ public class DaoContacto extends DaoEntidad<Contacto>{
 			rs = ps.executeQuery();
 			while (rs.next()) {
 				Contacto contacto = new Contacto();
+				contacto.setIdPais(rs.getInt("id_pais"));
 				contacto.setIdContacto(rs.getInt("id_contacto"));
 				contacto.setDomicilio(rs.getString("domicilio"));
 				contacto.setCp(rs.getInt("cp"));
