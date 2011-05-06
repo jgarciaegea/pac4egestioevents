@@ -59,6 +59,18 @@ public class GestorCentroDocente extends GestorEntidad<DTOCentroDocente>{
 		}
 		return null;
 	}
+	
+	public DTOCentroDocente consultaEntidadById(Integer idCentroDocente)  throws Exception {
+		try{
+			DTOCentroDocente dtoCentroDocente = new DTOCentroDocente();
+			CentroDocente centroDocente = new CentroDocente();
+			centroDocente.setIdCentro(idCentroDocente);
+			dtoCentroDocente.setCentroDocente(centroDocente);
+			return this.consultaEntidad(dtoCentroDocente);
+		}catch(Exception e){
+			throw e;
+		}
+	}
 
 	@Override
 	public void modificaEntidad(DTOCentroDocente criteris) throws Exception {

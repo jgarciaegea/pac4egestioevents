@@ -12,7 +12,7 @@ public class GestorDisco {
 	
 	private static final String RUTA_CONF_BBDD = "conf/configuration.properties";
 	
-	public Connection connection = null;
+	protected Connection connection = null;
 	private static String user;
 	private static String password;
 	private static String url;
@@ -64,6 +64,10 @@ public class GestorDisco {
 		} catch (Exception e) {
 			throw new Exception(e.getMessage());
 		}
+	}
+	
+	public synchronized Connection getConnection() throws Exception{
+		return this.connection;
 	}
 	
 	
