@@ -3,7 +3,7 @@ package uoc.edu.tds.pec4.beans;
 import java.io.Serializable;
 import java.sql.Date;
 
-public class Usuario extends Persona implements Serializable{
+public abstract class Usuario implements BeanInterface,Serializable{
 
 	private static final long serialVersionUID = 1L;
 	private Date fechaAlta;
@@ -16,13 +16,12 @@ public class Usuario extends Persona implements Serializable{
 	private Integer idDocumentoIdentificacion;
 	private Integer idContacto;
 	private Integer tipoUsuario;
-	private Integer idRol;
-	private Integer idDatosBancarios;
 	private String codigo;
 	private String nombre;
 	private String apellidos;
 	private String sexo;
 	private Date fechaNacimiento;
+	private Date fechaEstado;
 	
 	public Date getFechaAlta() {
 		return fechaAlta;
@@ -84,18 +83,6 @@ public class Usuario extends Persona implements Serializable{
 	public void setTipoUsuario(Integer tipoUsuario) {
 		this.tipoUsuario = tipoUsuario;
 	}
-	public Integer getIdRol() {
-		return idRol;
-	}
-	public void setIdRol(Integer idRol) {
-		this.idRol = idRol;
-	}
-	public Integer getIdDatosBancarios() {
-		return idDatosBancarios;
-	}
-	public void setIdDatosBancarios(Integer idDatosBancarios) {
-		this.idDatosBancarios = idDatosBancarios;
-	}
 	public String getCodigo() {
 		return codigo;
 	}
@@ -125,6 +112,12 @@ public class Usuario extends Persona implements Serializable{
 	}
 	public void setFechaNacimiento(Date fechaNacimiento) {
 		this.fechaNacimiento = fechaNacimiento;
+	}
+	public Date getFechaEstado() {
+		return fechaEstado;
+	}
+	public void setFechaEstado(Date fechaEstado) {
+		this.fechaEstado = fechaEstado;
 	}
 	
 }
