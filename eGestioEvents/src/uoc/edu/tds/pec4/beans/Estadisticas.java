@@ -1,5 +1,9 @@
 package uoc.edu.tds.pec4.beans;
 
+/**
+ * Bean de Estadisticas
+ * @author SusanaUOC
+ */
 
 import java.io.Serializable;
 import java.sql.Date;
