@@ -8,7 +8,7 @@ public class DTODocumentoIdentificacion implements DTOInterface, Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	private DocumentoIdentificacion documentoIdentificacion;
-	private DTOTipoEvento dtoTipoEvento;
+	private DTOTipoDocumento dtoTipoDocumento;
 	private DTOPais dtoPais;
 	
 	public DocumentoIdentificacion getDocumentoIdentificacion() {
@@ -18,17 +18,17 @@ public class DTODocumentoIdentificacion implements DTOInterface, Serializable{
 			DocumentoIdentificacion documentoIdentificacion) {
 		this.documentoIdentificacion = documentoIdentificacion;
 	}
-	public DTOTipoEvento getDtoTipoEvento() {
-		return dtoTipoEvento;
-	}
-	public void setDtoTipoEvento(DTOTipoEvento dtoTipoEvento) {
-		this.dtoTipoEvento = dtoTipoEvento;
-	}
 	public DTOPais getDtoPais() {
 		return dtoPais;
 	}
 	public void setDtoPais(DTOPais dtoPais) {
 		this.dtoPais = dtoPais;
+	}
+	public DTOTipoDocumento getDtoTipoDocumento() {
+		return dtoTipoDocumento;
+	}
+	public void setDtoTipoDocumento(DTOTipoDocumento dtoTipoDocumento) {
+		this.dtoTipoDocumento = dtoTipoDocumento;
 	}
 	
 }
