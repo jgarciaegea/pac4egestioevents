@@ -5,7 +5,7 @@ echo    Servidor: Registro
 echo  -----------------------------------------------
 pause
 
-start rmiregistry.exe
+
 
 echo  -----------------------------------------------
 echo    Servidor: Ejecución
