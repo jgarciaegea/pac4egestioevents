@@ -10,6 +10,18 @@ public class TDSLanguageUtils  {
 	private static final String currentBaseName = "i18n/messages";
 	private static Locale currentLocale;
 	
+	
+	/**
+	 * Configura el idioma por defecto en el gestor de idiomas TDSLanguageUtils.* 
+	 * De esta manera, siempre se sacarán los mensajes en el idioma por defecto del sistema operativo.
+	 * Este viene referenciado por Locale.getDefault()
+	 *
+	 * @param  baseName  dirección donde se encuentra el fichero de idiomas
+	 * @throws NullPointerException si baseName es nulo
+	 * @return un booleano indicando si la operación ha ido bien 
+	 */
+	
+	
 	public static synchronized boolean setDefaultLanguage() {
 		try {
 			resourceBundle = ResourceBundle.getBundle(currentBaseName, Locale.getDefault());
@@ -32,7 +44,7 @@ public class TDSLanguageUtils  {
 		try {
 			return resourceBundle.getString(key);
 		}catch(MissingResourceException e) {
-			return new String();
+			return new String("VALOR SIN DEFINIR");
 		}		
 	}
 	
