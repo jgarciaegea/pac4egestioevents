@@ -10,7 +10,6 @@ import java.rmi.RemoteException;
 import java.util.Locale;
 
 import javax.swing.SwingUtilities;
-
 import uoc.edu.tds.pec4.excepciones.OperationErrorBD;
 import uoc.edu.tds.pec4.excepciones.OperationErrorRMI;
 import uoc.edu.tds.pec4.iface.RemoteInterface;
