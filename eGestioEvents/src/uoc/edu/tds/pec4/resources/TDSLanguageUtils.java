@@ -21,18 +21,21 @@ public class TDSLanguageUtils  {
 	 * @return un booleano indicando si la operación ha ido bien 
 	 */
 	
-	
 	public static synchronized boolean setDefaultLanguage() {
 		try {
+	        System.out.println("LENGUAJE POR DEFECTO");
 			resourceBundle = ResourceBundle.getBundle(currentBaseName, Locale.getDefault());
 			return true;
 		}catch(MissingResourceException e){
+	        e.printStackTrace();
 			return false;
 		}
 	}
 	
 	public static synchronized boolean setLanguage(Locale locale) {
 		try {
+			System.out.println("LENGUAJE INDICADO POR CONSOLA");
+			currentLocale=locale;
 			resourceBundle = ResourceBundle.getBundle(currentBaseName,locale);
 			return true;
 		}catch(MissingResourceException e){
