@@ -21,11 +21,19 @@ public class Servidor {
 	/**
 	 * @param args
 	 */
-	 public static void main(String args[]) throws OperationErrorRMI{
-		 
-			if(args.length == 0) TDSLanguageUtils.setDefaultLanguage();
-			else TDSLanguageUtils.setLanguage(new Locale(args[0]));	
-	          
+    public static void main(String argv[]) throws OperationErrorRMI{
+
+    	if(argv.length==0) {
+    		//TDSLanguageUtils.setDefaultLanguage();
+    		Locale locale = new Locale("ca_ES"); 
+    		TDSLanguageUtils.setLanguage(locale);
+    	}
+    	if(argv.length==1) {
+    		Locale locale = new Locale(argv[0]); 
+    		TDSLanguageUtils.setLanguage(locale);
+    	}
+				
+
 			SwingUtilities.invokeLater(new Runnable() {
 	            public void run(){
 					try {
