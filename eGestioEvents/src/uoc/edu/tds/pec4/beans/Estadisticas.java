@@ -218,7 +218,7 @@ public class Estadisticas implements BeanInterface, Serializable{
 	/**
 	 * @return the porcentajeAsistencia
 	 */
-	public Double getPorcentajaAsistencia() {
+	public Double getPorcentajeAsistencia() {
 		return porcentajeAsistencia;
 	}
 
