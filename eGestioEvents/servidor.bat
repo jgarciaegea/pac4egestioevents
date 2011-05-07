@@ -15,5 +15,5 @@ echo  -----------------------------------------------
 echo  -----------------------------------------------
 echo    Esperando conexiones de clientes!
 echo  -----------------------------------------------
-
+cd bin
 java uoc.edu.tds.pec4.servidor.Servidor
