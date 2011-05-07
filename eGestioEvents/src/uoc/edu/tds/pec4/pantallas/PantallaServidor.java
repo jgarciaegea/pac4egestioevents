@@ -46,6 +46,7 @@ public class PantallaServidor extends JFrame {
         pInfo11 = null;
         etiqueta1 = null;
         incicializarPantalla();
+        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 
 	}
     
@@ -118,6 +119,7 @@ public class PantallaServidor extends JFrame {
             jContentPane.add(getPInfo11(), null);
             jContentPane.add(getbStart(), null);
             jContentPane.add(getbStop(), null);
+
         }
         return jContentPane;
     }
