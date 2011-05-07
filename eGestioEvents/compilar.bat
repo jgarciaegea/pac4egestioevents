@@ -15,19 +15,9 @@ echo  -----------------------------------------------
 echo  -----------------------------------------------
 echo    Fase 2: Creacion de la documentacion
 echo  -----------------------------------------------
-pause
 
-javadoc src\uoc\edu\tds\pec4\beans\*.java -d doc
-javadoc src\uoc\edu\tds\pec4\utils\*.java -d doc
-javadoc src\uoc\edu\tds\pec4\resources\*.java -d .
-javadoc src\uoc\edu\tds\pec4\excepciones\*.java -d doc
-javadoc src\uoc\edu\tds\pec4\iface\*.java -d doc
-javadoc src\uoc\edu\tds\pec4\client\*.java -d doc
-javadoc src\uoc\edu\tds\pec4\servidor\*.java -d doc
-javadoc src\uoc\edu\tds\pec4\pantallas\*.java -d doc
-javadoc src\uoc\edu\tds\pec4\daos\*.java -d doc
-javadoc src\uoc\edu\tds\pec4\dtos\*.java -d doc
-javadoc src\uoc\edu\tds\pec4\gestores\*.java -d doc
+
+
 
 echo  -----------------------------------------------
 echo    Documentación generada
@@ -36,7 +26,7 @@ echo  -----------------------------------------------
 echo  -----------------------------------------------
 echo    Fase 3: Compilación
 echo  -----------------------------------------------
-pause
+
 
 echo Compilando el codigo...
 
@@ -56,7 +46,7 @@ javac src\i18n\*.java -d .
 echo  -----------------------------------------------
 echo    Fase 4: Generación de los stubs y skeletons
 echo  -----------------------------------------------
-pause 
+
 
 echo Generando stubs...
 
