@@ -55,8 +55,7 @@ public class PantallaPrincipal extends JFrame {
 	        menuConexion.add(InscripcionEvento);
 	        menuConexion.add(HistoricoEventos);
 	        menuConexion.add(ValidarAsistenciaEvento);
-	        
-	        
+	               
 	 
 	        barraMenu.add(menuMantenimiento);
 	        barraMenu.add(menEstadisticas);
