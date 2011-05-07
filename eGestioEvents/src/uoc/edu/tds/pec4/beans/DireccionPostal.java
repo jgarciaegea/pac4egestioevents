@@ -66,10 +66,10 @@ public class DireccionPostal extends Contacto implements BeanInterface, Serializ
 	/**
 	 * @return the localidad
 	 */
-	public Integer getLocalidad() {
+	/*public Integer getLocalidad() {
 		return localidad;
 	}
-
+*/
 
 	/**
 	 * @param localidad the localidad to set
