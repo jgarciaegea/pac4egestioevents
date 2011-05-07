@@ -22,7 +22,6 @@ public class Evento implements BeanInterface, Serializable{
 	private Date fechaInicioInscripcion;
 	private Date fechaFinInscripcion;
 	private Integer duracion;
-	private Integer creditos;
 	private Integer precio;
 	
 	public Integer getIdEvento() {
@@ -115,25 +114,10 @@ public class Evento implements BeanInterface, Serializable{
 	public void setDuracion(Integer duracion) {
 		this.duracion = duracion;
 	}
-	public Integer getCreditos() {
-		return creditos;
-	}
-	public void setCreditos(Integer creditos) {
-		this.creditos = creditos;
-	}
 	public Integer getPrecio() {
 		return precio;
 	}
 	public void setPrecio(Integer precio) {
 		this.precio = precio;
 	}
-	
-
-	
-	
-	
-	
-	
-	
-	
 }
