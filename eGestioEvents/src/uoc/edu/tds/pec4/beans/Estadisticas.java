@@ -44,6 +44,20 @@ public class Estadisticas implements BeanInterface, Serializable{
 	public void setIdUniversidad(Integer idUniversidad) {
 		this.idUniversidad = idUniversidad;
 	}
+	
+	/**
+	 * @return the nombreUniversidad
+	 */
+	public String getNombreUniversidad() {
+		return nombreUniversidad;
+	}
+
+	/**
+	 * @param nombreUniversidad the nombreUniversidad to set
+	 */
+	public void setNombreUniversidad(String nombre) {
+		this.nombreUniversidad = nombre;
+	}
 
 	/**
 	 * @return the idCentro
@@ -61,6 +75,20 @@ public class Estadisticas implements BeanInterface, Serializable{
 	}
 	
 	/**
+	 * @return the nombreCentro
+	 */
+	public String getNombreCentro() {
+		return nombreCentro;
+	}
+
+	/**
+	 * @param nombreCentro the nombreCentro to set
+	 */
+	public void setNombreCentro(String nombre) {
+		this.nombreCentro = nombre;
+	}
+
+	/**
 	 * @return the idEvento
 	 */
 	public Integer getIdEvento() {
@@ -73,7 +101,22 @@ public class Estadisticas implements BeanInterface, Serializable{
 	public void setIdEvento(Integer idEvento) {
 		this.idEvento = idEvento;
 	}
+
 	
+	/**
+	 * @return the nombreEvento
+	 */
+	public String getNombreEvento() {
+		return nombreEvento;
+	}
+
+	/**
+	 * @param nombreEvento the nombreEvento to set
+	 */
+	public void setNombreEvento(String nombre) {
+		this.nombreEvento = nombre;
+	}
+
 	/**
 	 * @return the idTipoEvento
 	 */
@@ -86,6 +129,20 @@ public class Estadisticas implements BeanInterface, Serializable{
 	 */
 	public void setIdTipoEvento(Integer idTipoEvento) {
 		this.idTipoEvento = idTipoEvento;
+	}	
+	
+	/**
+	 * @return the descripcionTipoEvento
+	 */
+	public String getDescripcionTipoEvento() {
+		return descripcionTipoEvento;
+	}
+
+	/**
+	 * @param descripcionTipoEvento the descripcionTipoEvento to set
+	 */
+	public void setDescripcionTipoEvento(String descripcionTipoEvento) {
+		this.descripcionTipoEvento = descripcionTipoEvento;
 	}	
 	
 	/**
