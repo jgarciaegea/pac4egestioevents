@@ -9,6 +9,7 @@ public class DTOInscripcion implements DTOInterface, Serializable{
 	
 	private Inscripcion inscripcion;
 	private DTOEvento dtoEvento;
+	private DTOUsuario dtoUsuario;
 	
 	public Inscripcion getInscripcion() {
 		return inscripcion;
@@ -21,6 +22,18 @@ public class DTOInscripcion implements DTOInterface, Serializable{
 	}
 	public void setDtoEvento(DTOEvento dtoEvento) {
 		this.dtoEvento = dtoEvento;
+	}
+	/**
+	 * @return the dtoUsuario
+	 */
+	public DTOUsuario getDtoUsuario() {
+		return dtoUsuario;
+	}
+	/**
+	 * @param dtoUsuario the dtoUsuario to set
+	 */
+	public void setDtoUsuario(DTOUsuario dtoUsuario) {
+		this.dtoUsuario = dtoUsuario;
 	}
 	
 
