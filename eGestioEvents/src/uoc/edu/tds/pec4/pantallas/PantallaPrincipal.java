@@ -15,8 +15,9 @@ import uoc.edu.tds.pec4.resources.TDSLanguageUtils;
 public class PantallaPrincipal extends JFrame {
 	
 	private JMenuBar barraMenu;
-	private JMenu menuMantenimiento,menEstadisticas,menuProgramacionEvento,menuConexion,menuSalir,menuAyuda = null;
+	private JMenu menuMantenimiento,menuEstadisticas,menuProgramacionEvento,menuConexion,menuSalir,menuAyuda = null;
 	private JMenuItem CambioPwd,InscripcionEvento,HistoricoEventos,ValidarAsistenciaEvento = null;
+	private JMenuItem InformePorcentajes,InformeIngresos, InformeAsistentes, InformeEventos = null;
 	
 	public PantallaPrincipal(){
 		setSize(700, 600);
@@ -35,8 +36,8 @@ public class PantallaPrincipal extends JFrame {
 	        barraMenu = new JMenuBar();
 	        menuMantenimiento = new JMenu(TDSLanguageUtils.getMessage("clientePEC4.framePrincipal.titulo.menu1"));
 	        menuMantenimiento.setEnabled(true);
-	        menEstadisticas = new JMenu(TDSLanguageUtils.getMessage("clientePEC4.framePrincipal.titulo.menu2"));
-	        menEstadisticas.setEnabled(true);
+	        menuEstadisticas = new JMenu(TDSLanguageUtils.getMessage("clientePEC4.framePrincipal.titulo.menu2"));
+	        menuEstadisticas.setEnabled(true);
 	        menuProgramacionEvento = new JMenu(TDSLanguageUtils.getMessage("clientePEC4.framePrincipal.titulo.menu3"));
 	        menuProgramacionEvento.setEnabled(true);
 	        menuConexion = new JMenu(TDSLanguageUtils.getMessage("clientePEC4.framePrincipal.titulo.menu4"));
@@ -51,14 +52,23 @@ public class PantallaPrincipal extends JFrame {
 	        HistoricoEventos = new JMenuItem(TDSLanguageUtils.getMessage("clientePEC4.framePrincipal.titulo.menu4.item3"));	   
 	        ValidarAsistenciaEvento = new JMenuItem(TDSLanguageUtils.getMessage("clientePEC4.framePrincipal.titulo.menu4.item4"));
 	        
+	        InformePorcentajes = new JMenuItem(TDSLanguageUtils.getMessage("clientePEC4.framePrincipal.titulo.menu2.item1"));	    
+	        InformeIngresos = new JMenuItem(TDSLanguageUtils.getMessage("clientePEC4.framePrincipal.titulo.menu2.item2"));
+	        InformeAsistentes = new JMenuItem(TDSLanguageUtils.getMessage("clientePEC4.framePrincipal.titulo.menu2.item3"));	   
+	        InformeEventos= new JMenuItem(TDSLanguageUtils.getMessage("clientePEC4.framePrincipal.titulo.menu2.item4"));
+	        
 	        menuConexion.add(CambioPwd);
 	        menuConexion.add(InscripcionEvento);
 	        menuConexion.add(HistoricoEventos);
 	        menuConexion.add(ValidarAsistenciaEvento);
 	               
-	 
+	        menuEstadisticas.add(InformePorcentajes);
+	        menuEstadisticas.add(InformeIngresos);
+	        menuEstadisticas.add(InformeAsistentes);
+	        menuEstadisticas.add(InformeEventos);
+	        
 	        barraMenu.add(menuMantenimiento);
-	        barraMenu.add(menEstadisticas);
+	        barraMenu.add(menuEstadisticas);
 	        barraMenu.add(menuProgramacionEvento);
 	        barraMenu.add(menuConexion);
 	        barraMenu.add(menuSalir);
