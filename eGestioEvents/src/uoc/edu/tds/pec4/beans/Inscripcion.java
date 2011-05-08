@@ -7,7 +7,7 @@ public class Inscripcion implements BeanInterface, Serializable{
 
 	private static final long serialVersionUID = 1L;
 	
-	private Integer contacto;
+	private String codigo;
 	private Integer idEvento;
 	private Integer estado;
 	private Date fechaEstado;
@@ -16,12 +16,6 @@ public class Inscripcion implements BeanInterface, Serializable{
 	private Boolean checkIn;
 	private String codigoAsistencia;
 	
-	public Integer getContacto() {
-		return contacto;
-	}
-	public void setContacto(Integer contacto) {
-		this.contacto = contacto;
-	}
 	public Integer getIdEvento() {
 		return idEvento;
 	}
@@ -63,6 +57,18 @@ public class Inscripcion implements BeanInterface, Serializable{
 	}
 	public void setCodigoAsistencia(String codigoAsistencia) {
 		this.codigoAsistencia = codigoAsistencia;
+	}
+	/**
+	 * @return the codigo
+	 */
+	public String getCodigo() {
+		return codigo;
+	}
+	/**
+	 * @param codigo the codigo to set
+	 */
+	public void setCodigo(String codigo) {
+		this.codigo = codigo;
 	}
 	
 
