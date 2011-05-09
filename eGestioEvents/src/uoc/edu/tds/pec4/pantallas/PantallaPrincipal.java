@@ -1,9 +1,6 @@
 package uoc.edu.tds.pec4.pantallas;
 
 import java.awt.Point;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -14,6 +11,10 @@ import uoc.edu.tds.pec4.resources.TDSLanguageUtils;
 
 public class PantallaPrincipal extends JFrame {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JMenuBar barraMenu;
 	private JMenu menuMantenimiento,menuEstadisticas,menuProgramacionEvento,menuConexion,menuSalir,menuAyuda = null;
 	private JMenuItem CambioPwd,InscripcionEvento,HistoricoEventos,ValidarAsistenciaEvento = null;
