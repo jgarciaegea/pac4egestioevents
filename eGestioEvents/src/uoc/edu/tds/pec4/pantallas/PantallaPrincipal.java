@@ -27,7 +27,7 @@ public class PantallaPrincipal extends JFrame {
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         crearMenuBar();
         setJMenuBar(barraMenu);
-        GeneraEventosPantallaPrincipal();
+        generaEventosPantallaPrincipal();
 	}
 	
 	private void crearMenuBar(){
@@ -80,7 +80,7 @@ public class PantallaPrincipal extends JFrame {
 		
 	}
 	
-	public void GeneraEventosPantallaPrincipal(){
+	public void generaEventosPantallaPrincipal(){
 		
 		addWindowListener(new java.awt.event.WindowAdapter() {
 			public void windowClosing(java.awt.event.WindowEvent e) {
