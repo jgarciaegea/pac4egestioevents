@@ -27,9 +27,13 @@ public class Estadisticas implements BeanInterface, Serializable{
 	private Integer asistentes;
 	private Double porcentajeAsistencia;
 	private Integer ingresos;
-	private Boolean estadoEvento;
+	private String estadoEvento;
 	private String estadoAsistencia;
-	
+	private Integer idAsistente;
+	private String nombreAsistente;
+	private Integer idRol;
+	private String descripcionRol;
+	private Integer idDocumentoIdentificacion;
 
 	/**
 	 * @return the idUniversidad
@@ -246,14 +250,14 @@ public class Estadisticas implements BeanInterface, Serializable{
 	/**
 	 * @return the estadoEvento
 	 */
-	public Boolean getEstadoEventos() {
+	public String getEstadoEventos() {
 		return estadoEvento;
 	}
 
 	/**
 	 * @param estadoEvento the estadoEvento to set
 	 */
-	public void setEstadoEvento(Boolean estadoEvento) {
+	public void setEstadoEvento(String estadoEvento) {
 		this.estadoEvento = estadoEvento;
 	}
 	/**
@@ -269,5 +273,74 @@ public class Estadisticas implements BeanInterface, Serializable{
 	public void setEstadoAsistencia(String estadoAsistencia) {
 		this.estadoAsistencia = estadoAsistencia;
 	}
+	/**
+	 * @return the idAsistente
+	 */
+	public Integer getIdAsistente() {
+		return idAsistente;
+	}
 
+	/**
+	 * @param idAsistente the idAsistente to set
+	 */
+	public void setIdAsistente(Integer idAsistente) {
+		this.idAsistente = idAsistente;
+	}
+	
+	/**
+	 * @return the nombreAsistente
+	 */
+	public String getNombreAsistente() {
+		return nombreAsistente;
+	}
+
+	/**
+	 * @param nombreAsistente the nombreAsistente to set
+	 */
+	public void setNombreAsistente(String nombre) {
+		this.nombreAsistente = nombre;
+	}
+	
+	/**
+	 * @return the idRol
+	 */
+	public Integer getIdRol() {
+		return idRol;
+	}
+
+	/**
+	 * @param idRol the idRol to set
+	 */
+	public void setIdRol(Integer idRol) {
+		this.idRol = idRol;
+	}
+
+	/**
+	 * @return the descripcionRol
+	 */
+	public String getDescripcionRol() {
+		return descripcionRol;
+	}
+
+	/**
+	 * @param descripcionRol the descripcionRol to set
+	 */
+	public void setDescripcionRol(String descripcionRol) {
+		this.descripcionRol = descripcionRol;
+	}
+
+	/**
+	 * @return the idDocumentoIdentificacion
+	 */
+	public Integer getDocumentoIdentificacion() {
+		return idDocumentoIdentificacion;
+	}
+
+	/**
+	 * @param idDocumentoIdentificacion the idDocumentoIdentificacion to set
+	 */
+	public void setIdDocumentoIdentificacion(Integer idDocumentoIdentificacion) {
+		this.idDocumentoIdentificacion = idDocumentoIdentificacion;
+	}
+	
 }
