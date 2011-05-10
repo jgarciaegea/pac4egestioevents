@@ -11,11 +11,8 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
-import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
 
 
 /**
@@ -31,6 +28,7 @@ import javax.swing.table.TableModel;
 * LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
 */
 public class PantallaAltaUsuario extends javax.swing.JFrame {
+	private static final long serialVersionUID = 1L;
 	private JPanel jPanel1;
 	private JLabel jLabelApe;
 	private JTextField jTextFieldApe;
@@ -92,14 +90,17 @@ public class PantallaAltaUsuario extends javax.swing.JFrame {
 
 	/**
 	* Auto-generated main method to display this JFrame
+	 * @throws Exception 
 	*/
 		
-	public PantallaAltaUsuario() {
+	public PantallaAltaUsuario() throws Exception {
 		super();
 		initGUI();
+		visualizaDatosBancarios(false);
+		visualizaDatosTipoRol(false);
 	}
 	
-	private void initGUI() {
+	private void initGUI() throws Exception {
 		try {
 			setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 			{
@@ -127,7 +128,8 @@ public class PantallaAltaUsuario extends javax.swing.JFrame {
 				{
 					tipoperfil = new JLabel();
 					jPanel1.add(tipoperfil);
-					tipoperfil.setText("Tipo Perfil     ");
+					tipoperfil.setPreferredSize(new java.awt.Dimension(63, 14));
+					tipoperfil.setText("Tipo Perfil");
 				}
 				{
 					jRadioButtonAdmin = new JRadioButton();
@@ -450,9 +452,33 @@ public class PantallaAltaUsuario extends javax.swing.JFrame {
 			pack();
 			this.setSize(774, 592);
 		} catch (Exception e) {
-		    //add your error handling code here
-			e.printStackTrace();
+		    throw new Exception();
 		}
+	}
+	
+	/**
+	 * Método encargado de ocultar/visualizar los datos bancarios
+	 * @param bValor
+	 */
+	private void visualizaDatosBancarios(Boolean bValor){
+		jTextFieldCuenta.setVisible(bValor);
+		jLabelCuenta.setVisible(bValor);
+		jTextFieldDC.setVisible(bValor);
+		jLabelDC.setVisible(bValor);
+		jTextFieldSucursal.setVisible(bValor);
+		jLabelSucursal.setVisible(bValor);
+		jTextFieldBanco.setVisible(bValor);
+		jLabelBanco.setVisible(bValor);
+		jLabelDatosBanc.setVisible(bValor);
+	}
+	
+	/**
+	 * Método para ocultar el tipo de Rol
+	 * @param bValor
+	 */
+	private void visualizaDatosTipoRol(Boolean bValor){
+		jComboBoxTipoRol.setVisible(bValor);
+		jLabelTipoRol.setVisible(bValor);
 	}
 
 }
