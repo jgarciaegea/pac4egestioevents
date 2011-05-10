@@ -10,7 +10,6 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import uoc.edu.tds.pec4.excepciones.OperationErrorRMI;
 import uoc.edu.tds.pec4.resources.TDSLanguageUtils;
 
 public class PantallaPrincipal extends JFrame {
@@ -22,8 +21,10 @@ public class PantallaPrincipal extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JMenuBar barraMenu;
 	private JMenu menuMantenimiento,menuEstadisticas,menuProgramacionEvento,menuConexion,menuSalir,menuAyuda = null;
-	private JMenuItem CambioPwd,InscripcionEvento,HistoricoEventos,ValidarAsistenciaEvento = null;
-	private JMenuItem InformePorcentajes,InformeIngresos, InformeAsistentes, InformeEventos = null;
+	private JMenuItem cambioPwd,inscripcionEvento,historicoEventos,validarAsistenciaEvento = null;
+	private JMenuItem informePorcentajes,informeIngresos, informeAsistentes, informeEventos = null;
+	private JMenuItem altaUsuario;
+	private JMenuItem consultaUsuario;
 	private JPanel pAssistencia;
 	
 	public PantallaPrincipal(){
@@ -54,27 +55,33 @@ public class PantallaPrincipal extends JFrame {
 	        menuAyuda = new JMenu(TDSLanguageUtils.getMessage("clientePEC4.framePrincipal.titulo.menu6"));
 	        menuAyuda.setEnabled(true);
 	        
-	        CambioPwd = new JMenuItem(TDSLanguageUtils.getMessage("clientePEC4.framePrincipal.titulo.menu4.item1"));	    
-	        InscripcionEvento = new JMenuItem(TDSLanguageUtils.getMessage("clientePEC4.framePrincipal.titulo.menu4.item2"));	   
-	        HistoricoEventos = new JMenuItem(TDSLanguageUtils.getMessage("clientePEC4.framePrincipal.titulo.menu4.item3"));	   
-	        ValidarAsistenciaEvento = new JMenuItem(TDSLanguageUtils.getMessage("clientePEC4.framePrincipal.titulo.menu4.item4"));
-	        ValidarAsistenciaEvento.addActionListener(new ActionListener() { 
+	        cambioPwd = new JMenuItem(TDSLanguageUtils.getMessage("clientePEC4.framePrincipal.titulo.menu4.item1"));	    
+	        inscripcionEvento = new JMenuItem(TDSLanguageUtils.getMessage("clientePEC4.framePrincipal.titulo.menu4.item2"));	   
+	        historicoEventos = new JMenuItem(TDSLanguageUtils.getMessage("clientePEC4.framePrincipal.titulo.menu4.item3"));	   
+	        validarAsistenciaEvento = new JMenuItem(TDSLanguageUtils.getMessage("clientePEC4.framePrincipal.titulo.menu4.item4"));
+	        validarAsistenciaEvento.addActionListener(new ActionListener() { 
 	        	public void actionPerformed(ActionEvent evt) { crearPanelAssitencia(); } }); 
 	        
-	        InformePorcentajes = new JMenuItem(TDSLanguageUtils.getMessage("clientePEC4.framePrincipal.titulo.menu2.item1"));	    
-	        InformeIngresos = new JMenuItem(TDSLanguageUtils.getMessage("clientePEC4.framePrincipal.titulo.menu2.item2"));
-	        InformeAsistentes = new JMenuItem(TDSLanguageUtils.getMessage("clientePEC4.framePrincipal.titulo.menu2.item3"));	   
-	        InformeEventos= new JMenuItem(TDSLanguageUtils.getMessage("clientePEC4.framePrincipal.titulo.menu2.item4"));
+	        informePorcentajes = new JMenuItem(TDSLanguageUtils.getMessage("clientePEC4.framePrincipal.titulo.menu2.item1"));	    
+	        informeIngresos = new JMenuItem(TDSLanguageUtils.getMessage("clientePEC4.framePrincipal.titulo.menu2.item2"));
+	        informeAsistentes = new JMenuItem(TDSLanguageUtils.getMessage("clientePEC4.framePrincipal.titulo.menu2.item3"));	   
+	        informeEventos= new JMenuItem(TDSLanguageUtils.getMessage("clientePEC4.framePrincipal.titulo.menu2.item4"));
 	        
-	        menuConexion.add(CambioPwd);
-	        menuConexion.add(InscripcionEvento);
-	        menuConexion.add(HistoricoEventos);
-	        menuConexion.add(ValidarAsistenciaEvento);
+	        altaUsuario = new JMenuItem("alta usuario");
+	        consultaUsuario = new JMenuItem("Consulta usuario");
+	        
+	        menuConexion.add(cambioPwd);
+	        menuConexion.add(inscripcionEvento);
+	        menuConexion.add(historicoEventos);
+	        menuConexion.add(validarAsistenciaEvento);
 	               
-	        menuEstadisticas.add(InformePorcentajes);
-	        menuEstadisticas.add(InformeIngresos);
-	        menuEstadisticas.add(InformeAsistentes);
-	        menuEstadisticas.add(InformeEventos);
+	        menuEstadisticas.add(informePorcentajes);
+	        menuEstadisticas.add(informeIngresos);
+	        menuEstadisticas.add(informeAsistentes);
+	        menuEstadisticas.add(informeEventos);
+	        
+	        menuMantenimiento.add(altaUsuario);
+	        menuMantenimiento.add(consultaUsuario);
 	        
 	        barraMenu.add(menuMantenimiento);
 	        barraMenu.add(menuEstadisticas);
