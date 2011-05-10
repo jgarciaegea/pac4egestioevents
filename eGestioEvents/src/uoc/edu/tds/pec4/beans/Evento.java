@@ -1,5 +1,10 @@
 package uoc.edu.tds.pec4.beans;
 
+/**
+ * @author jgarcia
+ *
+ */
+
 import java.io.Serializable;
 import java.sql.Date;
 
@@ -9,20 +14,21 @@ public class Evento implements BeanInterface, Serializable{
 
 	private Integer idEvento;
 	private Integer idCentro;
-	private String nombre;
-	private String descripcion;
-	private Date fechaCelebracion;
-	private Date fechaAlta;
 	private Integer estado;
-	private Date fechaEstado;
-	private String motivoEstado;
+	private Integer duracion;
+	private Integer precio;
 	private Integer idTipoEvento;
 	private Integer plazas;
 	private Integer umbral;
+	private String nombre;
+	private String descripcion;
+	private String motivoEstado;
+	private Date fechaInicioCelebracion;
+	private Date fechaFinCelebracion;
+	private Date fechaAlta;
+	private Date fechaEstado;
 	private Date fechaInicioInscripcion;
 	private Date fechaFinInscripcion;
-	private Integer duracion;
-	private Integer precio;
 	
 	public Integer getIdEvento() {
 		return idEvento;
@@ -47,12 +53,6 @@ public class Evento implements BeanInterface, Serializable{
 	}
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
-	}
-	public Date getFechaCelebracion() {
-		return fechaCelebracion;
-	}
-	public void setFechaCelebracion(Date fechaCelebracion) {
-		this.fechaCelebracion = fechaCelebracion;
 	}
 	public Date getFechaAlta() {
 		return fechaAlta;
@@ -119,5 +119,29 @@ public class Evento implements BeanInterface, Serializable{
 	}
 	public void setPrecio(Integer precio) {
 		this.precio = precio;
+	}
+	/**
+	 * @return the fechaInicioCelebracion
+	 */
+	public Date getFechaInicioCelebracion() {
+		return fechaInicioCelebracion;
+	}
+	/**
+	 * @param fechaInicioCelebracion the fechaInicioCelebracion to set
+	 */
+	public void setFechaInicioCelebracion(Date fechaInicioCelebracion) {
+		this.fechaInicioCelebracion = fechaInicioCelebracion;
+	}
+	/**
+	 * @return the fechaFinCelebracion
+	 */
+	public Date getFechaFinCelebracion() {
+		return fechaFinCelebracion;
+	}
+	/**
+	 * @param fechaFinCelebracion the fechaFinCelebracion to set
+	 */
+	public void setFechaFinCelebracion(Date fechaFinCelebracion) {
+		this.fechaFinCelebracion = fechaFinCelebracion;
 	}
 }

@@ -44,3 +44,6 @@ ALTER TABLE pec4."EVENTOROLPLAZAS" OWNER TO tdp;
 ALTER TABLE pec4."INSCRIPCION" RENAME contacto  TO codigo;
 ALTER TABLE pec4."INSCRIPCION" ADD CONSTRAINT fk_usuario FOREIGN KEY (codigo) REFERENCES pec4."USUARIO" (codigo) ON UPDATE NO ACTION ON DELETE NO ACTION;
 
+-- Se elimina la tabla para unificar nombres tanto de tablas como de campos
+-- Se ha substituido por EVENTOROLPLAZAS
+DROP TABLE pec4."PLAZASTIPOROL";

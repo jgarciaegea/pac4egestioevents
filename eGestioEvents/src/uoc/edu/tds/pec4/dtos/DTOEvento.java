@@ -1,6 +1,7 @@
 package uoc.edu.tds.pec4.dtos;
 
 import java.io.Serializable;
+import java.util.List;
 
 import uoc.edu.tds.pec4.beans.Evento;
 
@@ -10,6 +11,8 @@ public class DTOEvento implements DTOInterface, Serializable{
 	private Evento evento;
 	private DTOCentroDocente dtoCentroDocente;
 	private DTOTipoEvento dtoTipoEvento;
+	private List<DTOEventoRequisitos> dtoEventoRequisitos;
+	private List<DTOEventoRolPlazas> dtoEventoRolPlazas;
 	
 	public Evento getEvento() {
 		return evento;
@@ -28,6 +31,30 @@ public class DTOEvento implements DTOInterface, Serializable{
 	}
 	public void setDtoTipoEvento(DTOTipoEvento dtoTipoEvento) {
 		this.dtoTipoEvento = dtoTipoEvento;
+	}
+	/**
+	 * @return the dtoEventoRequisitos
+	 */
+	public List<DTOEventoRequisitos> getDtoEventoRequisitos() {
+		return dtoEventoRequisitos;
+	}
+	/**
+	 * @param dtoEventoRequisitos the dtoEventoRequisitos to set
+	 */
+	public void setDtoEventoRequisitos(List<DTOEventoRequisitos> dtoEventoRequisitos) {
+		this.dtoEventoRequisitos = dtoEventoRequisitos;
+	}
+	/**
+	 * @return the dtoEventoRolPlazas
+	 */
+	public List<DTOEventoRolPlazas> getDtoEventoRolPlazas() {
+		return dtoEventoRolPlazas;
+	}
+	/**
+	 * @param dtoEventoRolPlazas the dtoEventoRolPlazas to set
+	 */
+	public void setDtoEventoRolPlazas(List<DTOEventoRolPlazas> dtoEventoRolPlazas) {
+		this.dtoEventoRolPlazas = dtoEventoRolPlazas;
 	}
 
 }
