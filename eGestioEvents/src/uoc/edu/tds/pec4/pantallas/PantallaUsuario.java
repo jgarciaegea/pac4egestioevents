@@ -1,20 +1,17 @@
 package uoc.edu.tds.pec4.pantallas;
-import java.awt.BorderLayout;
+
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
-import javax.swing.WindowConstants;
-
 
 /**
 * This code was edited or generated using CloudGarden's Jigloo
@@ -28,16 +25,12 @@ import javax.swing.WindowConstants;
 * THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED
 * LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
 */
-public class PantallaAltaUsuario extends javax.swing.JFrame {
+public class PantallaUsuario extends javax.swing.JPanel {
+	/**
+	 * 
+	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel jPanel1;
-	private JLabel jLabelApe;
-	private JTextField jTextFieldApe;
-	private JLabel jLabelNombre;
-	private JTextField jTextField1;
-	private JPanel jPanel2;
-	private JButton jButtonCancelar;
-	private JButton jButtonAcceptar;
 	private JTextField jTextFieldCuenta;
 	private JLabel jLabelCuenta;
 	private JTextField jTextFieldDC;
@@ -47,7 +40,6 @@ public class PantallaAltaUsuario extends javax.swing.JFrame {
 	private JTextField jTextFieldBanco;
 	private JLabel jLabelBanco;
 	private JLabel jLabelDatosBanc;
-	private JLabel jLabelDocIden;
 	private JComboBox jComboBoxTipoRol;
 	private JLabel jLabelTipoRol;
 	private JLabel jLabelCenDocente;
@@ -57,6 +49,9 @@ public class PantallaAltaUsuario extends javax.swing.JFrame {
 	private JComboBox jComboBoxTipo;
 	private JLabel jLabelTipo;
 	private JTextField jTextFieldExtension;
+	private JButton jButtonAcceptar;
+	private JButton jButtonCancelar;
+	private JPanel jPanelButtom;
 	private JLabel jLabelExtension;
 	private JTextField jTextFieldTelefono;
 	private JLabel jLabelTelf;
@@ -75,62 +70,39 @@ public class PantallaAltaUsuario extends javax.swing.JFrame {
 	private JTextField jTextFieldLocalidad;
 	private JLabel jLabelLocalidad;
 	private JTextField jTextFieldDocIden;
+	private JLabel jLabelDocIden;
 	private JTextField jTextFieldDirec;
 	private JLabel jLabelDirec;
 	private JComboBox jComboBoxTipoDoc;
 	private JLabel jLabelTipoDoc;
-	private JLabel jLabelCont;
 	private JTextField jTextFieldCon;
+	private JLabel jLabelCont;
 	private JLabel jLabelCodigo;
 	private JTextField jTextField2;
-	private JPanel jPanelButtom;
-	private JLabel tipoperfil;
+	private JLabel jLabelApe;
+	private JTextField jTextFieldApe;
+	private JLabel jLabelNombre;
+	private JTextField jTextField1;
+	private JPanel jPanel2;
 	private JRadioButton jRadioButtonAsis;
 	private JRadioButton jRadioButtonSecr;
 	private JRadioButton jRadioButtonAdmin;
+	private JLabel tipoperfil;
 
-	/**
-	* Auto-generated main method to display this JFrame
-	 * @throws Exception 
-	*/
-		
-	public PantallaAltaUsuario() throws Exception {
+	public PantallaUsuario() {
 		super();
 		initGUI();
-		visualizaDatosBancarios(true);
-		visualizaDatosTipoRol(true);
 	}
 	
-	private void initGUI() throws Exception {
+	private void initGUI() {
 		try {
-			setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-			this.setSize(774, 564);
-			{
-				jPanelButtom = new JPanel();
-				getContentPane().add(jPanelButtom, BorderLayout.SOUTH);
-				jPanelButtom.setBounds(238, 280, 10, 10);
-				jPanelButtom.setPreferredSize(new java.awt.Dimension(766, 40));
-				{
-					jButtonAcceptar = new JButton();
-					jPanelButtom.add(jButtonAcceptar);
-					jButtonAcceptar.setText("Acceptar");
-					jButtonAcceptar.setLayout(null);
-					jButtonAcceptar.setBounds(277, -16, 64, 21);
-				}
-				{
-					jButtonCancelar = new JButton();
-					jPanelButtom.add(jButtonCancelar);
-					jButtonCancelar.setText("Cancelar");
-					jButtonCancelar.setLayout(null);
-				}
-			}
+			this.setPreferredSize(new java.awt.Dimension(784, 565));
 			{
 				jPanel1 = new JPanel();
-				getContentPane().add(jPanel1, BorderLayout.NORTH);
+				this.add(jPanel1);
 				{
 					tipoperfil = new JLabel();
 					jPanel1.add(tipoperfil);
-					tipoperfil.setPreferredSize(new java.awt.Dimension(63, 14));
 					tipoperfil.setText("Tipo Perfil");
 				}
 				{
@@ -153,13 +125,13 @@ public class PantallaAltaUsuario extends javax.swing.JFrame {
 			}
 			{
 				jPanel2 = new JPanel();
-				getContentPane().add(jPanel2, BorderLayout.CENTER);
+				this.add(jPanel2);
 				GridBagLayout jPanel2Layout = new GridBagLayout();
-				jPanel2.setPreferredSize(new java.awt.Dimension(675, 321));
-				jPanel2Layout.rowWeights = new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+				jPanel2Layout.columnWidths = new int[] {142, 222, 108, 7};
 				jPanel2Layout.rowHeights = new int[] {20, 25, 24, 17, 23, 23, 22, 23, 32, 22, 20, 28, 34, 14, 28, 34, 15, 19};
 				jPanel2Layout.columnWeights = new double[] {0.0, 0.0, 0.0, 0.1};
-				jPanel2Layout.columnWidths = new int[] {142, 222, 108, 7};
+				jPanel2Layout.rowWeights = new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+				jPanel2.setPreferredSize(new java.awt.Dimension(724, 461));
 				jPanel2.setLayout(jPanel2Layout);
 				{
 					jTextField1 = new JTextField();
@@ -229,7 +201,7 @@ public class PantallaAltaUsuario extends javax.swing.JFrame {
 				{
 					jTextFieldDirec = new JTextField();
 					jPanel2.add(jTextFieldDirec, new GridBagConstraints(1, 3, 2, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 8, 0, 0), 0, 0));
-					jTextFieldDirec.setPreferredSize(new java.awt.Dimension(360, 21));
+					jTextFieldDirec.setPreferredSize(new java.awt.Dimension(200, 21));
 				}
 				{
 					jLabelDocIden = new JLabel();
@@ -289,7 +261,6 @@ public class PantallaAltaUsuario extends javax.swing.JFrame {
 					jTextFieldEmail = new JTextField();
 					jPanel2.add(jTextFieldEmail, new GridBagConstraints(1, 5, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 8, 0, 0), 0, 0));
 					jTextFieldEmail.setPreferredSize(new java.awt.Dimension(200, 21));
-					jTextFieldEmail.setSize(200, 21);
 				}
 				{
 					jLabelSexo = new JLabel();
@@ -418,16 +389,16 @@ public class PantallaAltaUsuario extends javax.swing.JFrame {
 				{
 					jTextFieldBanco = new JTextField();
 					jPanel2.add(jTextFieldBanco, new GridBagConstraints(1, 17, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 36, 0, 0), 0, 0));
-					jTextFieldBanco.setPreferredSize(new java.awt.Dimension(50, 21));
+					jTextFieldBanco.setPreferredSize(new java.awt.Dimension(60, 21));
 				}
 				{
 					jLabelSucursal = new JLabel();
-					jPanel2.add(jLabelSucursal, new GridBagConstraints(1, 17, 1, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 75), 0, 0));
+					jPanel2.add(jLabelSucursal, new GridBagConstraints(1, 17, 1, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 62), 0, 0));
 					jLabelSucursal.setText("Sucursal");
 				}
 				{
 					jTextFieldSucursal = new JTextField();
-					jPanel2.add(jTextFieldSucursal, new GridBagConstraints(1, 17, 1, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 23), 0, 0));
+					jPanel2.add(jTextFieldSucursal, new GridBagConstraints(1, 17, 1, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 10), 0, 0));
 					jTextFieldSucursal.setPreferredSize(new java.awt.Dimension(50, 21));
 				}
 				{
@@ -438,7 +409,7 @@ public class PantallaAltaUsuario extends javax.swing.JFrame {
 				{
 					jTextFieldDC = new JTextField();
 					jPanel2.add(jTextFieldDC, new GridBagConstraints(2, 17, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 29, 0, 0), 0, 0));
-					jTextFieldDC.setPreferredSize(new java.awt.Dimension(30, 21));
+					jTextFieldDC.setPreferredSize(new java.awt.Dimension(26, 21));
 				}
 				{
 					jLabelCuenta = new JLabel();
@@ -448,51 +419,31 @@ public class PantallaAltaUsuario extends javax.swing.JFrame {
 				{
 					jTextFieldCuenta = new JTextField();
 					jPanel2.add(jTextFieldCuenta, new GridBagConstraints(3, 17, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-					jTextFieldCuenta.setPreferredSize(new java.awt.Dimension(200, 21));
+					jTextFieldCuenta.setPreferredSize(new java.awt.Dimension(120, 21));
+				}
+			}
+			{
+				jPanelButtom = new JPanel();
+				this.add(jPanelButtom);
+				jPanelButtom.setPreferredSize(new java.awt.Dimension(758, 56));
+				jPanelButtom.setBounds(238, 280, 10, 10);
+				{
+					jButtonAcceptar = new JButton();
+					jPanelButtom.add(jButtonAcceptar);
+					jButtonAcceptar.setText("Acceptar");
+					jButtonAcceptar.setLayout(null);
+					jButtonAcceptar.setBounds(277, -16, 64, 21);
+				}
+				{
+					jButtonCancelar = new JButton();
+					jPanelButtom.add(jButtonCancelar);
+					jButtonCancelar.setText("Cancelar");
+					jButtonCancelar.setLayout(null);
 				}
 			}
 		} catch (Exception e) {
-		    throw new Exception();
+			e.printStackTrace();
 		}
-	}
-	
-	/**
-	 * Método encargado de ocultar/visualizar los datos bancarios
-	 * @param bValor
-	 */
-	private void visualizaDatosBancarios(Boolean bValor){
-		jTextFieldCuenta.setVisible(bValor);
-		jLabelCuenta.setVisible(bValor);
-		jTextFieldDC.setVisible(bValor);
-		jLabelDC.setVisible(bValor);
-		jTextFieldSucursal.setVisible(bValor);
-		jLabelSucursal.setVisible(bValor);
-		jTextFieldBanco.setVisible(bValor);
-		jLabelBanco.setVisible(bValor);
-		jLabelDatosBanc.setVisible(bValor);
-	}
-	
-	/**
-	 * Método para ocultar el tipo de Rol
-	 * @param bValor
-	 */
-	private void visualizaDatosTipoRol(Boolean bValor){
-		jComboBoxTipoRol.setVisible(bValor);
-		jLabelTipoRol.setVisible(bValor);
-	}
-	
-	public static void main (String args[]){
-		SwingUtilities.invokeLater(new Runnable() {
-            public void run(){
-				try {
-					PantallaAltaUsuario pantallaAltausuario = new PantallaAltaUsuario();
-					pantallaAltausuario.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-            }
-        });
-		
 	}
 
 }

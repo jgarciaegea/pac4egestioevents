@@ -45,13 +45,14 @@ public abstract class PanelComun extends JPanel  {
 	public PanelComun(String titulo,Integer x, Integer y ) {
 		super();
 		System.out.println("Constructor Panel Generico");
-		botones = new HashMap();
-		cajas = new HashMap();
-        titulos = new HashMap();
-        combos = new HashMap();
+		botones = new HashMap<String, JButton>();
+		cajas = new HashMap<String, JTextField>();
+        titulos = new HashMap<String, JLabel>();
+        combos = new HashMap<String, JComboBox>();
 		System.out.println("Variables inicializadas");
 		this.setLayout(null);
 		this.setPreferredSize(new Dimension(x, y));
+		this.setSize(new Dimension(x, y));
 		this.setBorder(BorderFactory.createCompoundBorder(
 		        BorderFactory.createTitledBorder(TDSLanguageUtils.getMessage(titulo)), 
 		        BorderFactory.createEmptyBorder(10, 10, 5, 5)));

@@ -26,9 +26,10 @@ public class PantallaPrincipal extends JFrame {
 	private JMenuItem altaUsuario;
 	private JMenuItem consultaUsuario;
 	private JPanel pAssistencia;
+	private JPanel pAltaUsuario;
 	
 	public PantallaPrincipal(){
-		setSize(700, 600);
+		setSize(784, 600);
 	    setLocation(new Point(320, 200));
 	    setResizable(false);
 	    setTitle(TDSLanguageUtils.getMessage("clientePEC4.framePrincipal.titulo"));
@@ -67,7 +68,9 @@ public class PantallaPrincipal extends JFrame {
 	        informeAsistentes = new JMenuItem(TDSLanguageUtils.getMessage("clientePEC4.framePrincipal.titulo.menu2.item3"));	   
 	        informeEventos= new JMenuItem(TDSLanguageUtils.getMessage("clientePEC4.framePrincipal.titulo.menu2.item4"));
 	        
-	        altaUsuario = new JMenuItem("alta usuario");
+	        altaUsuario = new JMenuItem("Alta usuario");
+	        altaUsuario.addActionListener(new ActionListener() { 
+	        	public void actionPerformed(ActionEvent evt) { crearPanelUsuario(); } }); 
 	        consultaUsuario = new JMenuItem("Consulta usuario");
 	        
 	        menuConexion.add(cambioPwd);
@@ -111,25 +114,15 @@ public class PantallaPrincipal extends JFrame {
 	}
 	
 	public void crearPanelAssitencia(){
-		
 		pAssistencia = new PantallaAsistencia();
-		 
-		/*
-		((PanelComun) pAssistencia).findBoton("bBuscar").addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					System.out.println("ESTO ESS UN EVENTO QUE ANYADIMOS AL ELEMENTO BUSCADO");
-				}
-			});*/
-		 
-		 
-		 
-
 		this.add(pAssistencia);
 		this.pack();
 	}
 	
-	
-	
-	
+	public void crearPanelUsuario(){
+		pAltaUsuario = new PantallaUsuario();
+		this.add(pAltaUsuario);
+		this.pack();
+	}
 
 }
