@@ -1,12 +1,16 @@
 package uoc.edu.tds.pec4.pantallas;
 
 import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
+import uoc.edu.tds.pec4.excepciones.OperationErrorRMI;
 import uoc.edu.tds.pec4.resources.TDSLanguageUtils;
 
 public class PantallaPrincipal extends JFrame {
@@ -14,11 +18,13 @@ public class PantallaPrincipal extends JFrame {
 	/**
 	 * 
 	 */
+	
 	private static final long serialVersionUID = 1L;
 	private JMenuBar barraMenu;
 	private JMenu menuMantenimiento,menuEstadisticas,menuProgramacionEvento,menuConexion,menuSalir,menuAyuda = null;
 	private JMenuItem CambioPwd,InscripcionEvento,HistoricoEventos,ValidarAsistenciaEvento = null;
 	private JMenuItem InformePorcentajes,InformeIngresos, InformeAsistentes, InformeEventos = null;
+	private JPanel pAssistencia;
 	
 	public PantallaPrincipal(){
 		setSize(700, 600);
@@ -52,6 +58,8 @@ public class PantallaPrincipal extends JFrame {
 	        InscripcionEvento = new JMenuItem(TDSLanguageUtils.getMessage("clientePEC4.framePrincipal.titulo.menu4.item2"));	   
 	        HistoricoEventos = new JMenuItem(TDSLanguageUtils.getMessage("clientePEC4.framePrincipal.titulo.menu4.item3"));	   
 	        ValidarAsistenciaEvento = new JMenuItem(TDSLanguageUtils.getMessage("clientePEC4.framePrincipal.titulo.menu4.item4"));
+	        ValidarAsistenciaEvento.addActionListener(new ActionListener() { 
+	        	public void actionPerformed(ActionEvent evt) { crearPanelAssitencia(); } }); 
 	        
 	        InformePorcentajes = new JMenuItem(TDSLanguageUtils.getMessage("clientePEC4.framePrincipal.titulo.menu2.item1"));	    
 	        InformeIngresos = new JMenuItem(TDSLanguageUtils.getMessage("clientePEC4.framePrincipal.titulo.menu2.item2"));
@@ -94,6 +102,25 @@ public class PantallaPrincipal extends JFrame {
 		
 		
 	}
+	
+	public void crearPanelAssitencia(){
+		
+		pAssistencia = new PantallaAsistencia();
+		 
+		/*
+		((PanelComun) pAssistencia).findBoton("bBuscar").addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					System.out.println("ESTO ESS UN EVENTO QUE ANYADIMOS AL ELEMENTO BUSCADO");
+				}
+			});*/
+		 
+		 
+		 
+
+		this.add(pAssistencia);
+		this.pack();
+	}
+	
 	
 	
 	
