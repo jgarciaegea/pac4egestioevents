@@ -12,12 +12,13 @@ import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
 import uoc.edu.tds.pec4.beans.Evento;
+import uoc.edu.tds.pec4.beans.TipoDocumento;
 import uoc.edu.tds.pec4.daos.DaoEvento;
 import uoc.edu.tds.pec4.dtos.DTOCentroDocente;
-import uoc.edu.tds.pec4.dtos.DTOContacto;
 import uoc.edu.tds.pec4.dtos.DTOEventoRequisitos;
 import uoc.edu.tds.pec4.dtos.DTOEventoRolPlazas;
 import uoc.edu.tds.pec4.dtos.DTOEvento;
+import uoc.edu.tds.pec4.dtos.DTOTipoDocumento;
 import uoc.edu.tds.pec4.dtos.DTOTipoEvento;
 
 public class GestorEvento extends GestorEntidad<DTOEvento>{
@@ -85,6 +86,18 @@ public class GestorEvento extends GestorEntidad<DTOEvento>{
 		return null;
 	}
 
+	public DTOEvento consultaEntidadById(Integer idEvento)  throws Exception {
+		try{
+			DTOEvento dtoEvento = new DTOEvento();
+			Evento evento = new Evento();
+			evento.setIdEvento(idEvento);
+			dtoEvento.setEvento(evento);
+			return this.consultaEntidad(dtoEvento);
+		}catch(Exception e){
+			throw e;
+		}
+	}
+	
 	@Override
 	public void insertaEntidad(DTOEvento newobject) {
 		throw new UnsupportedOperationException("Método no implementado");
