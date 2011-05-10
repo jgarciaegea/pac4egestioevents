@@ -12,6 +12,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 
 
@@ -96,13 +97,14 @@ public class PantallaAltaUsuario extends javax.swing.JFrame {
 	public PantallaAltaUsuario() throws Exception {
 		super();
 		initGUI();
-		visualizaDatosBancarios(false);
-		visualizaDatosTipoRol(false);
+		visualizaDatosBancarios(true);
+		visualizaDatosTipoRol(true);
 	}
 	
 	private void initGUI() throws Exception {
 		try {
 			setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+			this.setSize(774, 564);
 			{
 				jPanelButtom = new JPanel();
 				getContentPane().add(jPanelButtom, BorderLayout.SOUTH);
@@ -155,7 +157,7 @@ public class PantallaAltaUsuario extends javax.swing.JFrame {
 				GridBagLayout jPanel2Layout = new GridBagLayout();
 				jPanel2.setPreferredSize(new java.awt.Dimension(675, 321));
 				jPanel2Layout.rowWeights = new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
-				jPanel2Layout.rowHeights = new int[] {20, 19, 16, 17, 12, 1, 22, 23, 32, 22, 20, 28, 34, 14, 17, 34, 15, 19};
+				jPanel2Layout.rowHeights = new int[] {20, 25, 24, 17, 23, 23, 22, 23, 32, 22, 20, 28, 34, 14, 28, 34, 15, 19};
 				jPanel2Layout.columnWeights = new double[] {0.0, 0.0, 0.0, 0.1};
 				jPanel2Layout.columnWidths = new int[] {142, 222, 108, 7};
 				jPanel2.setLayout(jPanel2Layout);
@@ -194,7 +196,7 @@ public class PantallaAltaUsuario extends javax.swing.JFrame {
 				}
 				{
 					jLabelCont = new JLabel();
-					jPanel2.add(jLabelCont, new GridBagConstraints(2, 1, 1, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
+					jPanel2.add(jLabelCont, new GridBagConstraints(2, 1, 1, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(3, 0, 0, 0), 0, 0));
 					jLabelCont.setText("Contraseña");
 					jLabelCont.setLayout(null);
 				}
@@ -420,37 +422,35 @@ public class PantallaAltaUsuario extends javax.swing.JFrame {
 				}
 				{
 					jLabelSucursal = new JLabel();
-					jPanel2.add(jLabelSucursal, new GridBagConstraints(1, 17, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
+					jPanel2.add(jLabelSucursal, new GridBagConstraints(1, 17, 1, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 75), 0, 0));
 					jLabelSucursal.setText("Sucursal");
 				}
 				{
 					jTextFieldSucursal = new JTextField();
-					jPanel2.add(jTextFieldSucursal, new GridBagConstraints(1, 17, 1, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 30), 0, 0));
+					jPanel2.add(jTextFieldSucursal, new GridBagConstraints(1, 17, 1, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 23), 0, 0));
 					jTextFieldSucursal.setPreferredSize(new java.awt.Dimension(50, 21));
 				}
 				{
 					jLabelDC = new JLabel();
-					jPanel2.add(jLabelDC, new GridBagConstraints(2, 17, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
+					jPanel2.add(jLabelDC, new GridBagConstraints(2, 17, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 9, 0, 0), 0, 0));
 					jLabelDC.setText("DC");
 				}
 				{
 					jTextFieldDC = new JTextField();
-					jPanel2.add(jTextFieldDC, new GridBagConstraints(2, 17, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 25, 0, 0), 0, 0));
+					jPanel2.add(jTextFieldDC, new GridBagConstraints(2, 17, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 29, 0, 0), 0, 0));
 					jTextFieldDC.setPreferredSize(new java.awt.Dimension(30, 21));
 				}
 				{
 					jLabelCuenta = new JLabel();
-					jPanel2.add(jLabelCuenta, new GridBagConstraints(2, 17, 1, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
+					jPanel2.add(jLabelCuenta, new GridBagConstraints(2, 17, 1, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 9), 0, 0));
 					jLabelCuenta.setText("Cuenta");
 				}
 				{
 					jTextFieldCuenta = new JTextField();
-					jPanel2.add(jTextFieldCuenta, new GridBagConstraints(3, 17, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 8, 0, 0), 0, 0));
+					jPanel2.add(jTextFieldCuenta, new GridBagConstraints(3, 17, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 					jTextFieldCuenta.setPreferredSize(new java.awt.Dimension(200, 21));
 				}
 			}
-			pack();
-			this.setSize(774, 592);
 		} catch (Exception e) {
 		    throw new Exception();
 		}
@@ -479,6 +479,20 @@ public class PantallaAltaUsuario extends javax.swing.JFrame {
 	private void visualizaDatosTipoRol(Boolean bValor){
 		jComboBoxTipoRol.setVisible(bValor);
 		jLabelTipoRol.setVisible(bValor);
+	}
+	
+	public static void main (String args[]){
+		SwingUtilities.invokeLater(new Runnable() {
+            public void run(){
+				try {
+					PantallaAltaUsuario pantallaAltausuario = new PantallaAltaUsuario();
+					pantallaAltausuario.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+            }
+        });
+		
 	}
 
 }
