@@ -11,7 +11,7 @@ package uoc.edu.tds.pec4.utils;
 public class MostrarCombo implements java.io.Serializable 
 {
 	private static final long serialVersionUID = 1L;
-	private int nID = 0;
+	private Object nID = null;
 	private String sValor = null;
 
 	/**
@@ -19,7 +19,7 @@ public class MostrarCombo implements java.io.Serializable
 	 * @param nID
 	 * @param sValor
 	 */
-	public MostrarCombo(int nID, String sValor)
+	public MostrarCombo(Object nID, String sValor)
 	{
 		this.setID(nID);
 		this.setValor(sValor);
@@ -29,7 +29,7 @@ public class MostrarCombo implements java.io.Serializable
 	 * Set ID
 	 * @param nID
 	 */
-	public void setID(int nID) 
+	public void setID(Object nID) 
 	{
 		this.nID = nID;
 	}
@@ -37,7 +37,7 @@ public class MostrarCombo implements java.io.Serializable
 	 * Get ID
 	 * @return int
 	 */
-	public int getID() 
+	public Object getID() 
 	{
 		return nID;
 	}
