@@ -8,6 +8,8 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
+import uoc.edu.tds.pec4.excepciones.OperationErrorBD;
+
 public class GestorDisco {
 	
 	private static final String RUTA_CONF_BBDD = "conf/configuration.properties";
@@ -17,16 +19,16 @@ public class GestorDisco {
 	private static String password;
 	private static String url;
 	
-	public GestorDisco() throws Exception{
+	public GestorDisco() throws OperationErrorBD{
 		inicializar();
 		openConnection();
 	}
 	
-	public GestorDisco(Connection connection) throws Exception{
+	public GestorDisco(Connection connection) throws OperationErrorBD{
 		this.connection=connection;
 	}
 	
-	private static void inicializar() throws Exception{
+	private static void inicializar() throws OperationErrorBD{
 		try{
 			Properties properties = new Properties();
 		    properties.load(new FileInputStream(RUTA_CONF_BBDD));
@@ -35,15 +37,15 @@ public class GestorDisco {
 			url = properties.getProperty("url");
 			Class.forName("org.postgresql.Driver");
 		}catch(FileNotFoundException f){
-			throw new Exception(f.getMessage());
+			throw new OperationErrorBD(f.getMessage());
 		}catch(IOException i){
-			throw new Exception(i.getMessage());
+			throw new OperationErrorBD(i.getMessage());
 		}catch(ClassNotFoundException c){
-			throw new Exception(c.getMessage());
+			throw new OperationErrorBD(c.getMessage());
 		}
 	}
 	
-	private synchronized void openConnection() throws Exception{
+	private synchronized void openConnection() throws OperationErrorBD{
 		try {
 			
 			if (!isClosedConnection()) {
@@ -53,25 +55,25 @@ public class GestorDisco {
 			Connection cn = DriverManager.getConnection(url,user,password);
 			connection = cn;
 		} catch (SQLException e) {
-			throw new SQLException(e.getMessage());
+			throw new OperationErrorBD(e.getMessage());
 		}
 	}
 	
-	public synchronized void closeConnection() throws Exception {
+	public synchronized void closeConnection() throws OperationErrorBD {
 		try {
 			if (connection != null && !connection.isClosed()) {
 				connection.close();
 			}
 		} catch (Exception e) {
-			throw new Exception(e.getMessage());
+			throw new OperationErrorBD(e.getMessage());
 		}
 	}
 	
-	public synchronized Connection getConnection() throws Exception{
+	public synchronized Connection getConnection() throws OperationErrorBD{
 		return connection;
 	}
 	
-	public boolean isClosedConnection() throws Exception {
+	public boolean isClosedConnection() throws OperationErrorBD, SQLException {
 		return (connection == null || connection.isClosed());
 	}	
 	
