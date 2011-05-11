@@ -26,9 +26,21 @@ public class DaoEstadisticasIngresos extends DaoEntidad<Estadisticas>{
 		List<Estadisticas> lstPorcentajes = new ArrayList<Estadisticas>();
 		try{
 			StringBuffer sb = new StringBuffer();
-			sb.append("SELECT id_universidad, nombre_universidad, id_centro, nombre_centro, ");
-			sb.append(" id_tipo_evento, ingresos ");
-			sb.append("FROM ingresos(?,?,?,?,?) ");
+			sb.append("SELECT id_universidad, ");
+			if(criteris.getIdCentro()!=null) sb.append(" id_centro, ");
+			if(criteris.getIdTipoEvento()!=null) sb.append(" id_tipo_evento, ");
+			sb.append("sum(ingresos) as ingresos ");
+			sb.append("FROM v_ingresos ");
+			sb.append("WHERE (1=1)");
+			if(criteris.getIdUniversidad()!=null) sb.append("AND id_universidad = ? ");
+			if(criteris.getIdCentro()!=null) sb.append("AND id_centro = ? ");
+			if(criteris.getIdTipoEvento()!=null) sb.append("AND id_tipo_evento = ? ");
+			if(criteris.getIngresosMayorDe()!=null) sb.append("AND SUM(precio)> ? ");
+			if(criteris.getIngresosMenorDe()!=null) sb.append("AND SUM(precio)< ? ");
+			sb.append("GROUP BY id_universidad ");
+			if(criteris.getIdCentro()!=null) sb.append(" , id_centro");
+			if(criteris.getIdTipoEvento()!=null) sb.append(" , id_tipo_evento ");
+			
 						
 			ps = con.prepareStatement(sb.toString(), ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
 			
@@ -36,17 +48,14 @@ public class DaoEstadisticasIngresos extends DaoEntidad<Estadisticas>{
 			if(criteris.getIdUniversidad()!=null) {ps.setInt(i, criteris.getIdUniversidad()); i++;}
 			if(criteris.getIdCentro()!=null) {ps.setInt(i, criteris.getIdCentro()); i++;}
 			if(criteris.getIdTipoEvento()!=null) {ps.setInt(i, criteris.getIdTipoEvento()); i++;}
-			if(criteris.getIngresos()!=null) {ps.setInt(i, criteris.getIngresos()); i++;}
-			if(criteris.getIngresos()!=null) {ps.setInt(i, criteris.getIngresos()); i++;}
+			if(criteris.getIngresosMayorDe()!=null) {ps.setInt(i, criteris.getIngresosMayorDe()); i++;}
+			if(criteris.getIngresosMenorDe()!=null) {ps.setInt(i, criteris.getIngresosMenorDe()); i++;}
 			rs = ps.executeQuery();
 			while (rs.next()) {
 				Estadisticas infPorcentaje = new Estadisticas();
 				infPorcentaje.setIdUniversidad(rs.getInt("id_universidad"));
-				infPorcentaje.setNombreUniversidad(rs.getString("nombre_universidad"));
 				infPorcentaje.setIdCentro(rs.getInt("id_centro"));
-				infPorcentaje.setNombreCentro(rs.getString("nombre_centro"));
 				infPorcentaje.setIdTipoEvento(rs.getInt("id_tipo_evento"));
-				infPorcentaje.setDescripcionTipoEvento(rs.getString("descripcion"));
 				infPorcentaje.setIngresos(rs.getInt("ingresos"));
 				lstPorcentajes.add(infPorcentaje);
 			}		
