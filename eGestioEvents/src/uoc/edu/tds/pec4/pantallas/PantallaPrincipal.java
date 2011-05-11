@@ -1,5 +1,6 @@
 package uoc.edu.tds.pec4.pantallas;
 
+import java.awt.Component;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -14,19 +15,25 @@ import uoc.edu.tds.pec4.resources.TDSLanguageUtils;
 
 public class PantallaPrincipal extends JFrame {
 	
-	/**
-	 * 
-	 */
-	
 	private static final long serialVersionUID = 1L;
 	private JMenuBar barraMenu;
-	private JMenu menuMantenimiento,menuEstadisticas,menuProgramacionEvento,menuConexion,menuSalir,menuAyuda = null;
-	private JMenuItem cambioPwd,inscripcionEvento,historicoEventos,validarAsistenciaEvento = null;
-	private JMenuItem informePorcentajes,informeIngresos, informeAsistentes, informeEventos = null;
+	private JMenu menuMantenimiento;
+	private JMenu menuEstadisticas;
+	private JMenu menuProgramacionEvento;
+	private JMenu menuConexion;
+	private JMenu menuSalir;
+	private JMenu menuAyuda;
+	private JMenuItem cambioPwd;
+	private JMenuItem inscripcionEvento;
+	private JMenuItem historicoEventos;
+	private JMenuItem validarAsistenciaEvento;
+	private JMenuItem informePorcentajes;
+	private JMenuItem informeIngresos;
+	private JMenuItem informeAsistentes;
+	private JMenuItem informeEventos;
 	private JMenuItem altaUsuario;
 	private JMenuItem consultaUsuario;
-	private JPanel pAssistencia;
-	private JPanel pAltaUsuario;
+	private JPanel panelPrincipal;
 	
 	public PantallaPrincipal(){
 		setSize(784, 600);
@@ -41,7 +48,11 @@ public class PantallaPrincipal extends JFrame {
 	
 	private void crearMenuBar(){
 		try{
+			
 			System.out.println("Creando Objecto Menu Bar");
+			panelPrincipal = new JPanel();
+			super.getContentPane().add(panelPrincipal);
+			
 	        barraMenu = new JMenuBar();
 	        menuMantenimiento = new JMenu(TDSLanguageUtils.getMessage("clientePEC4.framePrincipal.titulo.menu1"));
 	        menuMantenimiento.setEnabled(true);
@@ -61,16 +72,23 @@ public class PantallaPrincipal extends JFrame {
 	        historicoEventos = new JMenuItem(TDSLanguageUtils.getMessage("clientePEC4.framePrincipal.titulo.menu4.item3"));	   
 	        validarAsistenciaEvento = new JMenuItem(TDSLanguageUtils.getMessage("clientePEC4.framePrincipal.titulo.menu4.item4"));
 	        validarAsistenciaEvento.addActionListener(new ActionListener() { 
-	        	public void actionPerformed(ActionEvent evt) { crearPanelAssitencia(); } }); 
+	        	public void actionPerformed(ActionEvent evt) { 
+	        		showPanel(new PantallaAsistencia()); 
+	        	} }); 
 	        
 	        informePorcentajes = new JMenuItem(TDSLanguageUtils.getMessage("clientePEC4.framePrincipal.titulo.menu2.item1"));	    
 	        informeIngresos = new JMenuItem(TDSLanguageUtils.getMessage("clientePEC4.framePrincipal.titulo.menu2.item2"));
 	        informeAsistentes = new JMenuItem(TDSLanguageUtils.getMessage("clientePEC4.framePrincipal.titulo.menu2.item3"));	   
 	        informeEventos= new JMenuItem(TDSLanguageUtils.getMessage("clientePEC4.framePrincipal.titulo.menu2.item4"));
 	        
+	        //Pantalla Cliente
 	        altaUsuario = new JMenuItem("Alta usuario");
+	        
 	        altaUsuario.addActionListener(new ActionListener() { 
-	        	public void actionPerformed(ActionEvent evt) { crearPanelUsuario(); } }); 
+	        	public void actionPerformed(ActionEvent evt) { 
+	        		showPanel(new PantallaUsuario()); 
+	        	} }); 
+	        
 	        consultaUsuario = new JMenuItem("Consulta usuario");
 	        
 	        menuConexion.add(cambioPwd);
@@ -92,37 +110,36 @@ public class PantallaPrincipal extends JFrame {
 	        barraMenu.add(menuConexion);
 	        barraMenu.add(menuSalir);
 	        barraMenu.add(menuAyuda);
+	        
+	        
 			 
 		}catch(Exception e){
 			e.printStackTrace();
 		}
-		
 	}
 	
-	public void generaEventosPantallaPrincipal(){
-		
+	/**
+	 * Método para salir de la pantalla del cliente
+	 */
+	private void generaEventosPantallaPrincipal(){
 		addWindowListener(new java.awt.event.WindowAdapter() {
 			public void windowClosing(java.awt.event.WindowEvent e) {
 				if (JOptionPane.showConfirmDialog(PantallaPrincipal.this,TDSLanguageUtils.getMessage("ClientePEC4.cerrar"), null, JOptionPane.YES_NO_OPTION) == 0){
-					//if (srvOn) desconectarServidor();
 					System.exit(0);
 				}
 			}
 		}) ; 
-		
-		
 	}
 	
-	public void crearPanelAssitencia(){
-		pAssistencia = new PantallaAsistencia();
-		this.add(pAssistencia);
-		this.pack();
-	}
-	
-	public void crearPanelUsuario(){
-		pAltaUsuario = new PantallaUsuario();
-		this.add(pAltaUsuario);
-		this.pack();
+	/**
+	 * Método genérico que utilizaremos para mostrar las diferentes pantallas
+	 * @param <B>
+	 * @param pantalla
+	 */
+	private <B extends Pantallas> void showPanel(B pantalla){
+		panelPrincipal.removeAll();
+		panelPrincipal.add((Component)pantalla);
+		super.pack();
 	}
 
 }
