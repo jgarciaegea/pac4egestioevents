@@ -13,26 +13,22 @@ public class Estadisticas implements BeanInterface, Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	private Integer idUniversidad;
-	private String nombreUniversidad;
 	private Integer idCentro;
-	private String nombreCentro;
 	private Integer idEvento;
-	private String nombreEvento;
 	private Integer idTipoEvento;
-	private String descripcionTipoEvento;
 	private Date fechaInicio;
 	private Date fechaFin;
 	private Integer plazas;
 	private Integer inscritos;
 	private Integer asistentes;
 	private Double porcentajeAsistencia;
+	private Integer ingresosMayorDe;
+	private Integer ingresosMenorDe;
 	private Integer ingresos;
 	private String estadoEvento;
 	private String estadoAsistencia;
 	private Integer idAsistente;
-	private String nombreAsistente;
 	private Integer idRol;
-	private String descripcionRol;
 	private Integer idDocumentoIdentificacion;
 
 	/**
@@ -49,20 +45,7 @@ public class Estadisticas implements BeanInterface, Serializable{
 		this.idUniversidad = idUniversidad;
 	}
 	
-	/**
-	 * @return the nombreUniversidad
-	 */
-	public String getNombreUniversidad() {
-		return nombreUniversidad;
-	}
-
-	/**
-	 * @param nombreUniversidad the nombreUniversidad to set
-	 */
-	public void setNombreUniversidad(String nombre) {
-		this.nombreUniversidad = nombre;
-	}
-
+	
 	/**
 	 * @return the idCentro
 	 */
@@ -79,20 +62,6 @@ public class Estadisticas implements BeanInterface, Serializable{
 	}
 	
 	/**
-	 * @return the nombreCentro
-	 */
-	public String getNombreCentro() {
-		return nombreCentro;
-	}
-
-	/**
-	 * @param nombreCentro the nombreCentro to set
-	 */
-	public void setNombreCentro(String nombre) {
-		this.nombreCentro = nombre;
-	}
-
-	/**
 	 * @return the idEvento
 	 */
 	public Integer getIdEvento() {
@@ -108,20 +77,6 @@ public class Estadisticas implements BeanInterface, Serializable{
 
 	
 	/**
-	 * @return the nombreEvento
-	 */
-	public String getNombreEvento() {
-		return nombreEvento;
-	}
-
-	/**
-	 * @param nombreEvento the nombreEvento to set
-	 */
-	public void setNombreEvento(String nombre) {
-		this.nombreEvento = nombre;
-	}
-
-	/**
 	 * @return the idTipoEvento
 	 */
 	public Integer getIdTipoEvento() {
@@ -135,20 +90,7 @@ public class Estadisticas implements BeanInterface, Serializable{
 		this.idTipoEvento = idTipoEvento;
 	}	
 	
-	/**
-	 * @return the descripcionTipoEvento
-	 */
-	public String getDescripcionTipoEvento() {
-		return descripcionTipoEvento;
-	}
-
-	/**
-	 * @param descripcionTipoEvento the descripcionTipoEvento to set
-	 */
-	public void setDescripcionTipoEvento(String descripcionTipoEvento) {
-		this.descripcionTipoEvento = descripcionTipoEvento;
-	}	
-	
+		
 	/**
 	 * @return the fechaInicio
 	 */
@@ -246,6 +188,34 @@ public class Estadisticas implements BeanInterface, Serializable{
 	public void setIngresos(Integer ingresos) {
 		this.ingresos = ingresos;
 	}
+
+	/**
+	 * @return the ingresosMayorDe
+	 */
+	public Integer getIngresosMayorDe() {
+		return ingresosMayorDe;
+	}
+
+	/**
+	 * @param ingresosMenorDe the ingresosMenorDe to set
+	 */
+	public void setIngresosMenorDe(Integer ingresosMenorDe) {
+		this.ingresosMenorDe = ingresosMenorDe;
+	}
+
+	/**
+	 * @return the ingresosMenorDe
+	 */
+	public Integer getIngresosMenorDe() {
+		return ingresosMenorDe;
+	}
+
+	/**
+	 * @param ingresosMayorDe the ingresosMayorDe to set
+	 */
+	public void setIngresosMayorDe(Integer ingresosMayorDe) {
+		this.ingresosMayorDe = ingresosMayorDe;
+	}
 	
 	/**
 	 * @return the estadoEvento
@@ -288,20 +258,6 @@ public class Estadisticas implements BeanInterface, Serializable{
 	}
 	
 	/**
-	 * @return the nombreAsistente
-	 */
-	public String getNombreAsistente() {
-		return nombreAsistente;
-	}
-
-	/**
-	 * @param nombreAsistente the nombreAsistente to set
-	 */
-	public void setNombreAsistente(String nombre) {
-		this.nombreAsistente = nombre;
-	}
-	
-	/**
 	 * @return the idRol
 	 */
 	public Integer getIdRol() {
@@ -313,20 +269,6 @@ public class Estadisticas implements BeanInterface, Serializable{
 	 */
 	public void setIdRol(Integer idRol) {
 		this.idRol = idRol;
-	}
-
-	/**
-	 * @return the descripcionRol
-	 */
-	public String getDescripcionRol() {
-		return descripcionRol;
-	}
-
-	/**
-	 * @param descripcionRol the descripcionRol to set
-	 */
-	public void setDescripcionRol(String descripcionRol) {
-		this.descripcionRol = descripcionRol;
 	}
 
 	/**
