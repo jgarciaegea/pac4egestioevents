@@ -59,13 +59,25 @@ public class GestorEventoRolPlazas extends GestorEntidad<DTOEventoRolPlazas>{
 		return null;
 	}
 	
-	public List<DTOEventoRolPlazas> consultaEntidadById(Integer idEvento)  throws Exception {
+	public List<DTOEventoRolPlazas> consultaEntidadesById(Integer idEvento)  throws Exception {
 		try{
 			DTOEventoRolPlazas dtoEventoRolPlazas = new DTOEventoRolPlazas();
 			EventoRolPlazas EventoRolPlazas = new EventoRolPlazas();
 			EventoRolPlazas.setIdEvento(idEvento);
 			dtoEventoRolPlazas.setEventoRolPlazas(EventoRolPlazas);
 			return this.consultaEntidades(dtoEventoRolPlazas);
+		}catch(Exception e){
+			throw e;
+		}
+	}
+	
+	public DTOEventoRolPlazas consultaEntidadById(Integer idEvento)  throws Exception {
+		try{
+			DTOEventoRolPlazas dtoEventoRolPlazas = new DTOEventoRolPlazas();
+			EventoRolPlazas EventoRolPlazas = new EventoRolPlazas();
+			EventoRolPlazas.setIdEvento(idEvento);
+			dtoEventoRolPlazas.setEventoRolPlazas(EventoRolPlazas);
+			return this.consultaEntidad(dtoEventoRolPlazas);
 		}catch(Exception e){
 			throw e;
 		}
