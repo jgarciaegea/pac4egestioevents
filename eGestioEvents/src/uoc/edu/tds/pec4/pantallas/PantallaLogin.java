@@ -25,6 +25,7 @@ import uoc.edu.tds.pec4.resources.TDSLanguageUtils;
  */
 public class PantallaLogin extends JFrame {
 	
+	private static final long serialVersionUID = 1L;
 	private JPanel panelPrincipal;
     private JButton bOK;
     private JButton bCANCEL;

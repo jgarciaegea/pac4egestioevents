@@ -3,6 +3,11 @@ package uoc.edu.tds.pec4.pantallas;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -12,6 +17,31 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
+
+import uoc.edu.tds.pec4.beans.CentroDocente;
+import uoc.edu.tds.pec4.beans.Pais;
+import uoc.edu.tds.pec4.beans.TipoDocumento;
+import uoc.edu.tds.pec4.beans.TipoRol;
+import uoc.edu.tds.pec4.beans.TipoTelefono;
+import uoc.edu.tds.pec4.beans.Universidad;
+import uoc.edu.tds.pec4.dtos.DTOCentroDocente;
+import uoc.edu.tds.pec4.dtos.DTOPais;
+import uoc.edu.tds.pec4.dtos.DTOTipoDocumento;
+import uoc.edu.tds.pec4.dtos.DTOTipoRol;
+import uoc.edu.tds.pec4.dtos.DTOTipoTelefono;
+import uoc.edu.tds.pec4.dtos.DTOUniversidad;
+import uoc.edu.tds.pec4.excepciones.OperationErrorBD;
+import uoc.edu.tds.pec4.excepciones.OperationErrorRMI;
+import uoc.edu.tds.pec4.gestores.GestorCentroDocente;
+import uoc.edu.tds.pec4.gestores.GestorDisco;
+import uoc.edu.tds.pec4.gestores.GestorPais;
+import uoc.edu.tds.pec4.gestores.GestorRMI;
+import uoc.edu.tds.pec4.gestores.GestorTipoDocumento;
+import uoc.edu.tds.pec4.gestores.GestorTipoRol;
+import uoc.edu.tds.pec4.gestores.GestorTipoTelefono;
+import uoc.edu.tds.pec4.gestores.GestorUniversidad;
+import uoc.edu.tds.pec4.iface.RemoteInterface;
+import uoc.edu.tds.pec4.utils.MostrarCombo;
 
 /**
 * This code was edited or generated using CloudGarden's Jigloo
@@ -25,7 +55,7 @@ import javax.swing.JTextField;
 * THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED
 * LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
 */
-public class PantallaUsuario extends javax.swing.JPanel {
+public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 	/**
 	 * 
 	 */
@@ -88,9 +118,18 @@ public class PantallaUsuario extends javax.swing.JPanel {
 	private JRadioButton jRadioButtonSecr;
 	private JRadioButton jRadioButtonAdmin;
 	private JLabel tipoperfil;
+	private GestorDisco gestorDB;
+	private RemoteInterface remote;
 
-	public PantallaUsuario() {
+	public PantallaUsuario(GestorDisco gestorDB, GestorRMI gestorRMI) {
 		super();
+		this.gestorDB = gestorDB;
+		try {
+			remote = gestorRMI.lookup();
+			System.out.print("Para quitar el warning que sale si no se utiliza es provisional " + remote.toString());
+		} catch (OperationErrorRMI e) {
+			e.showDialogError();
+		}
 		initGUI();
 	}
 	
@@ -184,13 +223,23 @@ public class PantallaUsuario extends javax.swing.JPanel {
 					jLabelTipoDoc.setLayout(null);
 				}
 				{
-					ComboBoxModel jComboBoxTipoDocModel = 
-						new DefaultComboBoxModel(
-								new String[] { "Item One", "Item Two" });
+					//Recuperamos los diferentes tipos de documentos
+					GestorTipoDocumento gestorTipoDocumento = new GestorTipoDocumento(gestorDB.getConnection());
+					DTOTipoDocumento dtoTipoDoc = new DTOTipoDocumento();
+					TipoDocumento tipoDocumento = new TipoDocumento();
+					dtoTipoDoc.setTipoDocumento(tipoDocumento);
+					List<DTOTipoDocumento> lstdtoTipoDoc = gestorTipoDocumento.consultaEntidades(dtoTipoDoc);
+					List<MostrarCombo> lstComoTipoDoc = new ArrayList<MostrarCombo>();
+					for(DTOTipoDocumento dtoTipoDocRes : lstdtoTipoDoc){
+						lstComoTipoDoc.add(new MostrarCombo(dtoTipoDocRes.getTipoDocumento().getIdTipoDocumento(),
+								dtoTipoDocRes.getTipoDocumento().getDescripcionDocumento()));
+					}
+					
 					jComboBoxTipoDoc = new JComboBox();
 					jPanel2.add(jComboBoxTipoDoc, new GridBagConstraints(1, 2, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 8, 0, 0), 0, 0));
-					jComboBoxTipoDoc.setModel(jComboBoxTipoDocModel);
+					jComboBoxTipoDoc.setModel(new DefaultComboBoxModel(lstComoTipoDoc.toArray()));
 					jComboBoxTipoDoc.setPreferredSize(new java.awt.Dimension(200, 21));
+					
 				}
 				{
 					jLabelDirec = new JLabel();
@@ -243,9 +292,18 @@ public class PantallaUsuario extends javax.swing.JPanel {
 					jLabelPais.setLayout(null);
 				}
 				{
-					ComboBoxModel jComboBoxpaisModel = 
-						new DefaultComboBoxModel(
-								new String[] { "Item One", "Item Two" });
+					
+					//Cargamos la lista de países
+					GestorPais gestorPais = new GestorPais(gestorDB.getConnection());
+					DTOPais dtoPais = new DTOPais();
+					dtoPais.setPais(new Pais());
+					List<DTOPais> lstDtoPaises = gestorPais.consultaEntidades(dtoPais);
+					List<MostrarCombo> lstComboPais = new ArrayList<MostrarCombo>();
+					for(DTOPais dtoPaisRec : lstDtoPaises){
+						lstComboPais.add(new MostrarCombo(dtoPaisRec.getPais().getIdPais(),dtoPaisRec.getPais().getNombrePais()));
+					}
+					
+					ComboBoxModel jComboBoxpaisModel =  new DefaultComboBoxModel(lstComboPais.toArray());
 					jComboBoxpais = new JComboBox();
 					jPanel2.add(jComboBoxpais, new GridBagConstraints(3, 5, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 8, 0, 0), 0, 0));
 					jComboBoxpais.setModel(jComboBoxpaisModel);
@@ -269,9 +327,10 @@ public class PantallaUsuario extends javax.swing.JPanel {
 					jLabelSexo.setLayout(null);
 				}
 				{
-					ComboBoxModel jComboBoxSexoModel = 
-						new DefaultComboBoxModel(
-								new String[] { "Item One", "Item Two" });
+					List<MostrarCombo> lstComboBox = new ArrayList<MostrarCombo>();
+					lstComboBox.add(new MostrarCombo("M","Masculino"));
+					lstComboBox.add(new MostrarCombo("F","Femenino"));
+					ComboBoxModel jComboBoxSexoModel =  new DefaultComboBoxModel(lstComboBox.toArray());
 					jComboBoxSexo = new JComboBox();
 					jPanel2.add(jComboBoxSexo, new GridBagConstraints(3, 6, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 8, 0, 0), 0, 0));
 					jComboBoxSexo.setModel(jComboBoxSexoModel);
@@ -326,9 +385,19 @@ public class PantallaUsuario extends javax.swing.JPanel {
 					jLabelTipo.setText("Tipo");
 				}
 				{
-					ComboBoxModel jComboBoxTipoModel = 
-						new DefaultComboBoxModel(
-								new String[] { "Item One", "Item Two" });
+					
+					//Cargamos los diferentes tipos de teléfono
+					GestorTipoTelefono gestorTipoTelefono = new GestorTipoTelefono(gestorDB.getConnection());
+					DTOTipoTelefono dtoTipoTelf = new DTOTipoTelefono();
+					dtoTipoTelf.setTipoTelefono(new TipoTelefono());
+					List<DTOTipoTelefono> lstDtoTiposTelf = gestorTipoTelefono.consultaEntidades(dtoTipoTelf);
+					List<MostrarCombo> lstComboTipoTelf = new ArrayList<MostrarCombo>();
+					for(DTOTipoTelefono dtoTipoTelfRec : lstDtoTiposTelf){
+						lstComboTipoTelf.add(new MostrarCombo(dtoTipoTelfRec.getTipoTelefono().getIdTipoTelefono(),
+								dtoTipoTelfRec.getTipoTelefono().getDescripcion()));
+					}
+					
+					ComboBoxModel jComboBoxTipoModel =  new DefaultComboBoxModel(lstComboTipoTelf.toArray());
 					jComboBoxTipo = new JComboBox();
 					jPanel2.add(jComboBoxTipo, new GridBagConstraints(1, 11, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 8, 0, 0), 0, 0));
 					jComboBoxTipo.setModel(jComboBoxTipoModel);
@@ -340,22 +409,51 @@ public class PantallaUsuario extends javax.swing.JPanel {
 					jLabelUniversidad.setText("Universidad");
 				}
 				{
-					ComboBoxModel jComboBoxUniverModel = 
-						new DefaultComboBoxModel(
-								new String[] { "Item One", "Item Two" });
+					
+					
+					//Cargamos las universidades
+					GestorUniversidad gestorUniversidad = new GestorUniversidad(gestorDB.getConnection());
+					DTOUniversidad dtoUniversidad = new DTOUniversidad();
+					dtoUniversidad.setUniversidad(new Universidad());
+					List<DTOUniversidad> lstDtoUniversidad = gestorUniversidad.consultaEntidades(dtoUniversidad);
+					List<MostrarCombo> lstComboUniv = new ArrayList<MostrarCombo>();
+					if(lstDtoUniversidad != null){
+						for(DTOUniversidad dtoUniverRec : lstDtoUniversidad){
+							lstComboUniv.add(new MostrarCombo(dtoUniverRec.getUniversidad().getIdUniversidad(),
+									dtoUniverRec.getUniversidad().getNombre()));
+						}
+					}
+					
+					ComboBoxModel jComboBoxUniverModel = new DefaultComboBoxModel(lstComboUniv.toArray());
 					jComboBoxUniver = new JComboBox();
 					jPanel2.add(jComboBoxUniver, new GridBagConstraints(1, 13, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 8, 0, 0), 0, 0));
 					jComboBoxUniver.setModel(jComboBoxUniverModel);
 					jComboBoxUniver.setPreferredSize(new java.awt.Dimension(200, 21));
+					
 				}
 				{
-					ComboBoxModel jComboBoxCentroDocenteModel = 
-						new DefaultComboBoxModel(
-								new String[] { "Item One", "Item Two" });
+					
 					jComboBoxCentroDocente = new JComboBox();
 					jPanel2.add(jComboBoxCentroDocente, new GridBagConstraints(3, 13, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 8, 0, 0), 0, 0));
-					jComboBoxCentroDocente.setModel(jComboBoxCentroDocenteModel);
 					jComboBoxCentroDocente.setPreferredSize(new java.awt.Dimension(200, 21));
+					
+					//Empezamos seleccionando el primer objeto cargado
+					if(jComboBoxUniver.getItemCount() > 0) rellenaCentrosDocentes(((MostrarCombo)jComboBoxUniver.getSelectedItem()).getID());
+					
+					jComboBoxUniver.addItemListener(new ItemListener(){
+						
+						public void itemStateChanged(ItemEvent e) {
+							try {
+								if(e.getStateChange() == ItemEvent.SELECTED) {
+									rellenaCentrosDocentes(((MostrarCombo)e.getItem()).getID());
+								}
+							} catch (Exception e1) {
+								e1.printStackTrace();
+							}
+						}
+						
+					});
+					
 				}
 				{
 					jLabelCenDocente = new JLabel();
@@ -368,9 +466,21 @@ public class PantallaUsuario extends javax.swing.JPanel {
 					jLabelTipoRol.setText("Tipo Rol");
 				}
 				{
-					ComboBoxModel jComboBoxTipoRolModel = 
-						new DefaultComboBoxModel(
-								new String[] { "Item One", "Item Two" });
+					
+					//Cargamos tipo de rol
+					GestorTipoRol gestorTipoRol = new GestorTipoRol(gestorDB.getConnection());
+					DTOTipoRol dtoTipoRol = new DTOTipoRol();
+					dtoTipoRol.setTipoRol(new TipoRol());
+					List<DTOTipoRol> lstDtotipoRol = gestorTipoRol.consultaEntidades(dtoTipoRol);
+					List<MostrarCombo> lstComboTipoRol = new ArrayList<MostrarCombo>();
+					if(lstDtotipoRol != null){
+						for(DTOTipoRol dtoTipoRolRec : lstDtotipoRol){
+							lstComboTipoRol.add(new MostrarCombo(dtoTipoRolRec.getTipoRol().getIdRol(),
+									dtoTipoRolRec.getTipoRol().getDescripcion()));
+						}
+					}
+					
+					ComboBoxModel jComboBoxTipoRolModel = new DefaultComboBoxModel(lstComboTipoRol.toArray());
 					jComboBoxTipoRol = new JComboBox();
 					jPanel2.add(jComboBoxTipoRol, new GridBagConstraints(1, 14, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 8, 0, 0), 0, 0));
 					jComboBoxTipoRol.setModel(jComboBoxTipoRolModel);
@@ -443,6 +553,34 @@ public class PantallaUsuario extends javax.swing.JPanel {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Rellena los centros docentes dependiendo del país seleccionado
+	 * @param obj
+	 */
+	private void rellenaCentrosDocentes(Object obj){
+		try {
+			GestorCentroDocente gestorCentroDocente = new GestorCentroDocente(gestorDB.getConnection());
+			DTOCentroDocente dtoCentroDocente = new DTOCentroDocente();
+			CentroDocente centroDocente = new CentroDocente();
+			centroDocente.setIdUniversidad((Integer)obj);
+			dtoCentroDocente.setCentroDocente(centroDocente);
+			List<DTOCentroDocente> lstDtoCentroDoc = gestorCentroDocente.consultaEntidades(dtoCentroDocente);
+			List<MostrarCombo> lstComboCentroDoc = new ArrayList<MostrarCombo>();
+			if(lstDtoCentroDoc != null){
+				for(DTOCentroDocente dtoCentroDocRec : lstDtoCentroDoc){
+					lstComboCentroDoc.add(new MostrarCombo(dtoCentroDocRec.getCentroDocente().getIdCentro(),
+							dtoCentroDocRec.getCentroDocente().getNombre()));
+				}
+			}
+			ComboBoxModel jComboBoxCentroDocenteModel = new DefaultComboBoxModel(lstComboCentroDoc.toArray());
+			jComboBoxCentroDocente.setModel(jComboBoxCentroDocenteModel);
+		} catch (OperationErrorBD e1) {
+			e1.showDialogError();
+		} catch (Exception e1) {
+			e1.printStackTrace();
 		}
 	}
 

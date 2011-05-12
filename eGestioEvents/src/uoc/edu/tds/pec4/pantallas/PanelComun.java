@@ -6,8 +6,8 @@ package uoc.edu.tds.pec4.pantallas;
 import java.awt.Dimension;
 import java.awt.Rectangle;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.Vector;
 
 import javax.swing.BorderFactory;
 import javax.swing.JComboBox;
@@ -105,9 +105,9 @@ public abstract class PanelComun extends JPanel  {
 	 * Constructor JComboBox
 	 */	
 	
-	protected JComboBox crearCombo(Integer x,Integer y,Integer ancho, Integer alto,String nombre,Vector vector){
+	protected JComboBox crearCombo(Integer x,Integer y,Integer ancho, Integer alto,String nombre,List<?> lista){
 		System.out.println("Creando JComboBox......");
-		JComboBox combo = new JComboBox(vector);
+		JComboBox combo = new JComboBox(lista.toArray());
 		combo.setBounds(new Rectangle(x, y, ancho, alto));
 		 this.addCombo(combo,nombre);
 		 return combo;

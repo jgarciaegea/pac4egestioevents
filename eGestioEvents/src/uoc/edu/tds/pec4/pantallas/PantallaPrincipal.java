@@ -1,7 +1,6 @@
 package uoc.edu.tds.pec4.pantallas;
 
 import java.awt.Component;
-import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JFrame;
@@ -11,6 +10,10 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import uoc.edu.tds.pec4.excepciones.OperationErrorBD;
+import uoc.edu.tds.pec4.excepciones.OperationErrorRMI;
+import uoc.edu.tds.pec4.gestores.GestorDisco;
+import uoc.edu.tds.pec4.gestores.GestorRMI;
 import uoc.edu.tds.pec4.resources.TDSLanguageUtils;
 
 public class PantallaPrincipal extends JFrame {
@@ -34,16 +37,20 @@ public class PantallaPrincipal extends JFrame {
 	private JMenuItem altaUsuario;
 	private JMenuItem consultaUsuario;
 	private JPanel panelPrincipal;
+	private GestorRMI gestorRMI;
+	private GestorDisco gestorDB;
 	
 	public PantallaPrincipal(){
 		setSize(784, 600);
-	    setLocation(new Point(320, 200));
 	    setResizable(false);
+	    setLocationRelativeTo(null);
 	    setTitle(TDSLanguageUtils.getMessage("clientePEC4.framePrincipal.titulo"));
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         crearMenuBar();
         setJMenuBar(barraMenu);
         generaEventosPantallaPrincipal();
+        connectRMI();
+        connectDB();
 	}
 	
 	private void crearMenuBar(){
@@ -86,7 +93,7 @@ public class PantallaPrincipal extends JFrame {
 	        
 	        altaUsuario.addActionListener(new ActionListener() { 
 	        	public void actionPerformed(ActionEvent evt) { 
-	        		showPanel(new PantallaUsuario()); 
+	        		showPanel(new PantallaUsuario(gestorDB,gestorRMI)); 
 	        	} }); 
 	        
 	        consultaUsuario = new JMenuItem("Consulta usuario");
@@ -110,8 +117,6 @@ public class PantallaPrincipal extends JFrame {
 	        barraMenu.add(menuConexion);
 	        barraMenu.add(menuSalir);
 	        barraMenu.add(menuAyuda);
-	        
-	        
 			 
 		}catch(Exception e){
 			e.printStackTrace();
@@ -126,6 +131,21 @@ public class PantallaPrincipal extends JFrame {
 			public void windowClosing(java.awt.event.WindowEvent e) {
 				if (JOptionPane.showConfirmDialog(PantallaPrincipal.this,TDSLanguageUtils.getMessage("ClientePEC4.cerrar"), null, JOptionPane.YES_NO_OPTION) == 0){
 					System.exit(0);
+					
+					//Cerramos la conexión RMI
+					try {
+						gestorRMI.disconnectRMI();
+					} catch (OperationErrorRMI e1) {
+						e1.showDialogError();
+					}
+					
+					//Cerramos la conexión BBDD
+					try {
+						gestorDB.closeConnection();
+					} catch (OperationErrorBD e1) {
+						e1.showDialogError();
+					}
+					
 				}
 			}
 		}) ; 
@@ -140,6 +160,25 @@ public class PantallaPrincipal extends JFrame {
 		panelPrincipal.removeAll();
 		panelPrincipal.add((Component)pantalla);
 		super.pack();
+	}
+	
+	private void connectDB(){
+		try {
+			gestorDB = new GestorDisco();
+		} catch (OperationErrorBD e) {
+			e.showDialogError();
+		}
+	}
+	
+	private void connectRMI(){
+		try {
+			gestorRMI = new GestorRMI();
+			gestorRMI.connectRMI();
+		} catch (OperationErrorRMI e) {
+			e.showDialogError();
+		} catch (OperationErrorBD e) {
+			e.showDialogError();
+		}
 	}
 
 }
