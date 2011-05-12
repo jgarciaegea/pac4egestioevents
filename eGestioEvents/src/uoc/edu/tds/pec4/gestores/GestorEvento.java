@@ -70,7 +70,7 @@ public class GestorEvento extends GestorEntidad<DTOEvento>{
 					
 					//A–adimos el EventoRequisitos
 					GestorEventoRolPlazas gestorEventoRolPlazas = new GestorEventoRolPlazas(connection);
-					List<DTOEventoRolPlazas> dtoEventoRolPlazas = gestorEventoRolPlazas.consultaEntidadById(evento.getIdEvento());
+					List<DTOEventoRolPlazas> dtoEventoRolPlazas = gestorEventoRolPlazas.consultaEntidadesById(evento.getIdEvento());
 					if(dtoEventoRolPlazas != null) dtoEvento.setDtoEventoRolPlazas(dtoEventoRolPlazas);
 
 					lstDTOEvento.add(dtoEvento);
