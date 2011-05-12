@@ -40,6 +40,9 @@ public class DaoEstadisticasIngresos extends DaoEntidad<Estadisticas>{
 			sb.append("GROUP BY id_universidad ");
 			if(criteris.getIdCentro()!=null) sb.append(" , id_centro");
 			if(criteris.getIdTipoEvento()!=null) sb.append(" , id_tipo_evento ");
+			sb.append("ORDER BY id_universidad ");
+			if(criteris.getIdCentro()!=null) sb.append(" , id_centro");
+			if(criteris.getIdTipoEvento()!=null) sb.append(" , id_tipo_evento ");
 			
 						
 			ps = con.prepareStatement(sb.toString(), ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
