@@ -12,14 +12,11 @@ import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
 import uoc.edu.tds.pec4.beans.Evento;
-import uoc.edu.tds.pec4.beans.TipoDocumento;
 import uoc.edu.tds.pec4.daos.DaoEvento;
 import uoc.edu.tds.pec4.dtos.DTOCentroDocente;
 import uoc.edu.tds.pec4.dtos.DTOEventoRequisitos;
 import uoc.edu.tds.pec4.dtos.DTOEventoRolPlazas;
 import uoc.edu.tds.pec4.dtos.DTOEvento;
-import uoc.edu.tds.pec4.dtos.DTOTipoDocumento;
-import uoc.edu.tds.pec4.dtos.DTOTipoEvento;
 
 public class GestorEvento extends GestorEntidad<DTOEvento>{
 

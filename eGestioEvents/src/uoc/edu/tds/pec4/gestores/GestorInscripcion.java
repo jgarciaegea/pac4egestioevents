@@ -14,7 +14,6 @@ import java.util.List;
 
 import uoc.edu.tds.pec4.beans.Inscripcion;
 import uoc.edu.tds.pec4.daos.DaoInscripcion;
-import uoc.edu.tds.pec4.dtos.DTOUsuario;
 import uoc.edu.tds.pec4.dtos.DTOEvento;
 import uoc.edu.tds.pec4.dtos.DTOInscripcion;
 

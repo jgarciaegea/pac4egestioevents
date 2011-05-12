@@ -25,7 +25,15 @@ public class GestorRMI {
 			this.remote = new RemotoImpl();
 		} catch (RemoteException e) {
 			e.printStackTrace();
-			//throw new Exception(e.getMessage());
+			throw new OperationErrorRMI(e.getMessage());
+		}
+	}
+	
+	public GestorRMI(GestorDisco gestorDB) throws OperationErrorRMI, OperationErrorBD{
+		try {
+			this.remote = new RemotoImpl(gestorDB);
+		} catch (RemoteException e) {
+			e.printStackTrace();
 			throw new OperationErrorRMI(e.getMessage());
 		}
 	}
