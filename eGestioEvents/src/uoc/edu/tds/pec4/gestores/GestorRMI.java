@@ -4,8 +4,6 @@ import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
 
 import uoc.edu.tds.pec4.excepciones.OperationErrorBD;
 import uoc.edu.tds.pec4.excepciones.OperationErrorRMI;
@@ -17,7 +15,6 @@ public class GestorRMI {
 	
 	private static final String UNAME_URL_RMI= "RemotoImpl";
 	private static final String UNAME_URL_RMI_ALL= "rmi://localhost/RemotoImpl";
-	private Registry registry;
 	private RemotoImpl remote;
 	
 	public GestorRMI() throws OperationErrorRMI, OperationErrorBD{
@@ -56,9 +53,7 @@ public class GestorRMI {
 	 */
 	public synchronized void connectRMI() throws OperationErrorRMI{
         try {
-    		if (registry == null) registry = LocateRegistry.createRegistry(1099);    
 			Naming.rebind(UNAME_URL_RMI_ALL, remote);
-    		registry.rebind(UNAME_URL_RMI_ALL, remote);
 		} catch (RemoteException e) {
 			throw new OperationErrorRMI(TDSLanguageUtils.getMessage("servidorPEC4.error.rmi1"));
 		} catch (MalformedURLException e) {
