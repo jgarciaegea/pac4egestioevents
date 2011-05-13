@@ -20,6 +20,7 @@ public class GestorDisco {
 	private static String url;
 	
 	public GestorDisco() throws OperationErrorBD{
+		System.out.println("Constructor Gestor DiscoS.......");
 		inicializar();
 		openConnection();
 	}
@@ -30,11 +31,13 @@ public class GestorDisco {
 	
 	private static void inicializar() throws OperationErrorBD{
 		try{
+			System.out.println("Conectado a la Base de datos.......");
 			Properties properties = new Properties();
 		    properties.load(new FileInputStream(RUTA_CONF_BBDD));
 			user =  properties.getProperty("username");
 			password =	properties.getProperty("password");
 			url = properties.getProperty("url");
+			System.out.println("parametrosBBD user "+user+" url"+url);
 			Class.forName("org.postgresql.Driver");
 		}catch(FileNotFoundException f){
 			throw new OperationErrorBD(f.getMessage());
