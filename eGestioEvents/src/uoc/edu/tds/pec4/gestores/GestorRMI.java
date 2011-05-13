@@ -21,10 +21,6 @@ public class GestorRMI {
 	
 	public GestorRMI() throws OperationErrorRMI, OperationErrorBD{
 		try {
-<<<<<<< .mine
-=======
-    		//if (registry == null) registry = LocateRegistry.createRegistry(1099); 
->>>>>>> .r161
 			this.remote = new RemotoImpl();
 		} catch (RemoteException e) {
 			e.printStackTrace();
