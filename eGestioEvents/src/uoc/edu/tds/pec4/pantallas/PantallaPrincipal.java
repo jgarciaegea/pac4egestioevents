@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 import uoc.edu.tds.pec4.excepciones.OperationErrorRMI;
 import uoc.edu.tds.pec4.gestores.GestorDisco;
 import uoc.edu.tds.pec4.gestores.GestorRMI;
+import uoc.edu.tds.pec4.iface.RemoteInterface;
 import uoc.edu.tds.pec4.resources.TDSLanguageUtils;
 
 public class PantallaPrincipal extends JFrame {
@@ -37,10 +38,12 @@ public class PantallaPrincipal extends JFrame {
 	private JMenuItem consultaUsuario;
 	private JPanel panelPrincipal;
 	private GestorRMI gestorRMI;
+	private RemoteInterface remote;	
 	
-	public PantallaPrincipal(GestorRMI gestorRMI){
+	public PantallaPrincipal(GestorRMI gestorRMI,RemoteInterface remote){
 		
 		this.gestorRMI = gestorRMI;
+		this.remote = remote;
 		setSize(784, 600);
 	    setResizable(false);
 	    setLocationRelativeTo(null);
@@ -81,7 +84,7 @@ public class PantallaPrincipal extends JFrame {
 	        validarAsistenciaEvento = new JMenuItem(TDSLanguageUtils.getMessage("clientePEC4.framePrincipal.titulo.menu4.item4"));
 	        validarAsistenciaEvento.addActionListener(new ActionListener() { 
 	        	public void actionPerformed(ActionEvent evt) { 
-	        		showPanel(new PantallaAsistencia()); 
+	        		showPanel(new PantallaAsistencia(gestorRMI,remote)); 
 	        	} }); 
 	        
 	     // items estadisticas
@@ -98,7 +101,7 @@ public class PantallaPrincipal extends JFrame {
 	        
 	        altaUsuario.addActionListener(new ActionListener() { 
 	        	public void actionPerformed(ActionEvent evt) { 
-	        		showPanel(new PantallaUsuario(gestorRMI)); 
+	        		showPanel(new PantallaUsuario(gestorRMI,remote)); 
 	        	} }); 
 	        
 
