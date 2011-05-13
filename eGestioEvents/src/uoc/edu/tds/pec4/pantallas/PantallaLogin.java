@@ -152,7 +152,7 @@ public class PantallaLogin extends JFrame {
 		// TODO COMPROBAR LOGIN
     	
 		System.out.println("Inicializando Menus Aplicacion");
-		PantallaPrincipal aplicacion = new PantallaPrincipal(gestorRMI);
+		PantallaPrincipal aplicacion = new PantallaPrincipal(gestorRMI,remote);
 		this.setVisible(false);
 		aplicacion.setVisible(true);
 		
@@ -178,8 +178,6 @@ public class PantallaLogin extends JFrame {
 		}
 	}
 	
-
-
 	/**
 	 * @return the panelPrincipal
 	 */
