@@ -9,6 +9,10 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.MalformedURLException;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -17,6 +21,12 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+
+import uoc.edu.tds.pec4.excepciones.OperationErrorBD;
+import uoc.edu.tds.pec4.excepciones.OperationErrorRMI;
+import uoc.edu.tds.pec4.gestores.GestorDisco;
+import uoc.edu.tds.pec4.gestores.GestorRMI;
+import uoc.edu.tds.pec4.iface.RemoteInterface;
 import uoc.edu.tds.pec4.resources.TDSLanguageUtils;
 
 /**
@@ -33,6 +43,10 @@ public class PantallaLogin extends JFrame {
     private JLabel etiquetaPwd;
     private JTextField textoLogin;
     private JTextField textoPwd;
+	private GestorRMI gestorRMI;
+	private GestorDisco gestorDB;
+	private RemoteInterface remote;
+
 	
 	public PantallaLogin(){
 		setSize(487, 280);
@@ -109,20 +123,63 @@ public class PantallaLogin extends JFrame {
 		}) ; 
 		
 		
-		bOK.addActionListener(new ActionListener() { public void actionPerformed(ActionEvent evt) { IncializarAplicacion();	} });
+		bOK.addActionListener(new ActionListener() { public void actionPerformed(ActionEvent evt) { 
+			try {
+				IncializarAplicacion();
+			} catch (MalformedURLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (RemoteException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (NotBoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (OperationErrorBD e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}	} });
 		
 	}
 	
 	
-	public void IncializarAplicacion(){
+	public void IncializarAplicacion() 
+	throws MalformedURLException, RemoteException, NotBoundException, OperationErrorBD{
+		
+    	System.out.println("conectar al Servidor");
+    	this.connectRMI();
+    	System.out.println("Conectado al Servidor!");
+
 		
 		// TODO COMPROBAR LOGIN
+    	
 		System.out.println("Inicializando Menus Aplicacion");
 		PantallaPrincipal aplicacion = new PantallaPrincipal();
 		this.setVisible(false);
 		aplicacion.setVisible(true);
 		
 	}
+	
+	/**
+	 * Conexion RMI
+	 */
+	
+	private void connectRMI() throws RemoteException{
+		try {
+			GestorRMI gestorRMI = new GestorRMI("cliente");
+			remote = gestorRMI.lookup();
+			remote.testConexion();
+	    	System.out.println("conectar BBDD");
+	    	remote.conectarBBDD();
+	    	System.out.println("Conectado a BBDD!");
+			
+		} catch (OperationErrorRMI e) {
+			e.showDialogError();
+		} catch (OperationErrorBD e) {
+			e.showDialogError();
+		}
+	}
+	
 
 
 	/**
