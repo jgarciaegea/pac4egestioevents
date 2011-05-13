@@ -24,7 +24,6 @@ import javax.swing.JTextField;
 
 import uoc.edu.tds.pec4.excepciones.OperationErrorBD;
 import uoc.edu.tds.pec4.excepciones.OperationErrorRMI;
-import uoc.edu.tds.pec4.gestores.GestorDisco;
 import uoc.edu.tds.pec4.gestores.GestorRMI;
 import uoc.edu.tds.pec4.iface.RemoteInterface;
 import uoc.edu.tds.pec4.resources.TDSLanguageUtils;
@@ -44,7 +43,6 @@ public class PantallaLogin extends JFrame {
     private JTextField textoLogin;
     private JTextField textoPwd;
 	private GestorRMI gestorRMI;
-	private GestorDisco gestorDB;
 	private RemoteInterface remote;
 
 	
@@ -154,7 +152,7 @@ public class PantallaLogin extends JFrame {
 		// TODO COMPROBAR LOGIN
     	
 		System.out.println("Inicializando Menus Aplicacion");
-		PantallaPrincipal aplicacion = new PantallaPrincipal();
+		PantallaPrincipal aplicacion = new PantallaPrincipal(gestorRMI);
 		this.setVisible(false);
 		aplicacion.setVisible(true);
 		
