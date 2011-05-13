@@ -5,28 +5,42 @@ package uoc.edu.tds.pec4.pantallas;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
+
+import uoc.edu.tds.pec4.gestores.GestorRMI;
+import uoc.edu.tds.pec4.iface.RemoteInterface;
 
 /**
  * @author ML019882
  *
  */
+
+
 public class PantallaAsistencia extends PanelComun implements Pantallas{
-	
+
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L; 
-
+	private RemoteInterface remote;
 	
 	/**
 	 * Constructor
 	 */
 	
 	
-	public PantallaAsistencia() {
+	public PantallaAsistencia(GestorRMI gestorRMI,RemoteInterface remote1) {
+
 		super("clientePEC4.panelAsistencia.titulo",300,500);
+		remote = remote1;
+		try {
+			remote.testConexion();
+		} catch (RemoteException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		// indicamos X, Y , ancho , largo , titulo (si es el caso) y el idSTring del elemento 
 		// creamos elementos
 		this.crearBoton(40, 50, 220, 40, "clientePEC4.panelAsistencia.boton.buscar","bBuscar");
