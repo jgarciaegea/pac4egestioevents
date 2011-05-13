@@ -1,6 +1,7 @@
 package uoc.edu.tds.pec4.dtos;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import uoc.edu.tds.pec4.beans.Evento;
@@ -11,8 +12,8 @@ public class DTOEvento implements DTOInterface, Serializable{
 	private Evento evento;
 	private DTOCentroDocente dtoCentroDocente;
 	private DTOTipoEvento dtoTipoEvento;
-	private List<DTOEventoRequisitos> dtoEventoRequisitos;
-	private List<DTOEventoRolPlazas> dtoEventoRolPlazas;
+	private List<DTOEventoRequisitos> dtoEventoRequisitos = new ArrayList<DTOEventoRequisitos>();
+	private List<DTOEventoRolPlazas> dtoEventoRolPlazas = new ArrayList<DTOEventoRolPlazas>();
 	
 	public Evento getEvento() {
 		return evento;

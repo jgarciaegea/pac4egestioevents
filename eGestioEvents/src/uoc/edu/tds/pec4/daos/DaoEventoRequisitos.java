@@ -49,7 +49,7 @@ public class DaoEventoRequisitos extends DaoEntidad<EventoRequisitos>{
 			while (rs.next()) {
 				EventoRequisitos eventoRequisitos = new EventoRequisitos();
 				eventoRequisitos.setIdEvento(rs.getInt("id_evento"));
-				eventoRequisitos.setIdEvento(rs.getInt("id_evento"));
+				eventoRequisitos.setIdEventoReq(rs.getInt("id_evento_req"));
 				lstEventoRequisitos.add(eventoRequisitos);
 			}		
 			return (lstEventoRequisitos.isEmpty() || lstEventoRequisitos.size() == 0) ? null:lstEventoRequisitos;
