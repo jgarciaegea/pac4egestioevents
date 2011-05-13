@@ -12,18 +12,11 @@ import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
-import uoc.edu.tds.pec4.beans.CentroDocente;
-import uoc.edu.tds.pec4.beans.Pais;
-import uoc.edu.tds.pec4.beans.TipoDocumento;
-import uoc.edu.tds.pec4.beans.TipoRol;
-import uoc.edu.tds.pec4.beans.TipoTelefono;
-import uoc.edu.tds.pec4.beans.Universidad;
 import uoc.edu.tds.pec4.dtos.DTOCentroDocente;
 import uoc.edu.tds.pec4.dtos.DTOPais;
 import uoc.edu.tds.pec4.dtos.DTOTipoDocumento;
@@ -32,14 +25,7 @@ import uoc.edu.tds.pec4.dtos.DTOTipoTelefono;
 import uoc.edu.tds.pec4.dtos.DTOUniversidad;
 import uoc.edu.tds.pec4.excepciones.OperationErrorBD;
 import uoc.edu.tds.pec4.excepciones.OperationErrorRMI;
-import uoc.edu.tds.pec4.gestores.GestorCentroDocente;
-import uoc.edu.tds.pec4.gestores.GestorDisco;
-import uoc.edu.tds.pec4.gestores.GestorPais;
 import uoc.edu.tds.pec4.gestores.GestorRMI;
-import uoc.edu.tds.pec4.gestores.GestorTipoDocumento;
-import uoc.edu.tds.pec4.gestores.GestorTipoRol;
-import uoc.edu.tds.pec4.gestores.GestorTipoTelefono;
-import uoc.edu.tds.pec4.gestores.GestorUniversidad;
 import uoc.edu.tds.pec4.iface.RemoteInterface;
 import uoc.edu.tds.pec4.utils.MostrarCombo;
 
@@ -118,12 +104,10 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 	private JRadioButton jRadioButtonSecr;
 	private JRadioButton jRadioButtonAdmin;
 	private JLabel tipoperfil;
-	private GestorDisco gestorDB;
 	private RemoteInterface remote;
 
-	public PantallaUsuario(GestorDisco gestorDB, GestorRMI gestorRMI) {
+	public PantallaUsuario(GestorRMI gestorRMI) {
 		super();
-		this.gestorDB = gestorDB;
 		try {
 			remote = gestorRMI.lookup();
 			System.out.print("Para quitar el warning que sale si no se utiliza es provisional " + remote.toString());
@@ -224,11 +208,7 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 				}
 				{
 					//Recuperamos los diferentes tipos de documentos
-					GestorTipoDocumento gestorTipoDocumento = new GestorTipoDocumento(gestorDB.getConnection());
-					DTOTipoDocumento dtoTipoDoc = new DTOTipoDocumento();
-					TipoDocumento tipoDocumento = new TipoDocumento();
-					dtoTipoDoc.setTipoDocumento(tipoDocumento);
-					List<DTOTipoDocumento> lstdtoTipoDoc = gestorTipoDocumento.consultaEntidades(dtoTipoDoc);
+					List<DTOTipoDocumento> lstdtoTipoDoc = remote.getTiposDocumento();
 					List<MostrarCombo> lstComoTipoDoc = new ArrayList<MostrarCombo>();
 					for(DTOTipoDocumento dtoTipoDocRes : lstdtoTipoDoc){
 						lstComoTipoDoc.add(new MostrarCombo(dtoTipoDocRes.getTipoDocumento().getIdTipoDocumento(),
@@ -294,10 +274,7 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 				{
 					
 					//Cargamos la lista de países
-					GestorPais gestorPais = new GestorPais(gestorDB.getConnection());
-					DTOPais dtoPais = new DTOPais();
-					dtoPais.setPais(new Pais());
-					List<DTOPais> lstDtoPaises = gestorPais.consultaEntidades(dtoPais);
+					List<DTOPais> lstDtoPaises = remote.getPaises();
 					List<MostrarCombo> lstComboPais = new ArrayList<MostrarCombo>();
 					for(DTOPais dtoPaisRec : lstDtoPaises){
 						lstComboPais.add(new MostrarCombo(dtoPaisRec.getPais().getIdPais(),dtoPaisRec.getPais().getNombrePais()));
@@ -387,10 +364,7 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 				{
 					
 					//Cargamos los diferentes tipos de teléfono
-					GestorTipoTelefono gestorTipoTelefono = new GestorTipoTelefono(gestorDB.getConnection());
-					DTOTipoTelefono dtoTipoTelf = new DTOTipoTelefono();
-					dtoTipoTelf.setTipoTelefono(new TipoTelefono());
-					List<DTOTipoTelefono> lstDtoTiposTelf = gestorTipoTelefono.consultaEntidades(dtoTipoTelf);
+					List<DTOTipoTelefono> lstDtoTiposTelf = remote.getTiposTelefono();
 					List<MostrarCombo> lstComboTipoTelf = new ArrayList<MostrarCombo>();
 					for(DTOTipoTelefono dtoTipoTelfRec : lstDtoTiposTelf){
 						lstComboTipoTelf.add(new MostrarCombo(dtoTipoTelfRec.getTipoTelefono().getIdTipoTelefono(),
@@ -410,12 +384,8 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 				}
 				{
 					
-					
 					//Cargamos las universidades
-					GestorUniversidad gestorUniversidad = new GestorUniversidad(gestorDB.getConnection());
-					DTOUniversidad dtoUniversidad = new DTOUniversidad();
-					dtoUniversidad.setUniversidad(new Universidad());
-					List<DTOUniversidad> lstDtoUniversidad = gestorUniversidad.consultaEntidades(dtoUniversidad);
+					List<DTOUniversidad> lstDtoUniversidad = remote.getUniversidades();
 					List<MostrarCombo> lstComboUniv = new ArrayList<MostrarCombo>();
 					if(lstDtoUniversidad != null){
 						for(DTOUniversidad dtoUniverRec : lstDtoUniversidad){
@@ -423,6 +393,7 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 									dtoUniverRec.getUniversidad().getNombre()));
 						}
 					}
+					
 					
 					ComboBoxModel jComboBoxUniverModel = new DefaultComboBoxModel(lstComboUniv.toArray());
 					jComboBoxUniver = new JComboBox();
@@ -468,10 +439,7 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 				{
 					
 					//Cargamos tipo de rol
-					GestorTipoRol gestorTipoRol = new GestorTipoRol(gestorDB.getConnection());
-					DTOTipoRol dtoTipoRol = new DTOTipoRol();
-					dtoTipoRol.setTipoRol(new TipoRol());
-					List<DTOTipoRol> lstDtotipoRol = gestorTipoRol.consultaEntidades(dtoTipoRol);
+					List<DTOTipoRol> lstDtotipoRol = remote.getTiposRol();
 					List<MostrarCombo> lstComboTipoRol = new ArrayList<MostrarCombo>();
 					if(lstDtotipoRol != null){
 						for(DTOTipoRol dtoTipoRolRec : lstDtotipoRol){
@@ -562,12 +530,7 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 	 */
 	private void rellenaCentrosDocentes(Object obj){
 		try {
-			GestorCentroDocente gestorCentroDocente = new GestorCentroDocente(gestorDB.getConnection());
-			DTOCentroDocente dtoCentroDocente = new DTOCentroDocente();
-			CentroDocente centroDocente = new CentroDocente();
-			centroDocente.setIdUniversidad((Integer)obj);
-			dtoCentroDocente.setCentroDocente(centroDocente);
-			List<DTOCentroDocente> lstDtoCentroDoc = gestorCentroDocente.consultaEntidades(dtoCentroDocente);
+			List<DTOCentroDocente> lstDtoCentroDoc = remote.rellenaCentrosByIdUniversidad((Integer)obj);
 			List<MostrarCombo> lstComboCentroDoc = new ArrayList<MostrarCombo>();
 			if(lstDtoCentroDoc != null){
 				for(DTOCentroDocente dtoCentroDocRec : lstDtoCentroDoc){

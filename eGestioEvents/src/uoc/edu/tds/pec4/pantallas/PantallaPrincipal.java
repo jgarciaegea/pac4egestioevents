@@ -49,8 +49,8 @@ public class PantallaPrincipal extends JFrame {
         crearMenuBar();
         setJMenuBar(barraMenu);
         generaEventosPantallaPrincipal();
-        connectRMI();
         connectDB();
+        connectRMI();
 	}
 	
 	private void crearMenuBar(){
@@ -93,7 +93,7 @@ public class PantallaPrincipal extends JFrame {
 	        
 	        altaUsuario.addActionListener(new ActionListener() { 
 	        	public void actionPerformed(ActionEvent evt) { 
-	        		showPanel(new PantallaUsuario(gestorDB,gestorRMI)); 
+	        		showPanel(new PantallaUsuario(gestorRMI)); 
 	        	} }); 
 	        
 	        consultaUsuario = new JMenuItem("Consulta usuario");
@@ -172,7 +172,7 @@ public class PantallaPrincipal extends JFrame {
 	
 	private void connectRMI(){
 		try {
-			gestorRMI = new GestorRMI();
+			gestorRMI = new GestorRMI(gestorDB);
 			gestorRMI.connectRMI();
 		} catch (OperationErrorRMI e) {
 			e.showDialogError();
