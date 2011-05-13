@@ -25,7 +25,6 @@ import uoc.edu.tds.pec4.gestores.GestorPais;
 import uoc.edu.tds.pec4.gestores.GestorTipoDocumento;
 import uoc.edu.tds.pec4.gestores.GestorTipoRol;
 import uoc.edu.tds.pec4.gestores.GestorTipoTelefono;
-//import uoc.edu.tds.pec4.gestores.GestorTipoTelefono;
 import uoc.edu.tds.pec4.gestores.GestorUniversidad;
 import uoc.edu.tds.pec4.gestores.GestorUsuario;
 
@@ -136,6 +135,7 @@ public class RemotoImpl extends UnicastRemoteObject implements RemoteInterface,S
 			throw new OperationErrorBD("Error al recuperar los centros docentes de la universidad[" + idUniversidad +"] " +  e.getMessage());
 		}
 	}
+	
 	
 
 }
