@@ -11,7 +11,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import uoc.edu.tds.pec4.excepciones.OperationErrorRMI;
-import uoc.edu.tds.pec4.gestores.GestorDisco;
 import uoc.edu.tds.pec4.gestores.GestorRMI;
 import uoc.edu.tds.pec4.iface.RemoteInterface;
 import uoc.edu.tds.pec4.resources.TDSLanguageUtils;
@@ -139,26 +138,16 @@ public class PantallaPrincipal extends JFrame {
 			public void windowClosing(java.awt.event.WindowEvent e) {
 				if (JOptionPane.showConfirmDialog(PantallaPrincipal.this,TDSLanguageUtils.getMessage("ClientePEC4.cerrar"), null, JOptionPane.YES_NO_OPTION) == 0){
 					System.exit(0);
-					
 					//Cerramos la conexión RMI
 					try {
 						gestorRMI.disconnectRMI();
 					} catch (OperationErrorRMI e1) {
 						e1.showDialogError();
 					}
-					
-					//Cerramos la conexión BBDD
-					/*try {
-						gestorDB.closeConnection();
-					} catch (OperationErrorBD e1) {
-						e1.showDialogError();
-					}*/
-					
 				}
 			}
 		}) ; 
 	}
-	
 	
 	
 	/**

@@ -164,7 +164,7 @@ public class PantallaLogin extends JFrame {
 	
 	private void connectRMI() throws RemoteException{
 		try {
-			gestorRMI = new GestorRMI("");
+			gestorRMI = new GestorRMI();
 			remote = gestorRMI.lookup();
 			remote.testConexion();
 	    	System.out.println("conectar BBDD");
