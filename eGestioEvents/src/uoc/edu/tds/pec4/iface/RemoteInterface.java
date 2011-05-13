@@ -14,6 +14,25 @@ import uoc.edu.tds.pec4.dtos.DTOUsuario;
 import uoc.edu.tds.pec4.excepciones.OperationErrorBD;
 
 public interface RemoteInterface extends Remote{
+	
+	
+	/**
+	 * Método que Testear la conexion
+	 * 
+	 * @throws RemoteException
+	 * @throws 
+	 */
+	public abstract void testConexion() throws RemoteException;
+	
+	
+	/**
+	 * Método conexion BBDD 
+	 * @throws RemoteException
+	 * @throws OperationErrorBD
+	 */
+	public abstract void conectarBBDD() throws RemoteException,OperationErrorBD;
+	
+	
 	/**
 	 * Método que dará de alta un usuario
 	 * @param dtoUsuario
@@ -44,6 +63,7 @@ public interface RemoteInterface extends Remote{
 	 * @throws RemoteException
 	 * @throws OperationErrorBD
 	 */
+	
 	public abstract List<DTOTipoTelefono> getTiposTelefono() throws RemoteException, OperationErrorBD;
 	
 	/**

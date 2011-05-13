@@ -24,7 +24,7 @@ import uoc.edu.tds.pec4.gestores.GestorDisco;
 import uoc.edu.tds.pec4.gestores.GestorPais;
 import uoc.edu.tds.pec4.gestores.GestorTipoDocumento;
 import uoc.edu.tds.pec4.gestores.GestorTipoRol;
-import uoc.edu.tds.pec4.gestores.GestorTipoTelefono;
+//import uoc.edu.tds.pec4.gestores.GestorTipoTelefono;
 import uoc.edu.tds.pec4.gestores.GestorUniversidad;
 import uoc.edu.tds.pec4.gestores.GestorUsuario;
 
@@ -32,6 +32,20 @@ public class RemotoImpl extends UnicastRemoteObject implements RemoteInterface,S
 	
 	private static final long serialVersionUID = 1L;
 	private GestorDisco gestorDB;
+	
+	public  void testConexion() throws RemoteException{
+		System.out.println("Conectado al Servidor RMI Correctamente");
+	}
+	
+	public  void conectarBBDD()throws RemoteException,OperationErrorBD{
+		try {
+			System.out.println("Conectado a la Base de DATOS....");
+			gestorDB = new GestorDisco();
+		} catch (Exception e) {
+			throw new OperationErrorBD("Error conectado a la BBDD: " + e.getMessage());
+		}
+	}
+	
 	
 	public RemotoImpl() throws RemoteException {
 		super();
@@ -74,7 +88,7 @@ public class RemotoImpl extends UnicastRemoteObject implements RemoteInterface,S
 			throw new OperationErrorBD("Error al recuperar los países: " + e.getMessage());
 		}
 	}
-	
+	/*
 	public List<DTOTipoTelefono> getTiposTelefono() throws RemoteException, OperationErrorBD {
 		try{
 			GestorTipoTelefono gestorTipoTelefono = new GestorTipoTelefono(gestorDB.getConnection());
@@ -84,7 +98,7 @@ public class RemotoImpl extends UnicastRemoteObject implements RemoteInterface,S
 		}catch(Exception e){
 			throw new OperationErrorBD("Error al recuperar los tipos de telefono: " + e.getMessage());
 		}
-	}
+	}*/
 	
 	public List<DTOUniversidad> getUniversidades() throws RemoteException, OperationErrorBD {
 		
@@ -120,6 +134,13 @@ public class RemotoImpl extends UnicastRemoteObject implements RemoteInterface,S
 		}catch(Exception e){
 			throw new OperationErrorBD("Error al recuperar los centros docentes de la universidad[" + idUniversidad +"] " +  e.getMessage());
 		}
+	}
+
+	@Override
+	public List<DTOTipoTelefono> getTiposTelefono() throws RemoteException,
+			OperationErrorBD {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	
