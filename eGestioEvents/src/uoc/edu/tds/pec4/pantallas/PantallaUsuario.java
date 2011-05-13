@@ -5,6 +5,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -106,14 +107,16 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 	private JLabel tipoperfil;
 	private RemoteInterface remote;
 
-	public PantallaUsuario(GestorRMI gestorRMI) {
+	public PantallaUsuario(GestorRMI gestorRMI,RemoteInterface remote1) {
 		super();
+		remote = remote1;
 		try {
-			remote = gestorRMI.lookup();
-			System.out.print("Para quitar el warning que sale si no se utiliza es provisional " + remote.toString());
-		} catch (OperationErrorRMI e) {
-			e.showDialogError();
+			remote.testConexion();
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+		System.out.print("Para quitar el warning que sale si no se utiliza es provisional " + remote.toString());
 		initGUI();
 	}
 	
