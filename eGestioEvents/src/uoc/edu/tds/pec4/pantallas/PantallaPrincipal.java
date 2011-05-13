@@ -37,10 +37,10 @@ public class PantallaPrincipal extends JFrame {
 	private JMenuItem consultaUsuario;
 	private JPanel panelPrincipal;
 	private GestorRMI gestorRMI;
-	private GestorDisco gestorDB;
 	
-	public PantallaPrincipal(){
+	public PantallaPrincipal(GestorRMI gestorRMI){
 		
+		this.gestorRMI = gestorRMI;
 		setSize(784, 600);
 	    setResizable(false);
 	    setLocationRelativeTo(null);
@@ -49,8 +49,7 @@ public class PantallaPrincipal extends JFrame {
         crearMenuBar();
         setJMenuBar(barraMenu);
         generaEventosPantallaPrincipal();
-       // connectDB();
-        //connectRMI();
+
 	}
 	
 	private void crearMenuBar(){
