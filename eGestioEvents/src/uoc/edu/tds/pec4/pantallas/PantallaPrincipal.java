@@ -10,7 +10,6 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import uoc.edu.tds.pec4.excepciones.OperationErrorBD;
 import uoc.edu.tds.pec4.excepciones.OperationErrorRMI;
 import uoc.edu.tds.pec4.gestores.GestorDisco;
 import uoc.edu.tds.pec4.gestores.GestorRMI;
@@ -41,6 +40,7 @@ public class PantallaPrincipal extends JFrame {
 	private GestorDisco gestorDB;
 	
 	public PantallaPrincipal(){
+		
 		setSize(784, 600);
 	    setResizable(false);
 	    setLocationRelativeTo(null);
@@ -49,8 +49,8 @@ public class PantallaPrincipal extends JFrame {
         crearMenuBar();
         setJMenuBar(barraMenu);
         generaEventosPantallaPrincipal();
-        connectDB();
-        connectRMI();
+       // connectDB();
+        //connectRMI();
 	}
 	
 	private void crearMenuBar(){
@@ -74,6 +74,8 @@ public class PantallaPrincipal extends JFrame {
 	        menuAyuda = new JMenu(TDSLanguageUtils.getMessage("clientePEC4.framePrincipal.titulo.menu6"));
 	        menuAyuda.setEnabled(true);
 	        
+	        // items menu Conexion
+	        
 	        cambioPwd = new JMenuItem(TDSLanguageUtils.getMessage("clientePEC4.framePrincipal.titulo.menu4.item1"));	    
 	        inscripcionEvento = new JMenuItem(TDSLanguageUtils.getMessage("clientePEC4.framePrincipal.titulo.menu4.item2"));	   
 	        historicoEventos = new JMenuItem(TDSLanguageUtils.getMessage("clientePEC4.framePrincipal.titulo.menu4.item3"));	   
@@ -83,20 +85,24 @@ public class PantallaPrincipal extends JFrame {
 	        		showPanel(new PantallaAsistencia()); 
 	        	} }); 
 	        
+	     // items estadisticas
+	        
 	        informePorcentajes = new JMenuItem(TDSLanguageUtils.getMessage("clientePEC4.framePrincipal.titulo.menu2.item1"));	    
 	        informeIngresos = new JMenuItem(TDSLanguageUtils.getMessage("clientePEC4.framePrincipal.titulo.menu2.item2"));
 	        informeAsistentes = new JMenuItem(TDSLanguageUtils.getMessage("clientePEC4.framePrincipal.titulo.menu2.item3"));	   
 	        informeEventos= new JMenuItem(TDSLanguageUtils.getMessage("clientePEC4.framePrincipal.titulo.menu2.item4"));
 	        
-	        //Pantalla Cliente
+	// items mantenimiento
+	        
 	        altaUsuario = new JMenuItem("Alta usuario");
+	        consultaUsuario = new JMenuItem("Consulta usuario");
 	        
 	        altaUsuario.addActionListener(new ActionListener() { 
 	        	public void actionPerformed(ActionEvent evt) { 
 	        		showPanel(new PantallaUsuario(gestorRMI)); 
 	        	} }); 
 	        
-	        consultaUsuario = new JMenuItem("Consulta usuario");
+
 	        
 	        menuConexion.add(cambioPwd);
 	        menuConexion.add(inscripcionEvento);
@@ -140,16 +146,18 @@ public class PantallaPrincipal extends JFrame {
 					}
 					
 					//Cerramos la conexión BBDD
-					try {
+					/*try {
 						gestorDB.closeConnection();
 					} catch (OperationErrorBD e1) {
 						e1.showDialogError();
-					}
+					}*/
 					
 				}
 			}
 		}) ; 
 	}
+	
+	
 	
 	/**
 	 * Método genérico que utilizaremos para mostrar las diferentes pantallas
@@ -162,23 +170,6 @@ public class PantallaPrincipal extends JFrame {
 		super.pack();
 	}
 	
-	private void connectDB(){
-		try {
-			gestorDB = new GestorDisco();
-		} catch (OperationErrorBD e) {
-			e.showDialogError();
-		}
-	}
-	
-	private void connectRMI(){
-		try {
-			gestorRMI = new GestorRMI(gestorDB);
-			gestorRMI.connectRMI();
-		} catch (OperationErrorRMI e) {
-			e.showDialogError();
-		} catch (OperationErrorBD e) {
-			e.showDialogError();
-		}
-	}
+
 
 }
