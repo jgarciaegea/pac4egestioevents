@@ -1,14 +1,21 @@
 echo off
 
 echo  -----------------------------------------------
-echo    Fase 1: Preparación entorno de ejecución
+echo    PREPARACION DEL ENTORNO DE EJECUCION
 echo  -----------------------------------------------
 pause
 echo  -----------------------------------------------
-echo    Clases y docs antiguos borrados
+echo    BORRAR FICHERS .CLASS
 echo  -----------------------------------------------
 rmdir /s bin
 mkdir bin
+echo  -----------------------------------------------
+echo    CONFIGURACION FICHERO IDIOMAS Y PROPERTIES
+echo  -----------------------------------------------
+mkdir bin\i18n
+copy src\i18n bin\i18n
+mkdir bin\conf
+copy conf bin\conf
 echo  -----------------------------------------------
 echo    Fase 2: Creacion de la documentacion
 echo  -----------------------------------------------
@@ -61,6 +68,9 @@ echo  -----------------------------------------------
 echo    CLIENTE:
 echo  -----------------------------------------------
 javac -d bin  -cp  bin src\uoc\edu\tds\pec4\cliente\*.java 
+echo  -----------------------------------------------
+echo  -----------------------------------------------
+
 echo  -----------------------------------------------
 echo    Ya puede ejecutar La aplicacion
 echo  -----------------------------------------------
