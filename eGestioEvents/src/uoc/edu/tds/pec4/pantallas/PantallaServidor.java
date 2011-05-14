@@ -37,7 +37,7 @@ public class PantallaServidor extends JFrame {
     private GestorRMI gestorRMI = null;
     
 	public PantallaServidor() throws OperationErrorRMI,OperationErrorBD{
-		gestorRMI = new GestorRMI();
+		gestorRMI = new GestorRMI("SERVER");
         System.out.println("Gestor RMI Inicializado");
         jContentPane = null;
         bStart = null;
