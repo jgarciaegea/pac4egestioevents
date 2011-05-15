@@ -8,6 +8,7 @@ import uoc.edu.tds.pec4.beans.Usuario;
 import uoc.edu.tds.pec4.dtos.DTOCentroDocente;
 import uoc.edu.tds.pec4.dtos.DTOPais;
 import uoc.edu.tds.pec4.dtos.DTOTipoDocumento;
+import uoc.edu.tds.pec4.dtos.DTOTipoEvento;
 import uoc.edu.tds.pec4.dtos.DTOTipoRol;
 import uoc.edu.tds.pec4.dtos.DTOTipoTelefono;
 import uoc.edu.tds.pec4.dtos.DTOUniversidad;
@@ -99,6 +100,10 @@ public interface RemoteInterface extends Remote{
 	 * @throws RemoteException
 	 * @throws OperationErrorBD
 	 */
+	
 	public abstract  DTOUsuario getUsuario(Usuario usuario) throws RemoteException, OperationErrorBD;
+	
+	
+	public abstract List<DTOTipoEvento> getTiposEventos() throws RemoteException, OperationErrorBD;
 	
 }

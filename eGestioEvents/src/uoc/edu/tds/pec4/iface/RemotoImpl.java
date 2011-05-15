@@ -8,6 +8,7 @@ import java.util.List;
 import uoc.edu.tds.pec4.beans.CentroDocente;
 import uoc.edu.tds.pec4.beans.Pais;
 import uoc.edu.tds.pec4.beans.TipoDocumento;
+import uoc.edu.tds.pec4.beans.TipoEvento;
 import uoc.edu.tds.pec4.beans.TipoRol;
 import uoc.edu.tds.pec4.beans.TipoTelefono;
 import uoc.edu.tds.pec4.beans.Universidad;
@@ -16,6 +17,7 @@ import uoc.edu.tds.pec4.dtos.DTOAdministrador;
 import uoc.edu.tds.pec4.dtos.DTOCentroDocente;
 import uoc.edu.tds.pec4.dtos.DTOPais;
 import uoc.edu.tds.pec4.dtos.DTOTipoDocumento;
+import uoc.edu.tds.pec4.dtos.DTOTipoEvento;
 import uoc.edu.tds.pec4.dtos.DTOTipoRol;
 import uoc.edu.tds.pec4.dtos.DTOTipoTelefono;
 import uoc.edu.tds.pec4.dtos.DTOUniversidad;
@@ -25,6 +27,7 @@ import uoc.edu.tds.pec4.gestores.GestorCentroDocente;
 import uoc.edu.tds.pec4.gestores.GestorDisco;
 import uoc.edu.tds.pec4.gestores.GestorPais;
 import uoc.edu.tds.pec4.gestores.GestorTipoDocumento;
+import uoc.edu.tds.pec4.gestores.GestorTipoEvento;
 import uoc.edu.tds.pec4.gestores.GestorTipoRol;
 import uoc.edu.tds.pec4.gestores.GestorTipoTelefono;
 import uoc.edu.tds.pec4.gestores.GestorUniversidad;
@@ -44,7 +47,7 @@ public class RemotoImpl extends UnicastRemoteObject implements RemoteInterface,S
 			System.out.println("Conectado a la Base de DATOS....");
 			gestorDB = new GestorDisco();
 		} catch (Exception e) {
-			throw new OperationErrorBD("Error conectado a la BBDD: " + e.getMessage());
+			throw new OperationErrorBD("Error conectando a la BBDD: " + e.getMessage());
 		}
 	}
 	
@@ -150,6 +153,18 @@ public class RemotoImpl extends UnicastRemoteObject implements RemoteInterface,S
 			throw new OperationErrorBD("Error al recuperar el usuario......");
 		}
 
+	}
+	
+	
+	public List<DTOTipoEvento> getTiposEventos() throws RemoteException, OperationErrorBD {
+		try{
+			GestorTipoEvento gestorTipoRol = new GestorTipoEvento(gestorDB.getConnection());
+			DTOTipoEvento dtoTipoEvento = new DTOTipoEvento();
+			dtoTipoEvento.setTipoEvento(new TipoEvento());
+			return gestorTipoRol.consultaEntidades(dtoTipoEvento);
+		}catch(Exception e){
+			throw new OperationErrorBD("Error al recuperar los tipos de rol: " + e.getMessage());
+		}
 	}
 	
 
