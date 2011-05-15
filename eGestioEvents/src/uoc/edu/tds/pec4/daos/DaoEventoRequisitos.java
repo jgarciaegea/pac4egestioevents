@@ -23,7 +23,18 @@ public class DaoEventoRequisitos extends DaoEntidad<EventoRequisitos>{
 
 	@Override
 	public void insert(EventoRequisitos objecte) throws Exception {
-		throw new UnsupportedOperationException("Método no implementado");
+		PreparedStatement ps = null;
+		try {
+			ps = con.prepareStatement("INSERT INTO EVENTOREQUISITOS (id_evento, id_evento_req) VALUES (?, ?)");
+			ps.setInt(1, objecte.getIdEvento());
+			ps.setInt(2, objecte.getIdEventoReq());
+			ps.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new Exception();
+		} finally {
+			close(ps);
+		}
 	}
 
 	@Override
@@ -67,7 +78,16 @@ public class DaoEventoRequisitos extends DaoEntidad<EventoRequisitos>{
 
 	@Override
 	public void delete(EventoRequisitos criteris) throws Exception {
-		throw new UnsupportedOperationException("Método no implementado");
+		PreparedStatement ps = null;
+		try {
+			ps = con.prepareStatement("DELETE FROM EVENTOREQUISITOS WHERE id_evento = ?");
+			ps.setObject(1, criteris.getIdEvento());
+			ps.executeUpdate();
+		} catch (Exception e) {
+			throw new Exception();
+		} finally {
+			close(ps);
+		}
 	}
 
 }

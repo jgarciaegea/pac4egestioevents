@@ -13,6 +13,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+
 import uoc.edu.tds.pec4.beans.Inscripcion;
 
 public class DaoInscripcion extends DaoEntidad<Inscripcion>{
@@ -23,7 +24,27 @@ public class DaoInscripcion extends DaoEntidad<Inscripcion>{
 
 	@Override
 	public void insert(Inscripcion objecte) throws Exception {
-		throw new UnsupportedOperationException("Método no implementado");
+		PreparedStatement ps = null;
+		try {
+			ps = con.prepareStatement("INSERT INTO INSCRIPCION (codigo, id_evento, estado, fecha_estado, motivo_estado, fecha_inscripcion, check_in, codigo_asistencia)" + 
+                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+			ps.setString(1, objecte.getCodigo());
+			ps.setInt(2, objecte.getIdEvento());
+			//ps.setInt(3, objecte.getEstado());
+			ps.setInt(3, ESTADO_ACTIVO);
+			ps.setDate(4, objecte.getFechaEstado());
+			ps.setDate(4, getDateSql(new java.util.Date()));
+			ps.setString(5, objecte.getMotivoEstado());
+			ps.setDate(6, objecte.getFechaInscripcion());
+			ps.setBoolean(7, objecte.getCheckIn());
+			ps.setString(8, objecte.getCodigoAsistencia());			
+			ps.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new Exception();
+		} finally {
+			close(ps);
+		}
 	}
 
 	@Override
@@ -80,12 +101,48 @@ public class DaoInscripcion extends DaoEntidad<Inscripcion>{
 
 	@Override
 	public void update(Inscripcion objecte) throws Exception {
-		throw new UnsupportedOperationException("Método no implementado");
+		PreparedStatement ps = null;
+		try {
+			
+			StringBuffer sql = new StringBuffer();
+			sql.append("UPDATE INSCRIPCION SET ");
+
+			if(objecte.getEstado()!=null) sql.append(" estado = ?,");
+			if(objecte.getFechaEstado()!=null) sql.append(" fecha_estado = ?,");
+			if(objecte.getMotivoEstado()!=null) sql.append(" motivo_estado = ?,");
+			if(objecte.getFechaInscripcion()!=null) sql.append(" fecha_inscripcion = ?,");
+			if(objecte.getCheckIn()!=null) sql.append(" check_in = ? ");
+			if(objecte.getCodigoAsistencia()!=null) sql.append(" codigo_asistencia = ?,");
+			sql = new StringBuffer(sql.substring(0,sql.length()-1) +" WHERE codigo = ? AND id_evento = ?");		
+			
+			ps = con.prepareStatement(sql.toString());
+			int i=1;
+			if(objecte.getEstado()!=null) {ps.setInt(i, objecte.getEstado()); i++;}
+			if(objecte.getFechaEstado()!=null) {ps.setDate(i, objecte.getFechaEstado()); i++;}
+			if(objecte.getMotivoEstado()!=null) {ps.setString(i, objecte.getMotivoEstado()); i++;}
+			if(objecte.getFechaInscripcion()!=null) {ps.setDate(i, objecte.getFechaInscripcion()); i++;}
+			if(objecte.getCheckIn()!=null) {ps.setBoolean(i, objecte.getCheckIn()); i++;}
+			if(objecte.getCodigoAsistencia()!=null) {ps.setString(i, objecte.getCodigoAsistencia()); i++;}
+			ps.setString(i, objecte.getCodigo());
+			ps.setInt(i++, objecte.getIdEvento());
+			ps.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new Exception();
+		} finally {
+			close(ps);
+		}
 	}
 
 	@Override
 	public void delete(Inscripcion criteris) throws Exception {
-		throw new UnsupportedOperationException("Método no implementado");
+		Inscripcion inscripcion = new Inscripcion();
+		inscripcion.setCodigo(criteris.getCodigo());
+		inscripcion.setIdEvento(criteris.getIdEvento());
+		inscripcion.setFechaEstado(getDateSql(new java.util.Date()));
+		inscripcion.setEstado(ESTADO_BAJA);
+		inscripcion.setMotivoEstado(criteris.getMotivoEstado());
+		this.update(inscripcion);
 	}
 
 }

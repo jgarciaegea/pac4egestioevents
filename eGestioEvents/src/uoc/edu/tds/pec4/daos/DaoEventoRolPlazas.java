@@ -23,7 +23,19 @@ public class DaoEventoRolPlazas extends DaoEntidad<EventoRolPlazas>{
 
 	@Override
 	public void insert(EventoRolPlazas objecte) throws Exception {
-		throw new UnsupportedOperationException("Método no implementado");
+		PreparedStatement ps = null;
+		try {
+			ps = con.prepareStatement("INSERT INTO EVENTOROLPLAZAS (id_evento, id_rol, plazas) VALUES (?, ?, ?)");
+			ps.setInt(1, objecte.getIdEvento());
+			ps.setInt(2, objecte.getIdRol());
+			ps.setInt(3, objecte.getPlazas());
+			ps.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new Exception();
+		} finally {
+			close(ps);
+		}
 	}
 
 	@Override
@@ -70,7 +82,16 @@ public class DaoEventoRolPlazas extends DaoEntidad<EventoRolPlazas>{
 
 	@Override
 	public void delete(EventoRolPlazas criteris) throws Exception {
-		throw new UnsupportedOperationException("Método no implementado");
+		PreparedStatement ps = null;
+		try {
+			ps = con.prepareStatement("DELETE FROM EVENTOROLPLAZAS WHERE id_evento = ?");
+			ps.setObject(1, criteris.getIdEvento());
+			ps.executeUpdate();
+		} catch (Exception e) {
+			throw new Exception();
+		} finally {
+			close(ps);
+		}
 	}
 
 }

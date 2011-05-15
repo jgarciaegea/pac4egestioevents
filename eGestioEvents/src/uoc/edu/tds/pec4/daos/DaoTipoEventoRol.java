@@ -71,10 +71,18 @@ public class DaoTipoEventoRol extends DaoEntidad<TipoEventoRol>{
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see uoc.edu.tds.pec4.daos.DaoEntidad#update(uoc.edu.tds.pec4.beans.BeanInterface)
+	 * Creo que o se insertan registros o se eliminan, pero no tiene sendigo actualizar, ya que
+	 * es una relaci—n de 1 evento contra n evento_requisitos, por lo que resulta mas sencillo
+	 * si se modifica el evento, eliminar todos los evento requisitos i hacer el insert de los 
+	 * que el usuario haya dejado por pantalla.
+	 */
 	@Override
 	public void update(TipoEventoRol objecte) throws Exception {
-		
-		PreparedStatement ps = null;
+		throw new UnsupportedOperationException("Método no implementado");
+/*		PreparedStatement ps = null;
 		try {
 			
 			StringBuffer sql = new StringBuffer();
@@ -95,6 +103,7 @@ public class DaoTipoEventoRol extends DaoEntidad<TipoEventoRol>{
 		} finally {
 			close(ps);
 		}
+	*/
 	}
 
 	@Override
