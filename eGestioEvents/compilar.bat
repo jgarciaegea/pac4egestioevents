@@ -53,6 +53,7 @@ javac -d bin  -cp  bin src\uoc\edu\tds\pec4\gestores\GestorUniversidad.java
 javac -d bin  -cp  bin src\uoc\edu\tds\pec4\gestores\GestorDatosBancarios.java 
 javac -d bin  -cp  bin src\uoc\edu\tds\pec4\gestores\GestorDocumentoIdentificacion.java 
 javac -d bin  -cp  bin src\uoc\edu\tds\pec4\gestores\GestorUsuario.java 
+javac -d bin  -cp  bin src\uoc\edu\tds\pec4\gestores\GestorTipoEvento.java
 javac -d bin  -cp  bin src\uoc\edu\tds\pec4\iface\*.java
 javac -d bin  -cp  bin src\uoc\edu\tds\pec4\gestores\GestorRMI.java 
 javac -d bin  -cp  bin src\uoc\edu\tds\pec4\gestores\*.java 
