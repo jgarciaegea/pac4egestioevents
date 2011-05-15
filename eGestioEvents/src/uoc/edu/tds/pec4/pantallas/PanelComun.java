@@ -56,6 +56,7 @@ public abstract class PanelComun extends JPanel  {
 		this.setBorder(BorderFactory.createCompoundBorder(
 		        BorderFactory.createTitledBorder(TDSLanguageUtils.getMessage(titulo)), 
 		        BorderFactory.createEmptyBorder(10, 10, 5, 5)));
+
 	}
 	
 	/**
