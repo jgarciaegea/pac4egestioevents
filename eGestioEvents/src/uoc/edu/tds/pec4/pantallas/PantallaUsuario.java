@@ -212,10 +212,13 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 					//Recuperamos los diferentes tipos de documentos
 					List<DTOTipoDocumento> lstdtoTipoDoc = remote.getTiposDocumento();
 					List<MostrarCombo> lstComoTipoDoc = new ArrayList<MostrarCombo>();
-					for(DTOTipoDocumento dtoTipoDocRes : lstdtoTipoDoc){
-						lstComoTipoDoc.add(new MostrarCombo(dtoTipoDocRes.getTipoDocumento().getIdTipoDocumento(),
-								dtoTipoDocRes.getTipoDocumento().getDescripcionDocumento()));
+					if(lstdtoTipoDoc!=null){
+						for(DTOTipoDocumento dtoTipoDocRes : lstdtoTipoDoc){
+							lstComoTipoDoc.add(new MostrarCombo(dtoTipoDocRes.getTipoDocumento().getIdTipoDocumento(),
+									dtoTipoDocRes.getTipoDocumento().getDescripcionDocumento()));
+						}
 					}
+					
 					
 					jComboBoxTipoDoc = new JComboBox();
 					jPanel2.add(jComboBoxTipoDoc, new GridBagConstraints(1, 2, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 8, 0, 0), 0, 0));
@@ -278,9 +281,12 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 					//Cargamos la lista de países
 					List<DTOPais> lstDtoPaises = remote.getPaises();
 					List<MostrarCombo> lstComboPais = new ArrayList<MostrarCombo>();
-					for(DTOPais dtoPaisRec : lstDtoPaises){
-						lstComboPais.add(new MostrarCombo(dtoPaisRec.getPais().getIdPais(),dtoPaisRec.getPais().getNombrePais()));
+					if(lstDtoPaises!=null){
+						for(DTOPais dtoPaisRec : lstDtoPaises){
+							lstComboPais.add(new MostrarCombo(dtoPaisRec.getPais().getIdPais(),dtoPaisRec.getPais().getNombrePais()));
+						}
 					}
+					
 					
 					ComboBoxModel jComboBoxpaisModel =  new DefaultComboBoxModel(lstComboPais.toArray());
 					jComboBoxpais = new JComboBox();
@@ -368,10 +374,13 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 					//Cargamos los diferentes tipos de teléfono
 					List<DTOTipoTelefono> lstDtoTiposTelf = remote.getTiposTelefono();
 					List<MostrarCombo> lstComboTipoTelf = new ArrayList<MostrarCombo>();
-					for(DTOTipoTelefono dtoTipoTelfRec : lstDtoTiposTelf){
-						lstComboTipoTelf.add(new MostrarCombo(dtoTipoTelfRec.getTipoTelefono().getIdTipoTelefono(),
-								dtoTipoTelfRec.getTipoTelefono().getDescripcion()));
+					if(lstDtoTiposTelf!=null){
+						for(DTOTipoTelefono dtoTipoTelfRec : lstDtoTiposTelf){
+							lstComboTipoTelf.add(new MostrarCombo(dtoTipoTelfRec.getTipoTelefono().getIdTipoTelefono(),
+									dtoTipoTelfRec.getTipoTelefono().getDescripcion()));
+						}
 					}
+					
 					
 					ComboBoxModel jComboBoxTipoModel =  new DefaultComboBoxModel(lstComboTipoTelf.toArray());
 					jComboBoxTipo = new JComboBox();
