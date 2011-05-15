@@ -119,6 +119,9 @@ public class PantallaLogin extends JFrame {
 				}
 			}
 		}) ; 
+
+		
+		
 		
 		
 		bOK.addActionListener(new ActionListener() { public void actionPerformed(ActionEvent evt) { 
