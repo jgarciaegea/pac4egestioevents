@@ -38,4 +38,11 @@ public abstract class OperationErrorBasic extends Exception {
 		}
 	 }
 	
+	public void showDialogError(JPanel panelError){
+		if(messageError!=null && messageError.length() >0){
+			JOptionPane.showMessageDialog(panelError,messageError,seccionError(),JOptionPane.ERROR_MESSAGE);
+			panelError.setVisible(true);
+		}
+	 }
+	
 }

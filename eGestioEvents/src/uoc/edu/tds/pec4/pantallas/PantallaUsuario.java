@@ -3,6 +3,8 @@ package uoc.edu.tds.pec4.pantallas;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.rmi.RemoteException;
@@ -15,6 +17,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
@@ -25,9 +28,12 @@ import uoc.edu.tds.pec4.dtos.DTOTipoRol;
 import uoc.edu.tds.pec4.dtos.DTOTipoTelefono;
 import uoc.edu.tds.pec4.dtos.DTOUniversidad;
 import uoc.edu.tds.pec4.excepciones.OperationErrorBD;
+import uoc.edu.tds.pec4.excepciones.OperationErrorDatosFormulario;
 import uoc.edu.tds.pec4.gestores.GestorRMI;
 import uoc.edu.tds.pec4.iface.RemoteInterface;
+import uoc.edu.tds.pec4.utils.ClearForm;
 import uoc.edu.tds.pec4.utils.MostrarCombo;
+import uoc.edu.tds.pec4.utils.Utils;
 
 /**
 * This code was edited or generated using CloudGarden's Jigloo
@@ -42,9 +48,7 @@ import uoc.edu.tds.pec4.utils.MostrarCombo;
 * LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
 */
 public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 1L;
 	private JPanel jPanel1;
 	private JTextField jTextFieldCuenta;
@@ -98,7 +102,7 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 	private JLabel jLabelApe;
 	private JTextField jTextFieldApe;
 	private JLabel jLabelNombre;
-	private JTextField jTextField1;
+	private JTextField jTextFieldNombre;
 	private JPanel jPanel2;
 	private JRadioButton jRadioButtonAsis;
 	private JRadioButton jRadioButtonSecr;
@@ -159,9 +163,9 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 				jPanel2.setPreferredSize(new java.awt.Dimension(724, 461));
 				jPanel2.setLayout(jPanel2Layout);
 				{
-					jTextField1 = new JTextField();
-					jPanel2.add(jTextField1, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0, GridBagConstraints.SOUTHWEST, GridBagConstraints.NONE, new Insets(0, 8, 0, 15), 0, 0));
-					jTextField1.setPreferredSize(new java.awt.Dimension(200, 21));
+					jTextFieldNombre = new JTextField();
+					jPanel2.add(jTextFieldNombre, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0, GridBagConstraints.SOUTHWEST, GridBagConstraints.NONE, new Insets(0, 8, 0, 15), 0, 0));
+					jTextFieldNombre.setPreferredSize(new java.awt.Dimension(200, 21));
 				}
 				{
 					jLabelNombre = new JLabel();
@@ -198,7 +202,7 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 					jLabelCont.setLayout(null);
 				}
 				{
-					jTextFieldCon = new JTextField();
+					jTextFieldCon = new JPasswordField();
 					jPanel2.add(jTextFieldCon, new GridBagConstraints(3, 1, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 8, 0, 0), 0, 0));
 					jTextFieldCon.setPreferredSize(new java.awt.Dimension(200, 21));
 				}
@@ -209,20 +213,9 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 					jLabelTipoDoc.setLayout(null);
 				}
 				{
-					//Recuperamos los diferentes tipos de documentos
-					List<DTOTipoDocumento> lstdtoTipoDoc = remote.getTiposDocumento();
-					List<MostrarCombo> lstComoTipoDoc = new ArrayList<MostrarCombo>();
-					if(lstdtoTipoDoc!=null){
-						for(DTOTipoDocumento dtoTipoDocRes : lstdtoTipoDoc){
-							lstComoTipoDoc.add(new MostrarCombo(dtoTipoDocRes.getTipoDocumento().getIdTipoDocumento(),
-									dtoTipoDocRes.getTipoDocumento().getDescripcionDocumento()));
-						}
-					}
-					
 					
 					jComboBoxTipoDoc = new JComboBox();
 					jPanel2.add(jComboBoxTipoDoc, new GridBagConstraints(1, 2, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 8, 0, 0), 0, 0));
-					jComboBoxTipoDoc.setModel(new DefaultComboBoxModel(lstComoTipoDoc.toArray()));
 					jComboBoxTipoDoc.setPreferredSize(new java.awt.Dimension(200, 21));
 					
 				}
@@ -278,20 +271,9 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 				}
 				{
 					
-					//Cargamos la lista de países
-					List<DTOPais> lstDtoPaises = remote.getPaises();
-					List<MostrarCombo> lstComboPais = new ArrayList<MostrarCombo>();
-					if(lstDtoPaises!=null){
-						for(DTOPais dtoPaisRec : lstDtoPaises){
-							lstComboPais.add(new MostrarCombo(dtoPaisRec.getPais().getIdPais(),dtoPaisRec.getPais().getNombrePais()));
-						}
-					}
-					
-					
-					ComboBoxModel jComboBoxpaisModel =  new DefaultComboBoxModel(lstComboPais.toArray());
 					jComboBoxpais = new JComboBox();
 					jPanel2.add(jComboBoxpais, new GridBagConstraints(3, 5, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 8, 0, 0), 0, 0));
-					jComboBoxpais.setModel(jComboBoxpaisModel);
+					
 					jComboBoxpais.setPreferredSize(new java.awt.Dimension(200, 21));
 				}
 				{
@@ -312,13 +294,9 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 					jLabelSexo.setLayout(null);
 				}
 				{
-					List<MostrarCombo> lstComboBox = new ArrayList<MostrarCombo>();
-					lstComboBox.add(new MostrarCombo("M","Masculino"));
-					lstComboBox.add(new MostrarCombo("F","Femenino"));
-					ComboBoxModel jComboBoxSexoModel =  new DefaultComboBoxModel(lstComboBox.toArray());
 					jComboBoxSexo = new JComboBox();
 					jPanel2.add(jComboBoxSexo, new GridBagConstraints(3, 6, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 8, 0, 0), 0, 0));
-					jComboBoxSexo.setModel(jComboBoxSexoModel);
+					
 					jComboBoxSexo.setPreferredSize(new java.awt.Dimension(200, 21));
 				}
 				{
@@ -371,21 +349,9 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 				}
 				{
 					
-					//Cargamos los diferentes tipos de teléfono
-					List<DTOTipoTelefono> lstDtoTiposTelf = remote.getTiposTelefono();
-					List<MostrarCombo> lstComboTipoTelf = new ArrayList<MostrarCombo>();
-					if(lstDtoTiposTelf!=null){
-						for(DTOTipoTelefono dtoTipoTelfRec : lstDtoTiposTelf){
-							lstComboTipoTelf.add(new MostrarCombo(dtoTipoTelfRec.getTipoTelefono().getIdTipoTelefono(),
-									dtoTipoTelfRec.getTipoTelefono().getDescripcion()));
-						}
-					}
-					
-					
-					ComboBoxModel jComboBoxTipoModel =  new DefaultComboBoxModel(lstComboTipoTelf.toArray());
 					jComboBoxTipo = new JComboBox();
 					jPanel2.add(jComboBoxTipo, new GridBagConstraints(1, 11, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 8, 0, 0), 0, 0));
-					jComboBoxTipo.setModel(jComboBoxTipoModel);
+					
 					jComboBoxTipo.setPreferredSize(new java.awt.Dimension(200, 21));
 				}
 				{
@@ -449,20 +415,9 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 				}
 				{
 					
-					//Cargamos tipo de rol
-					List<DTOTipoRol> lstDtotipoRol = remote.getTiposRol();
-					List<MostrarCombo> lstComboTipoRol = new ArrayList<MostrarCombo>();
-					if(lstDtotipoRol != null){
-						for(DTOTipoRol dtoTipoRolRec : lstDtotipoRol){
-							lstComboTipoRol.add(new MostrarCombo(dtoTipoRolRec.getTipoRol().getIdRol(),
-									dtoTipoRolRec.getTipoRol().getDescripcion()));
-						}
-					}
 					
-					ComboBoxModel jComboBoxTipoRolModel = new DefaultComboBoxModel(lstComboTipoRol.toArray());
 					jComboBoxTipoRol = new JComboBox();
 					jPanel2.add(jComboBoxTipoRol, new GridBagConstraints(1, 14, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 8, 0, 0), 0, 0));
-					jComboBoxTipoRol.setModel(jComboBoxTipoRolModel);
 					jComboBoxTipoRol.setPreferredSize(new java.awt.Dimension(200, 21));
 				}
 				{
@@ -522,16 +477,46 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 					jButtonAcceptar.setText("Acceptar");
 					jButtonAcceptar.setLayout(null);
 					jButtonAcceptar.setBounds(277, -16, 64, 21);
+					
+					jButtonAcceptar.addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent e) {
+								try{
+									validaFormulario();
+								}catch(OperationErrorDatosFormulario ex){
+									ex.showDialogError(jPanel2);
+								}
+							}
+				    	});
+					 
 				}
 				{
 					jButtonCancelar = new JButton();
 					jPanelButtom.add(jButtonCancelar);
 					jButtonCancelar.setText("Cancelar");
 					jButtonCancelar.setLayout(null);
+					
+					jButtonCancelar.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							ClearForm.clearForm(jPanel2);
+							try {
+								cargaCombos();
+							} catch (OperationErrorDatosFormulario e1) {
+								e1.showDialogError();
+							}
+						}
+			    	});
 				}
 			}
+			
+			//Cargamos combos
+			cargaCombos();
+			
 		} catch (Exception e) {
-			e.printStackTrace();
+			try{
+				throw new OperationErrorDatosFormulario(e.getMessage());
+			}catch(OperationErrorDatosFormulario ex){
+				ex.showDialogError(jPanel2);
+			}
 		}
 	}
 	
@@ -557,5 +542,128 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 			e1.printStackTrace();
 		}
 	}
+	
+	/**
+	 * Método que valida los datos introducidos en el formulario
+	 * @throws OperationErrorDatosFormulario
+	 */
+	private void validaFormulario() throws OperationErrorDatosFormulario{
+		try{
+			
+			//Campos a validar genéricamente
+			if(!jRadioButtonAdmin.isSelected() && !jRadioButtonSecr.isSelected() && !jRadioButtonAsis.isSelected()) throw new Exception("Ha de seleccionar un tipo de perfil");
+			
+			if(Utils.valorisNull(jTextFieldNombre.getText())) throw new Exception(Utils.MESSAGE_ERROR + " nombre" );
+			if(Utils.valorisNull(jTextFieldApe.getText())) throw new Exception(Utils.MESSAGE_ERROR + " apellidos" );
+			if(Utils.valorisNull(jComboBoxTipoDoc.getSelectedItem())) throw new Exception(Utils.MESSAGE_ERROR + " tipo de documento" );
+			if(Utils.valorisNull(jTextFieldDirec.getText())) throw new Exception(Utils.MESSAGE_ERROR + " direccion" );
+			if(Utils.valorisNull(jComboBoxCentroDocente.getSelectedItem())) throw new Exception(Utils.MESSAGE_ERROR + " centro docente" );
+			if(Utils.valorisNull(jComboBoxUniver.getSelectedItem())) throw new Exception(Utils.MESSAGE_ERROR + " universidad" );
+			if(Utils.valorisNull(jComboBoxTipo.getSelectedItem())) throw new Exception(Utils.MESSAGE_ERROR + " tipo teléfono" );
+			if(Utils.valorisNull(jTextFieldExtension.getText())) throw new Exception(Utils.MESSAGE_ERROR + " extensión teléfono" );
+			if(Utils.valorisNull(jTextFieldTelefono.getText())) throw new Exception(Utils.MESSAGE_ERROR + " teléfono" );
+			if(Utils.valorisNull(jTextFieldFechaNac.getText())) throw new Exception(Utils.MESSAGE_ERROR + " fecha nacimiento" );
+			if(Utils.valorisNull(jTextFieldWebBlog.getText())) throw new Exception(Utils.MESSAGE_ERROR + " página web o blog" );
+			if(Utils.valorisNull(jComboBoxSexo.getSelectedItem())) throw new Exception(Utils.MESSAGE_ERROR + " sexo" );
+			if(Utils.valorisNull(jTextFieldEmail.getText())) throw new Exception(Utils.MESSAGE_ERROR + " email" );
+			if(Utils.valorisNull(jComboBoxpais.getSelectedItem())) throw new Exception(Utils.MESSAGE_ERROR + " país" );
+			if(Utils.valorisNull(jTextFieldCP.getText())) throw new Exception(Utils.MESSAGE_ERROR + " código postal" );
+			if(Utils.valorisNull(jTextFieldLocalidad.getText())) throw new Exception(Utils.MESSAGE_ERROR + " localidad" );
+			if(Utils.valorisNull(jTextFieldDocIden.getText())) throw new Exception(Utils.MESSAGE_ERROR + " documento identificación" );
+			if(Utils.valorisNull(jTextFieldDirec.getText())) throw new Exception(Utils.MESSAGE_ERROR + " dirección" );
+			if(Utils.valorisNull(jTextFieldCon.getText())) throw new Exception(Utils.MESSAGE_ERROR + " contraseña" );
+			if(Utils.parseaFecha(jTextFieldFechaNac.getText())) throw new Exception(Utils.MESSAGE_ERROR + " fecha nacimiento" + Utils.MESSAGE_FECHA );
+			
+			//Campos a validar si es un DTOAsistente
+			if(Utils.valorisNull(jComboBoxTipoRol.getSelectedItem())) throw new Exception(Utils.MESSAGE_ERROR + " tipo de rol" );
+			if(Utils.valorisNull(jTextFieldSucursal.getText())) throw new Exception(Utils.MESSAGE_ERROR + " sucursal" );
+			if(Utils.valorisNull(jTextFieldDC.getText())) throw new Exception(Utils.MESSAGE_ERROR + " DC" );
+			if(Utils.valorisNull(jTextFieldBanco.getText())) throw new Exception(Utils.MESSAGE_ERROR + " banco" );
+			if(Utils.valorisNull(jTextFieldCuenta.getText())) throw new Exception(Utils.MESSAGE_ERROR + " cuenta" );
+			
+			//Aquí ya no vendrá ningún campo null así que realizamos más modificaciones
+			if(Utils.validaNumerico(jTextFieldCon.getText())) 	throw new Exception(Utils.MESSAGE_ERROR + " password " + Utils.MESSAGE_NUMERIC );
+			if(Utils.validaNumerico(jTextFieldCP.getText())) 	throw new Exception(Utils.MESSAGE_ERROR + " código postal " + Utils.MESSAGE_NUMERIC );
+			if(Utils.validaNumerico(jTextFieldTelefono.getText())) throw new Exception(Utils.MESSAGE_ERROR + " teléfono" + Utils.MESSAGE_NUMERIC );
+			if(Utils.validaNumerico(jTextFieldExtension.getText())) throw new Exception(Utils.MESSAGE_ERROR + " extensión teléfono" + Utils.MESSAGE_NUMERIC );
+			if(Utils.validaNumerico(jTextFieldSucursal.getText())) throw new Exception(Utils.MESSAGE_ERROR + " sucursal" + Utils.MESSAGE_NUMERIC );
+			if(Utils.validaNumerico(jTextFieldDC.getText())) throw new Exception(Utils.MESSAGE_ERROR + " DC" + Utils.MESSAGE_NUMERIC );
+			if(Utils.validaNumerico(jTextFieldBanco.getText())) throw new Exception(Utils.MESSAGE_ERROR + " banco" + Utils.MESSAGE_NUMERIC );
+			if(Utils.validaNumerico(jTextFieldCuenta.getText())) throw new Exception(Utils.MESSAGE_ERROR + " cuenta" + Utils.MESSAGE_NUMERIC );
+			
+		}catch(Exception e){
+			throw new OperationErrorDatosFormulario(e.getMessage());
+		}
+			
+	}
+	
+	/**
+	 * Método para cargar los combos de la pantalla Usuario
+	 * @throws OperationErrorDatosFormulario
+	 */
+	private void cargaCombos() throws OperationErrorDatosFormulario{
+		try{
+			
+			//Cargamos tipo de rol
+			List<DTOTipoRol> lstDtotipoRol = remote.getTiposRol();
+			List<MostrarCombo> lstComboTipoRol = new ArrayList<MostrarCombo>();
+			if(lstDtotipoRol != null){
+				for(DTOTipoRol dtoTipoRolRec : lstDtotipoRol){
+					lstComboTipoRol.add(new MostrarCombo(dtoTipoRolRec.getTipoRol().getIdRol(),
+							dtoTipoRolRec.getTipoRol().getDescripcion()));
+				}
+			}
+			
+			ComboBoxModel jComboBoxTipoRolModel = new DefaultComboBoxModel(lstComboTipoRol.toArray());
+			jComboBoxTipoRol.setModel(jComboBoxTipoRolModel);
+			
+			//Recuperamos los diferentes tipos de documentos
+			List<DTOTipoDocumento> lstdtoTipoDoc = remote.getTiposDocumento();
+			List<MostrarCombo> lstComoTipoDoc = new ArrayList<MostrarCombo>();
+			if(lstdtoTipoDoc!=null){
+				for(DTOTipoDocumento dtoTipoDocRes : lstdtoTipoDoc){
+					lstComoTipoDoc.add(new MostrarCombo(dtoTipoDocRes.getTipoDocumento().getIdTipoDocumento(),
+							dtoTipoDocRes.getTipoDocumento().getDescripcionDocumento()));
+				}
+			}
+			
+			jComboBoxTipoDoc.setModel(new DefaultComboBoxModel(lstComoTipoDoc.toArray()));
+			
+			//Cargamos la lista de países
+			List<DTOPais> lstDtoPaises = remote.getPaises();
+			List<MostrarCombo> lstComboPais = new ArrayList<MostrarCombo>();
+			if(lstDtoPaises!=null){
+				for(DTOPais dtoPaisRec : lstDtoPaises){
+					lstComboPais.add(new MostrarCombo(dtoPaisRec.getPais().getIdPais(),dtoPaisRec.getPais().getNombrePais()));
+				}
+			}
+			ComboBoxModel jComboBoxpaisModel =  new DefaultComboBoxModel(lstComboPais.toArray());
+			jComboBoxpais.setModel(jComboBoxpaisModel);
+			
+			List<MostrarCombo> lstComboBox = new ArrayList<MostrarCombo>();
+			lstComboBox.add(new MostrarCombo("M","Masculino"));
+			lstComboBox.add(new MostrarCombo("F","Femenino"));
+			ComboBoxModel jComboBoxSexoModel =  new DefaultComboBoxModel(lstComboBox.toArray());
+			jComboBoxSexo.setModel(jComboBoxSexoModel);
+			
+			//Cargamos los diferentes tipos de teléfono
+			List<DTOTipoTelefono> lstDtoTiposTelf = remote.getTiposTelefono();
+			List<MostrarCombo> lstComboTipoTelf = new ArrayList<MostrarCombo>();
+			if(lstDtoTiposTelf!=null){
+				for(DTOTipoTelefono dtoTipoTelfRec : lstDtoTiposTelf){
+					lstComboTipoTelf.add(new MostrarCombo(dtoTipoTelfRec.getTipoTelefono().getIdTipoTelefono(),
+							dtoTipoTelfRec.getTipoTelefono().getDescripcion()));
+				}
+			}
+			
+			ComboBoxModel jComboBoxTipoModel =  new DefaultComboBoxModel(lstComboTipoTelf.toArray());
+			jComboBoxTipo.setModel(jComboBoxTipoModel);
+			
+		}catch(Exception e){
+			throw new OperationErrorDatosFormulario("Error al cargar las listas seleccionables");
+		}
+		
+	}
+	
 
 }
