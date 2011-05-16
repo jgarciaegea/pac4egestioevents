@@ -17,6 +17,7 @@ import uoc.edu.tds.pec4.dtos.DTOCentroDocente;
 import uoc.edu.tds.pec4.dtos.DTOEventoRequisitos;
 import uoc.edu.tds.pec4.dtos.DTOEventoRolPlazas;
 import uoc.edu.tds.pec4.dtos.DTOEvento;
+import uoc.edu.tds.pec4.dtos.DTOTipoEvento;
 
 public class GestorEvento extends GestorEntidad<DTOEvento>{
 
@@ -55,13 +56,10 @@ public class GestorEvento extends GestorEntidad<DTOEvento>{
 					DTOCentroDocente dtoCentroDocente = gestorCentroDocente.consultaEntidadById(evento.getIdEvento());
 					if(dtoCentroDocente != null) dtoEvento.setDtoCentroDocente(dtoCentroDocente);
 
-					/*			
-					 * TODO 1: Pendiente de tener el gestor tipo evento	
 					//A–adimos el TipoEvento
 					GestorTipoEvento gestorTipoEvento = new GestorTipoEvento(connection);
-					DTOTipoEvento dtoTipoEvento = gestorTipoEvento.consultaEntidadById(evento.getIdEvento());
+					DTOTipoEvento dtoTipoEvento = gestorTipoEvento.consultaEntidadById(evento.getIdTipoEvento());
 					if(dtoTipoEvento != null) dtoEvento.setDtoTipoEvento(dtoTipoEvento);
-					*/
 					
 					//A–adimos el EventoRequisitos
 					GestorEventoRequisitos gestorEventoRequisitos = new GestorEventoRequisitos(connection);
