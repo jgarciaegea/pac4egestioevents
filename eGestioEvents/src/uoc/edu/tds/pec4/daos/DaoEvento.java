@@ -46,7 +46,7 @@ public class DaoEvento extends DaoEntidad<Evento>{
 			ps.setDate(14, objecte.getFechaFinInscripcion());
 			ps.setInt(15, objecte.getDuracion());
 			ps.setInt(16, objecte.getPrecio());
-			ps.setDate(14, objecte.getFechaFinCelebracion());
+			ps.setDate(17, objecte.getFechaFinCelebracion());
 			ps.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
