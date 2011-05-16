@@ -60,6 +60,17 @@ public class GestorTipoEvento extends GestorEntidad<DTOTipoEvento> {
 		return null;
 	}
 
+	public DTOTipoEvento consultaEntidadById(Integer idTipoEvento)  throws Exception {
+		try{
+			DTOTipoEvento dtoTipoEvento = new DTOTipoEvento();
+			TipoEvento tipoEvento = new TipoEvento();
+			tipoEvento.setIdTipoEvento(idTipoEvento);
+			dtoTipoEvento.setTipoEvento(tipoEvento);
+			return this.consultaEntidad(dtoTipoEvento);
+		}catch(Exception e){
+			throw e;
+		}
+	}
 
 	@Override
 	public void modificaEntidad(DTOTipoEvento criteris) throws Exception {
