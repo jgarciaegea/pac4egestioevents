@@ -3,6 +3,7 @@ package uoc.edu.tds.pec4.daos;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,9 +17,56 @@ public class DaoContacto extends DaoEntidad<Contacto>{
 
 	@Override
 	public void insert(Contacto objecte) throws Exception {
-		throw new UnsupportedOperationException("Método no implementado");
+		PreparedStatement prep = null;
+		try {
+			 prep = getPs(objecte);
+        } catch (SQLException e) {
+        	throw new Exception(e.getMessage());
+        } finally {
+        	close(prep);
+        }		
 	}
-
+	
+	public Integer insertReturnId(Contacto objecte) throws Exception {
+		PreparedStatement prep = null;
+		try {
+			 prep = getPs(objecte);
+			 ResultSet rs = prep.getGeneratedKeys();
+			 if (rs.next()) {
+			    return rs.getInt(1);
+			 }
+        } catch (SQLException e) {
+        	throw new Exception(e.getMessage());
+        } finally {
+        	close(prep);
+        }	
+        return null;
+	}
+	
+	private PreparedStatement getPs(Contacto objecte) throws Exception {
+		PreparedStatement ps = null;
+		try {
+			ps = con.prepareStatement("INSERT INTO EVENTO (domicilio, cp, localidad, provincia, id_pais, email, web, fecha_alta, estado, fecha_estado, motivo_estado) " +
+					" VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",PreparedStatement.RETURN_GENERATED_KEYS);
+			ps.setString(1, objecte.getDomicilio());
+			ps.setInt(2, objecte.getCp());
+			ps.setString(3, objecte.getLocalidad());
+			ps.setDate(4, null);
+			ps.setInt(5, objecte.getIdPais());
+			ps.setString(6, objecte.getEmail());
+			ps.setString(7, objecte.getWeb());
+			ps.setDate(8, new java.sql.Date(System.currentTimeMillis()));
+			ps.setInt(9, objecte.getEstado());
+			ps.setDate(10, new java.sql.Date(System.currentTimeMillis()));
+			ps.setString(11, objecte.getMotivoEstado());
+			ps.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new SQLException(e.getMessage());
+		}
+		return ps; 
+	}
+	
 	@Override
 	public List<Contacto> select(Contacto criteris) throws Exception {
 		PreparedStatement ps = null;
