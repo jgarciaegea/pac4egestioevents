@@ -11,6 +11,7 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.ButtonGroup;
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -21,12 +22,15 @@ import javax.swing.JPasswordField;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
+import uoc.edu.tds.pec4.beans.Contacto;
+import uoc.edu.tds.pec4.beans.Usuario;
 import uoc.edu.tds.pec4.dtos.DTOCentroDocente;
 import uoc.edu.tds.pec4.dtos.DTOPais;
 import uoc.edu.tds.pec4.dtos.DTOTipoDocumento;
 import uoc.edu.tds.pec4.dtos.DTOTipoRol;
 import uoc.edu.tds.pec4.dtos.DTOTipoTelefono;
 import uoc.edu.tds.pec4.dtos.DTOUniversidad;
+import uoc.edu.tds.pec4.dtos.DTOUsuario;
 import uoc.edu.tds.pec4.excepciones.OperationErrorBD;
 import uoc.edu.tds.pec4.excepciones.OperationErrorDatosFormulario;
 import uoc.edu.tds.pec4.gestores.GestorRMI;
@@ -48,6 +52,10 @@ import uoc.edu.tds.pec4.utils.Utils;
 * LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
 */
 public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
+	
+	private static final int ADMINISTRADOR = 1;
+	private static final int SECRETARIA = 2;
+	private static final int ASISTENTE = 3;
 	
 	private static final long serialVersionUID = 1L;
 	private JPanel jPanel1;
@@ -109,6 +117,7 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 	private JRadioButton jRadioButtonAdmin;
 	private JLabel tipoperfil;
 	private RemoteInterface remote;
+	private ButtonGroup grupoBu;
 
 	public PantallaUsuario(GestorRMI gestorRMI,RemoteInterface remote1) {
 		super();
@@ -497,17 +506,19 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 					
 					jButtonCancelar.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent e) {
+							ClearForm.clearForm(jPanel1);
 							ClearForm.clearForm(jPanel2);
-							try {
-								cargaCombos();
-							} catch (OperationErrorDatosFormulario e1) {
-								e1.showDialogError();
-							}
 						}
 			    	});
 				}
 			}
 			
+			//Group the radio buttons.
+			grupoBu = new ButtonGroup();
+			grupoBu.add(jRadioButtonAsis);
+			grupoBu.add(jRadioButtonSecr);
+			grupoBu.add(jRadioButtonAdmin);
+		    
 			//Cargamos combos
 			cargaCombos();
 			
@@ -665,5 +676,64 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 		
 	}
 	
+	private <B extends DTOUsuario> B altaUsuario() throws OperationErrorDatosFormulario{
+		
+		//Datos específicos del contacto
+		Contacto contacto = new Contacto();
+		contacto.setDomicilio(jTextFieldDirec.getText());
+		contacto.setCp(Integer.parseInt(jTextFieldCP.getText()));
+		contacto.setLocalidad(jTextFieldLocalidad.getText());
+		contacto.setProvincia(null);
+		contacto.setIdPais(Integer.parseInt(((MostrarCombo) jComboBoxpais.getSelectedItem()).getID().toString()));
+		contacto.setEmail(jTextFieldEmail.getText());
+		contacto.setWeb(jTextFieldWebBlog.getText());
+		//contacto.setFechaAlta();
+		//contacto.setEstado();
+		//contacto.setFechaEstado();
+		//contacto.setMotivoEstado();
+		
+		
+		//Datos específicos del usuario
+		Usuario usuario = new Usuario();
+		usuario.setContraseña(jTextFieldCon.getText());
+		usuario.setIdCentro(Integer.parseInt(((MostrarCombo) jComboBoxCentroDocente.getSelectedItem()).getID().toString()));
+		usuario.setIdDocumentoIdentificacion(Integer.parseInt(((MostrarCombo) jComboBoxTipoDoc.getSelectedItem()).getID().toString()));
+		usuario.setNombre(jTextFieldNombre.getText());
+		usuario.setApellidos(jTextFieldApe.getText());
+		usuario.setSexo(((MostrarCombo) jComboBoxSexo.getSelectedItem()).getID().toString());
+		
+		try {
+			usuario.setFechaNacimiento(Utils.transformFecha(jTextFieldFechaNac.getText()));
+		} catch (OperationErrorDatosFormulario e) {
+			throw e;
+		}
+		
+		if(grupoBu.isSelected(jRadioButtonAsis.getModel())) usuario.setTipoUsuario(ADMINISTRADOR);
+		if(grupoBu.isSelected(jRadioButtonSecr.getModel())) usuario.setTipoUsuario(SECRETARIA);
+		if(grupoBu.isSelected(jRadioButtonAdmin.getModel())) usuario.setTipoUsuario(ASISTENTE);
+		
+		/*switch(usu.getTipoUsuario()){
+		 * 
+		 * 	private JRadioButton jRadioButtonAsis;
+	private JRadioButton jRadioButtonSecr;
+	private JRadioButton jRadioButtonAdmin;
+	
+			case ADMINISTRADOR:
+					DTOAdministrador dtoAdministrador = new DTOAdministrador();
+					dtoAdministrador.setUsuario(usu);
+					rellenaObjeto(dtoAdministrador);
+					return (B) dtoAdministrador;
+			case SECRETARIA:
+					DTOPersonalSecretaria dtoPersonal = new DTOPersonalSecretaria();
+					dtoPersonal.setUsuario(usu);
+					rellenaObjeto(dtoPersonal);
+					return (B) dtoPersonal;
+			case ASISTENTE:
+				TOAsistente dtoAsistente = new DTOAsistente();
+			default:
+				throw new Exception("El tipo de usuario " + usu.getTipoUsuario() + " no está contemplado");*/
+		
+		return null;
+	}
 
 }
