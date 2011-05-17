@@ -17,10 +17,24 @@ public class GestorDocumentoIdentificacion extends GestorEntidad<DTODocumentoIde
 	}
 
 	@Override
-	public void insertaEntidad(DTODocumentoIdentificacion newobject) {
-		throw new UnsupportedOperationException("Método no implementado");
+	public void insertaEntidad(DTODocumentoIdentificacion newobject)  throws Exception {
+		try {
+			DaoDocumentoIdentificacion dao = new DaoDocumentoIdentificacion(connection);
+			dao.insert(newobject.getDocumentoIdentificacion());
+		} catch (Exception e) {
+			throw e;
+		}
 	}
-
+	
+	public Integer insertaEntidadRetId(DTODocumentoIdentificacion newobject) throws Exception {
+		DaoDocumentoIdentificacion dao = new DaoDocumentoIdentificacion(connection);
+		try {
+			return dao.insertReturnId(newobject.getDocumentoIdentificacion());
+		} catch (Exception e) {
+			throw e;
+		}
+	}
+	
 	@Override
 	public List<DTODocumentoIdentificacion> consultaEntidades(DTODocumentoIdentificacion criteris) throws Exception {
 		try{

@@ -70,8 +70,8 @@ public class GestorContacto extends GestorEntidad<DTOContacto>{
 
 	@Override
 	public void insertaEntidad(DTOContacto newobject) throws Exception {
-		DaoContacto dao = new DaoContacto(connection);
 		try {
+			DaoContacto dao = new DaoContacto(connection);
 			dao.insert(newobject.getContacto());
 		} catch (Exception e) {
 			throw e;
@@ -79,8 +79,8 @@ public class GestorContacto extends GestorEntidad<DTOContacto>{
 	}
 	
 	public Integer insertaEntidadRetId(DTOContacto newobject) throws Exception {
-		DaoContacto dao = new DaoContacto(connection);
 		try {
+			DaoContacto dao = new DaoContacto(connection);
 			return dao.insertReturnId(newobject.getContacto());
 		} catch (Exception e) {
 			throw e;
