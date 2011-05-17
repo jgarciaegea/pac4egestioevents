@@ -1,5 +1,6 @@
 package uoc.edu.tds.pec4.utils;
 
+import java.awt.Component;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
@@ -14,8 +15,9 @@ import uoc.edu.tds.pec4.excepciones.OperationErrorDatosFormulario;
 public class Utils {
 	
 	public static final String MESSAGE_ERROR = "Falta por introducir el campo ";
-	public static final String MESSAGE_NUMERIC = ".El formato ha de ser numérico";
-	public static final String MESSAGE_FECHA = ".El formato del campo ha de ser una fecha dd/mm/yyyy";
+	public static final String MESSAGE_EMAIL = "El formato del campo mail es incorrecto ";
+	public static final String MESSAGE_NUMERIC = ". El formato ha de ser numérico";
+	public static final String MESSAGE_FECHA = ". El formato del campo ha de ser una fecha dd/mm/yyyy";
 	
     /**
      * Muestra un mensaje de error al usuario
@@ -30,19 +32,23 @@ public class Utils {
 				JOptionPane.ERROR_MESSAGE
             );
     }
-
+    
+    public static void mostraMensajeInformacion(Component component, String texto, String titulo) {
+    	  JOptionPane.showMessageDialog (
+    			component,
+  				texto,
+  				titulo,
+  				JOptionPane.INFORMATION_MESSAGE
+              );
+    }
+    
     /**
      * Muestra un mensaje de informacion al usuario
      * @param texto: texto del mensaje
      * @param titulo: titulo
      */
     public static void mostraMensajeInformacion(String texto, String titulo) {
-        JOptionPane.showMessageDialog (
-				null,
-				texto,
-				titulo,
-				JOptionPane.INFORMATION_MESSAGE
-            );
+       mostraMensajeInformacion(null,texto,titulo);
     }
     
     /**
@@ -99,5 +105,6 @@ public class Utils {
         }
         return null;
 	}
+
     
 }
