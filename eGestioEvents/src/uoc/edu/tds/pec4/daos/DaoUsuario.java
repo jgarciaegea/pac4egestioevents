@@ -3,10 +3,12 @@ package uoc.edu.tds.pec4.daos;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import uoc.edu.tds.pec4.beans.Usuario;
+import uoc.edu.tds.pec4.utils.Base64Coder;
 
 
 public class DaoUsuario extends DaoEntidad<Usuario>{
@@ -17,7 +19,38 @@ public class DaoUsuario extends DaoEntidad<Usuario>{
 
 	@Override
 	public void insert(Usuario objecte) throws Exception {
-		throw new UnsupportedOperationException("Método no implementado");
+		PreparedStatement ps = null;
+		try {
+			ps = con.prepareStatement("INSERT INTO usuario (codigo, nombre, apellidos, sexo, fecha_nacimiento, fecha_alta, fecha_contrasena" +
+					", contrasena, cambiar_contrasena, estado, fecha_estado, motivo_estado, tipo_usuario, id_rol, id_centro, id_documento_identificacion," +
+					"id_contacto, id_datos_bancarios) " +
+			" VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+			
+			ps.setString(1, objecte.getCodigo());
+			ps.setString(2, objecte.getNombre());
+			ps.setString(3, objecte.getApellidos());
+			ps.setString(4, objecte.getSexo());
+			ps.setDate(5, objecte.getFechaNacimiento());
+			ps.setDate(6, new java.sql.Date(System.currentTimeMillis()));
+			ps.setDate(7, new java.sql.Date(System.currentTimeMillis()));
+			ps.setString(8, Base64Coder.encodeString(objecte.getContrasena()));
+			ps.setBoolean(9, objecte.getCambiarContrasena());
+			ps.setInt(10, objecte.getEstado());
+			ps.setDate(11,objecte.getFechaEstado());
+			ps.setString(12, objecte.getMotivoEstado());
+			ps.setInt(13, objecte.getTipoUsuario());
+			ps.setInt(14, objecte.getIdRol());
+			ps.setInt(15, objecte.getIdCentro());
+			ps.setInt(16, objecte.getIdDocumentoIdentificacion());
+			ps.setInt(17, objecte.getIdContacto());
+			ps.setInt(18, objecte.getIdDatosBancarios());
+			ps.executeUpdate();
+        
+		} catch (SQLException e) {
+        	throw new Exception(e.getMessage());
+        } finally {
+        	close(ps);
+        }		
 	}
 
 	@Override
@@ -37,9 +70,9 @@ public class DaoUsuario extends DaoEntidad<Usuario>{
 			if(criteris.getSexo() !=null) sb.append("AND sexo = ? ");
 			if(criteris.getFechaNacimiento() !=null) sb.append("AND fecha_nacimiento = ? ");
 			if(criteris.getFechaAlta() !=null) sb.append("AND fecha_alta = ? ");
-			if(criteris.getFechaContraseña() !=null) sb.append("AND fecha_contrasena = ? ");
-			if(criteris.getContraseña() !=null) sb.append("AND contrasena = ? ");
-			if(criteris.getCambiarContraseña() !=null) sb.append("AND cambiar_contrasena = ? ");
+			if(criteris.getFechaContrasena() !=null) sb.append("AND fecha_contrasena = ? ");
+			if(criteris.getContrasena() !=null) sb.append("AND contrasena = ? ");
+			if(criteris.getCambiarContrasena() !=null) sb.append("AND cambiar_contrasena = ? ");
 			if(criteris.getFechaEstado() !=null) sb.append("AND fecha_estado = ? ");
 			if(criteris.getMotivoEstado() !=null) sb.append("AND motivo_estado = ? ");
 			if(criteris.getTipoUsuario() !=null) sb.append("AND tipo_usuario = ? ");
@@ -60,9 +93,9 @@ public class DaoUsuario extends DaoEntidad<Usuario>{
 			if(criteris.getSexo()!=null) {ps.setString(i, criteris.getSexo()); i++;}
 			if(criteris.getFechaNacimiento()!=null) {ps.setDate(i, criteris.getFechaNacimiento()); i++;}
 			if(criteris.getFechaAlta()!=null) {ps.setDate(i, criteris.getFechaAlta()); i++;}
-			if(criteris.getFechaContraseña()!=null) {ps.setDate(i, criteris.getFechaContraseña()); i++;}
-			if(criteris.getContraseña()!=null) {ps.setString(i, criteris.getContraseña()); i++;}
-			if(criteris.getCambiarContraseña()!=null) {ps.setBoolean(i, criteris.getCambiarContraseña()); i++;}
+			if(criteris.getFechaContrasena()!=null) {ps.setDate(i, criteris.getFechaContrasena()); i++;}
+			if(criteris.getContrasena()!=null) {ps.setString(i, criteris.getContrasena()); i++;}
+			if(criteris.getCambiarContrasena()!=null) {ps.setBoolean(i, criteris.getCambiarContrasena()); i++;}
 			if(criteris.getFechaEstado()!=null) {ps.setDate(i, criteris.getFechaEstado()); i++;}
 			if(criteris.getMotivoEstado()!=null) {ps.setString(i, criteris.getMotivoEstado()); i++;}
 			if(criteris.getTipoUsuario()!=null) {ps.setInt(i, criteris.getTipoUsuario()); i++;}
@@ -82,9 +115,9 @@ public class DaoUsuario extends DaoEntidad<Usuario>{
 				usu.setSexo(rs.getString("sexo"));
 				usu.setFechaNacimiento(rs.getDate("fecha_nacimiento"));
 				usu.setFechaAlta(rs.getDate("fecha_alta"));
-				usu.setFechaContraseña(rs.getDate("fecha_contrasena"));
-				usu.setContraseña(rs.getString("contrasena"));
-				usu.setCambiarContraseña(rs.getBoolean("cambiar_contrasena"));
+				usu.setFechaContrasena(rs.getDate("fecha_contrasena"));
+				usu.setContrasena(rs.getString("contrasena"));
+				usu.setCambiarContrasena(rs.getBoolean("cambiar_contrasena"));
 				usu.setFechaEstado(rs.getDate("fecha_estado"));
 				usu.setMotivoEstado(rs.getString("motivo_estado"));
 				usu.setTipoUsuario(rs.getInt("tipo_usuario"));

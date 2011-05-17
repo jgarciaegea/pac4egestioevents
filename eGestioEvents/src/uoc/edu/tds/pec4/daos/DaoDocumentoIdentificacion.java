@@ -3,6 +3,7 @@ package uoc.edu.tds.pec4.daos;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +17,28 @@ public class DaoDocumentoIdentificacion extends DaoEntidad<DocumentoIdentificaci
 
 	@Override
 	public void insert(DocumentoIdentificacion objecte) throws Exception {
-		throw new UnsupportedOperationException("Método no implementado");
+		PreparedStatement ps = null;
+		try {
+			ps = con.prepareStatement("INSERT INTO documentoidentificacion (id_tipo_documento, id_pais, numero_documento) " +
+			" VALUES (?, ?, ?)");
+			ps.setInt(1, objecte.getIdTipoDocumento());
+			ps.setInt(2, objecte.getIdPais());
+			ps.setString(3, objecte.getNumeroDocumento());
+			ps.executeUpdate();
+        } catch (SQLException e) {
+        	throw new Exception(e.getMessage());
+        } finally {
+        	close(ps);
+        }		
+	}
+	
+	public Integer insertReturnId(DocumentoIdentificacion objecte) throws Exception {
+		try {
+			 this.insert(objecte);
+			 return retornaIdGenerado("seq_documentoidentificacion");
+        } catch (SQLException e) {
+        	throw new Exception(e.getMessage());
+        } 
 	}
 
 	@Override
