@@ -103,6 +103,10 @@ public class PantallaPrincipal extends JFrame {
 	        		showPanel(new PantallaUsuario(gestorRMI,remote)); 
 	        	} }); 
 	        
+	        consultaUsuario.addActionListener(new ActionListener() { 
+	        	public void actionPerformed(ActionEvent evt) { 
+	        		showPanel(new PantallaUsuarioConsulta(gestorRMI,remote)); 
+	        	} }); 
 
 	        
 	        menuConexion.add(cambioPwd);
