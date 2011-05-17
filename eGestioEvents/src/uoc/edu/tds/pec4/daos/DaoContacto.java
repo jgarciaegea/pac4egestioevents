@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,37 +18,10 @@ public class DaoContacto extends DaoEntidad<Contacto>{
 
 	@Override
 	public void insert(Contacto objecte) throws Exception {
-		PreparedStatement prep = null;
-		try {
-			 prep = getPs(objecte);
-        } catch (SQLException e) {
-        	throw new Exception(e.getMessage());
-        } finally {
-        	close(prep);
-        }		
-	}
-	
-	public Integer insertReturnId(Contacto objecte) throws Exception {
-		PreparedStatement prep = null;
-		try {
-			 prep = getPs(objecte);
-			 ResultSet rs = prep.getGeneratedKeys();
-			 if (rs.next()) {
-			    return rs.getInt(1);
-			 }
-        } catch (SQLException e) {
-        	throw new Exception(e.getMessage());
-        } finally {
-        	close(prep);
-        }	
-        return null;
-	}
-	
-	private PreparedStatement getPs(Contacto objecte) throws Exception {
 		PreparedStatement ps = null;
 		try {
-			ps = con.prepareStatement("INSERT INTO EVENTO (domicilio, cp, localidad, provincia, id_pais, email, web, fecha_alta, estado, fecha_estado, motivo_estado) " +
-					" VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",PreparedStatement.RETURN_GENERATED_KEYS);
+			ps = con.prepareStatement("INSERT INTO contacto (domicilio, cp, localidad, provincia, id_pais, email, web, fecha_alta, estado, fecha_estado, motivo_estado) " +
+			" VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 			ps.setString(1, objecte.getDomicilio());
 			ps.setInt(2, objecte.getCp());
 			ps.setString(3, objecte.getLocalidad());
@@ -57,14 +31,33 @@ public class DaoContacto extends DaoEntidad<Contacto>{
 			ps.setString(7, objecte.getWeb());
 			ps.setDate(8, new java.sql.Date(System.currentTimeMillis()));
 			ps.setInt(9, objecte.getEstado());
-			ps.setDate(10, new java.sql.Date(System.currentTimeMillis()));
+			ps.setDate(10,objecte.getFechaEstado());
 			ps.setString(11, objecte.getMotivoEstado());
 			ps.executeUpdate();
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw new SQLException(e.getMessage());
-		}
-		return ps; 
+        } catch (SQLException e) {
+        	throw new Exception(e.getMessage());
+        } finally {
+        	close(ps);
+        }		
+	}
+	
+	public Integer insertReturnId(Contacto objecte) throws Exception {
+		Statement stmt = null;
+		ResultSet rs = null;
+		try {
+			 this.insert(objecte);
+			 stmt = con.createStatement();
+			 String query = "select currval('seq_contacto')";
+			 rs = stmt.executeQuery(query);
+			 if ( rs.next() ) {
+			    System.out.println( "Id contacto = " + rs.getInt(1) );
+			 }
+        } catch (SQLException e) {
+        	throw new Exception(e.getMessage());
+        } finally {
+        	close(stmt,rs);
+        }	
+        return null;
 	}
 	
 	@Override
