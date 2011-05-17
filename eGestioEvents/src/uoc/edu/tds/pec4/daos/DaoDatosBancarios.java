@@ -3,6 +3,8 @@ package uoc.edu.tds.pec4.daos;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +18,43 @@ public class DaoDatosBancarios  extends DaoEntidad<DatosBancarios>{
 
 	@Override
 	public void insert(DatosBancarios objecte) throws Exception {
-		throw new UnsupportedOperationException("Método no implementado");
+		PreparedStatement ps = null;
+		try {
+			ps = con.prepareStatement("INSERT INTO datosbancarios (banco, sucursal, dc, cc, fecha_alta, estado, fecha_estado, motivo_estado) " +
+			" VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+			ps.setInt(1, objecte.getBanco());
+			ps.setInt(2, objecte.getSucursal());
+			ps.setInt(3, objecte.getDc());
+			ps.setInt(4, objecte.getCc());
+			ps.setDate(5, new java.sql.Date(System.currentTimeMillis()));
+			ps.setInt(6, objecte.getEstado());
+			ps.setDate(7,objecte.getFechaEstado());
+			ps.setString(8, objecte.getMotivoEstado());
+			ps.executeUpdate();
+        } catch (SQLException e) {
+        	throw new Exception(e.getMessage());
+        } finally {
+        	close(ps);
+        }		
+	}
+	
+	public Integer insertReturnId(DatosBancarios objecte) throws Exception {
+		Statement stmt = null;
+		ResultSet rs = null;
+		try {
+			 this.insert(objecte);
+			 stmt = con.createStatement();
+			 String query = "select currval('seq_datosbancarios')";
+			 rs = stmt.executeQuery(query);
+			 if ( rs.next() ) {
+			    System.out.println( "Id datosbancarios = " + rs.getInt(1) );
+			 }
+        } catch (SQLException e) {
+        	throw new Exception(e.getMessage());
+        } finally {
+        	close(stmt,rs);
+        }	
+        return null;
 	}
 
 	@Override
