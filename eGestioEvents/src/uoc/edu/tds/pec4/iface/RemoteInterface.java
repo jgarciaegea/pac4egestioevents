@@ -41,7 +41,7 @@ public interface RemoteInterface extends Remote{
 	 * @throws RemoteException
 	 * @throws OperationErrorBD
 	 */
-	public abstract void insertaUsuario(DTOUsuario dtoUsuario) throws RemoteException,OperationErrorBD;
+	public abstract String insertaUsuario(DTOUsuario dtoUsuario) throws RemoteException,OperationErrorBD;
 	
 	/**
 	 * Método para recuperar los tipos de documento existentes

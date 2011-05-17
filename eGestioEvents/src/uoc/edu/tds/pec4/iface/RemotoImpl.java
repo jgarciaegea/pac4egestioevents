@@ -24,7 +24,10 @@ import uoc.edu.tds.pec4.dtos.DTOUniversidad;
 import uoc.edu.tds.pec4.dtos.DTOUsuario;
 import uoc.edu.tds.pec4.excepciones.OperationErrorBD;
 import uoc.edu.tds.pec4.gestores.GestorCentroDocente;
+import uoc.edu.tds.pec4.gestores.GestorContacto;
+import uoc.edu.tds.pec4.gestores.GestorDatosBancarios;
 import uoc.edu.tds.pec4.gestores.GestorDisco;
+import uoc.edu.tds.pec4.gestores.GestorDocumentoIdentificacion;
 import uoc.edu.tds.pec4.gestores.GestorPais;
 import uoc.edu.tds.pec4.gestores.GestorTipoDocumento;
 import uoc.edu.tds.pec4.gestores.GestorTipoEvento;
@@ -61,13 +64,39 @@ public class RemotoImpl extends UnicastRemoteObject implements RemoteInterface,S
 		this.gestorDB = gestorDB;
 	}
 	
-	public void insertaUsuario(DTOUsuario dtoUsuario) throws RemoteException, OperationErrorBD {
+	public String insertaUsuario(DTOUsuario dtoUsuario) throws RemoteException, OperationErrorBD {
 		try {
+			
+			//Insertamos en contacto
+			GestorContacto gestorContacto = new GestorContacto(gestorDB.getConnection());
+			Integer idContacto = gestorContacto.insertaEntidadRetId(dtoUsuario.getDtoContacto());
+			dtoUsuario.getUsuario().setIdContacto(idContacto);
+			System.out.println("Contacto insertado correctamente");
+			
+			//Insertamos el documentoIdentificación
+			GestorDocumentoIdentificacion gestorDocumIden = new GestorDocumentoIdentificacion(gestorDB.getConnection());
+			Integer idDocumentoIden = gestorDocumIden.insertaEntidadRetId(dtoUsuario.getDtoDocumentoIden());
+			dtoUsuario.getUsuario().setIdDocumentoIdentificacion(idDocumentoIden);
+			System.out.println("Docucmento insertado correctamente");
+			
+			//Insertamos los datos bancarios
+			if(dtoUsuario.getDtoDatosBancarios() != null){
+				GestorDatosBancarios gestorDatosBancarios = new GestorDatosBancarios(gestorDB.getConnection());
+				Integer idBancario = gestorDatosBancarios.insertaEntidadRetId(dtoUsuario.getDtoDatosBancarios());
+				dtoUsuario.getUsuario().setIdDatosBancarios(idBancario);
+			}
+			
+			//Insertamos el usuario
 			GestorUsuario gestorUsuario = new GestorUsuario(gestorDB.getConnection());
 			gestorUsuario.insertaEntidad(dtoUsuario);
+			System.out.println("Usuario insertado correctamente: " + dtoUsuario.getUsuario().getCodigo());
+			
+			return dtoUsuario.getUsuario().getCodigo();
+			
 		} catch (Exception e) {
 			throw new OperationErrorBD("Error al insertar el usuario: " + e.getMessage());
 		}
+		
 	}
 	
 	public List<DTOTipoDocumento> getTiposDocumento() throws RemoteException, OperationErrorBD {
