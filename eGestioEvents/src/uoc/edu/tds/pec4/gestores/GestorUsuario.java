@@ -137,6 +137,11 @@ public class GestorUsuario  extends GestorEntidad<DTOUsuario>{
 			DTODocumentoIdentificacion dtoDocumentoIden = gestorDocumentoIden.consultaEntidadById(dtoUsuario.getUsuario().getIdDocumentoIdentificacion());
 			if(dtoDocumentoIden != null) dtoUsuario.setDtoDocumentoIden(dtoDocumentoIden);
 			
+			//Añadimos los datos bancarios
+			GestorDatosBancarios gestorDatosBancarios = new GestorDatosBancarios(connection);
+			DTODatosBancarios dtoDatosBancarios = gestorDatosBancarios.consultaEntidadById(dtoUsuario.getUsuario().getIdDatosBancarios());
+			if(dtoDatosBancarios != null) dtoUsuario.setDtoDatosBancarios(dtoDatosBancarios);
+			
 		}catch(Exception e){
 			throw new SQLException();
 		}

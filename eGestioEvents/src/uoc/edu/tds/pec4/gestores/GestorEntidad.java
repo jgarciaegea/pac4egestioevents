@@ -11,7 +11,7 @@ abstract class GestorEntidad<E extends DTOInterface> extends GestorDisco{
 		super(connection);
 	}
 	
-	public abstract void insertaEntidad(E newobject);
+	public abstract void insertaEntidad(E newobject) throws Exception;
 	public abstract List<E> consultaEntidades(E criteris) throws Exception;
 	public abstract E consultaEntidad(E criteris) throws Exception;
 	public abstract void modificaEntidad(E criteris) throws Exception;
