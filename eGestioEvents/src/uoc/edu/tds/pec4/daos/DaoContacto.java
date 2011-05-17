@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,22 +41,12 @@ public class DaoContacto extends DaoEntidad<Contacto>{
 	}
 	
 	public Integer insertReturnId(Contacto objecte) throws Exception {
-		Statement stmt = null;
-		ResultSet rs = null;
 		try {
 			 this.insert(objecte);
-			 stmt = con.createStatement();
-			 String query = "select currval('seq_contacto')";
-			 rs = stmt.executeQuery(query);
-			 if ( rs.next() ) {
-			    System.out.println( "Id contacto = " + rs.getInt(1) );
-			 }
+			 return retornaIdGenerado("seq_contacto");
         } catch (SQLException e) {
         	throw new Exception(e.getMessage());
-        } finally {
-        	close(stmt,rs);
-        }	
-        return null;
+        } 
 	}
 	
 	@Override

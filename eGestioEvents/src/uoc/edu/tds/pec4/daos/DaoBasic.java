@@ -2,6 +2,7 @@ package uoc.edu.tds.pec4.daos;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 
 public class DaoBasic {
@@ -54,5 +55,29 @@ public class DaoBasic {
 		else {
 			return null;
 		}
+	}
+	
+	/**
+	 * Retorna el id del último registro creado
+	 * @param secuencia
+	 * @return
+	 * @throws Exception
+	 */
+	protected Integer retornaIdGenerado(String secuencia) throws Exception{
+		Statement stmt = null;
+		ResultSet rs = null;
+		try {
+			 stmt = con.createStatement();
+			 String query = "select currval('"+ secuencia +"')";
+			 rs = stmt.executeQuery(query);
+			 if ( rs.next() ) {
+			    return rs.getInt(1);
+			 }
+        } catch (SQLException e) {
+        	throw new Exception(e.getMessage());
+        } finally {
+        	close(stmt,rs);
+        }
+		return null;	
 	}
 }
