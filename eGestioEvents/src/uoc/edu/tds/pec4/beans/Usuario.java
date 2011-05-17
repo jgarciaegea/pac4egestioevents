@@ -7,9 +7,9 @@ public class Usuario implements BeanInterface,Serializable{
 
 	private static final long serialVersionUID = 1L;
 	private Date fechaAlta;
-	private Date fechaContraseña;
-	private String contraseña;
-	private Boolean cambiarContraseña;
+	private Date fechaContrasena;
+	private String contrasena;
+	private Boolean cambiarContrasena;
 	private Integer estado;
 	private String motivoEstado;
 	private Integer idCentro;
@@ -30,24 +30,6 @@ public class Usuario implements BeanInterface,Serializable{
 	}
 	public void setFechaAlta(Date fechaAlta) {
 		this.fechaAlta = fechaAlta;
-	}
-	public Date getFechaContraseña() {
-		return fechaContraseña;
-	}
-	public void setFechaContraseña(Date fechaContraseña) {
-		this.fechaContraseña = fechaContraseña;
-	}
-	public String getContraseña() {
-		return contraseña;
-	}
-	public void setContraseña(String contraseña) {
-		this.contraseña = contraseña;
-	}
-	public Boolean getCambiarContraseña() {
-		return cambiarContraseña;
-	}
-	public void setCambiarContraseña(Boolean cambiarContraseña) {
-		this.cambiarContraseña = cambiarContraseña;
 	}
 	public Integer getEstado() {
 		return estado;
@@ -132,6 +114,24 @@ public class Usuario implements BeanInterface,Serializable{
 	}
 	public void setIdDatosBancarios(Integer idDatosBancarios) {
 		this.idDatosBancarios = idDatosBancarios;
+	}
+	public Date getFechaContrasena() {
+		return fechaContrasena;
+	}
+	public void setFechaContrasena(Date fechaContrasena) {
+		this.fechaContrasena = fechaContrasena;
+	}
+	public String getContrasena() {
+		return contrasena;
+	}
+	public void setContrasena(String contrasena) {
+		this.contrasena = contrasena;
+	}
+	public Boolean getCambiarContrasena() {
+		return cambiarContrasena;
+	}
+	public void setCambiarContrasena(Boolean cambiarContrasena) {
+		this.cambiarContrasena = cambiarContrasena;
 	}
 	
 }
