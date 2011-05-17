@@ -69,6 +69,9 @@ public class ClearForm {
 		} else if (nombre_clase.equals("javax.swing.JComboBox")) {
 			// Es un JComboBox asi que ponemos el primer elemento
 			((javax.swing.JComboBox) comp).setSelectedIndex(0);
+		} else if (nombre_clase.equals("javax.swing.JRadioButton")) {
+			// Es un JRadioButton así que deseleccionamos
+			((javax.swing.JRadioButton) comp).setSelected(false);
 		} else if (nombre_clase.equals("javax.swing.JTextArea")) {
 			// Es un JTextArea asi que lo ponemos en blanco
 			((javax.swing.JTextArea) comp).setText("");
@@ -80,6 +83,8 @@ public class ClearForm {
 			clearScrollPane((javax.swing.JScrollPane) comp);
 		}
 	}
+	
+	
 	
 	
 	

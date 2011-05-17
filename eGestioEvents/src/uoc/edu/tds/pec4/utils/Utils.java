@@ -81,14 +81,23 @@ public class Utils {
     public static Boolean parseaFecha(String fecha) throws OperationErrorDatosFormulario{
 		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 		try{
-			if(fecha!=null){
-				new java.sql.Date(formatter.parse(fecha).getTime());
-				return true;
-			}
+			formatter.parse(fecha);
         }catch(ParseException parseexception){
         	return false;
         }
-        return false;
+        return true;
+	}
+    
+    public static java.sql.Date transformFecha(String fecha)  throws OperationErrorDatosFormulario{
+		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+		try{
+			if(fecha!=null){
+				return new java.sql.Date(formatter.parse(fecha).getTime());
+			}
+        }catch(ParseException parseexception){
+        	throw new OperationErrorDatosFormulario(parseexception.getMessage());
+        }
+        return null;
 	}
     
 }
