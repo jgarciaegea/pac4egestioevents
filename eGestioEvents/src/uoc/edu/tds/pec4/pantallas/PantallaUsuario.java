@@ -23,9 +23,17 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
 import uoc.edu.tds.pec4.beans.Contacto;
+import uoc.edu.tds.pec4.beans.DatosBancarios;
+import uoc.edu.tds.pec4.beans.DocumentoIdentificacion;
 import uoc.edu.tds.pec4.beans.Usuario;
+import uoc.edu.tds.pec4.dtos.DTOAdministrador;
+import uoc.edu.tds.pec4.dtos.DTOAsistente;
 import uoc.edu.tds.pec4.dtos.DTOCentroDocente;
+import uoc.edu.tds.pec4.dtos.DTOContacto;
+import uoc.edu.tds.pec4.dtos.DTODatosBancarios;
+import uoc.edu.tds.pec4.dtos.DTODocumentoIdentificacion;
 import uoc.edu.tds.pec4.dtos.DTOPais;
+import uoc.edu.tds.pec4.dtos.DTOPersonalSecretaria;
 import uoc.edu.tds.pec4.dtos.DTOTipoDocumento;
 import uoc.edu.tds.pec4.dtos.DTOTipoRol;
 import uoc.edu.tds.pec4.dtos.DTOTipoTelefono;
@@ -36,26 +44,13 @@ import uoc.edu.tds.pec4.excepciones.OperationErrorDatosFormulario;
 import uoc.edu.tds.pec4.gestores.GestorRMI;
 import uoc.edu.tds.pec4.iface.RemoteInterface;
 import uoc.edu.tds.pec4.utils.ClearForm;
+import uoc.edu.tds.pec4.utils.Constantes;
+import uoc.edu.tds.pec4.utils.EmailValidator;
+import uoc.edu.tds.pec4.utils.JTextFieldLimit;
 import uoc.edu.tds.pec4.utils.MostrarCombo;
 import uoc.edu.tds.pec4.utils.Utils;
 
-/**
-* This code was edited or generated using CloudGarden's Jigloo
-* SWT/Swing GUI Builder, which is free for non-commercial
-* use. If Jigloo is being used commercially (ie, by a corporation,
-* company or business for any purpose whatever) then you
-* should purchase a license for each developer using Jigloo.
-* Please visit www.cloudgarden.com for details.
-* Use of Jigloo implies acceptance of these licensing terms.
-* A COMMERCIAL LICENSE HAS NOT BEEN PURCHASED FOR
-* THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED
-* LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
-*/
 public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
-	
-	private static final int ADMINISTRADOR = 1;
-	private static final int SECRETARIA = 2;
-	private static final int ASISTENTE = 3;
 	
 	private static final long serialVersionUID = 1L;
 	private JPanel jPanel1;
@@ -214,6 +209,7 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 					jTextFieldCon = new JPasswordField();
 					jPanel2.add(jTextFieldCon, new GridBagConstraints(3, 1, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 8, 0, 0), 0, 0));
 					jTextFieldCon.setPreferredSize(new java.awt.Dimension(200, 21));
+					jTextFieldCon.setDocument(new JTextFieldLimit(8));
 				}
 				{
 					jLabelTipoDoc = new JLabel();
@@ -266,11 +262,13 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 					jPanel2.add(jLabelCP, new GridBagConstraints(2, 4, 1, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 					jLabelCP.setText("CP");
 					jLabelCP.setLayout(null);
+					
 				}
 				{
 					jTextFieldCP = new JTextField();
 					jPanel2.add(jTextFieldCP, new GridBagConstraints(3, 4, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 8, 0, 0), 0, 0));
 					jTextFieldCP.setPreferredSize(new java.awt.Dimension(200, 21));
+					jTextFieldCP.setDocument(new JTextFieldLimit(5));
 				}
 				{
 					jLabelPais = new JLabel();
@@ -282,7 +280,6 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 					
 					jComboBoxpais = new JComboBox();
 					jPanel2.add(jComboBoxpais, new GridBagConstraints(3, 5, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 8, 0, 0), 0, 0));
-					
 					jComboBoxpais.setPreferredSize(new java.awt.Dimension(200, 21));
 				}
 				{
@@ -329,6 +326,7 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 					jTextFieldFechaNac = new JTextField();
 					jPanel2.add(jTextFieldFechaNac, new GridBagConstraints(3, 7, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 8, 0, 0), 0, 0));
 					jTextFieldFechaNac.setPreferredSize(new java.awt.Dimension(200, 21));
+					jTextFieldFechaNac.setDocument(new JTextFieldLimit(10));
 				}
 				{
 					jLabelTelf = new JLabel();
@@ -340,6 +338,7 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 					jTextFieldTelefono = new JTextField();
 					jPanel2.add(jTextFieldTelefono, new GridBagConstraints(1, 9, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 8, 0, 0), 0, 0));
 					jTextFieldTelefono.setPreferredSize(new java.awt.Dimension(200, 21));
+					jTextFieldTelefono.setDocument(new JTextFieldLimit(9));
 				}
 				{
 					jLabelExtension = new JLabel();
@@ -443,6 +442,7 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 					jTextFieldBanco = new JTextField();
 					jPanel2.add(jTextFieldBanco, new GridBagConstraints(1, 17, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 36, 0, 0), 0, 0));
 					jTextFieldBanco.setPreferredSize(new java.awt.Dimension(60, 21));
+					jTextFieldBanco.setDocument(new JTextFieldLimit(4));
 				}
 				{
 					jLabelSucursal = new JLabel();
@@ -453,6 +453,7 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 					jTextFieldSucursal = new JTextField();
 					jPanel2.add(jTextFieldSucursal, new GridBagConstraints(1, 17, 1, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 10), 0, 0));
 					jTextFieldSucursal.setPreferredSize(new java.awt.Dimension(50, 21));
+					jTextFieldSucursal.setDocument(new JTextFieldLimit(4));
 				}
 				{
 					jLabelDC = new JLabel();
@@ -463,6 +464,7 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 					jTextFieldDC = new JTextField();
 					jPanel2.add(jTextFieldDC, new GridBagConstraints(2, 17, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 29, 0, 0), 0, 0));
 					jTextFieldDC.setPreferredSize(new java.awt.Dimension(26, 21));
+					jTextFieldDC.setDocument(new JTextFieldLimit(2));
 				}
 				{
 					jLabelCuenta = new JLabel();
@@ -473,6 +475,7 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 					jTextFieldCuenta = new JTextField();
 					jPanel2.add(jTextFieldCuenta, new GridBagConstraints(3, 17, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 					jTextFieldCuenta.setPreferredSize(new java.awt.Dimension(120, 21));
+					jTextFieldCuenta.setDocument(new JTextFieldLimit(12));
 				}
 			}
 			{
@@ -489,10 +492,17 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 					
 					jButtonAcceptar.addActionListener(new ActionListener() {
 							public void actionPerformed(ActionEvent e) {
-								try{
+								try {
 									validaFormulario();
-								}catch(OperationErrorDatosFormulario ex){
-									ex.showDialogError(jPanel2);
+									String codigo = remote.insertaUsuario(altaUsuario());
+									limpiaFormulario();
+									Utils.mostraMensajeInformacion(jPanel2, "Registro insertado correctamente.\nSu identificador de usuario es " + codigo, "Alta usuario");
+								} catch (RemoteException e1) {
+									e1.printStackTrace();
+								} catch (OperationErrorBD e2) {
+									e2.showDialogError(jPanel2);
+								} catch (OperationErrorDatosFormulario e3) {
+									e3.showDialogError(jPanel2);
 								}
 							}
 				    	});
@@ -506,8 +516,7 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 					
 					jButtonCancelar.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent e) {
-							ClearForm.clearForm(jPanel1);
-							ClearForm.clearForm(jPanel2);
+							limpiaFormulario();
 						}
 			    	});
 				}
@@ -515,12 +524,56 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 			
 			//Group the radio buttons.
 			grupoBu = new ButtonGroup();
-			grupoBu.add(jRadioButtonAsis);
-			grupoBu.add(jRadioButtonSecr);
 			grupoBu.add(jRadioButtonAdmin);
-		    
+			grupoBu.add(jRadioButtonSecr);
+			grupoBu.add(jRadioButtonAsis);
+			
+			jRadioButtonAdmin.addItemListener(new ItemListener(){
+				public void itemStateChanged(ItemEvent e) {
+					try {
+						if(e.getStateChange() == ItemEvent.SELECTED) {
+							showHideDatosUsuario(false);
+						}
+					} catch (Exception e1) {
+						e1.printStackTrace();
+					}
+				}
+			});
+			
+			jRadioButtonSecr.addItemListener(new ItemListener(){
+				public void itemStateChanged(ItemEvent e) {
+					try {
+						if(e.getStateChange() == ItemEvent.SELECTED) {
+							showHideDatosUsuario(false);
+							showHideDatosUni(true);
+						}
+					} catch (Exception e1) {
+						e1.printStackTrace();
+					}
+				}
+			});
+			
+			jRadioButtonAsis.addItemListener(new ItemListener(){
+				public void itemStateChanged(ItemEvent e) {
+					try {
+						if(e.getStateChange() == ItemEvent.SELECTED) {
+							showHideDatosUsuario(true);
+							showHideDatosUni(true);
+						}
+					} catch (Exception e1) {
+						e1.printStackTrace();
+					}
+				}
+			});
+			
 			//Cargamos combos
 			cargaCombos();
+			
+			jRadioButtonAdmin.setSelected(true);
+			
+			//Ocultamos la informacion
+			showHideDatosUsuario(false);
+			showHideDatosUni(false);
 			
 		} catch (Exception e) {
 			try{
@@ -530,6 +583,29 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 			}
 		}
 	}
+	
+	private void showHideDatosUsuario(Boolean bValor){
+		jComboBoxTipoRol.setVisible(bValor);
+		jTextFieldSucursal.setVisible(bValor);
+		jTextFieldDC.setVisible(bValor);
+		jTextFieldBanco.setVisible(bValor);
+		jTextFieldCuenta.setVisible(bValor);
+		jLabelCuenta.setVisible(bValor);
+		jLabelDC.setVisible(bValor);
+		jLabelSucursal.setVisible(bValor);
+		jLabelBanco.setVisible(bValor);
+		jLabelTipoRol.setVisible(bValor);
+		jComboBoxTipoRol.setVisible(bValor);
+		jLabelDatosBanc.setVisible(bValor);
+	}
+	
+	private void showHideDatosUni(Boolean bValor){
+		jLabelCenDocente.setVisible(bValor);
+		jComboBoxCentroDocente.setVisible(bValor);
+		jComboBoxUniver.setVisible(bValor);
+		jLabelUniversidad.setVisible(bValor);
+	}
+	
 	
 	/**
 	 * Rellena los centros docentes dependiendo del país seleccionado
@@ -568,7 +644,7 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 			if(Utils.valorisNull(jTextFieldApe.getText())) throw new Exception(Utils.MESSAGE_ERROR + " apellidos" );
 			if(Utils.valorisNull(jComboBoxTipoDoc.getSelectedItem())) throw new Exception(Utils.MESSAGE_ERROR + " tipo de documento" );
 			if(Utils.valorisNull(jTextFieldDirec.getText())) throw new Exception(Utils.MESSAGE_ERROR + " direccion" );
-			if(Utils.valorisNull(jComboBoxCentroDocente.getSelectedItem())) throw new Exception(Utils.MESSAGE_ERROR + " centro docente" );
+			
 			if(Utils.valorisNull(jComboBoxUniver.getSelectedItem())) throw new Exception(Utils.MESSAGE_ERROR + " universidad" );
 			if(Utils.valorisNull(jComboBoxTipo.getSelectedItem())) throw new Exception(Utils.MESSAGE_ERROR + " tipo teléfono" );
 			if(Utils.valorisNull(jTextFieldExtension.getText())) throw new Exception(Utils.MESSAGE_ERROR + " extensión teléfono" );
@@ -577,30 +653,41 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 			if(Utils.valorisNull(jTextFieldWebBlog.getText())) throw new Exception(Utils.MESSAGE_ERROR + " página web o blog" );
 			if(Utils.valorisNull(jComboBoxSexo.getSelectedItem())) throw new Exception(Utils.MESSAGE_ERROR + " sexo" );
 			if(Utils.valorisNull(jTextFieldEmail.getText())) throw new Exception(Utils.MESSAGE_ERROR + " email" );
-			if(Utils.valorisNull(jComboBoxpais.getSelectedItem())) throw new Exception(Utils.MESSAGE_ERROR + " país" );
 			if(Utils.valorisNull(jTextFieldCP.getText())) throw new Exception(Utils.MESSAGE_ERROR + " código postal" );
 			if(Utils.valorisNull(jTextFieldLocalidad.getText())) throw new Exception(Utils.MESSAGE_ERROR + " localidad" );
 			if(Utils.valorisNull(jTextFieldDocIden.getText())) throw new Exception(Utils.MESSAGE_ERROR + " documento identificación" );
 			if(Utils.valorisNull(jTextFieldDirec.getText())) throw new Exception(Utils.MESSAGE_ERROR + " dirección" );
 			if(Utils.valorisNull(jTextFieldCon.getText())) throw new Exception(Utils.MESSAGE_ERROR + " contraseña" );
-			if(Utils.parseaFecha(jTextFieldFechaNac.getText())) throw new Exception(Utils.MESSAGE_ERROR + " fecha nacimiento" + Utils.MESSAGE_FECHA );
+			if(!Utils.parseaFecha(jTextFieldFechaNac.getText())) throw new Exception(Utils.MESSAGE_ERROR + " fecha nacimiento" + Utils.MESSAGE_FECHA );
 			
-			//Campos a validar si es un DTOAsistente
-			if(Utils.valorisNull(jComboBoxTipoRol.getSelectedItem())) throw new Exception(Utils.MESSAGE_ERROR + " tipo de rol" );
-			if(Utils.valorisNull(jTextFieldSucursal.getText())) throw new Exception(Utils.MESSAGE_ERROR + " sucursal" );
-			if(Utils.valorisNull(jTextFieldDC.getText())) throw new Exception(Utils.MESSAGE_ERROR + " DC" );
-			if(Utils.valorisNull(jTextFieldBanco.getText())) throw new Exception(Utils.MESSAGE_ERROR + " banco" );
-			if(Utils.valorisNull(jTextFieldCuenta.getText())) throw new Exception(Utils.MESSAGE_ERROR + " cuenta" );
+			//Campos a validar exclusivamente para un ASISTENTE o SECRETARIA
+			if(jRadioButtonSecr.isSelected() || jRadioButtonAsis.isSelected()){
+				if(Utils.valorisNull(jComboBoxCentroDocente.getSelectedItem())) throw new Exception(Utils.MESSAGE_ERROR + " centro docente" );
+				if(Utils.valorisNull(jComboBoxpais.getSelectedItem())) throw new Exception(Utils.MESSAGE_ERROR + " país" );
+			}
 			
-			//Aquí ya no vendrá ningún campo null así que realizamos más modificaciones
-			if(Utils.validaNumerico(jTextFieldCon.getText())) 	throw new Exception(Utils.MESSAGE_ERROR + " password " + Utils.MESSAGE_NUMERIC );
-			if(Utils.validaNumerico(jTextFieldCP.getText())) 	throw new Exception(Utils.MESSAGE_ERROR + " código postal " + Utils.MESSAGE_NUMERIC );
-			if(Utils.validaNumerico(jTextFieldTelefono.getText())) throw new Exception(Utils.MESSAGE_ERROR + " teléfono" + Utils.MESSAGE_NUMERIC );
-			if(Utils.validaNumerico(jTextFieldExtension.getText())) throw new Exception(Utils.MESSAGE_ERROR + " extensión teléfono" + Utils.MESSAGE_NUMERIC );
-			if(Utils.validaNumerico(jTextFieldSucursal.getText())) throw new Exception(Utils.MESSAGE_ERROR + " sucursal" + Utils.MESSAGE_NUMERIC );
-			if(Utils.validaNumerico(jTextFieldDC.getText())) throw new Exception(Utils.MESSAGE_ERROR + " DC" + Utils.MESSAGE_NUMERIC );
-			if(Utils.validaNumerico(jTextFieldBanco.getText())) throw new Exception(Utils.MESSAGE_ERROR + " banco" + Utils.MESSAGE_NUMERIC );
-			if(Utils.validaNumerico(jTextFieldCuenta.getText())) throw new Exception(Utils.MESSAGE_ERROR + " cuenta" + Utils.MESSAGE_NUMERIC );
+			//Campos a validar exclusivamente para un ASISTENTE
+			if(jRadioButtonAsis.isSelected()){
+				//Campos a validar si es un DTOAsistente
+				if(Utils.valorisNull(jTextFieldBanco.getText())) throw new Exception(Utils.MESSAGE_ERROR + " banco" );
+				if(Utils.valorisNull(jComboBoxTipoRol.getSelectedItem())) throw new Exception(Utils.MESSAGE_ERROR + " tipo de rol" );
+				if(Utils.valorisNull(jTextFieldSucursal.getText())) throw new Exception(Utils.MESSAGE_ERROR + " sucursal" );
+				if(Utils.valorisNull(jTextFieldDC.getText())) throw new Exception(Utils.MESSAGE_ERROR + " DC" );
+				if(Utils.valorisNull(jTextFieldCuenta.getText())) throw new Exception(Utils.MESSAGE_ERROR + " cuenta" );
+				
+				//Aquí ya no vendrá ningún campo null así que realizamos más modificaciones
+				if(!Utils.validaNumerico(jTextFieldCon.getText())) 	throw new Exception(Utils.MESSAGE_ERROR + " password " + Utils.MESSAGE_NUMERIC );
+				if(!Utils.validaNumerico(jTextFieldCP.getText())) 	throw new Exception(Utils.MESSAGE_ERROR + " código postal " + Utils.MESSAGE_NUMERIC );
+				if(!Utils.validaNumerico(jTextFieldTelefono.getText())) throw new Exception(Utils.MESSAGE_ERROR + " teléfono" + Utils.MESSAGE_NUMERIC );
+				if(!Utils.validaNumerico(jTextFieldExtension.getText())) throw new Exception(Utils.MESSAGE_ERROR + " extensión teléfono" + Utils.MESSAGE_NUMERIC );
+				if(!Utils.validaNumerico(jTextFieldSucursal.getText())) throw new Exception(Utils.MESSAGE_ERROR + " sucursal" + Utils.MESSAGE_NUMERIC );
+				if(!Utils.validaNumerico(jTextFieldDC.getText())) throw new Exception(Utils.MESSAGE_ERROR + " DC" + Utils.MESSAGE_NUMERIC );
+				if(!Utils.validaNumerico(jTextFieldBanco.getText())) throw new Exception(Utils.MESSAGE_ERROR + " banco" + Utils.MESSAGE_NUMERIC );
+				if(!Utils.validaNumerico(jTextFieldCuenta.getText())) throw new Exception(Utils.MESSAGE_ERROR + " cuenta" + Utils.MESSAGE_NUMERIC );
+			}
+			
+			EmailValidator emailValidator = new EmailValidator();
+			if(!emailValidator.validate(jTextFieldEmail.getText())) throw new Exception (Utils.MESSAGE_EMAIL); 
 			
 		}catch(Exception e){
 			throw new OperationErrorDatosFormulario(e.getMessage());
@@ -676,9 +763,11 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 		
 	}
 	
+	@SuppressWarnings("unchecked")
 	private <B extends DTOUsuario> B altaUsuario() throws OperationErrorDatosFormulario{
 		
 		//Datos específicos del contacto
+		DTOContacto dtoContacto = new DTOContacto();
 		Contacto contacto = new Contacto();
 		contacto.setDomicilio(jTextFieldDirec.getText());
 		contacto.setCp(Integer.parseInt(jTextFieldCP.getText()));
@@ -687,17 +776,13 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 		contacto.setIdPais(Integer.parseInt(((MostrarCombo) jComboBoxpais.getSelectedItem()).getID().toString()));
 		contacto.setEmail(jTextFieldEmail.getText());
 		contacto.setWeb(jTextFieldWebBlog.getText());
-		//contacto.setFechaAlta();
-		//contacto.setEstado();
-		//contacto.setFechaEstado();
-		//contacto.setMotivoEstado();
-		
+		contacto.setEstado(1);
+		contacto.setFechaEstado(new java.sql.Date(System.currentTimeMillis()));
+		contacto.setMotivoEstado("Alta de usuario");
+		dtoContacto.setContacto(contacto);
 		
 		//Datos específicos del usuario
 		Usuario usuario = new Usuario();
-		usuario.setContraseña(jTextFieldCon.getText());
-		usuario.setIdCentro(Integer.parseInt(((MostrarCombo) jComboBoxCentroDocente.getSelectedItem()).getID().toString()));
-		usuario.setIdDocumentoIdentificacion(Integer.parseInt(((MostrarCombo) jComboBoxTipoDoc.getSelectedItem()).getID().toString()));
 		usuario.setNombre(jTextFieldNombre.getText());
 		usuario.setApellidos(jTextFieldApe.getText());
 		usuario.setSexo(((MostrarCombo) jComboBoxSexo.getSelectedItem()).getID().toString());
@@ -708,32 +793,113 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 			throw e;
 		}
 		
-		if(grupoBu.isSelected(jRadioButtonAsis.getModel())) usuario.setTipoUsuario(ADMINISTRADOR);
-		if(grupoBu.isSelected(jRadioButtonSecr.getModel())) usuario.setTipoUsuario(SECRETARIA);
-		if(grupoBu.isSelected(jRadioButtonAdmin.getModel())) usuario.setTipoUsuario(ASISTENTE);
+		usuario.setFechaContrasena(new java.sql.Date(System.currentTimeMillis()));
+		usuario.setContrasena(jTextFieldCon.getText());
+		usuario.setCambiarContrasena(false);
+		usuario.setEstado(1);
+		usuario.setFechaEstado(new java.sql.Date(System.currentTimeMillis()));
+		usuario.setMotivoEstado("Alta de usuario");
+		usuario.setIdDocumentoIdentificacion(Integer.parseInt(((MostrarCombo) jComboBoxTipoDoc.getSelectedItem()).getID().toString()));
+		usuario.setCodigo(generaCodigo(usuario));
 		
-		/*switch(usu.getTipoUsuario()){
-		 * 
-		 * 	private JRadioButton jRadioButtonAsis;
-	private JRadioButton jRadioButtonSecr;
-	private JRadioButton jRadioButtonAdmin;
-	
-			case ADMINISTRADOR:
+		//Rellenamos el d documento de identidad
+		DTODocumentoIdentificacion dtoDocumentoIden = new DTODocumentoIdentificacion();
+		DocumentoIdentificacion docIden = new DocumentoIdentificacion();
+		docIden.setIdDocumentoIdentificacion(usuario.getIdDocumentoIdentificacion());
+		docIden.setIdTipoDocumento(Integer.parseInt(((MostrarCombo) jComboBoxTipoDoc.getSelectedItem()).getID().toString()));
+		docIden.setIdPais(Integer.parseInt(((MostrarCombo) jComboBoxpais.getSelectedItem()).getID().toString()));
+		docIden.setNumeroDocumento(jTextFieldDocIden.getText());
+		dtoDocumentoIden.setDocumentoIdentificacion(docIden);
+		
+		
+		//Tipo de usuario
+		if(jRadioButtonAdmin.isSelected()) usuario.setTipoUsuario(Constantes.ADMINISTRADOR);
+		if(jRadioButtonSecr.isSelected()) usuario.setTipoUsuario(Constantes.SECRETARIA);
+		if(jRadioButtonAsis.isSelected()) usuario.setTipoUsuario(Constantes.ASISTENTE);
+		
+		
+		if(Constantes.ASISTENTE == usuario.getTipoUsuario() || usuario.getTipoUsuario()==Constantes.SECRETARIA){
+			usuario.setIdCentro(Integer.parseInt(((MostrarCombo) jComboBoxCentroDocente.getSelectedItem()).getID().toString()));
+		}
+		
+		DTODatosBancarios dtoDatosBancarios = null;
+		if(Constantes.ASISTENTE == usuario.getTipoUsuario()){
+			usuario.setIdRol(Integer.parseInt(((MostrarCombo) jComboBoxTipoRol.getSelectedItem()).getID().toString()));
+			
+			//Rellenamos datos bancarios
+			dtoDatosBancarios = new DTODatosBancarios();
+			DatosBancarios datosBancarios = new DatosBancarios();
+			try {
+				datosBancarios.setBanco(Integer.parseInt(jTextFieldCuenta.getText()));
+				datosBancarios.setSucursal(Integer.parseInt(jTextFieldSucursal.getText()));
+				datosBancarios.setDc(Integer.parseInt(jTextFieldDC.getText()));
+				datosBancarios.setCc(Integer.parseInt(jTextFieldCuenta.getText()));
+			} catch (NumberFormatException e) {
+				throw e;
+			}
+			datosBancarios.setEstado(1);
+			datosBancarios.setFechaEstado(new java.sql.Date(System.currentTimeMillis()));
+			datosBancarios.setMotivoEstado("Alta de usuario");
+			dtoDatosBancarios.setDatosBancarios(datosBancarios);
+		}
+		
+		switch(usuario.getTipoUsuario()){
+			case Constantes.ADMINISTRADOR:
 					DTOAdministrador dtoAdministrador = new DTOAdministrador();
-					dtoAdministrador.setUsuario(usu);
-					rellenaObjeto(dtoAdministrador);
+					dtoAdministrador.setUsuario(usuario);
+					dtoAdministrador.setDtoContacto(dtoContacto);
+					dtoAdministrador.setDtoDocumentoIden(dtoDocumentoIden);
+					dtoAdministrador.getUsuario().setIdRol(-1); //No tienen roles
+					dtoAdministrador.getUsuario().setIdCentro(-1); //No tiene centro que asignar
+					dtoAdministrador.getUsuario().setIdDatosBancarios(-1); //No tiene datos bancarios
 					return (B) dtoAdministrador;
-			case SECRETARIA:
+			case Constantes.SECRETARIA:
 					DTOPersonalSecretaria dtoPersonal = new DTOPersonalSecretaria();
-					dtoPersonal.setUsuario(usu);
-					rellenaObjeto(dtoPersonal);
+					dtoPersonal.setUsuario(usuario);
+					dtoPersonal.setDtoContacto(dtoContacto);
+					dtoPersonal.setDtoDocumentoIden(dtoDocumentoIden);
+					dtoPersonal.getUsuario().setIdRol(-1); //No tienen roles
+					dtoPersonal.getUsuario().setIdDatosBancarios(-1); //No tiene datos bancarios
 					return (B) dtoPersonal;
-			case ASISTENTE:
-				TOAsistente dtoAsistente = new DTOAsistente();
+			case Constantes.ASISTENTE:
+					DTOAsistente dtoAsistente = new DTOAsistente();
+					dtoAsistente.setUsuario(usuario);
+					dtoAsistente.setDtoContacto(dtoContacto);
+					dtoAsistente.setDtoDocumentoIden(dtoDocumentoIden);
+					dtoAsistente.setDtoDatosBancarios(dtoDatosBancarios);
+					return (B) dtoAsistente;
 			default:
-				throw new Exception("El tipo de usuario " + usu.getTipoUsuario() + " no está contemplado");*/
+				throw new OperationErrorDatosFormulario("El tipo de usuario " + usuario.getTipoUsuario() + " no está contemplado");
+		}
 		
-		return null;
+	}
+	
+	/*
+	 * Limpia el formulario
+	 */
+	private void limpiaFormulario(){
+		ClearForm.clearForm(jPanel1);
+		ClearForm.clearForm(jPanel2);
+	}
+	
+	/*
+	 * Método que genera el código del usuario
+	 */
+	private static String generaCodigo(Usuario usuario){
+		StringBuffer codigoUsuario = new StringBuffer();
+		Boolean codigoAcep = new Boolean(false);
+		while(!codigoAcep){
+			if(usuario.getNombre().length() > 2) codigoUsuario.append(usuario.getNombre().toUpperCase().trim().substring(0, 1));
+			if(usuario.getApellidos().length() > 2) codigoUsuario.append(usuario.getApellidos().toUpperCase().trim().substring(0, 1));	
+			
+			for(int i=0;i<5;i++){
+				codigoUsuario.append(((int) Math.floor(Math.random()*10)+1));
+			}
+			//Falta método para comprobar codigo
+			codigoAcep = true;
+		}
+		return codigoUsuario.toString();
+		
 	}
 
 }
