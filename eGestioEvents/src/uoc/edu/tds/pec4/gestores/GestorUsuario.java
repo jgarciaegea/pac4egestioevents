@@ -16,20 +16,22 @@ import uoc.edu.tds.pec4.dtos.DTODocumentoIdentificacion;
 import uoc.edu.tds.pec4.dtos.DTOPersonalSecretaria;
 import uoc.edu.tds.pec4.dtos.DTOTipoRol;
 import uoc.edu.tds.pec4.dtos.DTOUsuario;
+import uoc.edu.tds.pec4.utils.Constantes;
 
 public class GestorUsuario  extends GestorEntidad<DTOUsuario>{
 
-	private static final int ADMINISTRADOR = 1;
-	private static final int SECRETARIA = 2;
-	private static final int ASISTENTE = 3;
-	
 	public GestorUsuario(Connection connection) throws Exception {
 		super(connection);
 	}
 
 	@Override
-	public void insertaEntidad(DTOUsuario newobject) {
-		throw new UnsupportedOperationException("Método no implementado");
+	public void insertaEntidad(DTOUsuario newobject) throws Exception {
+		try {
+			DaoUsuario dao = new DaoUsuario(connection);
+			dao.insert(newobject.getUsuario());
+		} catch (Exception e) {
+			throw new Exception();
+		}
 	}
 
 	@Override
@@ -60,7 +62,7 @@ public class GestorUsuario  extends GestorEntidad<DTOUsuario>{
 				return lstUsuarios.get(0);
 			}
 		}catch(Exception e){
-			throw e;
+			throw new Exception();
 		}
 		return null;
 	}
@@ -80,17 +82,17 @@ public class GestorUsuario  extends GestorEntidad<DTOUsuario>{
 		try{
 			if(usu.getTipoUsuario()==null) throw new Exception("El tipo de usuario ha de estar informado");
 			switch(usu.getTipoUsuario()){
-				case ADMINISTRADOR:
+				case Constantes.ADMINISTRADOR:
 					DTOAdministrador dtoAdministrador = new DTOAdministrador();
 					dtoAdministrador.setUsuario(usu);
 					rellenaObjeto(dtoAdministrador);
 					return (B) dtoAdministrador;
-				case SECRETARIA:
+				case Constantes.SECRETARIA:
 					DTOPersonalSecretaria dtoPersonal = new DTOPersonalSecretaria();
 					dtoPersonal.setUsuario(usu);
 					rellenaObjeto(dtoPersonal);
 					return (B) dtoPersonal;
-				case ASISTENTE:
+				case Constantes.ASISTENTE:
 					DTOAsistente dtoAsistente = new DTOAsistente();
 					dtoAsistente.setUsuario(usu);
 					rellenaObjeto(dtoAsistente);
