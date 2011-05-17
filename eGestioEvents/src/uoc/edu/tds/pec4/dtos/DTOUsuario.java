@@ -12,6 +12,7 @@ public abstract class DTOUsuario implements DTOInterface, Serializable{
 	private DTOCentroDocente dtoCentroDocente;
 	private DTODocumentoIdentificacion dtoDocumentoIden;
 	private DTOContacto dtoContacto;
+	private DTODatosBancarios dtoDatosBancarios;
 	
 	public Usuario getUsuario() {
 		return usuario;
@@ -36,6 +37,12 @@ public abstract class DTOUsuario implements DTOInterface, Serializable{
 	}
 	public void setDtoContacto(DTOContacto dtoContacto) {
 		this.dtoContacto = dtoContacto;
+	}
+	public DTODatosBancarios getDtoDatosBancarios() {
+		return dtoDatosBancarios;
+	}
+	public void setDtoDatosBancarios(DTODatosBancarios dtoDatosBancarios) {
+		this.dtoDatosBancarios = dtoDatosBancarios;
 	}
 	
 }
