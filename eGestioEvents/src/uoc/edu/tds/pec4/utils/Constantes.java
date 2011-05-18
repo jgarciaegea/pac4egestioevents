@@ -12,4 +12,7 @@ public class Constantes {
 	public static final String NOMBRE_SECRETARIA = "Secretaria";
 	public static final String NOMBRE_ASISTENTE = "Asistente";
 	
+	public static final Integer REGISTRO_ACTIVO = 1;
+	public static final Integer REGISTRO_INACTIVO = 3;
+	
 }
