@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import uoc.edu.tds.pec4.beans.Usuario;
+import uoc.edu.tds.pec4.beans.UsuarioViewConsulta;
 import uoc.edu.tds.pec4.daos.DaoUsuario;
 import uoc.edu.tds.pec4.dtos.DTOAdministrador;
 import uoc.edu.tds.pec4.dtos.DTOAsistente;
@@ -16,6 +17,7 @@ import uoc.edu.tds.pec4.dtos.DTODocumentoIdentificacion;
 import uoc.edu.tds.pec4.dtos.DTOPersonalSecretaria;
 import uoc.edu.tds.pec4.dtos.DTOTipoRol;
 import uoc.edu.tds.pec4.dtos.DTOUsuario;
+import uoc.edu.tds.pec4.dtos.DTOUsuarioConsulta;
 import uoc.edu.tds.pec4.utils.Constantes;
 
 public class GestorUsuario  extends GestorEntidad<DTOUsuario>{
@@ -53,6 +55,24 @@ public class GestorUsuario  extends GestorEntidad<DTOUsuario>{
 		}
 		return null;
 	}
+	
+	public List<DTOUsuario> consultaEntidadesByView(DTOUsuarioConsulta criteris) throws Exception {
+		try{
+			
+			DaoUsuario dao = new DaoUsuario(connection);
+			List<UsuarioViewConsulta> lstUsuarios = dao.selectUsersByView(criteris.getUsuarioViewConsulta());
+			if(lstUsuarios != null && lstUsuarios.size() > 0){
+				List<DTOUsuario> lstUsu = new ArrayList<DTOUsuario>();
+				for(Usuario usu : lstUsuarios){
+					lstUsu.add(getTypeDTO(usu));
+				}
+				return lstUsu;
+			}
+		}catch(Exception e){
+			throw new Exception();
+		}
+		return null;
+	}
 
 	@Override
 	public DTOUsuario consultaEntidad(DTOUsuario criteris) throws Exception {
@@ -77,8 +97,7 @@ public class GestorUsuario  extends GestorEntidad<DTOUsuario>{
 		throw new UnsupportedOperationException("Método no implementado");
 	}
 	
-	@SuppressWarnings("unchecked")
-	private <B extends DTOUsuario> B getTypeDTO(Usuario usu) throws Exception{
+	private DTOUsuario getTypeDTO(Usuario usu) throws Exception{
 		try{
 			if(usu.getTipoUsuario()==null) throw new Exception("El tipo de usuario ha de estar informado");
 			switch(usu.getTipoUsuario()){
@@ -86,28 +105,32 @@ public class GestorUsuario  extends GestorEntidad<DTOUsuario>{
 					DTOAdministrador dtoAdministrador = new DTOAdministrador();
 					dtoAdministrador.setUsuario(usu);
 					rellenaObjeto(dtoAdministrador);
-					return (B) dtoAdministrador;
+					return dtoAdministrador;
 				case Constantes.SECRETARIA:
 					DTOPersonalSecretaria dtoPersonal = new DTOPersonalSecretaria();
 					dtoPersonal.setUsuario(usu);
 					rellenaObjeto(dtoPersonal);
-					return (B) dtoPersonal;
+					return dtoPersonal;
 				case Constantes.ASISTENTE:
 					DTOAsistente dtoAsistente = new DTOAsistente();
 					dtoAsistente.setUsuario(usu);
 					rellenaObjeto(dtoAsistente);
 					
 					//Añadimios el DTORol
-					GestorTipoRol gestorTipoRol = new GestorTipoRol(connection);
-					DTOTipoRol dtoTipoRol = gestorTipoRol.consultaEntidadById(dtoAsistente.getUsuario().getIdRol());
-					if(dtoTipoRol != null) dtoAsistente.setDtoTipoRol(dtoTipoRol);
+					if(dtoAsistente.getUsuario().getIdRol() != null){
+						GestorTipoRol gestorTipoRol = new GestorTipoRol(connection);
+						DTOTipoRol dtoTipoRol = gestorTipoRol.consultaEntidadById(dtoAsistente.getUsuario().getIdRol());
+						if(dtoTipoRol != null) dtoAsistente.setDtoTipoRol(dtoTipoRol);
+					}
 					
 					//Añadimios el DTODatosBancarios
-					GestorDatosBancarios gestorDatosBancarios = new GestorDatosBancarios(connection);
-					DTODatosBancarios dtoDatosBancarios = gestorDatosBancarios.consultaEntidadById(dtoAsistente.getUsuario().getIdDatosBancarios());
-					if(dtoDatosBancarios != null) dtoAsistente.setDtoDatosBancarios(dtoDatosBancarios);
+					if(dtoAsistente.getUsuario().getIdDatosBancarios() != null){
+						GestorDatosBancarios gestorDatosBancarios = new GestorDatosBancarios(connection);
+						DTODatosBancarios dtoDatosBancarios = gestorDatosBancarios.consultaEntidadById(dtoAsistente.getUsuario().getIdDatosBancarios());
+						if(dtoDatosBancarios != null) dtoAsistente.setDtoDatosBancarios(dtoDatosBancarios);
+					}
 					
-					return (B) dtoAsistente;
+					return dtoAsistente;
 				default:
 					throw new Exception("El tipo de usuario " + usu.getTipoUsuario() + " no está contemplado");
 			}
@@ -121,28 +144,37 @@ public class GestorUsuario  extends GestorEntidad<DTOUsuario>{
 	 * Rellenamos la información genérica para todos los tipos de objeto DTOUsario
 	 * en este caso es el centro Docente, el contacto y el documento de identificación
 	 */
-	private <B extends DTOUsuario> void rellenaObjeto (B dtoUsuario) throws Exception{
+	private void rellenaObjeto (DTOUsuario dtoUsuario) throws Exception{
 		try{
 			
 			//Añadimos información del centro Docente
-			GestorCentroDocente gestorCentroDocente = new GestorCentroDocente(connection);
-			DTOCentroDocente dtoCentroDocente = gestorCentroDocente.consultaEntidadById(dtoUsuario.getUsuario().getIdCentro());
-			if(dtoCentroDocente != null) dtoUsuario.setDtoCentroDocente(dtoCentroDocente);
+			if(dtoUsuario.getUsuario().getIdCentro() != null){
+				GestorCentroDocente gestorCentroDocente = new GestorCentroDocente(connection);
+				DTOCentroDocente dtoCentroDocente = gestorCentroDocente.consultaEntidadById(dtoUsuario.getUsuario().getIdCentro());
+				if(dtoCentroDocente != null) dtoUsuario.setDtoCentroDocente(dtoCentroDocente);
+			}
 			
 			//Añadimos el dto contacto
-			GestorContacto gestorContacto = new GestorContacto(connection);
-			DTOContacto dtoContacto = gestorContacto.consultaEntidadById(dtoUsuario.getUsuario().getIdContacto());
-			if(dtoContacto != null) dtoUsuario.setDtoContacto(dtoContacto);
+			if(dtoUsuario.getUsuario().getIdContacto() != null){
+				GestorContacto gestorContacto = new GestorContacto(connection);
+				DTOContacto dtoContacto = gestorContacto.consultaEntidadById(dtoUsuario.getUsuario().getIdContacto());
+				if(dtoContacto != null) dtoUsuario.setDtoContacto(dtoContacto);
+			}
+			
 			
 			//Añadimos el dto documento identificacion
-			GestorDocumentoIdentificacion gestorDocumentoIden = new GestorDocumentoIdentificacion(connection);
-			DTODocumentoIdentificacion dtoDocumentoIden = gestorDocumentoIden.consultaEntidadById(dtoUsuario.getUsuario().getIdDocumentoIdentificacion());
-			if(dtoDocumentoIden != null) dtoUsuario.setDtoDocumentoIden(dtoDocumentoIden);
+			if(dtoUsuario.getUsuario().getIdDocumentoIdentificacion() != null){
+				GestorDocumentoIdentificacion gestorDocumentoIden = new GestorDocumentoIdentificacion(connection);
+				DTODocumentoIdentificacion dtoDocumentoIden = gestorDocumentoIden.consultaEntidadById(dtoUsuario.getUsuario().getIdDocumentoIdentificacion());
+				if(dtoDocumentoIden != null) dtoUsuario.setDtoDocumentoIden(dtoDocumentoIden);
+			}
 			
 			//Añadimos los datos bancarios
-			GestorDatosBancarios gestorDatosBancarios = new GestorDatosBancarios(connection);
-			DTODatosBancarios dtoDatosBancarios = gestorDatosBancarios.consultaEntidadById(dtoUsuario.getUsuario().getIdDatosBancarios());
-			if(dtoDatosBancarios != null) dtoUsuario.setDtoDatosBancarios(dtoDatosBancarios);
+			if(dtoUsuario.getUsuario().getIdDatosBancarios() != null){
+				GestorDatosBancarios gestorDatosBancarios = new GestorDatosBancarios(connection);
+				DTODatosBancarios dtoDatosBancarios = gestorDatosBancarios.consultaEntidadById(dtoUsuario.getUsuario().getIdDatosBancarios());
+				if(dtoDatosBancarios != null) dtoUsuario.setDtoDatosBancarios(dtoDatosBancarios);
+			}
 			
 		}catch(Exception e){
 			throw new SQLException();

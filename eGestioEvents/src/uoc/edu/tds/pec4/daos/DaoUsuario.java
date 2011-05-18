@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import uoc.edu.tds.pec4.beans.Usuario;
+import uoc.edu.tds.pec4.beans.UsuarioViewConsulta;
 import uoc.edu.tds.pec4.utils.Base64Coder;
 
 
@@ -52,7 +53,65 @@ public class DaoUsuario extends DaoEntidad<Usuario>{
         	close(ps);
         }		
 	}
-
+	
+	
+	public List<UsuarioViewConsulta> selectUsersByView(UsuarioViewConsulta criteris)throws Exception {
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		List<UsuarioViewConsulta> lstUsuarios = new ArrayList<UsuarioViewConsulta>();
+		try{
+			StringBuffer sb = new StringBuffer();
+			sb.append("SELECT codigo,tipo_usuario,nombre,apellidos,id_documento_identificacion,numero_documento,fecha_alta, localidad, id_centro, id_rol ");
+			sb.append("FROM v_consulta_usuarios ");
+			sb.append("WHERE (1=1) ");
+			if(criteris.getCodigo() !=null) sb.append("AND codigo = ? ");
+			if(criteris.getTipoUsuario() !=null) sb.append("AND tipo_usuario = ? ");
+			if(criteris.getNombre() !=null) sb.append("nombre like ? ");
+			if(criteris.getApellidos() !=null) sb.append("apellidos like ? ");
+			if(criteris.getIdDocumentoIdentificacion() !=null) sb.append("AND id_documento_identificacion = ? ");
+			if(criteris.getNumeroDocumento() !=null) sb.append("AND numero_documento = ? ");
+			if(criteris.getFechaAlta() !=null) sb.append("AND fecha_alta = ? ");
+			if(criteris.getLocalidad() !=null) sb.append("AND localidad = ? ");
+			if(criteris.getIdCentro() !=null) sb.append("AND id_centro = ? ");
+			if(criteris.getIdRol() !=null) sb.append("AND id_rol = ? ");
+			
+			ps = con.prepareStatement(sb.toString(), ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
+			
+			int i=1;
+			
+			if(criteris.getTipoUsuario()!=null) {ps.setInt(i, criteris.getTipoUsuario()); i++;}
+			if(criteris.getNombre()!=null) {ps.setString(i, "%"+criteris.getNombre()+"%"); i++;}
+			if(criteris.getApellidos()!=null) {ps.setString(i, "%"+criteris.getApellidos()+"%"); i++;}
+			if(criteris.getIdDocumentoIdentificacion()!=null) {ps.setInt(i, criteris.getIdDocumentoIdentificacion()); i++;}
+			if(criteris.getNumeroDocumento()!=null) {ps.setString(i, "%"+criteris.getNumeroDocumento()+"%"); i++;}
+			if(criteris.getFechaAlta()!=null) {ps.setDate(i, criteris.getFechaAlta()); i++;}
+			if(criteris.getLocalidad()!=null) {ps.setString(i, "%"+criteris.getLocalidad()+"%"); i++;}
+			if(criteris.getIdCentro()!=null) {ps.setInt(i, criteris.getIdCentro()); i++;}
+			if(criteris.getIdRol()!=null) {ps.setInt(i, criteris.getIdRol()); i++;}
+			
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				UsuarioViewConsulta usu = new UsuarioViewConsulta();
+				usu.setCodigo(rs.getString("codigo"));
+				usu.setTipoUsuario(rs.getInt("tipo_usuario"));
+				usu.setNombre(rs.getString("nombre"));
+				usu.setApellidos(rs.getString("apellidos"));
+				usu.setIdDocumentoIdentificacion(rs.getInt("id_documento_identificacion"));
+				usu.setNumeroDocumento(rs.getString("numero_documento"));
+				usu.setFechaAlta(rs.getDate("fecha_alta"));
+				usu.setLocalidad(rs.getString("localidad"));
+				usu.setIdCentro(rs.getInt("id_centro"));
+				usu.setIdRol(rs.getInt("id_rol"));
+				lstUsuarios.add(usu);
+			}		
+			return (lstUsuarios.isEmpty() || lstUsuarios.size() == 0) ? null:lstUsuarios;
+		}catch(Exception e){
+			throw new Exception(e.getMessage());
+		} finally {
+			close(ps,rs);
+		}
+	}
+	
 	@Override
 	public List<Usuario> select(Usuario criteris) throws Exception {
 		PreparedStatement ps = null;

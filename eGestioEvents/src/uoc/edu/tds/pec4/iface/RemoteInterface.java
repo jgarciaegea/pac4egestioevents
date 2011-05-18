@@ -106,4 +106,13 @@ public interface RemoteInterface extends Remote{
 	
 	public abstract List<DTOTipoEvento> getTiposEventos() throws RemoteException, OperationErrorBD;
 	
+	/**
+	 * Recuperamos los datos de los usuarios
+	 * @param dtoUsuario
+	 * @return
+	 * @throws RemoteException
+	 * @throws OperationErrorBD
+	 */
+	public List<DTOUsuario> getUsuarios(DTOUsuario dtoUsuario) throws RemoteException, OperationErrorBD;
+	
 }

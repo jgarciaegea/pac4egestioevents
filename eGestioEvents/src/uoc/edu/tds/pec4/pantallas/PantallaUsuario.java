@@ -120,7 +120,6 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 		try {
 			remote.testConexion();
 		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		System.out.print("Para quitar el warning que sale si no se utiliza es provisional " + remote.toString());
@@ -575,6 +574,8 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 			showHideDatosUsuario(false);
 			showHideDatosUni(false);
 			
+			jTextField2.setEnabled(false);
+			
 		} catch (Exception e) {
 			try{
 				throw new OperationErrorDatosFormulario(e.getMessage());
@@ -584,6 +585,9 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 		}
 	}
 	
+	/*
+	 * Oculta o pon visible dependiendo del tipo de Usuario seleccionado
+	 */
 	private void showHideDatosUsuario(Boolean bValor){
 		jComboBoxTipoRol.setVisible(bValor);
 		jTextFieldSucursal.setVisible(bValor);
@@ -599,6 +603,9 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 		jLabelDatosBanc.setVisible(bValor);
 	}
 	
+	/*
+	 * Oculta o pon visible dependiendo del tipo de Usuario seleccionado
+	 */
 	private void showHideDatosUni(Boolean bValor){
 		jLabelCenDocente.setVisible(bValor);
 		jComboBoxCentroDocente.setVisible(bValor);
@@ -880,6 +887,7 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 	private void limpiaFormulario(){
 		ClearForm.clearForm(jPanel1);
 		ClearForm.clearForm(jPanel2);
+		jRadioButtonAdmin.setSelected(true);
 	}
 	
 	/*
