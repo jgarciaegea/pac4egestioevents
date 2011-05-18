@@ -13,7 +13,10 @@ import uoc.edu.tds.pec4.utils.Base64Coder;
 
 
 public class DaoUsuario extends DaoEntidad<Usuario>{
-
+	
+	private static final String CONSULTA_USUARIO = "SELECT codigo, nombre, apellidos, sexo, fecha_nacimiento, fecha_alta, fecha_contrasena, contrasena, cambiar_contrasena, " +
+	"estado, fecha_estado, motivo_estado, tipo_usuario , id_rol, id_centro, id_documento_identificacion, id_contacto, id_datos_bancarios ";
+	
 	public DaoUsuario(Connection con) {
 		super(con);
 	}
@@ -55,13 +58,13 @@ public class DaoUsuario extends DaoEntidad<Usuario>{
 	}
 	
 	
-	public List<UsuarioViewConsulta> selectUsersByView(UsuarioViewConsulta criteris)throws Exception {
+	public List<Usuario> selectUsersByView(UsuarioViewConsulta criteris)throws Exception {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		List<UsuarioViewConsulta> lstUsuarios = new ArrayList<UsuarioViewConsulta>();
+		List<Usuario> lstUsuarios = new ArrayList<Usuario>();
 		try{
 			StringBuffer sb = new StringBuffer();
-			sb.append("SELECT codigo,tipo_usuario,nombre,apellidos,id_documento_identificacion,numero_documento,fecha_alta, localidad, id_centro, id_rol ");
+			sb.append(CONSULTA_USUARIO);
 			sb.append("FROM v_consulta_usuarios ");
 			sb.append("WHERE (1=1) ");
 			if(criteris.getCodigo() !=null) sb.append("AND codigo = ? ");
@@ -91,17 +94,7 @@ public class DaoUsuario extends DaoEntidad<Usuario>{
 			
 			rs = ps.executeQuery();
 			while (rs.next()) {
-				UsuarioViewConsulta usu = new UsuarioViewConsulta();
-				usu.setCodigo(rs.getString("codigo"));
-				usu.setTipoUsuario(rs.getInt("tipo_usuario"));
-				usu.setNombre(rs.getString("nombre"));
-				usu.setApellidos(rs.getString("apellidos"));
-				usu.setIdDocumentoIdentificacion(rs.getInt("id_documento_identificacion"));
-				usu.setNumeroDocumento(rs.getString("numero_documento"));
-				usu.setFechaAlta(rs.getDate("fecha_alta"));
-				usu.setLocalidad(rs.getString("localidad"));
-				usu.setIdCentro(rs.getInt("id_centro"));
-				usu.setIdRol(rs.getInt("id_rol"));
+				Usuario usu = retornaUsuario(rs);
 				lstUsuarios.add(usu);
 			}		
 			return (lstUsuarios.isEmpty() || lstUsuarios.size() == 0) ? null:lstUsuarios;
@@ -119,8 +112,7 @@ public class DaoUsuario extends DaoEntidad<Usuario>{
 		List<Usuario> lstUsuarios = new ArrayList<Usuario>();
 		try{
 			StringBuffer sb = new StringBuffer();
-			sb.append("SELECT codigo, nombre, apellidos, sexo, fecha_nacimiento, fecha_alta, fecha_contrasena, contrasena, cambiar_contrasena, " +
-					"estado, fecha_estado, motivo_estado, tipo_usuario , id_rol, id_centro, id_documento_identificacion, id_contacto, id_datos_bancarios  ");
+			sb.append(CONSULTA_USUARIO);
 			sb.append("FROM USUARIO ");
 			sb.append("WHERE (1=1) ");
 			if(criteris.getCodigo() !=null) sb.append("AND codigo = ? ");
@@ -167,25 +159,7 @@ public class DaoUsuario extends DaoEntidad<Usuario>{
 			
 			rs = ps.executeQuery();
 			while (rs.next()) {
-				Usuario usu = new Usuario();
-				usu.setCodigo(rs.getString("codigo"));
-				usu.setNombre(rs.getString("nombre"));
-				usu.setApellidos(rs.getString("apellidos"));
-				usu.setSexo(rs.getString("sexo"));
-				usu.setFechaNacimiento(rs.getDate("fecha_nacimiento"));
-				usu.setFechaAlta(rs.getDate("fecha_alta"));
-				usu.setFechaContrasena(rs.getDate("fecha_contrasena"));
-				usu.setContrasena(rs.getString("contrasena"));
-				usu.setCambiarContrasena(rs.getBoolean("cambiar_contrasena"));
-				usu.setFechaEstado(rs.getDate("fecha_estado"));
-				usu.setMotivoEstado(rs.getString("motivo_estado"));
-				usu.setTipoUsuario(rs.getInt("tipo_usuario"));
-				usu.setIdCentro(rs.getInt("id_centro"));
-				usu.setIdDocumentoIdentificacion(rs.getInt("id_documento_identificacion"));
-				usu.setIdContacto(rs.getInt("id_contacto"));
-				usu.setIdRol(rs.getInt("id_rol"));
-				usu.setEstado(rs.getInt("estado"));
-				usu.setIdDatosBancarios(rs.getInt("id_datos_bancarios"));
+				Usuario usu = retornaUsuario(rs);
 				lstUsuarios.add(usu);
 			}		
 			return (lstUsuarios.isEmpty() || lstUsuarios.size() == 0) ? null:lstUsuarios;
@@ -204,6 +178,29 @@ public class DaoUsuario extends DaoEntidad<Usuario>{
 	@Override
 	public void delete(Usuario criteris) throws Exception {
 		throw new UnsupportedOperationException("Método no implementado");
+	}
+	
+	private Usuario retornaUsuario(ResultSet rs) throws SQLException{
+		Usuario usu = new Usuario();
+		usu.setCodigo(rs.getString("codigo"));
+		usu.setNombre(rs.getString("nombre"));
+		usu.setApellidos(rs.getString("apellidos"));
+		usu.setSexo(rs.getString("sexo"));
+		usu.setFechaNacimiento(rs.getDate("fecha_nacimiento"));
+		usu.setFechaAlta(rs.getDate("fecha_alta"));
+		usu.setFechaContrasena(rs.getDate("fecha_contrasena"));
+		usu.setContrasena(rs.getString("contrasena"));
+		usu.setCambiarContrasena(rs.getBoolean("cambiar_contrasena"));
+		usu.setFechaEstado(rs.getDate("fecha_estado"));
+		usu.setMotivoEstado(rs.getString("motivo_estado"));
+		usu.setTipoUsuario(rs.getInt("tipo_usuario"));
+		usu.setIdCentro(rs.getInt("id_centro"));
+		usu.setIdDocumentoIdentificacion(rs.getInt("id_documento_identificacion"));
+		usu.setIdContacto(rs.getInt("id_contacto"));
+		usu.setIdRol(rs.getInt("id_rol"));
+		usu.setEstado(rs.getInt("estado"));
+		usu.setIdDatosBancarios(rs.getInt("id_datos_bancarios"));
+		return usu;
 	}
 	
 }
