@@ -41,6 +41,7 @@ import uoc.edu.tds.pec4.dtos.DTOUniversidad;
 import uoc.edu.tds.pec4.dtos.DTOUsuario;
 import uoc.edu.tds.pec4.excepciones.OperationErrorBD;
 import uoc.edu.tds.pec4.excepciones.OperationErrorDatosFormulario;
+import uoc.edu.tds.pec4.gestores.FactoriaUsuario;
 import uoc.edu.tds.pec4.gestores.GestorRMI;
 import uoc.edu.tds.pec4.iface.RemoteInterface;
 import uoc.edu.tds.pec4.utils.ClearForm;
@@ -770,8 +771,7 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 		
 	}
 	
-	@SuppressWarnings("unchecked")
-	private <B extends DTOUsuario> B altaUsuario() throws OperationErrorDatosFormulario{
+	private DTOUsuario altaUsuario() throws OperationErrorDatosFormulario{
 		
 		//Datos específicos del contacto
 		DTOContacto dtoContacto = new DTOContacto();
@@ -818,12 +818,10 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 		docIden.setNumeroDocumento(jTextFieldDocIden.getText());
 		dtoDocumentoIden.setDocumentoIdentificacion(docIden);
 		
-		
 		//Tipo de usuario
 		if(jRadioButtonAdmin.isSelected()) usuario.setTipoUsuario(Constantes.ADMINISTRADOR);
 		if(jRadioButtonSecr.isSelected()) usuario.setTipoUsuario(Constantes.SECRETARIA);
 		if(jRadioButtonAsis.isSelected()) usuario.setTipoUsuario(Constantes.ASISTENTE);
-		
 		
 		if(Constantes.ASISTENTE == usuario.getTipoUsuario() || usuario.getTipoUsuario()==Constantes.SECRETARIA){
 			usuario.setIdCentro(Integer.parseInt(((MostrarCombo) jComboBoxCentroDocente.getSelectedItem()).getID().toString()));
@@ -850,35 +848,44 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 			dtoDatosBancarios.setDatosBancarios(datosBancarios);
 		}
 		
-		switch(usuario.getTipoUsuario()){
-			case Constantes.ADMINISTRADOR:
-					DTOAdministrador dtoAdministrador = new DTOAdministrador();
-					dtoAdministrador.setUsuario(usuario);
-					dtoAdministrador.setDtoContacto(dtoContacto);
-					dtoAdministrador.setDtoDocumentoIden(dtoDocumentoIden);
-					dtoAdministrador.getUsuario().setIdRol(-1); //No tienen roles
-					dtoAdministrador.getUsuario().setIdCentro(-1); //No tiene centro que asignar
-					dtoAdministrador.getUsuario().setIdDatosBancarios(-1); //No tiene datos bancarios
-					return (B) dtoAdministrador;
-			case Constantes.SECRETARIA:
-					DTOPersonalSecretaria dtoPersonal = new DTOPersonalSecretaria();
-					dtoPersonal.setUsuario(usuario);
-					dtoPersonal.setDtoContacto(dtoContacto);
-					dtoPersonal.setDtoDocumentoIden(dtoDocumentoIden);
-					dtoPersonal.getUsuario().setIdRol(-1); //No tienen roles
-					dtoPersonal.getUsuario().setIdDatosBancarios(-1); //No tiene datos bancarios
-					return (B) dtoPersonal;
-			case Constantes.ASISTENTE:
-					DTOAsistente dtoAsistente = new DTOAsistente();
-					dtoAsistente.setUsuario(usuario);
-					dtoAsistente.setDtoContacto(dtoContacto);
-					dtoAsistente.setDtoDocumentoIden(dtoDocumentoIden);
-					dtoAsistente.setDtoDatosBancarios(dtoDatosBancarios);
-					return (B) dtoAsistente;
-			default:
-				throw new OperationErrorDatosFormulario("El tipo de usuario " + usuario.getTipoUsuario() + " no está contemplado");
-		}
+		DTOUsuario dtoUsuario = null;
 		
+		try {
+			dtoUsuario = FactoriaUsuario.getUsuario(usuario.getTipoUsuario());
+			if(dtoUsuario instanceof DTOAdministrador){
+				dtoUsuario = new DTOAdministrador();
+				rellenaInfoComun(dtoUsuario,usuario,dtoContacto,dtoDocumentoIden);
+				dtoUsuario.getUsuario().setIdRol(-1); //No tienen roles
+				dtoUsuario.getUsuario().setIdCentro(-1); //No tiene centro que asignar
+				dtoUsuario.getUsuario().setIdDatosBancarios(-1); //No tiene datos bancarios
+				return dtoUsuario;
+			}else if(dtoUsuario instanceof DTOPersonalSecretaria){
+				dtoUsuario = new DTOPersonalSecretaria();
+				rellenaInfoComun(dtoUsuario,usuario,dtoContacto,dtoDocumentoIden);
+				dtoUsuario.getUsuario().setIdRol(-1); //No tienen roles
+				dtoUsuario.getUsuario().setIdDatosBancarios(-1); //No tiene datos bancarios
+				return dtoUsuario;
+			}else if(dtoUsuario instanceof DTOAsistente){
+				dtoUsuario = new DTOAsistente();
+				rellenaInfoComun(dtoUsuario,usuario,dtoContacto,dtoDocumentoIden);
+				dtoUsuario.setDtoDatosBancarios(dtoDatosBancarios);
+				return dtoUsuario;
+			}	
+			
+		} catch (Exception e) {
+			throw new OperationErrorDatosFormulario(e.getMessage());
+		}
+		throw new OperationErrorDatosFormulario("El tipo de usuario " + usuario.getTipoUsuario() + " no está contemplado");
+	}
+	
+	private void rellenaInfoComun(DTOUsuario dtoUsuario,Usuario usuario, DTOContacto dtoContacto, DTODocumentoIdentificacion dtoDocumentoIden) throws Exception{
+		try{
+			dtoUsuario.setUsuario(usuario);
+			dtoUsuario.setDtoContacto(dtoContacto);
+			dtoUsuario.setDtoDocumentoIden(dtoDocumentoIden);
+		}catch(Exception e){
+			throw e;
+		}
 	}
 	
 	/*
