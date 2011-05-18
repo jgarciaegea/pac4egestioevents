@@ -18,16 +18,16 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.Timer;
+import javax.swing.table.DefaultTableModel;
 
-import uoc.edu.tds.pec4.beans.Contacto;
-import uoc.edu.tds.pec4.beans.DocumentoIdentificacion;
-import uoc.edu.tds.pec4.beans.Usuario;
 import uoc.edu.tds.pec4.beans.UsuarioViewConsulta;
 import uoc.edu.tds.pec4.dtos.DTOCentroDocente;
-import uoc.edu.tds.pec4.dtos.DTOContacto;
-import uoc.edu.tds.pec4.dtos.DTODocumentoIdentificacion;
 import uoc.edu.tds.pec4.dtos.DTOTipoDocumento;
 import uoc.edu.tds.pec4.dtos.DTOTipoRol;
 import uoc.edu.tds.pec4.dtos.DTOUniversidad;
@@ -41,8 +41,23 @@ import uoc.edu.tds.pec4.utils.ClearForm;
 import uoc.edu.tds.pec4.utils.Constantes;
 import uoc.edu.tds.pec4.utils.MostrarCombo;
 
+
+/**
+* This code was edited or generated using CloudGarden's Jigloo
+* SWT/Swing GUI Builder, which is free for non-commercial
+* use. If Jigloo is being used commercially (ie, by a corporation,
+* company or business for any purpose whatever) then you
+* should purchase a license for each developer using Jigloo.
+* Please visit www.cloudgarden.com for details.
+* Use of Jigloo implies acceptance of these licensing terms.
+* A COMMERCIAL LICENSE HAS NOT BEEN PURCHASED FOR
+* THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED
+* LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
+*/
 public class PantallaUsuarioConsulta extends javax.swing.JPanel implements Pantallas {
-	
+	private String[] columnNames = {"Nombre", "Apellidos", "Fecha de alta","Perfil", "Universidad"};
+	final static int interval = 1000;
+	private DefaultTableModel dtm;
 	private static final long serialVersionUID = 1L;
 	private JComboBox jComboBoxCentroDocente;
 	private JComboBox jComboBoxUniver;
@@ -57,6 +72,8 @@ public class PantallaUsuarioConsulta extends javax.swing.JPanel implements Panta
 	private JTextField jTextFieldProvincia;
 	private JLabel jLabelLocalidad;
 	private JLabel jLabelDocIden;
+	private JProgressBar jProgressBar1;
+	private JTable jTableRes;
 	private JComboBox jComboBoxPerfil;
 	private JComboBox jComboBoxTipoRol;
 	private JLabel jLabelTipoPerfil;
@@ -64,7 +81,7 @@ public class PantallaUsuarioConsulta extends javax.swing.JPanel implements Panta
 	private JRadioButton jRadioButtonDesaNo;
 	private JRadioButton jRadioButtonDesSi;
 	private JLabel jLabelActivos;
-	
+	private JScrollPane scrollPane;
 	private JLabel jLabelTipoDoc;
 	private JLabel jLabelApe;
 	private JTextField jTextFieldApe;
@@ -73,6 +90,7 @@ public class PantallaUsuarioConsulta extends javax.swing.JPanel implements Panta
 	private JPanel jPanel2;
 	private RemoteInterface remote;
 	private ButtonGroup grupoBu;
+	Timer timer;
 	
 	public PantallaUsuarioConsulta(GestorRMI gestorRMI,RemoteInterface remote1) {
 		super();
@@ -94,10 +112,10 @@ public class PantallaUsuarioConsulta extends javax.swing.JPanel implements Panta
 				this.add(jPanel2);
 				GridBagLayout jPanel2Layout = new GridBagLayout();
 				jPanel2Layout.columnWidths = new int[] {142, 222, 7};
-				jPanel2Layout.rowHeights = new int[] {24, 20, 25, 24, 17, 23, 23, 22, 23, 32, 22, 20, 28, 34, 14, 28, 34, 15, 19};
+				jPanel2Layout.rowHeights = new int[] {24, 20, 25, 24, 17, 23, 23, 22, 23, 32, 18, 34, 128};
 				jPanel2Layout.columnWeights = new double[] {0.0, 0.0, 0.1};
-				jPanel2Layout.rowWeights = new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
-				jPanel2.setPreferredSize(new java.awt.Dimension(437, 461));
+				jPanel2Layout.rowWeights = new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+				jPanel2.setPreferredSize(new java.awt.Dimension(644, 449));
 				jPanel2.setLayout(jPanel2Layout);
 				{
 					jTextFieldNombre = new JTextField();
@@ -220,6 +238,25 @@ public class PantallaUsuarioConsulta extends javax.swing.JPanel implements Panta
 					jComboBoxPerfil = new JComboBox();
 					jComboBoxPerfil.setPreferredSize(new java.awt.Dimension(200, 21));
 					jPanel2.add(jComboBoxPerfil, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 8, 0, 0), 0, 0));
+					
+				}
+				{
+					dtm=new DefaultTableModel();
+					{
+						for(int i=0;i<columnNames.length;i++){
+				        	dtm.addColumn(columnNames[i]);
+				        }
+					}
+					
+					jTableRes = new JTable(dtm);
+					jTableRes.setSize(297, 130);
+					jTableRes.setPreferredSize(new java.awt.Dimension(316, 130));
+					scrollPane=new JScrollPane(jTableRes);
+					scrollPane.setVisible(true);
+					jPanel2.add(scrollPane, new GridBagConstraints(0, 12, 3, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
+					jProgressBar1 = new JProgressBar();
+					jPanel2.add(jProgressBar1, new GridBagConstraints(1, 11, 1, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 4, 0, 0), 0, 0));
+					scrollPane.setPreferredSize(new java.awt.Dimension(600, 150));
 				}
 			}
 			{
@@ -239,6 +276,7 @@ public class PantallaUsuarioConsulta extends javax.swing.JPanel implements Panta
 								try {
 									validaFormulario();
 									List<DTOUsuario> lstDtoUsuario = remote.getUsuarios(consultaUsuarios());
+									muestraResultado(lstDtoUsuario);
 									limpiaFormulario();
 								} catch (RemoteException e1) {
 									e1.printStackTrace();
@@ -428,6 +466,37 @@ public class PantallaUsuarioConsulta extends javax.swing.JPanel implements Panta
 	 */
 	private void limpiaFormulario(){
 		ClearForm.clearForm(jPanel2);
+	}
+	
+	
+	private void muestraResultado(List<DTOUsuario> lstDtoUsuario){
+		
+		dtm.getDataVector().removeAllElements();
+		     
+		Object[][] aobj = new Object[lstDtoUsuario.size()][5];
+		int k = 0;
+		
+		if(lstDtoUsuario != null){
+       	 	
+			for(DTOUsuario dtoUsuario : lstDtoUsuario){
+                 aobj[k][0] = new String(dtoUsuario.getUsuario().getNombre());
+                 aobj[k][1] = new String(dtoUsuario.getUsuario().getApellidos());
+                 aobj[k][2] = new String(dtoUsuario.getUsuario().getFechaAlta().toString());
+                 aobj[k][3] = new String(dtoUsuario.getUsuario().getTipoUsuario().toString());
+                 if(dtoUsuario.getDtoCentroDocente() != null){
+                	 aobj[k][4] = new String(dtoUsuario.getDtoCentroDocente().getDtoContacto().getDtoPais().getPais().getNombrePais());
+                 }
+                 k++;
+       	 	}
+       	 
+       	 	if(aobj != null && aobj.length > 0){
+       	 		for(int row = 0; row < aobj.length; row++){
+       	 			dtm.addRow(aobj[row]);
+       	 		}
+       	 	}
+
+		}
+		        
 	}
 	
 
