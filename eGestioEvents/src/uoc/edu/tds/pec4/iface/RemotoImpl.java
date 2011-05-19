@@ -206,6 +206,17 @@ public class RemotoImpl extends UnicastRemoteObject implements RemoteInterface,S
 			throw new OperationErrorBD("Error al recuperar los tipos de rol: " + e.getMessage());
 		}
 	}
+
+	public void bajaUsuario(DTOUsuario dtoUsuario) throws RemoteException, OperationErrorBD {
+		try{
+			System.out.println("damos de baja el usuario.....");
+			GestorUsuario gestorUsuario = new GestorUsuario(gestorDB.getConnection());
+			gestorUsuario.eliminaEntidad(dtoUsuario);
+		}catch(Exception e){
+			throw new OperationErrorBD("Error al recuperar la información de los usuarios......");
+		}
+		
+	}
 	
 
 }

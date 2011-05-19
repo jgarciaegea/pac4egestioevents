@@ -1,5 +1,7 @@
 package uoc.edu.tds.pec4.pantallas;
 
+import java.awt.Component;
+import java.awt.Cursor;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -7,25 +9,28 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
 
 import javax.swing.ButtonGroup;
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JProgressBar;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.Timer;
 import javax.swing.table.DefaultTableModel;
 
+import uoc.edu.tds.pec4.beans.Usuario;
 import uoc.edu.tds.pec4.beans.UsuarioViewConsulta;
 import uoc.edu.tds.pec4.dtos.DTOCentroDocente;
 import uoc.edu.tds.pec4.dtos.DTOTipoDocumento;
@@ -35,11 +40,13 @@ import uoc.edu.tds.pec4.dtos.DTOUsuario;
 import uoc.edu.tds.pec4.dtos.DTOUsuarioConsulta;
 import uoc.edu.tds.pec4.excepciones.OperationErrorBD;
 import uoc.edu.tds.pec4.excepciones.OperationErrorDatosFormulario;
+import uoc.edu.tds.pec4.gestores.FactoriaUsuario;
 import uoc.edu.tds.pec4.gestores.GestorRMI;
 import uoc.edu.tds.pec4.iface.RemoteInterface;
 import uoc.edu.tds.pec4.utils.ClearForm;
 import uoc.edu.tds.pec4.utils.Constantes;
 import uoc.edu.tds.pec4.utils.MostrarCombo;
+import uoc.edu.tds.pec4.utils.Utils;
 
 
 /**
@@ -55,7 +62,7 @@ import uoc.edu.tds.pec4.utils.MostrarCombo;
 * LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
 */
 public class PantallaUsuarioConsulta extends javax.swing.JPanel implements Pantallas {
-	private String[] columnNames = {"Nombre", "Apellidos", "Fecha de alta","Perfil", "Universidad"};
+	private String[] columnNames = {"Codigo","idTipoUsuario","Nombre", "Apellidos", "Fecha de alta", "Perfil", "Universidad"};
 	final static int interval = 1000;
 	private DefaultTableModel dtm;
 	private static final long serialVersionUID = 1L;
@@ -72,7 +79,8 @@ public class PantallaUsuarioConsulta extends javax.swing.JPanel implements Panta
 	private JTextField jTextFieldProvincia;
 	private JLabel jLabelLocalidad;
 	private JLabel jLabelDocIden;
-	private JProgressBar jProgressBar1;
+	private JLabel jLabelModifica;
+	private JLabel jLabelElimina;
 	private JTable jTableRes;
 	private JComboBox jComboBoxPerfil;
 	private JComboBox jComboBoxTipoRol;
@@ -90,11 +98,17 @@ public class PantallaUsuarioConsulta extends javax.swing.JPanel implements Panta
 	private JPanel jPanel2;
 	private RemoteInterface remote;
 	private ButtonGroup grupoBu;
-	Timer timer;
+	private JTextField jTextFieldHasta;
+	private JLabel jLabelHasta;
+	private JLabel jLabelDesde;
+	private JTextField jTextFieldFechaIni;
+	private JLabel jLabelFechaAlta;
+	private GestorRMI gestorRMI;
 	
 	public PantallaUsuarioConsulta(GestorRMI gestorRMI,RemoteInterface remote1) {
 		super();
-		remote = remote1;
+		this.remote = remote1;
+		this.gestorRMI = gestorRMI;
 		try {
 			remote.testConexion();
 		} catch (RemoteException e) {
@@ -106,7 +120,7 @@ public class PantallaUsuarioConsulta extends javax.swing.JPanel implements Panta
 	
 	private void initGUI() {
 		try {
-			this.setPreferredSize(new java.awt.Dimension(696, 508));
+			this.setPreferredSize(new java.awt.Dimension(784, 565));
 			{
 				jPanel2 = new JPanel();
 				this.add(jPanel2);
@@ -141,18 +155,18 @@ public class PantallaUsuarioConsulta extends javax.swing.JPanel implements Panta
 				}
 				{
 					jLabelTipoDoc = new JLabel();
-					jPanel2.add(jLabelTipoDoc, new GridBagConstraints(0, 4, 1, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
+					jPanel2.add(jLabelTipoDoc, new GridBagConstraints(0, 3, 1, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 					jLabelTipoDoc.setText("Tipo de documento");
 					jLabelTipoDoc.setLayout(null);
 				}
 				{
 					jComboBoxTipoDoc = new JComboBox();
-					jPanel2.add(jComboBoxTipoDoc, new GridBagConstraints(1, 4, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 8, 0, 0), 0, 0));
+					jPanel2.add(jComboBoxTipoDoc, new GridBagConstraints(1, 3, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 8, 0, 0), 0, 0));
 					jComboBoxTipoDoc.setPreferredSize(new java.awt.Dimension(200, 21));
 				}
 				{
 					jLabelDocIden = new JLabel();
-					jPanel2.add(jLabelDocIden, new GridBagConstraints(0, 3, 1, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
+					jPanel2.add(jLabelDocIden, new GridBagConstraints(0, 4, 1, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 					jLabelDocIden.setText("Documento identificación");
 					jLabelDocIden.setLayout(null);
 				}
@@ -205,22 +219,22 @@ public class PantallaUsuarioConsulta extends javax.swing.JPanel implements Panta
 				}
 				{
 					jLabelActivos = new JLabel();
-					jPanel2.add(jLabelActivos, new GridBagConstraints(0, 9, 1, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
+					jPanel2.add(jLabelActivos, new GridBagConstraints(0, 10, 1, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 					jLabelActivos.setText("Incluir desactivados");
 				}
 				{
 					jRadioButtonDesSi = new JRadioButton();
-					jPanel2.add(jRadioButtonDesSi, new GridBagConstraints(1, 9, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 8, 0, 0), 0, 0));
+					jPanel2.add(jRadioButtonDesSi, new GridBagConstraints(1, 10, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 8, 0, 0), 0, 0));
 					jRadioButtonDesSi.setText("Si");
 				}
 				{
 					jRadioButtonDesaNo = new JRadioButton();
-					jPanel2.add(jRadioButtonDesaNo, new GridBagConstraints(1, 9, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.VERTICAL, new Insets(0, 0, 0, 80), 0, 0));
+					jPanel2.add(jRadioButtonDesaNo, new GridBagConstraints(1, 10, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.VERTICAL, new Insets(0, 0, 0, 80), 0, 0));
 					jRadioButtonDesaNo.setText("No");
 				}
 				{
 					jTextFieldDocuIden = new JTextField();
-					jPanel2.add(jTextFieldDocuIden, new GridBagConstraints(1, 3, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 8, 0, 0), 0, 0));
+					jPanel2.add(jTextFieldDocuIden, new GridBagConstraints(1, 4, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 8, 0, 0), 0, 0));
 					jTextFieldDocuIden.setPreferredSize(new java.awt.Dimension(200, 21));
 				}
 				{
@@ -246,23 +260,48 @@ public class PantallaUsuarioConsulta extends javax.swing.JPanel implements Panta
 						for(int i=0;i<columnNames.length;i++){
 				        	dtm.addColumn(columnNames[i]);
 				        }
+						
 					}
 					
 					jTableRes = new JTable(dtm);
+					
+					//Ocultamos la columna del id
+					Utils.ocultaColumna(jTableRes,0);
+					Utils.ocultaColumna(jTableRes,1);
+					
 					jTableRes.setSize(297, 130);
 					jTableRes.setPreferredSize(new java.awt.Dimension(316, 130));
 					scrollPane=new JScrollPane(jTableRes);
 					scrollPane.setVisible(true);
 					jPanel2.add(scrollPane, new GridBagConstraints(0, 12, 3, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-					jProgressBar1 = new JProgressBar();
-					jPanel2.add(jProgressBar1, new GridBagConstraints(1, 11, 1, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 4, 0, 0), 0, 0));
+					
+					jLabelFechaAlta = new JLabel();
+					jLabelFechaAlta.setText("Fecha Alta");
+					jPanel2.add(jLabelFechaAlta, new GridBagConstraints(0, 9, 1, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
+					
+					jTextFieldFechaIni = new JTextField();
+					jTextFieldFechaIni.setPreferredSize(new java.awt.Dimension(100, 21));
+					jPanel2.add(jTextFieldFechaIni, new GridBagConstraints(1, 9, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 20), 0, 0));
+					
+					jLabelDesde = new JLabel();
+					jLabelDesde.setText("Desde");
+					jPanel2.add(jLabelDesde, new GridBagConstraints(1, 9, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 10, 0, 0), 0, 0));
+					
+					jLabelHasta = new JLabel();
+					jLabelHasta.setText("Hasta");
+					jPanel2.add(jLabelHasta, new GridBagConstraints(1, 9, 1, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
+					jTextFieldHasta = new JTextField();
+					jTextFieldHasta.setPreferredSize(new java.awt.Dimension(100, 21));
+					jPanel2.add(jTextFieldHasta, new GridBagConstraints(2, 9, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 7, 0, 0), 0, 0));
+					jPanel2.add(getJLabelElimina(), new GridBagConstraints(2, 11, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
+					jPanel2.add(getJLabelModifica(), new GridBagConstraints(2, 11, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 21, 0, 0), 0, 0));
 					scrollPane.setPreferredSize(new java.awt.Dimension(600, 150));
 				}
 			}
 			{
 				jPanelButtom = new JPanel();
 				this.add(jPanelButtom);
-				jPanelButtom.setPreferredSize(new java.awt.Dimension(758, 56));
+				jPanelButtom.setPreferredSize(new java.awt.Dimension(758, 565));
 				jPanelButtom.setBounds(238, 280, 10, 10);
 				{
 					jButtonAcceptar = new JButton();
@@ -275,13 +314,7 @@ public class PantallaUsuarioConsulta extends javax.swing.JPanel implements Panta
 							public void actionPerformed(ActionEvent e) {
 								try {
 									validaFormulario();
-									List<DTOUsuario> lstDtoUsuario = remote.getUsuarios(consultaUsuarios());
-									muestraResultado(lstDtoUsuario);
-									limpiaFormulario();
-								} catch (RemoteException e1) {
-									e1.printStackTrace();
-								} catch (OperationErrorBD e2) {
-									e2.showDialogError(jPanel2);
+									cargaListadoUsuarios();
 								} catch (OperationErrorDatosFormulario e3) {
 									e3.showDialogError(jPanel2);
 								}
@@ -311,6 +344,69 @@ public class PantallaUsuarioConsulta extends javax.swing.JPanel implements Panta
 			//Cargamos combos
 			cargaCombos();
 			
+			jRadioButtonDesSi.setSelected(true);
+			
+			/*
+			 * Cuando clique sobre el botón modificar recogeremos el código y pondremos el usuario como inactivo
+			 */
+			jLabelElimina.addMouseListener(new MouseListener(){
+				public void mouseClicked(MouseEvent e) {
+					if(jTableRes.getSelectedRow() == -1){
+						Utils.mostraMensajeInformacion(jPanel2, "No ha seleccionado ningún registro de la tabla", "Consulta Usuarios");
+					}else{
+						@SuppressWarnings("unchecked")
+						List<Object> lstRes = (Vector<Object>) dtm.getDataVector().get(jTableRes.getSelectedRow());
+						try {
+							Usuario usuario = new Usuario();
+							usuario.setCodigo(lstRes.get(0).toString());
+							DTOUsuario dtoUsuario = FactoriaUsuario.getUsuario(Integer.parseInt(lstRes.get(1).toString()));
+							dtoUsuario.setUsuario(usuario);
+							remote.bajaUsuario(dtoUsuario);
+							cargaListadoUsuarios();
+							Utils.mostraMensajeInformacion(jPanel2,"Usuario dado de baja correctamente", "Consulta usuario");
+						} catch (NumberFormatException e1) {
+							try {
+								throw new OperationErrorDatosFormulario(e1.getMessage());
+							} catch (OperationErrorDatosFormulario e2) {
+								e2.showDialogError();
+							}
+						} catch (Exception e1) {
+							try {
+								throw new OperationErrorDatosFormulario(e1.getMessage());
+							} catch (OperationErrorDatosFormulario e2) {
+								e2.showDialogError();
+							}
+						}finally{
+							limpiaFormulario();
+						}
+						
+					}
+				}
+				public void mousePressed(MouseEvent e) {}
+				public void mouseReleased(MouseEvent e) {}
+				public void mouseEntered(MouseEvent e) {}
+				public void mouseExited(MouseEvent e) {}
+			});
+			
+			
+			/*
+			 * Modificamos el usuario
+			 */
+			jLabelModifica.addMouseListener(new MouseListener(){
+				public void mouseClicked(MouseEvent e) {
+					if(jTableRes.getSelectedRow() == -1){
+						Utils.mostraMensajeInformacion(jPanel2, "No ha seleccionado ningún registro de la tabla", "Consulta Usuarios");
+					}else{
+						goPantallaUsuario();
+					}
+				}
+				public void mousePressed(MouseEvent e) {}
+				public void mouseReleased(MouseEvent e) {}
+				public void mouseEntered(MouseEvent e) {}
+				public void mouseExited(MouseEvent e) {}
+			});
+			
+			
 		} catch (Exception e) {
 			try{
 				throw new OperationErrorDatosFormulario(e.getMessage());
@@ -318,6 +414,29 @@ public class PantallaUsuarioConsulta extends javax.swing.JPanel implements Panta
 				ex.showDialogError(jPanel2);
 			}
 		}
+	}
+	
+	private void goPantallaUsuario(){
+		this.removeAll();
+		this.setAlignmentX(LEFT_ALIGNMENT);
+		this.setAlignmentY(TOP_ALIGNMENT);
+		this.add((Component)new PantallaUsuario(gestorRMI, remote));
+		this.revalidate();
+	}
+	
+	private void cargaListadoUsuarios() throws OperationErrorDatosFormulario{
+		try{
+			List<DTOUsuario> lstDtoUsuario = remote.getUsuarios(consultaUsuarios());
+			if(lstDtoUsuario == null || lstDtoUsuario.isEmpty()){
+				dtm.getDataVector().removeAllElements();
+				Utils.mostraMensajeInformacion(jPanel2,"No hay resultados","Búsqueda usuarios");
+				return;
+			}
+			muestraResultado(lstDtoUsuario);
+		}catch(Exception e){
+			throw new OperationErrorDatosFormulario(e.getMessage());
+		}
+		
 	}
 	
 	
@@ -353,9 +472,17 @@ public class PantallaUsuarioConsulta extends javax.swing.JPanel implements Panta
 	private void validaFormulario() throws OperationErrorDatosFormulario{
 		try{
 			
+			if(!"".equalsIgnoreCase(jTextFieldHasta.getText()) && "".equalsIgnoreCase(jTextFieldFechaIni.getText())){
+				 throw new Exception("No puede introducir la fecha final sin previamente informar la fecha de inicio");
+			}
 			
+			if(!"".equalsIgnoreCase(jTextFieldFechaIni.getText())){
+				if(!Utils.parseaFecha(jTextFieldFechaIni.getText())) throw new Exception(Utils.MESSAGE_ERROR + " fecha inicio" + Utils.MESSAGE_FECHA );
+			}
 			
-			
+			if(!"".equalsIgnoreCase(jTextFieldHasta.getText())){
+				if(!Utils.parseaFecha(jTextFieldHasta.getText())) throw new Exception(Utils.MESSAGE_ERROR + " fecha fin" + Utils.MESSAGE_FECHA );
+			}
 			
 		}catch(Exception e){
 			throw new OperationErrorDatosFormulario(e.getMessage());
@@ -448,7 +575,6 @@ public class PantallaUsuarioConsulta extends javax.swing.JPanel implements Panta
 		UsuarioViewConsulta usuario = new UsuarioViewConsulta();
 		if(!"".equalsIgnoreCase(jTextFieldNombre.getText())) usuario.setNombre(jTextFieldNombre.getText());
 		if(!"".equalsIgnoreCase(jTextFieldApe.getText())) usuario.setNombre(jTextFieldApe.getText());
-		usuario.setEstado(1);
 		Integer idRol = Integer.parseInt(((MostrarCombo) jComboBoxTipoRol.getSelectedItem()).getID().toString());
 		usuario.setIdRol(idRol==0?null:idRol);
 		Integer idCentro = Integer.parseInt(((MostrarCombo) jComboBoxCentroDocente.getSelectedItem()).getID().toString());
@@ -457,6 +583,10 @@ public class PantallaUsuarioConsulta extends javax.swing.JPanel implements Panta
 		Integer idtipoDocumento = Integer.parseInt(((MostrarCombo) jComboBoxTipoRol.getSelectedItem()).getID().toString());
 		usuario.setIdDocumentoIdentificacion(idtipoDocumento==0?null:idtipoDocumento);
 		if(!"".equalsIgnoreCase(jTextFieldLocalidad.getText())) usuario.setLocalidad(jTextFieldLocalidad.getText());
+		if(jRadioButtonDesaNo.isSelected()) usuario.setEstado(Constantes.REGISTRO_ACTIVO);
+		if(jRadioButtonDesSi.isSelected()) usuario.setEstado(null);	//De esta manera visualizaremos todos los usuarios activos o inactivos
+		if(!"".equalsIgnoreCase(jTextFieldFechaIni.getText())) usuario.setFechaInicio(Utils.transformFecha(jTextFieldFechaIni.getText()));
+		if(!"".equalsIgnoreCase(jTextFieldHasta.getText())) usuario.setFechaFin(Utils.transformFecha(jTextFieldHasta.getText()));
 		dtoUsuario.setUsuarioViewConsulta(usuario);
 		return dtoUsuario;
 	}
@@ -469,35 +599,61 @@ public class PantallaUsuarioConsulta extends javax.swing.JPanel implements Panta
 	}
 	
 	
-	private void muestraResultado(List<DTOUsuario> lstDtoUsuario){
+	private void muestraResultado(List<DTOUsuario> lstDtoUsuario) throws OperationErrorDatosFormulario{
 		
-		dtm.getDataVector().removeAllElements();
+		try{
+			dtm.getDataVector().removeAllElements();
 		     
-		Object[][] aobj = new Object[lstDtoUsuario.size()][5];
-		int k = 0;
-		
-		if(lstDtoUsuario != null){
-       	 	
-			for(DTOUsuario dtoUsuario : lstDtoUsuario){
-                 aobj[k][0] = new String(dtoUsuario.getUsuario().getNombre());
-                 aobj[k][1] = new String(dtoUsuario.getUsuario().getApellidos());
-                 aobj[k][2] = new String(dtoUsuario.getUsuario().getFechaAlta().toString());
-                 aobj[k][3] = new String(dtoUsuario.getUsuario().getTipoUsuario().toString());
-                 if(dtoUsuario.getDtoCentroDocente() != null){
-                	 aobj[k][4] = new String(dtoUsuario.getDtoCentroDocente().getDtoContacto().getDtoPais().getPais().getNombrePais());
-                 }
-                 k++;
-       	 	}
-       	 
-       	 	if(aobj != null && aobj.length > 0){
-       	 		for(int row = 0; row < aobj.length; row++){
-       	 			dtm.addRow(aobj[row]);
-       	 		}
-       	 	}
-
+			Object[][] aobj = new Object[lstDtoUsuario.size()][7];
+			int k = 0;
+			
+			if(lstDtoUsuario != null){
+	       	 	
+				for(DTOUsuario dtoUsuario : lstDtoUsuario){
+					 aobj[k][0] = new String(dtoUsuario.getUsuario().getCodigo());
+					 aobj[k][1] = new String(dtoUsuario.getUsuario().getTipoUsuario().toString());
+					 aobj[k][2] = new String(dtoUsuario.getUsuario().getNombre());
+	                 aobj[k][3] = new String(dtoUsuario.getUsuario().getApellidos());
+	                 aobj[k][4] = new String(dtoUsuario.getUsuario().getFechaAlta().toString());
+	                 aobj[k][5] = new String(FactoriaUsuario.getDescripcion(dtoUsuario.getUsuario().getTipoUsuario()));
+	                 if(dtoUsuario.getDtoCentroDocente() != null){
+	                	 aobj[k][6] = new String(dtoUsuario.getDtoCentroDocente().getDtoContacto().getDtoPais().getPais().getNombrePais());
+	                 }
+	                 k++;
+	       	 	}
+	       	 
+	       	 	if(aobj != null && aobj.length > 0){
+	       	 		for(int row = 0; row < aobj.length; row++){
+	       	 			dtm.addRow(aobj[row]);
+	       	 		}
+	       	 	}
+			}
+		}catch(Exception e){
+			throw new OperationErrorDatosFormulario(e.getMessage());
 		}
-		        
 	}
 	
+	private JLabel getJLabelElimina() {
+		if(jLabelElimina == null) {
+			jLabelElimina = new JLabel();
+			jLabelElimina.setText("Elimina");
+			ImageIcon icon = new ImageIcon("imagen/dcib022t.gif");
+			jLabelElimina.setIcon(icon);
+			jLabelElimina.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+
+		}
+		return jLabelElimina;
+	}
+	
+	private JLabel getJLabelModifica() {
+		if(jLabelModifica == null) {
+			jLabelModifica = new JLabel();
+			jLabelModifica.setText("Modifica");
+			ImageIcon icon = new ImageIcon("imagen/dcib023t.gif");
+			jLabelModifica.setIcon(icon);
+			jLabelModifica.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		}
+		return jLabelModifica;
+	}
 
 }

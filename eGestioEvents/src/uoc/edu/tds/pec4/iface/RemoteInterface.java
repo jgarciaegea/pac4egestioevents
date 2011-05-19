@@ -115,4 +115,11 @@ public interface RemoteInterface extends Remote{
 	 */
 	public List<DTOUsuario> getUsuarios(DTOUsuario dtoUsuario) throws RemoteException, OperationErrorBD;
 	
+	/**
+	 * Damos de baja un usuario, es decir, ponemos el usuario como inactivo (valor 3)
+	 * @param dtoUsuario
+	 * @throws RemoteException
+	 * @throws OperationErrorBD
+	 */
+	public void bajaUsuario(DTOUsuario dtoUsuario) throws RemoteException, OperationErrorBD;
 }

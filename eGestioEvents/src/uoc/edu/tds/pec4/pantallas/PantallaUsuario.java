@@ -803,7 +803,6 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 		usuario.setFechaContrasena(new java.sql.Date(System.currentTimeMillis()));
 		usuario.setContrasena(jTextFieldCon.getText());
 		usuario.setCambiarContrasena(false);
-		usuario.setEstado(1);
 		usuario.setFechaEstado(new java.sql.Date(System.currentTimeMillis()));
 		usuario.setMotivoEstado("Alta de usuario");
 		usuario.setIdDocumentoIdentificacion(Integer.parseInt(((MostrarCombo) jComboBoxTipoDoc.getSelectedItem()).getID().toString()));
@@ -842,7 +841,6 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 			} catch (NumberFormatException e) {
 				throw e;
 			}
-			datosBancarios.setEstado(1);
 			datosBancarios.setFechaEstado(new java.sql.Date(System.currentTimeMillis()));
 			datosBancarios.setMotivoEstado("Alta de usuario");
 			dtoDatosBancarios.setDatosBancarios(datosBancarios);

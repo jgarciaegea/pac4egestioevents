@@ -105,6 +105,16 @@ public class Utils {
         }
         return null;
 	}
+    
+    public static void ocultaColumna(JTable tbl, int columna){
+    	
+    	if(tbl != null && tbl.getColumnCount() >0){
+    		tbl.getColumnModel().getColumn(columna).setMaxWidth(0);
+    		tbl.getColumnModel().getColumn(columna).setMinWidth(0);
+    		tbl.getTableHeader().getColumnModel().getColumn(columna).setMaxWidth(0);
+    		tbl.getTableHeader().getColumnModel().getColumn(columna).setMinWidth(0);
+    	}
+    }
 
     
 }

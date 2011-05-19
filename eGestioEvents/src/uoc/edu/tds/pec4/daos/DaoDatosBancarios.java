@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import uoc.edu.tds.pec4.beans.DatosBancarios;
+import uoc.edu.tds.pec4.utils.Constantes;
 
 public class DaoDatosBancarios  extends DaoEntidad<DatosBancarios>{
 
@@ -26,7 +27,7 @@ public class DaoDatosBancarios  extends DaoEntidad<DatosBancarios>{
 			ps.setInt(3, objecte.getDc());
 			ps.setInt(4, objecte.getCc());
 			ps.setDate(5, new java.sql.Date(System.currentTimeMillis()));
-			ps.setInt(6, objecte.getEstado());
+			ps.setInt(6, Constantes.REGISTRO_ACTIVO);
 			ps.setDate(7,objecte.getFechaEstado());
 			ps.setString(8, objecte.getMotivoEstado());
 			ps.executeUpdate();
