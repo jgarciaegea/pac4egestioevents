@@ -129,6 +129,7 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 	
 	private void initGUI() {
 		try {
+			
 			this.setPreferredSize(new java.awt.Dimension(784, 565));
 			{
 				jPanel1 = new JPanel();
@@ -914,5 +915,4 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 		return codigoUsuario.toString();
 		
 	}
-
 }
