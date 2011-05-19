@@ -66,4 +66,18 @@ public class MostrarCombo implements java.io.Serializable
 	{
 		return sValor;
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+	    if (obj == null) return false; 
+	    if (this == obj) return true;
+        if (!(obj instanceof MostrarCombo)) return false;  
+        
+        MostrarCombo mostrarCombo = (MostrarCombo) obj;  
+        if (nID!=null && nID.equals(mostrarCombo.nID)) {  
+            return true;  
+        }  
+        return false;
+	}
+	
 }
