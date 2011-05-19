@@ -21,7 +21,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-
 import uoc.edu.tds.pec4.excepciones.OperationErrorBD;
 import uoc.edu.tds.pec4.excepciones.OperationErrorRMI;
 import uoc.edu.tds.pec4.gestores.GestorRMI;
@@ -51,12 +50,12 @@ public class PantallaLogin extends JFrame {
 	    setLocation(new Point(320, 200));
 	    setResizable(false);
 	    setTitle(TDSLanguageUtils.getMessage("clientePEC4.frameLogin.titulo"));
-	    setContentPane(Inicializar());
+	    setContentPane(inicializar());
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 	}
 	
 	
-	private JPanel Inicializar(){
+	private JPanel inicializar(){
 		
         if(panelPrincipal == null){
         	
@@ -102,14 +101,14 @@ public class PantallaLogin extends JFrame {
             panelPrincipal.add(getEtiquetaLogin(), null);
             panelPrincipal.add(getTextoPwd(), null);
             panelPrincipal.add(getTextoLogin(), null);
-            GeneraEventosPantallaLogin();
+            generaEventosPantallaLogin();
 
         }
         return panelPrincipal;
     }
 	
 
-	public void GeneraEventosPantallaLogin(){
+	public void generaEventosPantallaLogin(){
 		
 		addWindowListener(new java.awt.event.WindowAdapter() {
 			public void windowClosing(java.awt.event.WindowEvent e) {
@@ -120,13 +119,9 @@ public class PantallaLogin extends JFrame {
 			}
 		}) ; 
 
-		
-		
-		
-		
 		bOK.addActionListener(new ActionListener() { public void actionPerformed(ActionEvent evt) { 
 			try {
-				IncializarAplicacion();
+				inicializarAplicacion();
 			} catch (MalformedURLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -144,7 +139,7 @@ public class PantallaLogin extends JFrame {
 	}
 	
 	
-	public void IncializarAplicacion() 
+	public void inicializarAplicacion() 
 	throws MalformedURLException, RemoteException, NotBoundException, OperationErrorBD{
 		
     	System.out.println("conectar al Servidor");
@@ -292,7 +287,6 @@ public class PantallaLogin extends JFrame {
 		this.textoPwd = textoPwd;
 	}
 		
-		
-	}
+}
 	
 	
