@@ -21,6 +21,20 @@ public class FactoriaUsuario {
 		throw new Exception("El tipo de usuario no es válido");
 	}
 	
+	public static String getDescripcion(Integer tipoUsuario) throws Exception{	
+		if(tipoUsuario == null) throw new Exception("El tipo de usuario no está informado");
+		switch(tipoUsuario){
+			case Constantes.ADMINISTRADOR:
+				return Constantes.NOMBRE_ADMINISTRADOR;
+			case Constantes.SECRETARIA:
+				return Constantes.NOMBRE_SECRETARIA;
+			case Constantes.ASISTENTE:
+				return Constantes.NOMBRE_ASISTENTE;
+		}
+		throw new Exception("El tipo de usuario no es válido");
+	}
+	
+	
 }
 
 

@@ -92,7 +92,12 @@ public class GestorUsuario  extends GestorEntidad<DTOUsuario>{
 
 	@Override
 	public void eliminaEntidad(DTOUsuario criteris) throws Exception {
-		throw new UnsupportedOperationException("Método no implementado");
+		try {
+			DaoUsuario dao = new DaoUsuario(connection);
+			dao.delete(criteris.getUsuario());
+		} catch (Exception e) {
+			throw new Exception();
+		}
 	}
 	
 	private DTOUsuario getTypeDTO(Usuario usu) throws Exception{
