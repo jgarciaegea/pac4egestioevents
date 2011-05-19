@@ -26,10 +26,26 @@ public class DaoEstadisticasPorcentaje extends DaoEntidad<Estadisticas>{
 		List<Estadisticas> lstPorcentajes = new ArrayList<Estadisticas>();
 		try{
 			StringBuffer sb = new StringBuffer();
-			sb.append("SELECT id_universidad, nombre_universidad, id_centro, nombre_centro, ");
-			sb.append("id_evento, nombre_evento, id_tipo_evento, descripcion, ");
-			sb.append("fecha_inicio, duracion, plazas, inscritos, asistentes, asistencia");
-			sb.append("FROM porcentaje(?,?,?,?,?,?) ");
+			sb.append("SELECT v.id_universidad, ");
+			if(criteris.getIdCentro()!=null) sb.append(" id_centro, ");
+			if(criteris.getIdTipoEvento()!=null) sb.append(" id_tipo_evento, ");
+			sb.append(" count(*) as inscritos " );
+			sb.append("FROM v_porcentaje");
+			sb.append("WHERE (1=1)");
+			if(criteris.getIdUniversidad()!=null) sb.append("AND id_universidad = ? ");
+			if(criteris.getIdCentro()!=null) sb.append("AND id_centro = ? ");
+			if(criteris.getIdTipoEvento()!=null) sb.append("AND id_tipo_evento = ? ");
+			if(criteris.getFechaInicio() !=null) sb.append("AND fecha_celebracion > ? ");
+			if(criteris.getDuracion()!=null) sb.append("AND duracion <= ? ");
+			if(criteris.getPorcentajeAsistenciaMayorDe() !=null) sb.append ("AND ");
+			if(criteris.getPorcentajeAsistenciaMenorDe() !=null) sb.append ("AND ");
+			sb.append("GROUP BY id_universidad ");
+			if(criteris.getIdCentro()!=null) sb.append(" , id_centro");
+			if(criteris.getIdTipoEvento()!=null) sb.append(" , id_tipo_evento ");
+			sb.append("ORDER BY id_universidad ");
+			if(criteris.getIdCentro()!=null) sb.append(" , id_centro");
+			if(criteris.getIdTipoEvento()!=null) sb.append(" , id_tipo_evento ");
+			
 						
 			ps = con.prepareStatement(sb.toString(), ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
 			
@@ -38,33 +54,28 @@ public class DaoEstadisticasPorcentaje extends DaoEntidad<Estadisticas>{
 			if(criteris.getIdCentro()!=null) {ps.setInt(i, criteris.getIdCentro()); i++;}
 			if(criteris.getIdTipoEvento()!=null) {ps.setInt(i, criteris.getIdTipoEvento()); i++;}
 			if(criteris.getFechaInicio()!=null) {ps.setDate(i, criteris.getFechaInicio()); i++;}
-			if(criteris.getFechaFin()!=null) {ps.setDate(i, criteris.getFechaFin()); i++;}
-			if(criteris.getPorcentajeAsistencia()!=null) {ps.setDouble(i, criteris.getPorcentajeAsistencia()); i++;}
-			if(criteris.getPorcentajeAsistencia()!=null) {ps.setDouble(i, criteris.getPorcentajeAsistencia()); i++;}
+			if(criteris.getDuracion()!=null) {ps.setInt(i, criteris.getDuracion()); i++;}
+			if(criteris.getPorcentajeAsistenciaMayorDe()!=null) {ps.setDouble(i, criteris.getPorcentajeAsistenciaMayorDe()); i++;}
+			if(criteris.getPorcentajeAsistenciaMenorDe()!=null) {ps.setDouble(i, criteris.getPorcentajeAsistenciaMenorDe()); i++;}
 			
 			rs = ps.executeQuery();
 			while (rs.next()) {
 				Estadisticas infPorcentaje = new Estadisticas();
 				infPorcentaje.setIdUniversidad(rs.getInt("id_universidad"));
-				infPorcentaje.setNombreUniversidad(rs.getString("nombre_universidad"));
 				infPorcentaje.setIdCentro(rs.getInt("id_centro"));
-				infPorcentaje.setNombreCentro(rs.getString("nombre_centro"));
 				infPorcentaje.setIdEvento(rs.getInt("id_evento"));
-				infPorcentaje.setNombreEvento(rs.getString("nombre_evento"));
 				infPorcentaje.setIdTipoEvento(rs.getInt("id_tipo_evento"));
-				infPorcentaje.setDescripcionTipoEvento(rs.getString("descripcion"));
 				infPorcentaje.setFechaInicio(rs.getDate("fecha_inicio"));
 				
 				Calendar cal= Calendar.getInstance();
 				cal.setTime(rs.getDate("fecha_inicio"));
 				cal.add(Calendar.DATE,rs.getInt("duracion"));
 				Date fecha= cal.getTime();
-				infPorcentaje.setFechaFin((java.sql.Date) fecha);
+				
 				
 				infPorcentaje.setPlazas(rs.getInt("plazas"));
 				infPorcentaje.setInscritos(rs.getInt("inscritos"));
 				infPorcentaje.setAsistentes(rs.getInt("asistentes"));
-				infPorcentaje.setPorcentajeAsistencia(rs.getDouble("asistencia"));
 				lstPorcentajes.add(infPorcentaje);
 			}		
 			return (lstPorcentajes.isEmpty() || lstPorcentajes.size() == 0) ? null:lstPorcentajes;

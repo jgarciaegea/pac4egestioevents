@@ -37,26 +37,26 @@ public class DaoEstadisticasEventos extends DaoEntidad<Estadisticas>{
 			if(criteris.getIdAsistente()!=null) {ps.setInt(i, criteris.getIdAsistente()); i++;}
 			if(criteris.getIdTipoEvento()!=null) {ps.setInt(i, criteris.getIdTipoEvento()); i++;}
 			if(criteris.getFechaInicio()!=null) {ps.setDate(i, criteris.getFechaInicio()); i++;}
-			if(criteris.getFechaFin()!=null) {ps.setDate(i, criteris.getFechaFin()); i++;}
+			
 						
 			rs = ps.executeQuery();
 			while (rs.next()) {
 				Estadisticas infPorcentaje = new Estadisticas();
 				infPorcentaje.setIdUniversidad(rs.getInt("id_universidad"));
-				infPorcentaje.setNombreUniversidad(rs.getString("nombre_universidad"));
+				
 				infPorcentaje.setIdCentro(rs.getInt("id_centro"));
-				infPorcentaje.setNombreCentro(rs.getString("nombre_centro"));
+				
 				infPorcentaje.setIdEvento(rs.getInt("id_evento"));
-				infPorcentaje.setNombreEvento(rs.getString("nombre_evento"));
+				
 				infPorcentaje.setIdTipoEvento(rs.getInt("id_tipo_evento"));
-				infPorcentaje.setDescripcionTipoEvento(rs.getString("descripcion"));
+				
 				infPorcentaje.setFechaInicio(rs.getDate("fecha_inicio"));
 				
 				Calendar cal= Calendar.getInstance();
 				cal.setTime(rs.getDate("fecha_inicio"));
 				cal.add(Calendar.DATE,rs.getInt("duracion"));
 				Date fecha= cal.getTime();
-				infPorcentaje.setFechaFin((java.sql.Date) fecha);
+				
 				infPorcentaje.setEstadoEvento(rs.getString("estado_evento"));
 				infPorcentaje.setEstadoAsistencia(rs.getString("estado_asistencia"));
 				lstPorcentajes.add(infPorcentaje);

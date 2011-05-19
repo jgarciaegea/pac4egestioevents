@@ -45,12 +45,12 @@ public class DaoEstadisticasAsistentes extends DaoEntidad<Estadisticas>{
 			while (rs.next()) {
 				Estadisticas infPorcentaje = new Estadisticas();
 				infPorcentaje.setIdAsistente(rs.getInt("codigo"));
-				infPorcentaje.setNombreAsistente(rs.getString("nombre_usuario"));
+			
 				infPorcentaje.setIdRol(rs.getInt("id_rol"));
-				infPorcentaje.setDescripcionRol(rs.getString("descripcion_rol"));
+				
 				infPorcentaje.setIdDocumentoIdentificacion(rs.getInt("id_documento_identificacion"));
 				infPorcentaje.setIdCentro(rs.getInt("id_centro"));
-				infPorcentaje.setNombreCentro(rs.getString("nombre_centro"));
+				
 				infPorcentaje.setEstadoAsistencia(rs.getString("estado_asistencia"));
 				lstPorcentajes.add(infPorcentaje);
 			}		
