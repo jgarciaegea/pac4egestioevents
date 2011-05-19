@@ -12,8 +12,6 @@ import uoc.edu.tds.pec4.beans.TipoEvento;
 import uoc.edu.tds.pec4.beans.TipoRol;
 import uoc.edu.tds.pec4.beans.TipoTelefono;
 import uoc.edu.tds.pec4.beans.Universidad;
-import uoc.edu.tds.pec4.beans.Usuario;
-import uoc.edu.tds.pec4.dtos.DTOAdministrador;
 import uoc.edu.tds.pec4.dtos.DTOCentroDocente;
 import uoc.edu.tds.pec4.dtos.DTOPais;
 import uoc.edu.tds.pec4.dtos.DTOTipoDocumento;
@@ -171,14 +169,11 @@ public class RemotoImpl extends UnicastRemoteObject implements RemoteInterface,S
 		}
 	}
 	
-	public  DTOUsuario getUsuario(Usuario usuario) throws RemoteException, OperationErrorBD {
+	public  DTOUsuario getUsuario(DTOUsuario dtoUsuario) throws RemoteException, OperationErrorBD {
 		try{
 			System.out.println("Recuperando datos del usuario.....");
 			GestorUsuario gestorUsuario = new GestorUsuario(gestorDB.getConnection());
-			DTOAdministrador dtoAdministrador = new DTOAdministrador();
-			dtoAdministrador.setUsuario(usuario);
-			return gestorUsuario.consultaEntidad(dtoAdministrador);
-			
+			return gestorUsuario.consultaEntidad(dtoUsuario);
 		}catch(Exception e){
 			throw new OperationErrorBD("Error al recuperar el usuario......");
 		}
