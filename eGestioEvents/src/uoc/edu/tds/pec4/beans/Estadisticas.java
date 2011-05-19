@@ -17,10 +17,12 @@ public class Estadisticas implements BeanInterface, Serializable{
 	private Integer idEvento;
 	private Integer idTipoEvento;
 	private Date fechaInicio;
-	private Date fechaFin;
+	private Integer duracion;
 	private Integer plazas;
 	private Integer inscritos;
 	private Integer asistentes;
+	private Double porcentajeAsistenciaMayorDe;
+	private Double porcentajeAsistenciaMenorDe;
 	private Double porcentajeAsistencia;
 	private Integer ingresosMayorDe;
 	private Integer ingresosMenorDe;
@@ -106,17 +108,17 @@ public class Estadisticas implements BeanInterface, Serializable{
 	}	
 	
 	/**
-	 * @return the fechaFin
+	 * @return the duracion
 	 */
-	public Date getFechaFin() {
-		return fechaFin;
+	public Integer getDuracion() {
+		return duracion;
 	}
 
 	/**
-	 * @param fechaFin the fechaFin to set
+	 * @param duracion the duracion to set
 	 */
-	public void setFechaFin(Date fechaFin) {
-		this.fechaFin = fechaFin;
+	public void setDuracion (Integer duracion) {
+		this.duracion = duracion;
 	}
 
 	/**
@@ -160,7 +162,6 @@ public class Estadisticas implements BeanInterface, Serializable{
 	public void setAsistentes(Integer asistentes) {
 		this.asistentes = asistentes;
 	}
-	
 	/**
 	 * @return the porcentajeAsistencia
 	 */
@@ -173,6 +174,34 @@ public class Estadisticas implements BeanInterface, Serializable{
 	 */
 	public void setPorcentajeAsistencia(Double porcentajeAsistencia) {
 		this.porcentajeAsistencia = porcentajeAsistencia;
+	}
+	
+	/**
+	 * @return the porcentajeAsistenciaMayorDe
+	 */
+	public Double getPorcentajeAsistenciaMayorDe() {
+		return porcentajeAsistenciaMayorDe;
+	}
+
+	/**
+	 * @param porcentajeAsistenciaMayorDe the porcentajeAsistenciaMayorDe to set
+	 */
+	public void setPorcentajeAsistenciaMayorDe(Double porcentajeAsistenciaMayorDe) {
+		this.porcentajeAsistenciaMayorDe = porcentajeAsistenciaMayorDe;
+	}
+
+	/**
+	 * @return the porcentajeAsistenciaMenorDe
+	 */
+	public Double getPorcentajeAsistenciaMenorDe() {
+		return porcentajeAsistenciaMenorDe;
+	}
+
+	/**
+	 * @param porcentajeAsistenciaMenorDe the porcentajeAsistenciaMenorDe to set
+	 */
+	public void setPorcentajeAsistenciaMenorDe(Double porcentajeAsistenciaMenorDe) {
+		this.porcentajeAsistenciaMenorDe = porcentajeAsistenciaMenorDe;
 	}
 	
 	/**
