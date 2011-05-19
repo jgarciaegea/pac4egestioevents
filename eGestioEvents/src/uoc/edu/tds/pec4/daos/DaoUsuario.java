@@ -10,6 +10,7 @@ import java.util.List;
 import uoc.edu.tds.pec4.beans.Usuario;
 import uoc.edu.tds.pec4.beans.UsuarioViewConsulta;
 import uoc.edu.tds.pec4.utils.Base64Coder;
+import uoc.edu.tds.pec4.utils.Constantes;
 
 
 public class DaoUsuario extends DaoEntidad<Usuario>{
@@ -39,7 +40,7 @@ public class DaoUsuario extends DaoEntidad<Usuario>{
 			ps.setDate(7, new java.sql.Date(System.currentTimeMillis()));
 			ps.setString(8, Base64Coder.encodeString(objecte.getContrasena()));
 			ps.setBoolean(9, objecte.getCambiarContrasena());
-			ps.setInt(10, objecte.getEstado());
+			ps.setInt(10, Constantes.REGISTRO_ACTIVO);
 			ps.setDate(11,objecte.getFechaEstado());
 			ps.setString(12, objecte.getMotivoEstado());
 			ps.setInt(13, objecte.getTipoUsuario());
@@ -69,14 +70,23 @@ public class DaoUsuario extends DaoEntidad<Usuario>{
 			sb.append("WHERE (1=1) ");
 			if(criteris.getCodigo() !=null) sb.append("AND codigo = ? ");
 			if(criteris.getTipoUsuario() !=null) sb.append("AND tipo_usuario = ? ");
-			if(criteris.getNombre() !=null) sb.append("nombre like ? ");
-			if(criteris.getApellidos() !=null) sb.append("apellidos like ? ");
+			if(criteris.getNombre() !=null) sb.append("AND nombre like ? ");
+			if(criteris.getApellidos() !=null) sb.append("AND apellidos like ? ");
 			if(criteris.getIdDocumentoIdentificacion() !=null) sb.append("AND id_documento_identificacion = ? ");
-			if(criteris.getNumeroDocumento() !=null) sb.append("AND numero_documento = ? ");
-			if(criteris.getFechaAlta() !=null) sb.append("AND fecha_alta = ? ");
+			if(criteris.getNumeroDocumento() !=null) sb.append("AND numero_documento like ? ");
+			
+			if(criteris.getFechaInicio() != null && criteris.getFechaFin()!=null){
+				sb.append("AND fecha_alta BETWEEN ? AND ?");
+			}else if(criteris.getFechaInicio() != null && criteris.getFechaFin()==null){
+				sb.append("AND fecha_alta >=  ? ");
+			}
+			
 			if(criteris.getLocalidad() !=null) sb.append("AND localidad = ? ");
 			if(criteris.getIdCentro() !=null) sb.append("AND id_centro = ? ");
 			if(criteris.getIdRol() !=null) sb.append("AND id_rol = ? ");
+			if(criteris.getEstado()!= null) sb.append("AND estado = ?");
+			
+			sb.append(" order by nombre,apellidos");
 			
 			ps = con.prepareStatement(sb.toString(), ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
 			
@@ -87,10 +97,18 @@ public class DaoUsuario extends DaoEntidad<Usuario>{
 			if(criteris.getApellidos()!=null) {ps.setString(i, "%"+criteris.getApellidos()+"%"); i++;}
 			if(criteris.getIdDocumentoIdentificacion()!=null) {ps.setInt(i, criteris.getIdDocumentoIdentificacion()); i++;}
 			if(criteris.getNumeroDocumento()!=null) {ps.setString(i, "%"+criteris.getNumeroDocumento()+"%"); i++;}
-			if(criteris.getFechaAlta()!=null) {ps.setDate(i, criteris.getFechaAlta()); i++;}
+			
+			if(criteris.getFechaInicio() != null && criteris.getFechaFin()!=null){
+				ps.setDate(i, criteris.getFechaInicio()); i++;
+				ps.setDate(i, criteris.getFechaFin()); i++;
+			}else if(criteris.getFechaInicio() != null && criteris.getFechaFin()==null){
+				ps.setDate(i, criteris.getFechaInicio()); i++;
+			}
+			
 			if(criteris.getLocalidad()!=null) {ps.setString(i, "%"+criteris.getLocalidad()+"%"); i++;}
 			if(criteris.getIdCentro()!=null) {ps.setInt(i, criteris.getIdCentro()); i++;}
 			if(criteris.getIdRol()!=null) {ps.setInt(i, criteris.getIdRol()); i++;}
+			if(criteris.getEstado()!=null) {ps.setInt(i, criteris.getEstado()); i++;}
 			
 			rs = ps.executeQuery();
 			while (rs.next()) {
@@ -177,7 +195,18 @@ public class DaoUsuario extends DaoEntidad<Usuario>{
 
 	@Override
 	public void delete(Usuario criteris) throws Exception {
-		throw new UnsupportedOperationException("Método no implementado");
+		PreparedStatement ps = null;
+		try {
+			ps = con.prepareStatement("update usuario set estado = ?, fecha_estado = ? where codigo = ?");
+			ps.setInt(1, Constantes.REGISTRO_INACTIVO);
+			ps.setDate(2, new java.sql.Date(System.currentTimeMillis()));
+			ps.setString(3, criteris.getCodigo());
+			ps.executeUpdate();
+		} catch (SQLException e) {
+        	throw new Exception(e.getMessage());
+        } finally {
+        	close(ps);
+        }		
 	}
 	
 	private Usuario retornaUsuario(ResultSet rs) throws SQLException{
