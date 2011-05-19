@@ -120,16 +120,16 @@ public class PantallaUsuarioConsulta extends javax.swing.JPanel implements Panta
 	
 	private void initGUI() {
 		try {
-			this.setPreferredSize(new java.awt.Dimension(784, 565));
+			this.setPreferredSize(new java.awt.Dimension(784, 601));
 			{
 				jPanel2 = new JPanel();
 				this.add(jPanel2);
 				GridBagLayout jPanel2Layout = new GridBagLayout();
 				jPanel2Layout.columnWidths = new int[] {142, 222, 7};
-				jPanel2Layout.rowHeights = new int[] {24, 20, 25, 24, 17, 23, 23, 22, 23, 32, 18, 34, 128};
+				jPanel2Layout.rowHeights = new int[] {28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 25, 128};
 				jPanel2Layout.columnWeights = new double[] {0.0, 0.0, 0.1};
 				jPanel2Layout.rowWeights = new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
-				jPanel2.setPreferredSize(new java.awt.Dimension(644, 449));
+				jPanel2.setPreferredSize(new java.awt.Dimension(649, 502));
 				jPanel2.setLayout(jPanel2Layout);
 				{
 					jTextFieldNombre = new JTextField();
@@ -162,7 +162,7 @@ public class PantallaUsuarioConsulta extends javax.swing.JPanel implements Panta
 				{
 					jComboBoxTipoDoc = new JComboBox();
 					jPanel2.add(jComboBoxTipoDoc, new GridBagConstraints(1, 3, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 8, 0, 0), 0, 0));
-					jComboBoxTipoDoc.setPreferredSize(new java.awt.Dimension(200, 21));
+					jComboBoxTipoDoc.setPreferredSize(new java.awt.Dimension(200, 26));
 				}
 				{
 					jLabelDocIden = new JLabel();
@@ -207,14 +207,15 @@ public class PantallaUsuarioConsulta extends javax.swing.JPanel implements Panta
 					
 					jComboBoxUniver = new JComboBox();
 					jPanel2.add(jComboBoxUniver, new GridBagConstraints(1, 6, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 8, 0, 0), 0, 0));
-					jComboBoxUniver.setPreferredSize(new java.awt.Dimension(200, 21));
-					
+					jComboBoxUniver.setPreferredSize(new java.awt.Dimension(200, 26));
+					jComboBoxUniver.setOpaque(false);
+
 				}
 				{
 					
 					jComboBoxCentroDocente = new JComboBox();
 					jPanel2.add(jComboBoxCentroDocente, new GridBagConstraints(1, 7, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 8, 0, 0), 0, 0));
-					jComboBoxCentroDocente.setPreferredSize(new java.awt.Dimension(200, 21));
+					jComboBoxCentroDocente.setPreferredSize(new java.awt.Dimension(200, 26));
 					
 				}
 				{
@@ -243,14 +244,14 @@ public class PantallaUsuarioConsulta extends javax.swing.JPanel implements Panta
 					jPanel2.add(jLabelTipoPerfil, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 					
 					jComboBoxTipoRol = new JComboBox();
-					jComboBoxTipoRol.setPreferredSize(new java.awt.Dimension(200, 21));
+					jComboBoxTipoRol.setPreferredSize(new java.awt.Dimension(200, 26));
 					jPanel2.add(jComboBoxTipoRol, new GridBagConstraints(1, 8, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 8, 0, 0), 0, 0));
 					
 
 				}
 				{
 					jComboBoxPerfil = new JComboBox();
-					jComboBoxPerfil.setPreferredSize(new java.awt.Dimension(200, 21));
+					jComboBoxPerfil.setPreferredSize(new java.awt.Dimension(200, 26));
 					jPanel2.add(jComboBoxPerfil, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 8, 0, 0), 0, 0));
 					
 				}
@@ -270,7 +271,7 @@ public class PantallaUsuarioConsulta extends javax.swing.JPanel implements Panta
 					Utils.ocultaColumna(jTableRes,1);
 					
 					jTableRes.setSize(297, 130);
-					jTableRes.setPreferredSize(new java.awt.Dimension(316, 130));
+					jTableRes.setPreferredSize(new java.awt.Dimension(597, 148));
 					scrollPane=new JScrollPane(jTableRes);
 					scrollPane.setVisible(true);
 					jPanel2.add(scrollPane, new GridBagConstraints(0, 12, 3, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
@@ -293,8 +294,8 @@ public class PantallaUsuarioConsulta extends javax.swing.JPanel implements Panta
 					jTextFieldHasta = new JTextField();
 					jTextFieldHasta.setPreferredSize(new java.awt.Dimension(100, 21));
 					jPanel2.add(jTextFieldHasta, new GridBagConstraints(2, 9, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 7, 0, 0), 0, 0));
-					jPanel2.add(getJLabelElimina(), new GridBagConstraints(2, 11, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-					jPanel2.add(getJLabelModifica(), new GridBagConstraints(2, 11, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 21, 0, 0), 0, 0));
+					jPanel2.add(getJLabelElimina(), new GridBagConstraints(2, 11, 1, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 45), 0, 0));
+					jPanel2.add(getJLabelModifica(), new GridBagConstraints(2, 11, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 					scrollPane.setPreferredSize(new java.awt.Dimension(600, 150));
 				}
 			}
@@ -416,6 +417,9 @@ public class PantallaUsuarioConsulta extends javax.swing.JPanel implements Panta
 		}
 	}
 	
+	/*
+	 * Vamos a la pantalla de usuario
+	 */
 	private void goPantallaUsuario(){
 		this.removeAll();
 		this.setAlignmentX(LEFT_ALIGNMENT);

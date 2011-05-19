@@ -51,6 +51,19 @@ import uoc.edu.tds.pec4.utils.JTextFieldLimit;
 import uoc.edu.tds.pec4.utils.MostrarCombo;
 import uoc.edu.tds.pec4.utils.Utils;
 
+
+/**
+* This code was edited or generated using CloudGarden's Jigloo
+* SWT/Swing GUI Builder, which is free for non-commercial
+* use. If Jigloo is being used commercially (ie, by a corporation,
+* company or business for any purpose whatever) then you
+* should purchase a license for each developer using Jigloo.
+* Please visit www.cloudgarden.com for details.
+* Use of Jigloo implies acceptance of these licensing terms.
+* A COMMERCIAL LICENSE HAS NOT BEEN PURCHASED FOR
+* THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED
+* LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
+*/
 public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 	
 	private static final long serialVersionUID = 1L;
@@ -130,7 +143,7 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 	private void initGUI() {
 		try {
 			
-			this.setPreferredSize(new java.awt.Dimension(784, 565));
+			this.setPreferredSize(new java.awt.Dimension(784, 601));
 			{
 				jPanel1 = new JPanel();
 				this.add(jPanel1);
@@ -162,10 +175,10 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 				this.add(jPanel2);
 				GridBagLayout jPanel2Layout = new GridBagLayout();
 				jPanel2Layout.columnWidths = new int[] {142, 222, 108, 7};
-				jPanel2Layout.rowHeights = new int[] {20, 25, 24, 17, 23, 23, 22, 23, 32, 22, 20, 28, 34, 14, 28, 34, 15, 19};
+				jPanel2Layout.rowHeights = new int[] {28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 16, 28, 28, 18, 19};
 				jPanel2Layout.columnWeights = new double[] {0.0, 0.0, 0.0, 0.1};
 				jPanel2Layout.rowWeights = new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
-				jPanel2.setPreferredSize(new java.awt.Dimension(724, 461));
+				jPanel2.setPreferredSize(new java.awt.Dimension(724, 500));
 				jPanel2.setLayout(jPanel2Layout);
 				{
 					jTextFieldNombre = new JTextField();
@@ -222,7 +235,7 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 					
 					jComboBoxTipoDoc = new JComboBox();
 					jPanel2.add(jComboBoxTipoDoc, new GridBagConstraints(1, 2, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 8, 0, 0), 0, 0));
-					jComboBoxTipoDoc.setPreferredSize(new java.awt.Dimension(200, 21));
+					jComboBoxTipoDoc.setPreferredSize(new java.awt.Dimension(200, 26));
 					
 				}
 				{
@@ -281,7 +294,7 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 					
 					jComboBoxpais = new JComboBox();
 					jPanel2.add(jComboBoxpais, new GridBagConstraints(3, 5, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 8, 0, 0), 0, 0));
-					jComboBoxpais.setPreferredSize(new java.awt.Dimension(200, 21));
+					jComboBoxpais.setPreferredSize(new java.awt.Dimension(200, 26));
 				}
 				{
 					jLabelEmail = new JLabel();
@@ -304,7 +317,7 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 					jComboBoxSexo = new JComboBox();
 					jPanel2.add(jComboBoxSexo, new GridBagConstraints(3, 6, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 8, 0, 0), 0, 0));
 					
-					jComboBoxSexo.setPreferredSize(new java.awt.Dimension(200, 21));
+					jComboBoxSexo.setPreferredSize(new java.awt.Dimension(200, 26));
 				}
 				{
 					jLabelBlog = new JLabel();
@@ -361,7 +374,7 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 					jComboBoxTipo = new JComboBox();
 					jPanel2.add(jComboBoxTipo, new GridBagConstraints(1, 11, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 8, 0, 0), 0, 0));
 					
-					jComboBoxTipo.setPreferredSize(new java.awt.Dimension(200, 21));
+					jComboBoxTipo.setPreferredSize(new java.awt.Dimension(200, 26));
 				}
 				{
 					jLabelUniversidad = new JLabel();
@@ -385,15 +398,15 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 					jComboBoxUniver = new JComboBox();
 					jPanel2.add(jComboBoxUniver, new GridBagConstraints(1, 13, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 8, 0, 0), 0, 0));
 					jComboBoxUniver.setModel(jComboBoxUniverModel);
-					jComboBoxUniver.setPreferredSize(new java.awt.Dimension(200, 21));
+					jComboBoxUniver.setPreferredSize(new java.awt.Dimension(200, 25));
 					
 				}
 				{
 					
 					jComboBoxCentroDocente = new JComboBox();
 					jPanel2.add(jComboBoxCentroDocente, new GridBagConstraints(3, 13, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 8, 0, 0), 0, 0));
-					jComboBoxCentroDocente.setPreferredSize(new java.awt.Dimension(200, 21));
-					
+					jComboBoxCentroDocente.setPreferredSize(new java.awt.Dimension(200, 26));
+
 					//Empezamos seleccionando el primer objeto cargado
 					if(jComboBoxUniver.getItemCount() > 0) rellenaCentrosDocentes(((MostrarCombo)jComboBoxUniver.getSelectedItem()).getID());
 					
