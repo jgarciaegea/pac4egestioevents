@@ -11,7 +11,7 @@ import java.sql.Date;
  */
 public class Contactos extends Contacto implements BeanInterface, Serializable {
 
-	
+
 	private static final long serialVersionUID = 1L;
 	private String tipoContacto; 
 	private String ordenPreferencia; 

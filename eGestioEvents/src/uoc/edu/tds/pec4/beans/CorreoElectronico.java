@@ -13,7 +13,6 @@ public class CorreoElectronico extends Contacto implements BeanInterface, Serial
 
 	private static final long serialVersionUID = 1L;
 	private String correoElectronico; 
-
 	
 	/**
 	 * 
@@ -23,14 +22,12 @@ public class CorreoElectronico extends Contacto implements BeanInterface, Serial
 		this.setCorreoElectronico(correoElectronico);
 	}
 
-
 	/**
 	 * @return the correoElectronico
 	 */
 	public String getCorreoElectronico() {
 		return correoElectronico;
 	}
-
 
 	/**
 	 * @param correoElectronico the correoElectronico to set

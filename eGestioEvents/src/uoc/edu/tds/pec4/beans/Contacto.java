@@ -18,6 +18,7 @@ public class Contacto  implements BeanInterface, Serializable{
 	private Integer estado;
 	private Date fechaEstado;
 	private String motivoEstado;
+
 	
 	public Integer getIdContacto() {
 		return idContacto;
@@ -92,5 +93,6 @@ public class Contacto  implements BeanInterface, Serializable{
 	public void setWeb(String web) {
 		this.web = web;
 	}
+
 
 }
