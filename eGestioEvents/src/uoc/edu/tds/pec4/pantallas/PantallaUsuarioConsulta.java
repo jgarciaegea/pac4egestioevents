@@ -658,7 +658,7 @@ public class PantallaUsuarioConsulta extends javax.swing.JPanel implements Panta
 					 aobj[k][1] = new String(dtoUsuario.getUsuario().getTipoUsuario().toString());
 					 aobj[k][2] = new String(dtoUsuario.getUsuario().getNombre());
 	                 aobj[k][3] = new String(dtoUsuario.getUsuario().getApellidos());
-	                 aobj[k][4] = new String(dtoUsuario.getUsuario().getFechaAlta().toString());
+	                 aobj[k][4] = new String(Utils.convertFecha(dtoUsuario.getUsuario().getFechaAlta().toString()));
 	                 aobj[k][5] = new String(FactoriaUsuario.getDescripcion(dtoUsuario.getUsuario().getTipoUsuario()));
 	                 if(dtoUsuario.getDtoCentroDocente() != null){
 	                	 aobj[k][6] = new String(dtoUsuario.getDtoCentroDocente().getDtoContacto().getDtoPais().getPais().getNombrePais());

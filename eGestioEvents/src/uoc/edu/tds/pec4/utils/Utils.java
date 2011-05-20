@@ -1,6 +1,7 @@
 package uoc.edu.tds.pec4.utils;
 
 import java.awt.Component;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
@@ -105,6 +106,19 @@ public class Utils {
         }
         return null;
 	}
+    
+    public static String convertFecha(String fechaConvertir)throws OperationErrorDatosFormulario{
+    	try{
+    		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-mm-dd");
+    		long milliseconds = formatter.parse(fechaConvertir).getTime();
+    		java.util.Date fecha = new java.util.Date( milliseconds);
+    		DateFormat df = new SimpleDateFormat("dd/mm/yyyy");
+    		String reportDate = df.format(fecha);
+    		return reportDate;
+    	}catch(Exception exception){
+    		throw new OperationErrorDatosFormulario("Error al convertir la fecha al formato dd/mm/yyyy");
+    	}
+    }
     
     public static void ocultaColumna(JTable tbl, int columna){
     	

@@ -45,7 +45,7 @@ public class DaoUsuario extends DaoEntidad<Usuario>{
 			ps.setString(12, objecte.getMotivoEstado());
 			ps.setInt(13, objecte.getTipoUsuario());
 			ps.setInt(14, objecte.getIdRol());
-			ps.setInt(15, objecte.getIdCentro());
+			ps.setInt(15, objecte.getIdCentro()==null?-1:objecte.getIdCentro());
 			ps.setInt(16, objecte.getIdDocumentoIdentificacion());
 			ps.setInt(17, objecte.getIdContacto());
 			ps.setInt(18, objecte.getIdDatosBancarios());

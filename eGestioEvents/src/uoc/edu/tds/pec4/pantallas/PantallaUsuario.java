@@ -9,8 +9,10 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
 
+import javax.swing.AbstractButton;
 import javax.swing.ButtonGroup;
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
@@ -147,6 +149,17 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 		
 		if(dtoUsuario != null){
 			cargaUsuario(dtoUsuario);
+			if(Constantes.ADMINISTRADOR == dtoUsuario.getUsuario().getTipoUsuario()) jRadioButtonAdmin.isSelected();
+			if(Constantes.SECRETARIA == dtoUsuario.getUsuario().getTipoUsuario()) jRadioButtonSecr.isSelected();
+			if(Constantes.ASISTENTE == dtoUsuario.getUsuario().getTipoUsuario()) jRadioButtonAsis.isSelected();
+			
+			//Desabilitamos que se pueda cambiar de tipo de Usuario
+			Enumeration<AbstractButton> ite = grupoBu.getElements();
+			while(ite.hasMoreElements()){
+				JRadioButton jButton = (JRadioButton) ite.nextElement();
+				jButton.setEnabled(false);
+			}
+			
 		}
 		
 	}
@@ -397,47 +410,15 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 					jLabelUniversidad.setText("Universidad");
 				}
 				{
-					
-					//Cargamos las universidades
-					List<DTOUniversidad> lstDtoUniversidad = remote.getUniversidades();
-					List<MostrarCombo> lstComboUniv = new ArrayList<MostrarCombo>();
-					if(lstDtoUniversidad != null){
-						for(DTOUniversidad dtoUniverRec : lstDtoUniversidad){
-							lstComboUniv.add(new MostrarCombo(dtoUniverRec.getUniversidad().getIdUniversidad(),
-									dtoUniverRec.getUniversidad().getNombre()));
-						}
-					}
-					
-					
-					ComboBoxModel jComboBoxUniverModel = new DefaultComboBoxModel(lstComboUniv.toArray());
 					jComboBoxUniver = new JComboBox();
 					jPanel2.add(jComboBoxUniver, new GridBagConstraints(1, 13, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 8, 0, 0), 0, 0));
-					jComboBoxUniver.setModel(jComboBoxUniverModel);
 					jComboBoxUniver.setPreferredSize(new java.awt.Dimension(200, 25));
-					
 				}
 				{
 					
 					jComboBoxCentroDocente = new JComboBox();
 					jPanel2.add(jComboBoxCentroDocente, new GridBagConstraints(3, 13, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 8, 0, 0), 0, 0));
 					jComboBoxCentroDocente.setPreferredSize(new java.awt.Dimension(200, 26));
-
-					//Empezamos seleccionando el primer objeto cargado
-					if(jComboBoxUniver.getItemCount() > 0) rellenaCentrosDocentes(((MostrarCombo)jComboBoxUniver.getSelectedItem()).getID());
-					
-					jComboBoxUniver.addItemListener(new ItemListener(){
-						
-						public void itemStateChanged(ItemEvent e) {
-							try {
-								if(e.getStateChange() == ItemEvent.SELECTED) {
-									rellenaCentrosDocentes(((MostrarCombo)e.getItem()).getID());
-								}
-							} catch (Exception e1) {
-								e1.printStackTrace();
-							}
-						}
-						
-					});
 					
 				}
 				{
@@ -682,27 +663,25 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 			if(Utils.valorisNull(jTextFieldApe.getText())) throw new Exception(Utils.MESSAGE_ERROR + " apellidos" );
 			if(Utils.valorisNull(jComboBoxTipoDoc.getSelectedItem())) throw new Exception(Utils.MESSAGE_ERROR + " tipo de documento" );
 			if(Utils.valorisNull(jTextFieldDirec.getText())) throw new Exception(Utils.MESSAGE_ERROR + " direccion" );
-			
-			if(Utils.valorisNull(jComboBoxUniver.getSelectedItem())) throw new Exception(Utils.MESSAGE_ERROR + " universidad" );
 			if(Utils.valorisNull(jComboBoxTipo.getSelectedItem())) throw new Exception(Utils.MESSAGE_ERROR + " tipo teléfono" );
-			//if(Utils.valorisNull(jTextFieldExtension.getText())) throw new Exception(Utils.MESSAGE_ERROR + " extensión teléfono" );
-			
+			if(Utils.valorisNull(jComboBoxpais.getSelectedItem())) throw new Exception(Utils.MESSAGE_ERROR + " país" );
 			if(Utils.valorisNull(jTextFieldTelefono.getText())) throw new Exception(Utils.MESSAGE_ERROR + " teléfono" );
 			if(Utils.valorisNull(jTextFieldFechaNac.getText())) throw new Exception(Utils.MESSAGE_ERROR + " fecha nacimiento" );
-			//if(Utils.valorisNull(jTextFieldWebBlog.getText())) throw new Exception(Utils.MESSAGE_ERROR + " página web o blog" );
 			if(Utils.valorisNull(jComboBoxSexo.getSelectedItem())) throw new Exception(Utils.MESSAGE_ERROR + " sexo" );
-			//if(Utils.valorisNull(jTextFieldEmail.getText())) throw new Exception(Utils.MESSAGE_ERROR + " email" );
 			if(Utils.valorisNull(jTextFieldCP.getText())) throw new Exception(Utils.MESSAGE_ERROR + " código postal" );
 			if(Utils.valorisNull(jTextFieldLocalidad.getText())) throw new Exception(Utils.MESSAGE_ERROR + " localidad" );
 			if(Utils.valorisNull(jTextFieldDocIden.getText())) throw new Exception(Utils.MESSAGE_ERROR + " documento identificación" );
 			if(Utils.valorisNull(jTextFieldDirec.getText())) throw new Exception(Utils.MESSAGE_ERROR + " dirección" );
 			if(Utils.valorisNull(jTextFieldCon.getText())) throw new Exception(Utils.MESSAGE_ERROR + " contraseña" );
 			if(!Utils.parseaFecha(jTextFieldFechaNac.getText())) throw new Exception(Utils.MESSAGE_ERROR + " fecha nacimiento" + Utils.MESSAGE_FECHA );
+			//if(Utils.valorisNull(jTextFieldExtension.getText())) throw new Exception(Utils.MESSAGE_ERROR + " extensión teléfono" );
+			//if(Utils.valorisNull(jTextFieldWebBlog.getText())) throw new Exception(Utils.MESSAGE_ERROR + " página web o blog" );
+			//if(Utils.valorisNull(jTextFieldEmail.getText())) throw new Exception(Utils.MESSAGE_ERROR + " email" );
 			
 			//Campos a validar exclusivamente para un ASISTENTE o SECRETARIA
 			if(jRadioButtonSecr.isSelected() || jRadioButtonAsis.isSelected()){
+				if(Utils.valorisNull(jComboBoxUniver.getSelectedItem())) throw new Exception(Utils.MESSAGE_ERROR + " universidad" );
 				if(Utils.valorisNull(jComboBoxCentroDocente.getSelectedItem())) throw new Exception(Utils.MESSAGE_ERROR + " centro docente" );
-				if(Utils.valorisNull(jComboBoxpais.getSelectedItem())) throw new Exception(Utils.MESSAGE_ERROR + " país" );
 			}
 			
 			//Campos a validar exclusivamente para un ASISTENTE
@@ -740,6 +719,38 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 	 */
 	private void cargaCombos() throws OperationErrorDatosFormulario{
 		try{
+			
+			
+			if(!jRadioButtonAdmin.isSelected()){
+				//Cargamos las universidades
+				List<DTOUniversidad> lstDtoUniversidad = remote.getUniversidades();
+				List<MostrarCombo> lstComboUniv = new ArrayList<MostrarCombo>();
+				if(lstDtoUniversidad != null){
+					for(DTOUniversidad dtoUniverRec : lstDtoUniversidad){
+						lstComboUniv.add(new MostrarCombo(dtoUniverRec.getUniversidad().getIdUniversidad(),
+								dtoUniverRec.getUniversidad().getNombre()));
+					}
+				}
+				ComboBoxModel jComboBoxUniverModel = new DefaultComboBoxModel(lstComboUniv.toArray());
+				jComboBoxUniver.setModel(jComboBoxUniverModel);
+				
+				
+				//Empezamos seleccionando el primer objeto cargado
+				if(jComboBoxUniver.getItemCount() > 0) rellenaCentrosDocentes(((MostrarCombo)jComboBoxUniver.getSelectedItem()).getID());
+			}
+			
+			jComboBoxUniver.addItemListener(new ItemListener(){
+				public void itemStateChanged(ItemEvent e) {
+					try {
+						if(e.getStateChange() == ItemEvent.SELECTED) {
+							rellenaCentrosDocentes(((MostrarCombo)e.getItem()).getID());
+						}
+					} catch (Exception e1) {
+						e1.printStackTrace();
+					}
+				}
+			});
+			
 			
 			//Cargamos tipo de rol
 			List<DTOTipoRol> lstDtotipoRol = remote.getTiposRol();
@@ -969,7 +980,11 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 				if(usuario.getCodigo()!= null) jTextFieldCodigo.setText(usuario.getCodigo());
 				
 				if(dtoUsuarioRec.getUsuario().getFechaNacimiento() !=  null){
-					jTextFieldFechaNac.setText(dtoUsuarioRec.getUsuario().getFechaNacimiento().toString());
+					try {
+						jTextFieldFechaNac.setText(Utils.convertFecha(dtoUsuarioRec.getUsuario().getFechaNacimiento().toString()));
+					} catch (OperationErrorDatosFormulario e) {
+						e.printStackTrace();
+					}
 				}
 				
 				if(dtoUsuarioRec.getDtoDocumentoIden() != null){
