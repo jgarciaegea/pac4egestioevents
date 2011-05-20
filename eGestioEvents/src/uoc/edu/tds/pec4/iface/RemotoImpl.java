@@ -46,7 +46,6 @@ public class RemotoImpl extends UnicastRemoteObject implements RemoteInterface{
 	
 	public  void conectarBBDD()throws RemoteException,OperationErrorBD{
 		try {
-			System.out.println("Conectado a la Base de DATOS....");
 			gestorDB = new GestorDisco();
 		} catch (Exception e) {
 			throw new OperationErrorBD("Error conectando a la BBDD: " + e.getMessage());
@@ -218,7 +217,7 @@ public class RemotoImpl extends UnicastRemoteObject implements RemoteInterface{
 	
 	public  DTOUsuario getUsuario(DTOUsuario dtoUsuario) throws RemoteException, OperationErrorBD {
 		try{
-			System.out.println("Recuperando datos del usuario.....");
+			System.out.println("Recuperando datos del usuario..... "+ dtoUsuario.getUsuario().getCodigo());
 			GestorUsuario gestorUsuario = new GestorUsuario(gestorDB.getConnection());
 			return gestorUsuario.consultaEntidad(dtoUsuario);
 		}catch(Exception e){
@@ -231,6 +230,7 @@ public class RemotoImpl extends UnicastRemoteObject implements RemoteInterface{
 		try{
 			System.out.println("Recuperando usuarios.....");
 			GestorUsuario gestorUsuario = new GestorUsuario(gestorDB.getConnection());
+			System.out.println("gestorUsuario Creado......");
 			return gestorUsuario.consultaEntidadesByView((DTOUsuarioConsulta) dtoUsuario);
 		}catch(Exception e){
 			throw new OperationErrorBD("Error al recuperar la información de los usuarios......");
