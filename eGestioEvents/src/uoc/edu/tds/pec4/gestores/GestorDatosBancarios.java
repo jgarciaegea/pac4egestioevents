@@ -63,7 +63,12 @@ public class GestorDatosBancarios extends GestorEntidad<DTODatosBancarios>{
 	
 	@Override
 	public void modificaEntidad(DTODatosBancarios criteris) throws Exception {
-		throw new UnsupportedOperationException("Método no implementado");
+		try {
+			DaoDatosBancarios dao = new DaoDatosBancarios(connection);
+			dao.update(criteris.getDatosBancarios());
+		} catch (Exception e) {
+			throw e;
+		}
 	}
 
 	@Override

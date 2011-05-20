@@ -88,7 +88,12 @@ public class GestorContacto extends GestorEntidad<DTOContacto>{
 	}
 	@Override
 	public void modificaEntidad(DTOContacto criteris) throws Exception {
-		throw new UnsupportedOperationException("Método no implementado");
+		try {
+			DaoContacto dao = new DaoContacto(connection);
+			dao.update(criteris.getContacto());
+		} catch (Exception e) {
+			throw e;
+		}
 	}
 
 	@Override

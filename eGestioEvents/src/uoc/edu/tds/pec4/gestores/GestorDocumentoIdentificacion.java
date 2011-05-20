@@ -94,7 +94,12 @@ public class GestorDocumentoIdentificacion extends GestorEntidad<DTODocumentoIde
 
 	@Override
 	public void modificaEntidad(DTODocumentoIdentificacion criteris) throws Exception {
-		throw new UnsupportedOperationException("Método no implementado");
+		try {
+			DaoDocumentoIdentificacion dao = new DaoDocumentoIdentificacion(connection);
+			dao.update(criteris.getDocumentoIdentificacion());
+		} catch (Exception e) {
+			throw e;
+		}
 	}
 
 	@Override
