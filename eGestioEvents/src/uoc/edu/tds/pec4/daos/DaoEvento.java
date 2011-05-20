@@ -143,7 +143,7 @@ public class DaoEvento extends DaoEntidad<Evento>{
 		try {
 			
 			StringBuffer sql = new StringBuffer();
-			sql.append("UPDATE TIPOEVENTO SET ");
+			sql.append("UPDATE EVENTO SET ");
 			if(objecte.getIdCentro()!=null) sql.append(" id_centro = ?,");
 			if(objecte.getNombre()!=null) sql.append(" nombre = ?,");
 			if(objecte.getDescripcion()!=null) sql.append(" descripcion = ?,");

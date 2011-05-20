@@ -1,6 +1,5 @@
 package uoc.edu.tds.pec4.iface;
 
-import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
@@ -36,7 +35,7 @@ import uoc.edu.tds.pec4.gestores.GestorTipoTelefono;
 import uoc.edu.tds.pec4.gestores.GestorUniversidad;
 import uoc.edu.tds.pec4.gestores.GestorUsuario;
 
-public class RemotoImpl extends UnicastRemoteObject implements RemoteInterface,Serializable{
+public class RemotoImpl extends UnicastRemoteObject implements RemoteInterface{
 	
 	private static final long serialVersionUID = 1L;
 	private GestorDisco gestorDB;
