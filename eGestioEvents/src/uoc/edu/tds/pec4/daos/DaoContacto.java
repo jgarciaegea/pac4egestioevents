@@ -126,8 +126,6 @@ public class DaoContacto extends DaoEntidad<Contacto>{
 			if(objecte.getProvincia() !=null) sql.append("AND provincia = ? ");
 			if(objecte.getEmail() !=null) sql.append("AND email = ? ");
 			if(objecte.getWeb() !=null) sql.append("AND web = ? ");
-			if(objecte.getEstado() !=null) sql.append("AND estado = ? ");
-			if(objecte.getFechaEstado() !=null) sql.append("AND fecha_estado = ? ");
 			if(objecte.getMotivoEstado() !=null) sql.append("AND motivo_estado = ? ");
 			sql = new StringBuffer(sql.substring(0,sql.length()-1) +" WHERE id_contacto = ? ");
 			
@@ -140,8 +138,6 @@ public class DaoContacto extends DaoEntidad<Contacto>{
 			if(objecte.getProvincia()!=null) {ps.setString(i, objecte.getProvincia()); i++;}
 			if(objecte.getEmail()!=null) {ps.setString(i, objecte.getEmail()); i++;}
 			if(objecte.getWeb()!=null) {ps.setString(i, objecte.getWeb()); i++;}
-			if(objecte.getEstado()!=null) {ps.setInt(i, objecte.getEstado()); i++;}
-			if(objecte.getFechaEstado()!=null) {ps.setDate(i, objecte.getFechaEstado()); i++;}
 			if(objecte.getMotivoEstado()!=null) {ps.setString(i, objecte.getMotivoEstado()); i++;}
 			if(objecte.getIdContacto()!=null) {ps.setInt(i, objecte.getIdContacto()); i++;}
 			ps.executeUpdate();
