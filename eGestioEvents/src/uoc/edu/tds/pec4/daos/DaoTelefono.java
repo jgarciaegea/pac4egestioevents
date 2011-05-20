@@ -55,7 +55,6 @@ public class DaoTelefono  extends DaoEntidad<Telefono>{
 			if(criteris.getPrefijoPais()!=null) sb.append("AND prefijo_pais = ? ");
 			if(criteris.getTelefono()!=null) sb.append("AND telefono = ? ");
 			if(criteris.getExtension()!=null) sb.append("AND extension = ? ");
-			if(criteris.getFechaAlta()!=null) sb.append("AND fecha_alta = ? ");
 			if(criteris.getEstado()!=null) sb.append("AND estado = ? ");
 			if(criteris.getFechaEstado()!=null) sb.append("AND fecha_estado = ? ");
 			if(criteris.getMotivoEstado()!=null) sb.append("AND motivo_estado = ? ");
@@ -69,7 +68,6 @@ public class DaoTelefono  extends DaoEntidad<Telefono>{
 			if(criteris.getPrefijoPais()!=null) {ps.setString(i, criteris.getPrefijoPais()); i++;}
 			if(criteris.getTelefono()!=null) {ps.setString(i, criteris.getTelefono()); i++;}
 			if(criteris.getExtension()!=null) {ps.setInt(i, criteris.getExtension()); i++;}
-			if(criteris.getFechaAlta()!=null) {ps.setDate(i, criteris.getFechaAlta()); i++;}
 			if(criteris.getEstado()!=null) {ps.setInt(i, criteris.getEstado()); i++;}
 			if(criteris.getFechaEstado()!=null) {ps.setDate(i, criteris.getFechaEstado()); i++;}
 			if(criteris.getMotivoEstado()!=null) {ps.setString(i, criteris.getMotivoEstado()); i++;}
@@ -101,9 +99,43 @@ public class DaoTelefono  extends DaoEntidad<Telefono>{
 
 	@Override
 	public void update(Telefono objecte) throws Exception {
-		// TODO Auto-generated method stub
-		
+		PreparedStatement ps = null;
+		try {
+			
+			StringBuffer sql = new StringBuffer();
+			sql.append("UPDATE telefono SET ");
+			if(objecte.getPrefijoPais() !=null) sql.append("AND prefijo_pais = ? ");
+			if(objecte.getTelefono() !=null) sql.append("AND telefono = ? ");
+			if(objecte.getExtension() !=null) sql.append("AND extension = ? ");
+			if(objecte.getFechaAlta() !=null) sql.append("AND fecha_alta = ? ");
+			if(objecte.getEstado() !=null) sql.append("AND estado = ? ");
+			if(objecte.getFechaEstado() !=null) sql.append("AND fecha_estado = ? ");
+			if(objecte.getMotivoEstado() !=null) sql.append("AND motivo_estado = ? ");
+			if(objecte.getIdTipoTelefono() !=null) sql.append("AND id_tipo_telefono = ? ");
+			sql = new StringBuffer(sql.substring(0,sql.length()-1) +" WHERE id_telefono = ? AND id_contacto = ?");
+			
+			ps = con.prepareStatement(sql.toString());
+			
+			int i=1;
+			if(objecte.getPrefijoPais()!=null) {ps.setString(i, objecte.getPrefijoPais()); i++;}
+			if(objecte.getTelefono()!=null) {ps.setString(i, objecte.getTelefono()); i++;}
+			if(objecte.getExtension()!=null) {ps.setInt(i, objecte.getExtension()); i++;}
+			if(objecte.getFechaAlta()!=null) {ps.setDate(i, objecte.getFechaAlta()); i++;}
+			if(objecte.getEstado()!=null) {ps.setInt(i, objecte.getEstado()); i++;}
+			if(objecte.getFechaEstado()!=null) {ps.setDate(i, new java.sql.Date(System.currentTimeMillis())); i++;}
+			if(objecte.getMotivoEstado()!=null) {ps.setString(i, objecte.getMotivoEstado()); i++;}
+			if(objecte.getIdTipoTelefono()!=null) {ps.setInt(i, objecte.getIdTipoTelefono()); i++;}
+			if(objecte.getIdTelefono()!=null) {ps.setInt(i, objecte.getIdTelefono()); i++;}
+			if(objecte.getIdContacto()!=null) {ps.setInt(i, objecte.getIdContacto()); i++;}
+			ps.executeUpdate();
+			
+        } catch (SQLException e) {
+        	throw new Exception(e.getMessage());
+        } finally {
+        	close(ps);
+        }		
 	}
+		
 
 	@Override
 	public void delete(Telefono criteris) throws Exception {

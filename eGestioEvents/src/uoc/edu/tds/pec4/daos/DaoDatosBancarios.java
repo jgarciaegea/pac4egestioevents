@@ -105,7 +105,42 @@ public class DaoDatosBancarios  extends DaoEntidad<DatosBancarios>{
 
 	@Override
 	public void update(DatosBancarios objecte) throws Exception {
-		throw new UnsupportedOperationException("Método no implementado");
+		PreparedStatement ps = null;
+		try {
+			
+			StringBuffer sql = new StringBuffer();
+			sql.append("UPDATE DATOSBANCARIOS SET ");
+			if(objecte.getBanco() !=null) sql.append("AND banco = ? ");
+			if(objecte.getSucursal() !=null) sql.append("AND sucursal = ? ");
+			if(objecte.getDc() !=null) sql.append("AND dc = ? ");
+			if(objecte.getCc() !=null) sql.append("AND cc = ? ");
+			if(objecte.getFechaAlta() !=null) sql.append("AND fecha_alta = ? ");
+			if(objecte.getEstado() !=null) sql.append("AND estado = ? ");
+			if(objecte.getFechaEstado() !=null) sql.append("AND fecha_estado = ? ");
+			if(objecte.getMotivoEstado() !=null) sql.append("AND motivo_estado = ? ");
+			
+			sql = new StringBuffer(sql.substring(0,sql.length()-1) +" WHERE id_datos_bancarios = ?");
+			
+			ps = con.prepareStatement(sql.toString());
+			
+			int i=1;
+			if(objecte.getBanco()!=null) {ps.setInt(i, objecte.getBanco()); i++;}
+			if(objecte.getSucursal()!=null) {ps.setInt(i, objecte.getSucursal()); i++;}
+			if(objecte.getDc()!=null) {ps.setInt(i, objecte.getDc()); i++;}
+			if(objecte.getCc()!=null) {ps.setInt(i, objecte.getCc()); i++;}
+			if(objecte.getFechaAlta()!=null) {ps.setDate(i, objecte.getFechaAlta()); i++;}
+			if(objecte.getEstado()!=null) {ps.setInt(i, objecte.getEstado()); i++;}
+			if(objecte.getFechaEstado()!=null) {ps.setDate(i, new java.sql.Date(System.currentTimeMillis())); i++;}
+			if(objecte.getMotivoEstado()!=null) {ps.setString(i, objecte.getMotivoEstado()); i++;}
+			if(objecte.getIdDatosBancarios()!=null) {ps.setInt(i, objecte.getIdDatosBancarios()); i++;}
+			
+			ps.executeUpdate();
+			
+        } catch (SQLException e) {
+        	throw new Exception(e.getMessage());
+        } finally {
+        	close(ps);
+        }		
 	}
 
 	@Override

@@ -191,7 +191,36 @@ public class DaoUsuario extends DaoEntidad<Usuario>{
 
 	@Override
 	public void update(Usuario objecte) throws Exception {
-		throw new UnsupportedOperationException("Método no implementado");
+		PreparedStatement ps = null;
+		try {
+			
+			StringBuffer sql = new StringBuffer();
+			sql.append("UPDATE usuario SET ");
+			if(objecte.getNombre() !=null) sql.append("AND nombre = ? ");
+			if(objecte.getApellidos() !=null) sql.append("AND apellidos = ? ");
+			if(objecte.getSexo() !=null) sql.append("AND sexo = ? ");
+			if(objecte.getFechaNacimiento() !=null) sql.append("AND fecha_nacimiento = ? ");
+			if(objecte.getMotivoEstado() !=null) sql.append("AND motivo_estado = ? ");
+			if(objecte.getIdCentro() !=null) sql.append("AND id_centro = ? ");
+			sql = new StringBuffer(sql.substring(0,sql.length()-1) +" WHERE codigo = ? ");
+			
+			ps = con.prepareStatement(sql.toString());
+			
+			int i=1;
+			if(objecte.getNombre()!=null) {ps.setString(i, objecte.getNombre()); i++;}
+			if(objecte.getApellidos()!=null) {ps.setString(i, objecte.getApellidos()); i++;}
+			if(objecte.getSexo()!=null) {ps.setString(i, objecte.getSexo()); i++;}
+			if(objecte.getFechaNacimiento()!=null) {ps.setDate(i, objecte.getFechaNacimiento()); i++;}
+			if(objecte.getMotivoEstado()!=null) {ps.setString(i, objecte.getMotivoEstado()); i++;}
+			if(objecte.getIdCentro()!=null) {ps.setInt(i, objecte.getIdCentro()); i++;}
+			if(objecte.getCodigo()!=null) {ps.setString(i, objecte.getCodigo()); i++;}
+			ps.executeUpdate();
+			
+        } catch (SQLException e) {
+        	throw new Exception(e.getMessage());
+        } finally {
+        	close(ps);
+        }		
 	}
 
 	@Override

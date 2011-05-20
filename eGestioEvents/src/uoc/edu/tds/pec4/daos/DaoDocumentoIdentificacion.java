@@ -83,7 +83,31 @@ public class DaoDocumentoIdentificacion extends DaoEntidad<DocumentoIdentificaci
 
 	@Override
 	public void update(DocumentoIdentificacion objecte) throws Exception {
-		throw new UnsupportedOperationException("Método no implementado");
+		PreparedStatement ps = null;
+		
+		try {
+			StringBuffer sql = new StringBuffer();
+			sql.append("UPDATE DOCUMENTOIDENTIFICACION SET ");
+			if(objecte.getIdTipoDocumento() !=null) sql.append("AND id_tipo_documento = ? ");
+			if(objecte.getIdPais() !=null) sql.append("AND id_pais = ? ");
+			if(objecte.getNumeroDocumento() !=null) sql.append("AND numero_documento = ? ");
+			sql = new StringBuffer(sql.substring(0,sql.length()-1) +" WHERE id_documento_identificacion = ?");
+			
+			ps = con.prepareStatement(sql.toString());
+			
+			int i=1;
+			if(objecte.getIdTipoDocumento()!=null) {ps.setInt(i, objecte.getIdTipoDocumento()); i++;}
+			if(objecte.getIdPais()!=null) {ps.setInt(i, objecte.getIdPais()); i++;}
+			if(objecte.getNumeroDocumento()!=null) {ps.setString(i, objecte.getNumeroDocumento()); i++;}
+			if(objecte.getIdDocumentoIdentificacion()!=null) {ps.setInt(i, objecte.getIdDocumentoIdentificacion()); i++;}
+			
+			ps.executeUpdate();
+			
+        } catch (SQLException e) {
+        	throw new Exception(e.getMessage());
+        } finally {
+        	close(ps);
+        }		
 	}
 
 	@Override

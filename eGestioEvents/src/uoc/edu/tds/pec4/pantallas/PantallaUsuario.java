@@ -132,6 +132,7 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 	private JLabel tipoperfil;
 	private RemoteInterface remote;
 	private ButtonGroup grupoBu;
+	private Boolean bUserModificacion = false;
 	
 	/*
 	 * Constructor que recibe un idUsuario y lo calculamos
@@ -148,6 +149,8 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 		initGUI();
 		
 		if(dtoUsuario != null){
+			
+			bUserModificacion = true;//Significa que vamos a realizar la modificación
 			cargaUsuario(dtoUsuario);
 			if(Constantes.ADMINISTRADOR == dtoUsuario.getUsuario().getTipoUsuario()) jRadioButtonAdmin.isSelected();
 			if(Constantes.SECRETARIA == dtoUsuario.getUsuario().getTipoUsuario()) jRadioButtonSecr.isSelected();
@@ -503,12 +506,20 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 					jButtonAcceptar.addActionListener(new ActionListener() {
 							public void actionPerformed(ActionEvent e) {
 								try {
-									validaFormulario();
-									String codigo = remote.insertaUsuario(altaUsuario());
+									String codigo = "";
+									validaFormulario(bUserModificacion.booleanValue());
+									if(bUserModificacion.booleanValue()){
+									}else{
+										codigo = remote.insertaUsuario(altaModificaUsuario(bUserModificacion.booleanValue()));
+									}
 									limpiaFormulario();
 									Utils.mostraMensajeInformacion(jPanel2, "Registro insertado correctamente.\nSu identificador de usuario es " + codigo, "Alta usuario");
 								} catch (RemoteException e1) {
-									e1.printStackTrace();
+									try {
+										throw new OperationErrorRMI(e1.getMessage());
+									} catch (OperationErrorRMI e2) {
+										e2.showDialogError(jPanel2);
+									}
 								} catch (OperationErrorBD e2) {
 									e2.showDialogError(jPanel2);
 								} catch (OperationErrorDatosFormulario e3) {
@@ -653,7 +664,7 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 	 * Método que valida los datos introducidos en el formulario
 	 * @throws OperationErrorDatosFormulario
 	 */
-	private void validaFormulario() throws OperationErrorDatosFormulario{
+	private void validaFormulario(boolean modificacion) throws OperationErrorDatosFormulario{
 		try{
 			
 			//Campos a validar genéricamente
@@ -672,7 +683,12 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 			if(Utils.valorisNull(jTextFieldLocalidad.getText())) throw new Exception(Utils.MESSAGE_ERROR + " localidad" );
 			if(Utils.valorisNull(jTextFieldDocIden.getText())) throw new Exception(Utils.MESSAGE_ERROR + " documento identificación" );
 			if(Utils.valorisNull(jTextFieldDirec.getText())) throw new Exception(Utils.MESSAGE_ERROR + " dirección" );
-			if(Utils.valorisNull(jTextFieldCon.getText())) throw new Exception(Utils.MESSAGE_ERROR + " contraseña" );
+			
+			//Desde la pantalla de modificación no se puede cambiar la contraseña
+			if(!modificacion){
+				if(Utils.valorisNull(jTextFieldCon.getText())) throw new Exception(Utils.MESSAGE_ERROR + " contraseña" );
+			}
+			
 			if(!Utils.parseaFecha(jTextFieldFechaNac.getText())) throw new Exception(Utils.MESSAGE_ERROR + " fecha nacimiento" + Utils.MESSAGE_FECHA );
 			//if(Utils.valorisNull(jTextFieldExtension.getText())) throw new Exception(Utils.MESSAGE_ERROR + " extensión teléfono" );
 			//if(Utils.valorisNull(jTextFieldWebBlog.getText())) throw new Exception(Utils.MESSAGE_ERROR + " página web o blog" );
@@ -813,7 +829,7 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 		
 	}
 	
-	private DTOUsuario altaUsuario() throws OperationErrorDatosFormulario{
+	private DTOUsuario altaModificaUsuario(boolean modificacion) throws OperationErrorDatosFormulario{
 		
 		//Datos específicos del contacto
 		DTOContacto dtoContacto = new DTOContacto();
@@ -825,9 +841,13 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 		contacto.setIdPais(Integer.parseInt(((MostrarCombo) jComboBoxpais.getSelectedItem()).getID().toString()));
 		contacto.setEmail(jTextFieldEmail.getText());
 		contacto.setWeb(jTextFieldWebBlog.getText());
-		contacto.setEstado(1);
-		contacto.setFechaEstado(new java.sql.Date(System.currentTimeMillis()));
-		contacto.setMotivoEstado("Alta de usuario");
+		
+		if(!modificacion){
+			contacto.setEstado(1);
+			contacto.setFechaEstado(new java.sql.Date(System.currentTimeMillis()));
+			contacto.setMotivoEstado("alta de usuario");
+		}
+		
 		dtoContacto.setContacto(contacto);
 		
 		//Datos específicos del usuario
@@ -842,13 +862,16 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 			throw e;
 		}
 		
-		usuario.setFechaContrasena(new java.sql.Date(System.currentTimeMillis()));
-		usuario.setContrasena(jTextFieldCon.getText());
-		usuario.setCambiarContrasena(false);
-		usuario.setFechaEstado(new java.sql.Date(System.currentTimeMillis()));
-		usuario.setMotivoEstado("Alta de usuario");
+		if(!modificacion){
+			usuario.setFechaContrasena(new java.sql.Date(System.currentTimeMillis()));
+			usuario.setContrasena(jTextFieldCon.getText());
+			usuario.setCambiarContrasena(false);
+			usuario.setFechaEstado(new java.sql.Date(System.currentTimeMillis()));
+			usuario.setMotivoEstado("Alta de usuario");
+			usuario.setCodigo(generaCodigo(usuario));
+		}
+		
 		usuario.setIdDocumentoIdentificacion(Integer.parseInt(((MostrarCombo) jComboBoxTipoDoc.getSelectedItem()).getID().toString()));
-		usuario.setCodigo(generaCodigo(usuario));
 		
 		//Rellenamos el d documento de identidad
 		DTODocumentoIdentificacion dtoDocumentoIden = new DTODocumentoIdentificacion();
@@ -883,8 +906,13 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 			} catch (NumberFormatException e) {
 				throw e;
 			}
-			datosBancarios.setFechaEstado(new java.sql.Date(System.currentTimeMillis()));
-			datosBancarios.setMotivoEstado("Alta de usuario");
+			
+			if(!modificacion){
+				datosBancarios.setFechaEstado(new java.sql.Date(System.currentTimeMillis()));
+				datosBancarios.setMotivoEstado("alta de usuario");
+			}
+			
+		
 			dtoDatosBancarios.setDatosBancarios(datosBancarios);
 		}
 		
