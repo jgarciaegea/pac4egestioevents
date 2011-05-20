@@ -36,6 +36,8 @@ public class GestorTelefono extends GestorEntidad<DTOTelefono>{
 				for(Telefono telefono : lstTelefonos){
 					DTOTelefono dtoTelefono = new DTOTelefono();
 					
+					dtoTelefono.setTelefono(telefono);
+					
 					//Añadimos tipo de telefono
 					GestorTipoTelefono gestorTipoTelefono = new GestorTipoTelefono(connection);
 					DTOTipoTelefono dtoTipoTelefono = gestorTipoTelefono.consultaEntidadById(telefono.getIdTipoTelefono());
@@ -68,11 +70,11 @@ public class GestorTelefono extends GestorEntidad<DTOTelefono>{
 		return null;
 	}
 	
-	public DTOTelefono consultaEntidadById(Integer idTelefono) throws Exception{
+	public DTOTelefono consultaEntidadById(Integer idContacto) throws Exception{
 		try{
 			DTOTelefono dtoTelefono = new DTOTelefono();
 			Telefono telefono = new Telefono();
-			telefono.setIdTelefono(idTelefono);
+			telefono.setIdContacto(idContacto);
 			dtoTelefono.setTelefono(telefono);
 			return this.consultaEntidad(dtoTelefono);
 		}catch(Exception e){

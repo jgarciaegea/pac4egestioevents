@@ -59,11 +59,12 @@ public class DaoContacto extends DaoEntidad<Contacto>{
 			sb.append("SELECT id_contacto, domicilio, cp, localidad, provincia, id_pais, email, web, fecha_alta, estado, fecha_estado, motivo_estado ");
 			sb.append("FROM CONTACTO ");
 			sb.append("WHERE (1=1) ");
-			if(criteris.getIdPais()!=null) sb.append("AND id_contacto = ? ");
+			if(criteris.getIdContacto()!=null) sb.append("AND id_contacto = ? ");
 			if(criteris.getDomicilio()!=null) sb.append("AND domicilio = ? ");
 			if(criteris.getCp()!=null) sb.append("AND cp = ? ");
 			if(criteris.getLocalidad()!=null) sb.append("AND localidad = ? ");
 			if(criteris.getProvincia()!=null) sb.append("AND provincia = ? ");
+			if(criteris.getIdPais()!=null) sb.append("AND id_pais = ? ");
 			if(criteris.getEmail()!=null) sb.append("AND email = ? ");
 			if(criteris.getWeb()!=null) sb.append("AND web = ? ");
 			if(criteris.getFechaAlta()!=null) sb.append("AND fecha_alta = ? ");
@@ -74,11 +75,12 @@ public class DaoContacto extends DaoEntidad<Contacto>{
 			ps = con.prepareStatement(sb.toString(), ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
 			
 			int i=1;
-			if(criteris.getIdPais()!=null) {ps.setInt(i, criteris.getIdPais()); i++;}
+			if(criteris.getIdContacto()!=null) {ps.setInt(i, criteris.getIdContacto()); i++;}
 			if(criteris.getDomicilio()!=null) {ps.setString(i, criteris.getDomicilio()); i++;}
 			if(criteris.getCp()!=null) {ps.setInt(i, criteris.getCp()); i++;}
 			if(criteris.getLocalidad()!=null) {ps.setString(i, criteris.getLocalidad()); i++;}
 			if(criteris.getProvincia()!=null) {ps.setString(i, criteris.getProvincia()); i++;}
+			if(criteris.getIdPais()!=null) {ps.setInt(i, criteris.getIdPais()); i++;}
 			if(criteris.getEmail()!=null) {ps.setString(i, criteris.getEmail()); i++;}
 			if(criteris.getWeb()!=null) {ps.setString(i, criteris.getWeb()); i++;}
 			if(criteris.getFechaAlta()!=null) {ps.setDate(i, criteris.getFechaAlta()); i++;}

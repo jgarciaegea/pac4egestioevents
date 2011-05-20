@@ -461,14 +461,14 @@ public class PantallaUsuarioConsulta extends javax.swing.JPanel implements Panta
 	 */
 	private void cargaListadoUsuarios() throws OperationErrorDatosFormulario{
 		try{
+			dtm.getDataVector().removeAllElements();
 			List<DTOUsuario> lstDtoUsuario = remote.getUsuarios(consultaUsuarios());
 			if(lstDtoUsuario == null || lstDtoUsuario.isEmpty()){
-				dtm.getDataVector().removeAllElements();
 				Utils.mostraMensajeInformacion(jPanel2,"No hay resultados","Búsqueda usuarios");
-				jTableRes.repaint();
 				return;
 			}
 			muestraResultado(lstDtoUsuario);
+			jTableRes.repaint();
 		}catch(Exception e){
 			throw new OperationErrorDatosFormulario(e.getMessage());
 		}

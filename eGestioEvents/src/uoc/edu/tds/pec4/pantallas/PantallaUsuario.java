@@ -43,6 +43,7 @@ import uoc.edu.tds.pec4.dtos.DTOUniversidad;
 import uoc.edu.tds.pec4.dtos.DTOUsuario;
 import uoc.edu.tds.pec4.excepciones.OperationErrorBD;
 import uoc.edu.tds.pec4.excepciones.OperationErrorDatosFormulario;
+import uoc.edu.tds.pec4.excepciones.OperationErrorRMI;
 import uoc.edu.tds.pec4.gestores.FactoriaUsuario;
 import uoc.edu.tds.pec4.gestores.GestorRMI;
 import uoc.edu.tds.pec4.iface.RemoteInterface;
@@ -117,7 +118,7 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 	private JTextField jTextFieldCon;
 	private JLabel jLabelCont;
 	private JLabel jLabelCodigo;
-	private JTextField jTextField2;
+	private JTextField jTextFieldCodigo;
 	private JLabel jLabelApe;
 	private JTextField jTextFieldApe;
 	private JLabel jLabelNombre;
@@ -217,9 +218,9 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 					jLabelApe.setLayout(null);
 				}
 				{
-					jTextField2 = new JTextField();
-					jPanel2.add(jTextField2, new GridBagConstraints(3, 0, 1, 1, 0.0, 0.0, GridBagConstraints.NORTHWEST, GridBagConstraints.NONE, new Insets(0, 8, 0, 0), 0, 0));
-					jTextField2.setPreferredSize(new java.awt.Dimension(200, 21));
+					jTextFieldCodigo = new JTextField();
+					jPanel2.add(jTextFieldCodigo, new GridBagConstraints(3, 0, 1, 1, 0.0, 0.0, GridBagConstraints.NORTHWEST, GridBagConstraints.NONE, new Insets(0, 8, 0, 0), 0, 0));
+					jTextFieldCodigo.setPreferredSize(new java.awt.Dimension(200, 21));
 				}
 				{
 					jLabelCodigo = new JLabel();
@@ -604,7 +605,7 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 			showHideDatosUsuario(false);
 			showHideDatosUni(false);
 			
-			jTextField2.setEnabled(false);
+			jTextFieldCodigo.setEnabled(false);
 			
 		} catch (Exception e) {
 			try{
@@ -961,33 +962,82 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 				System.out.println("Usuario recuperado correctamente");
 				
 				Usuario usuario = dtoUsuarioRec.getUsuario();
+				
+				//Valores del usuario
 				if(usuario.getNombre()!= null) jTextFieldNombre.setText(usuario.getNombre());
 				if(usuario.getApellidos()!= null) jTextFieldApe.setText(usuario.getApellidos());
+				if(usuario.getCodigo()!= null) jTextFieldCodigo.setText(usuario.getCodigo());
 				
+				if(dtoUsuarioRec.getUsuario().getFechaNacimiento() !=  null){
+					jTextFieldFechaNac.setText(dtoUsuarioRec.getUsuario().getFechaNacimiento().toString());
+				}
+				
+				if(dtoUsuarioRec.getDtoDocumentoIden() != null){
+					jTextFieldDocIden.setText(dtoUsuarioRec.getDtoDocumentoIden().getDocumentoIdentificacion().getNumeroDocumento());
+					jComboBoxTipoDoc.setSelectedItem(new MostrarCombo(dtoUsuarioRec.getDtoDocumentoIden().getDtoTipoDocumento().getTipoDocumento().getIdTipoDocumento()
+							,dtoUsuarioRec.getDtoDocumentoIden().getDtoTipoDocumento().getTipoDocumento().getDescripcionDocumento()));
+				}
+				
+				//VALORES DE DTOCONTACTO
 				if(dtoUsuarioRec.getDtoContacto() != null){
-					if(dtoUsuarioRec.getDtoContacto().getContacto().getDomicilio() != null) 
+					if(dtoUsuarioRec.getDtoContacto().getContacto().getDomicilio() != null){
 						jTextFieldDirec.setText(dtoUsuarioRec.getDtoContacto().getContacto().getDomicilio());
+					}
 					
+					if(dtoUsuarioRec.getDtoContacto().getContacto().getWeb() != null){
+						jTextFieldWebBlog.setText(dtoUsuarioRec.getDtoContacto().getContacto().getWeb());
+					}
 					
-					jComboBoxUniver.setSelectedItem(new MostrarCombo(dtoUsuarioRec.getDtoContacto().getContacto().getIdPais(),null));
-					//jComboBoxTipo.setSelectedItem(new MostrarCombo(dtoUsuarioRec.getDtoContacto().getContacto().,null));
-				
+					if(dtoUsuarioRec.getDtoContacto().getContacto().getEmail() != null){
+						jTextFieldEmail.setText(dtoUsuarioRec.getDtoContacto().getContacto().getEmail());
+					}
+					
+					if(dtoUsuarioRec.getDtoContacto().getContacto().getCp() != null){
+						jTextFieldCP.setText(dtoUsuarioRec.getDtoContacto().getContacto().getCp().toString());
+					}
+					
+					if(dtoUsuarioRec.getDtoContacto().getContacto().getLocalidad() != null){
+						jTextFieldLocalidad.setText(dtoUsuarioRec.getDtoContacto().getContacto().getLocalidad());
+					}
+					
+					if(dtoUsuarioRec.getDtoContacto().getDtoPais().getPais().getIdPais()!= null){
+						jComboBoxpais.setSelectedItem(new MostrarCombo(dtoUsuarioRec.getDtoContacto().getDtoPais().getPais().getIdPais(),
+								dtoUsuarioRec.getDtoContacto().getDtoPais().getPais().getNombrePais()));
+					}
+					jComboBoxSexo.setSelectedItem(new MostrarCombo(usuario.getSexo(),"F".equalsIgnoreCase(usuario.getSexo())?"Femenino":"Masculino"));
 				}
 				
-				if(usuario.getIdDocumentoIdentificacion()!=null){
-					jComboBoxTipoDoc.setSelectedItem(new MostrarCombo(usuario.getIdDocumentoIdentificacion(),null));
+				
+				//VALORES DEL TELEFONO
+				if(dtoUsuarioRec.getDtoTelefono() != null){
+					
+					jComboBoxTipo.setSelectedItem(new MostrarCombo(dtoUsuarioRec.getDtoTelefono().getTelefono().getIdTipoTelefono(),
+							dtoUsuarioRec.getDtoTelefono().getDtoTipoTelefono().getTipoTelefono().getDescripcion()));
+					
+					if(dtoUsuarioRec.getDtoTelefono().getTelefono().getExtension()!= null && dtoUsuarioRec.getDtoTelefono().getTelefono().getExtension()!=-1){
+						jTextFieldExtension.setText(dtoUsuarioRec.getDtoTelefono().getTelefono().getExtension().toString());
+					}
+					
+					if(dtoUsuarioRec.getDtoTelefono().getTelefono().getTelefono()!= null){
+						jTextFieldTelefono.setText(dtoUsuarioRec.getDtoTelefono().getTelefono().getTelefono().toString());
+					}
+					
 				}
-				
-				
 				
 			}
 			
-			
-			
 		} catch (RemoteException e) {
-			e.printStackTrace();
+			try {
+				throw new OperationErrorRMI(e.getMessage());
+			} catch (OperationErrorRMI e1) {
+				e1.showDialogError();
+			}
 		} catch (OperationErrorBD e) {
-			e.printStackTrace();
+			try {
+				throw new OperationErrorBD(e.getMessage());
+			} catch (OperationErrorBD e1) {
+				e1.showDialogError();
+			}
 		}
 	}
 	

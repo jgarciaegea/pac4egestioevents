@@ -104,8 +104,6 @@ public class GestorUsuario  extends GestorEntidad<DTOUsuario>{
 	private DTOUsuario getTypeDTO(Usuario usu) throws Exception{
 		try{
 			
-			
-			
 			if(usu.getTipoUsuario()==null) throw new Exception("El tipo de usuario ha de estar informado");
 			
 			DTOUsuario dtoUsuario = FactoriaUsuario.getUsuario(usu.getTipoUsuario()); 
