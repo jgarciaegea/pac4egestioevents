@@ -12,6 +12,7 @@ import java.awt.event.ActionListener;
 import java.net.MalformedURLException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -19,14 +20,29 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 
+import uoc.edu.tds.pec4.beans.Usuario;
+import uoc.edu.tds.pec4.beans.UsuarioViewConsulta;
+import uoc.edu.tds.pec4.dtos.DTOAdministrador;
+import uoc.edu.tds.pec4.dtos.DTOAsistente;
+import uoc.edu.tds.pec4.dtos.DTOPersonalSecretaria;
+import uoc.edu.tds.pec4.dtos.DTOUsuario;
+import uoc.edu.tds.pec4.dtos.DTOUsuarioConsulta;
 import uoc.edu.tds.pec4.excepciones.OperationErrorBD;
+import uoc.edu.tds.pec4.excepciones.OperationErrorDatosFormulario;
+import uoc.edu.tds.pec4.excepciones.OperationErrorLogin;
 import uoc.edu.tds.pec4.excepciones.OperationErrorRMI;
 import uoc.edu.tds.pec4.gestores.GestorRMI;
 import uoc.edu.tds.pec4.iface.RemoteInterface;
 import uoc.edu.tds.pec4.resources.TDSLanguageUtils;
+import uoc.edu.tds.pec4.utils.Base64Coder;
+import uoc.edu.tds.pec4.utils.Constantes;
+import uoc.edu.tds.pec4.utils.JTextFieldLimit;
+import uoc.edu.tds.pec4.utils.MostrarCombo;
+import uoc.edu.tds.pec4.utils.Utils;
 
 /**
  * @author ML019882
@@ -44,6 +60,8 @@ public class PantallaLogin extends JFrame {
     private JTextField textoPwd;
 	private GestorRMI gestorRMI;
 	private RemoteInterface remote;
+	private DTOUsuario dtoUsuario;
+	private Usuario usuario;
 
 	
 	public PantallaLogin(){
@@ -93,10 +111,10 @@ public class PantallaLogin extends JFrame {
             etiquetaPwd.setFont(new Font("Arial", Font.BOLD, 12));
             etiquetaPwd.setText(TDSLanguageUtils.getMessage("ClientePEC4.pwd.texto"));
             
-            textoPwd = new JTextField();
+            textoPwd = new JPasswordField();
             textoPwd.setBounds(new Rectangle(120, 70, 180, 20));
             textoPwd.setFont(new Font("Arial", Font.BOLD, 12));
-
+            textoPwd.setDocument(new JTextFieldLimit(8));
             
             panelPrincipal.setBorder(BorderFactory.createCompoundBorder(
     		        BorderFactory.createTitledBorder(TDSLanguageUtils.getMessage("ClientePEC4.panelCredenciales.titulo")), 
@@ -128,40 +146,75 @@ public class PantallaLogin extends JFrame {
 
 		bOK.addActionListener(new ActionListener() { public void actionPerformed(ActionEvent evt) { 
 			try {
+				validaFormulario();
 				inicializarAplicacion();
 			} catch (MalformedURLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (RemoteException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (NotBoundException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (OperationErrorBD e) {
-				// TODO Auto-generated catch block
+				e.showDialogError();
 				e.printStackTrace();
+			} catch (OperationErrorDatosFormulario e) {
+					e.showDialogError();
+			} catch (OperationErrorLogin e) {
+				// TODO Auto-generated catch block
+				e.showDialogError();
 			}	} });
 		
 	}
 	
+	/**
+	 * Inicializar Aplicacion
+	 * @throws RemoteException 
+	 * @throws OperationErrorLogin 
+	 */
 	
-	public void inicializarAplicacion() 
-	throws MalformedURLException, RemoteException, NotBoundException, OperationErrorBD{
+	
+	public void inicializarAplicacion() throws RemoteException, OperationErrorLogin,MalformedURLException,NotBoundException,OperationErrorBD {
 		
-    	System.out.println("conectar al Servidor");
-    	this.connectRMI();
-    	System.out.println("Conectado al Servidor!");
-
-		
-		// TODO COMPROBAR LOGIN
-    	
-		System.out.println("Inicializando Menus Aplicacion");
+		connectRMI();
+		authenticate();		
 		PantallaPrincipal aplicacion = new PantallaPrincipal(gestorRMI,remote);
 		this.setVisible(false);
 		aplicacion.setVisible(true);
 		
 	}
+	
+	/**
+	 * Comprobar Datos
+	 */
+	
+	
+    public boolean authenticate()  throws OperationErrorLogin {
+		
+    	usuario = new Usuario();
+        String user = textoLogin.getText();  
+        String pass = textoPwd.getText();
+        pass =  Base64Coder.encodeString(pass);
+    	try {
+    		DTOUsuarioConsulta dtoUsuarioConsulta = new DTOUsuarioConsulta();
+    		UsuarioViewConsulta usuarioConsulta = new UsuarioViewConsulta();
+    		usuarioConsulta.setCodigo(user);
+    		dtoUsuarioConsulta.setUsuarioViewConsulta(usuarioConsulta);
+    		List<DTOUsuario> lstDtoUsuario = remote.getUsuarios(dtoUsuarioConsulta);
+			if(lstDtoUsuario == null || lstDtoUsuario.isEmpty()){
+				throw new OperationErrorLogin("Login incorrecto");
+			}     		
+	    	if (!pass.equals(lstDtoUsuario.get(0).getUsuario().getContrasena())){
+	    		throw new OperationErrorLogin("Contrasenya incorrecta");
+	    	}   	
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		} catch (OperationErrorBD e) {
+			e.printStackTrace();
+		}
+        return true;
+    }
+	
 	
 	/**
 	 * Conexion RMI
@@ -182,6 +235,30 @@ public class PantallaLogin extends JFrame {
 			e.showDialogError();
 		}
 	}
+	
+	
+	/**
+	 * Método que valida los datos introducidos en el formulario
+	 * @throws OperationErrorDatosFormulario
+	 */
+	@SuppressWarnings("deprecation")
+	private void validaFormulario() throws OperationErrorDatosFormulario{
+		try{
+					
+			if(Utils.valorisNull(textoLogin.getText())) throw new OperationErrorDatosFormulario(Utils.MESSAGE_ERROR + " Login " );
+			if(Utils.valorisNull(textoPwd.getText())) throw new OperationErrorDatosFormulario(Utils.MESSAGE_ERROR + " PWD " );
+			
+			
+		}catch(OperationErrorDatosFormulario ex){
+			throw new OperationErrorDatosFormulario(ex.getMessage());
+
+		}
+			
+	}
+	
+	
+	
+	
 	
 	/**
 	 * @return the panelPrincipal
@@ -290,7 +367,7 @@ public class PantallaLogin extends JFrame {
 	/**
 	 * @param textoPwd the textoPwd to set
 	 */
-	public void setTextoPwd(JTextField textoPwd) {
+	public void setTextoPwd(JPasswordField textoPwd) {
 		this.textoPwd = textoPwd;
 	}
 		
