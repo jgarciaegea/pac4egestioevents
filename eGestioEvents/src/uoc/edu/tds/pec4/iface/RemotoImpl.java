@@ -104,6 +104,48 @@ public class RemotoImpl extends UnicastRemoteObject implements RemoteInterface,S
 		
 	}
 	
+	public void bajaUsuario(DTOUsuario dtoUsuario) throws RemoteException, OperationErrorBD {
+		try{
+			System.out.println("damos de baja el usuario.....");
+			GestorUsuario gestorUsuario = new GestorUsuario(gestorDB.getConnection());
+			gestorUsuario.eliminaEntidad(dtoUsuario);
+		}catch(Exception e){
+			throw new OperationErrorBD("Error al recuperar la información de los usuarios......");
+		}
+		
+	}
+	
+	public void modificaUsuario(DTOUsuario dtoUsuario) throws RemoteException, OperationErrorBD {
+		try{
+			
+			//Modificamos contacto
+			GestorContacto gestorContacto = new GestorContacto(gestorDB.getConnection());
+			gestorContacto.modificaEntidad(dtoUsuario.getDtoContacto());
+			
+			//Modificamos telefono
+			GestorTelefono gestorTelefono = new GestorTelefono(gestorDB.getConnection());
+			gestorTelefono.modificaEntidad(dtoUsuario.getDtoTelefono());
+			
+			//Modificamos documentoIdentificación
+			GestorDocumentoIdentificacion gestorDocumIden = new GestorDocumentoIdentificacion(gestorDB.getConnection());
+			gestorDocumIden.modificaEntidad(dtoUsuario.getDtoDocumentoIden());
+			
+			//Modificamos los datos bancarios
+			if(dtoUsuario.getDtoDatosBancarios() != null){
+				GestorDatosBancarios gestorDatosBancarios = new GestorDatosBancarios(gestorDB.getConnection());
+				gestorDatosBancarios.modificaEntidad(dtoUsuario.getDtoDatosBancarios());
+			}
+			
+			//Modificamos el usuario
+			GestorUsuario gestorUsuario = new GestorUsuario(gestorDB.getConnection());
+			gestorUsuario.modificaEntidad(dtoUsuario);
+			
+		}catch(Exception e){
+			throw new OperationErrorBD("Error al recuperar la información de los usuarios......");
+		}
+		
+	}
+	
 	public List<DTOTipoDocumento> getTiposDocumento() throws RemoteException, OperationErrorBD {
 		try{
 			GestorTipoDocumento gestorTipoDocumento = new GestorTipoDocumento(gestorDB.getConnection());
@@ -208,16 +250,5 @@ public class RemotoImpl extends UnicastRemoteObject implements RemoteInterface,S
 		}
 	}
 
-	public void bajaUsuario(DTOUsuario dtoUsuario) throws RemoteException, OperationErrorBD {
-		try{
-			System.out.println("damos de baja el usuario.....");
-			GestorUsuario gestorUsuario = new GestorUsuario(gestorDB.getConnection());
-			gestorUsuario.eliminaEntidad(dtoUsuario);
-		}catch(Exception e){
-			throw new OperationErrorBD("Error al recuperar la información de los usuarios......");
-		}
-		
-	}
-	
 
 }

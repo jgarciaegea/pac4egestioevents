@@ -43,6 +43,31 @@ public interface RemoteInterface extends Remote{
 	public abstract String insertaUsuario(DTOUsuario dtoUsuario) throws RemoteException,OperationErrorBD;
 	
 	/**
+	 * Recuperamos los datos de los usuarios
+	 * @param dtoUsuario
+	 * @return
+	 * @throws RemoteException
+	 * @throws OperationErrorBD
+	 */
+	public List<DTOUsuario> getUsuarios(DTOUsuario dtoUsuario) throws RemoteException, OperationErrorBD;
+	
+	/**
+	 * Damos de baja un usuario, es decir, ponemos el usuario como inactivo (valor 3)
+	 * @param dtoUsuario
+	 * @throws RemoteException
+	 * @throws OperationErrorBD
+	 */
+	public void bajaUsuario(DTOUsuario dtoUsuario) throws RemoteException, OperationErrorBD;
+	
+	/**
+	 * Modificamos el usuario
+	 * @param dtoUsuario
+	 * @throws RemoteException
+	 * @throws OperationErrorBD
+	 */
+	public void modificaUsuario(DTOUsuario dtoUsuario)  throws RemoteException, OperationErrorBD;
+	
+	/**
 	 * Método para recuperar los tipos de documento existentes
 	 * @return
 	 * @throws RemoteException
@@ -105,20 +130,5 @@ public interface RemoteInterface extends Remote{
 	
 	public abstract List<DTOTipoEvento> getTiposEventos() throws RemoteException, OperationErrorBD;
 	
-	/**
-	 * Recuperamos los datos de los usuarios
-	 * @param dtoUsuario
-	 * @return
-	 * @throws RemoteException
-	 * @throws OperationErrorBD
-	 */
-	public List<DTOUsuario> getUsuarios(DTOUsuario dtoUsuario) throws RemoteException, OperationErrorBD;
 	
-	/**
-	 * Damos de baja un usuario, es decir, ponemos el usuario como inactivo (valor 3)
-	 * @param dtoUsuario
-	 * @throws RemoteException
-	 * @throws OperationErrorBD
-	 */
-	public void bajaUsuario(DTOUsuario dtoUsuario) throws RemoteException, OperationErrorBD;
 }
