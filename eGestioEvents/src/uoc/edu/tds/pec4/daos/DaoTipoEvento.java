@@ -50,7 +50,7 @@ public class DaoTipoEvento extends DaoEntidad<TipoEvento>{
 		List<TipoEvento> lstTipoEvento = new ArrayList<TipoEvento>();
 		try{
 			StringBuffer sb = new StringBuffer();
-			sb.append("SELECT id_tipo_evento, id_rol ");
+			sb.append("SELECT id_tipo_evento ");
 			sb.append("FROM TIPOEVENTO ");
 			sb.append("WHERE (1=1) ");
 			if(criteris.getIdTipoEvento()!=null) sb.append("AND id_tipo_evento = ? ");
