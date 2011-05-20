@@ -10,7 +10,7 @@ public class Telefono implements BeanInterface, Serializable{
 	private Integer idTelefono;
 	private String prefijoPais;
 	private String telefono;
-	private String extension;
+	private Integer extension;
 	private Date fechaAlta;
 	private Integer estado;
 	private Date fechaEstado;
@@ -36,12 +36,7 @@ public class Telefono implements BeanInterface, Serializable{
 	public void setTelefono(String telefono) {
 		this.telefono = telefono;
 	}
-	public String getExtension() {
-		return extension;
-	}
-	public void setExtension(String extension) {
-		this.extension = extension;
-	}
+	
 	public Date getFechaAlta() {
 		return fechaAlta;
 	}
@@ -77,6 +72,12 @@ public class Telefono implements BeanInterface, Serializable{
 	}
 	public void setIdContacto(Integer idContacto) {
 		this.idContacto = idContacto;
+	}
+	public Integer getExtension() {
+		return extension;
+	}
+	public void setExtension(Integer extension) {
+		this.extension = extension;
 	}
 	
 	

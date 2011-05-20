@@ -25,6 +25,7 @@ import javax.swing.JTextField;
 import uoc.edu.tds.pec4.beans.Contacto;
 import uoc.edu.tds.pec4.beans.DatosBancarios;
 import uoc.edu.tds.pec4.beans.DocumentoIdentificacion;
+import uoc.edu.tds.pec4.beans.Telefono;
 import uoc.edu.tds.pec4.beans.Usuario;
 import uoc.edu.tds.pec4.dtos.DTOAdministrador;
 import uoc.edu.tds.pec4.dtos.DTOAsistente;
@@ -34,6 +35,7 @@ import uoc.edu.tds.pec4.dtos.DTODatosBancarios;
 import uoc.edu.tds.pec4.dtos.DTODocumentoIdentificacion;
 import uoc.edu.tds.pec4.dtos.DTOPais;
 import uoc.edu.tds.pec4.dtos.DTOPersonalSecretaria;
+import uoc.edu.tds.pec4.dtos.DTOTelefono;
 import uoc.edu.tds.pec4.dtos.DTOTipoDocumento;
 import uoc.edu.tds.pec4.dtos.DTOTipoRol;
 import uoc.edu.tds.pec4.dtos.DTOTipoTelefono;
@@ -127,8 +129,11 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 	private JLabel tipoperfil;
 	private RemoteInterface remote;
 	private ButtonGroup grupoBu;
-
-	public PantallaUsuario(GestorRMI gestorRMI,RemoteInterface remote1) {
+	
+	/*
+	 * Constructor que recibe un idUsuario y lo calculamos
+	 */
+	public PantallaUsuario(GestorRMI gestorRMI,RemoteInterface remote1, DTOUsuario dtoUsuario) {
 		super();
 		remote = remote1;
 		try {
@@ -138,6 +143,15 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 		}
 		System.out.print("Para quitar el warning que sale si no se utiliza es provisional " + remote.toString());
 		initGUI();
+		
+		if(dtoUsuario != null){
+			cargaUsuario(dtoUsuario);
+		}
+		
+	}
+	
+	public PantallaUsuario(GestorRMI gestorRMI,RemoteInterface remote1) {
+		this(gestorRMI,remote1,null);
 	}
 	
 	private void initGUI() {
@@ -547,6 +561,7 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 					try {
 						if(e.getStateChange() == ItemEvent.SELECTED) {
 							showHideDatosUsuario(false);
+							showHideDatosUni(false);
 						}
 					} catch (Exception e1) {
 						e1.printStackTrace();
@@ -669,12 +684,13 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 			
 			if(Utils.valorisNull(jComboBoxUniver.getSelectedItem())) throw new Exception(Utils.MESSAGE_ERROR + " universidad" );
 			if(Utils.valorisNull(jComboBoxTipo.getSelectedItem())) throw new Exception(Utils.MESSAGE_ERROR + " tipo teléfono" );
-			if(Utils.valorisNull(jTextFieldExtension.getText())) throw new Exception(Utils.MESSAGE_ERROR + " extensión teléfono" );
+			//if(Utils.valorisNull(jTextFieldExtension.getText())) throw new Exception(Utils.MESSAGE_ERROR + " extensión teléfono" );
+			
 			if(Utils.valorisNull(jTextFieldTelefono.getText())) throw new Exception(Utils.MESSAGE_ERROR + " teléfono" );
 			if(Utils.valorisNull(jTextFieldFechaNac.getText())) throw new Exception(Utils.MESSAGE_ERROR + " fecha nacimiento" );
-			if(Utils.valorisNull(jTextFieldWebBlog.getText())) throw new Exception(Utils.MESSAGE_ERROR + " página web o blog" );
+			//if(Utils.valorisNull(jTextFieldWebBlog.getText())) throw new Exception(Utils.MESSAGE_ERROR + " página web o blog" );
 			if(Utils.valorisNull(jComboBoxSexo.getSelectedItem())) throw new Exception(Utils.MESSAGE_ERROR + " sexo" );
-			if(Utils.valorisNull(jTextFieldEmail.getText())) throw new Exception(Utils.MESSAGE_ERROR + " email" );
+			//if(Utils.valorisNull(jTextFieldEmail.getText())) throw new Exception(Utils.MESSAGE_ERROR + " email" );
 			if(Utils.valorisNull(jTextFieldCP.getText())) throw new Exception(Utils.MESSAGE_ERROR + " código postal" );
 			if(Utils.valorisNull(jTextFieldLocalidad.getText())) throw new Exception(Utils.MESSAGE_ERROR + " localidad" );
 			if(Utils.valorisNull(jTextFieldDocIden.getText())) throw new Exception(Utils.MESSAGE_ERROR + " documento identificación" );
@@ -701,7 +717,7 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 				if(!Utils.validaNumerico(jTextFieldCon.getText())) 	throw new Exception(Utils.MESSAGE_ERROR + " password " + Utils.MESSAGE_NUMERIC );
 				if(!Utils.validaNumerico(jTextFieldCP.getText())) 	throw new Exception(Utils.MESSAGE_ERROR + " código postal " + Utils.MESSAGE_NUMERIC );
 				if(!Utils.validaNumerico(jTextFieldTelefono.getText())) throw new Exception(Utils.MESSAGE_ERROR + " teléfono" + Utils.MESSAGE_NUMERIC );
-				if(!Utils.validaNumerico(jTextFieldExtension.getText())) throw new Exception(Utils.MESSAGE_ERROR + " extensión teléfono" + Utils.MESSAGE_NUMERIC );
+				if(!Utils.valorisNull(jTextFieldEmail.getText()) && !Utils.validaNumerico(jTextFieldExtension.getText())) throw new Exception(Utils.MESSAGE_ERROR + " extensión teléfono" + Utils.MESSAGE_NUMERIC );
 				if(!Utils.validaNumerico(jTextFieldSucursal.getText())) throw new Exception(Utils.MESSAGE_ERROR + " sucursal" + Utils.MESSAGE_NUMERIC );
 				if(!Utils.validaNumerico(jTextFieldDC.getText())) throw new Exception(Utils.MESSAGE_ERROR + " DC" + Utils.MESSAGE_NUMERIC );
 				if(!Utils.validaNumerico(jTextFieldBanco.getText())) throw new Exception(Utils.MESSAGE_ERROR + " banco" + Utils.MESSAGE_NUMERIC );
@@ -860,26 +876,33 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 			dtoDatosBancarios.setDatosBancarios(datosBancarios);
 		}
 		
-		DTOUsuario dtoUsuario = null;
+		//Añadimos el telefono
+		DTOTelefono dtoTelefono = new DTOTelefono();
+		Telefono telefono = new Telefono();
+		if(!Utils.valorisNull(jTextFieldExtension.getText())) telefono.setExtension(Integer.parseInt(jTextFieldExtension.getText()));
+		telefono.setTelefono(jTextFieldTelefono.getText());
+		telefono.setIdTipoTelefono(Integer.parseInt(((MostrarCombo) jComboBoxTipo.getSelectedItem()).getID().toString()));
+		dtoTelefono.setTelefono(telefono);
 		
+		DTOUsuario dtoUsuario = null;
 		try {
 			dtoUsuario = FactoriaUsuario.getUsuario(usuario.getTipoUsuario());
 			if(dtoUsuario instanceof DTOAdministrador){
 				dtoUsuario = new DTOAdministrador();
-				rellenaInfoComun(dtoUsuario,usuario,dtoContacto,dtoDocumentoIden);
+				rellenaInfoComun(dtoUsuario,usuario,dtoContacto,dtoDocumentoIden,dtoTelefono);
 				dtoUsuario.getUsuario().setIdRol(-1); //No tienen roles
 				dtoUsuario.getUsuario().setIdCentro(-1); //No tiene centro que asignar
 				dtoUsuario.getUsuario().setIdDatosBancarios(-1); //No tiene datos bancarios
 				return dtoUsuario;
 			}else if(dtoUsuario instanceof DTOPersonalSecretaria){
 				dtoUsuario = new DTOPersonalSecretaria();
-				rellenaInfoComun(dtoUsuario,usuario,dtoContacto,dtoDocumentoIden);
+				rellenaInfoComun(dtoUsuario,usuario,dtoContacto,dtoDocumentoIden,dtoTelefono);
 				dtoUsuario.getUsuario().setIdRol(-1); //No tienen roles
 				dtoUsuario.getUsuario().setIdDatosBancarios(-1); //No tiene datos bancarios
 				return dtoUsuario;
 			}else if(dtoUsuario instanceof DTOAsistente){
 				dtoUsuario = new DTOAsistente();
-				rellenaInfoComun(dtoUsuario,usuario,dtoContacto,dtoDocumentoIden);
+				rellenaInfoComun(dtoUsuario,usuario,dtoContacto,dtoDocumentoIden,dtoTelefono);
 				dtoUsuario.setDtoDatosBancarios(dtoDatosBancarios);
 				return dtoUsuario;
 			}	
@@ -890,11 +913,13 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 		throw new OperationErrorDatosFormulario("El tipo de usuario " + usuario.getTipoUsuario() + " no está contemplado");
 	}
 	
-	private void rellenaInfoComun(DTOUsuario dtoUsuario,Usuario usuario, DTOContacto dtoContacto, DTODocumentoIdentificacion dtoDocumentoIden) throws Exception{
+	private void rellenaInfoComun(DTOUsuario dtoUsuario,Usuario usuario, DTOContacto dtoContacto, 
+			DTODocumentoIdentificacion dtoDocumentoIden,DTOTelefono dtoTelefono) throws Exception{
 		try{
 			dtoUsuario.setUsuario(usuario);
 			dtoUsuario.setDtoContacto(dtoContacto);
 			dtoUsuario.setDtoDocumentoIden(dtoDocumentoIden);
+			dtoUsuario.setDtoTelefono(dtoTelefono);
 		}catch(Exception e){
 			throw e;
 		}
@@ -926,6 +951,45 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 			codigoAcep = true;
 		}
 		return codigoUsuario.toString();
-		
 	}
+	
+	private void cargaUsuario(DTOUsuario dtoUsuario){
+		try {
+			DTOUsuario dtoUsuarioRec = remote.getUsuario(dtoUsuario);
+			
+			if(dtoUsuarioRec != null){
+				System.out.println("Usuario recuperado correctamente");
+				
+				Usuario usuario = dtoUsuarioRec.getUsuario();
+				if(usuario.getNombre()!= null) jTextFieldNombre.setText(usuario.getNombre());
+				if(usuario.getApellidos()!= null) jTextFieldApe.setText(usuario.getApellidos());
+				
+				if(dtoUsuarioRec.getDtoContacto() != null){
+					if(dtoUsuarioRec.getDtoContacto().getContacto().getDomicilio() != null) 
+						jTextFieldDirec.setText(dtoUsuarioRec.getDtoContacto().getContacto().getDomicilio());
+					
+					
+					jComboBoxUniver.setSelectedItem(new MostrarCombo(dtoUsuarioRec.getDtoContacto().getContacto().getIdPais(),null));
+					//jComboBoxTipo.setSelectedItem(new MostrarCombo(dtoUsuarioRec.getDtoContacto().getContacto().,null));
+				
+				}
+				
+				if(usuario.getIdDocumentoIdentificacion()!=null){
+					jComboBoxTipoDoc.setSelectedItem(new MostrarCombo(usuario.getIdDocumentoIdentificacion(),null));
+				}
+				
+				
+				
+			}
+			
+			
+			
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		} catch (OperationErrorBD e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
 }

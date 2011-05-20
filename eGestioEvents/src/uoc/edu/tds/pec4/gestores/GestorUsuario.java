@@ -14,6 +14,7 @@ import uoc.edu.tds.pec4.dtos.DTOContacto;
 import uoc.edu.tds.pec4.dtos.DTODatosBancarios;
 import uoc.edu.tds.pec4.dtos.DTODocumentoIdentificacion;
 import uoc.edu.tds.pec4.dtos.DTOPersonalSecretaria;
+import uoc.edu.tds.pec4.dtos.DTOTelefono;
 import uoc.edu.tds.pec4.dtos.DTOTipoRol;
 import uoc.edu.tds.pec4.dtos.DTOUsuario;
 import uoc.edu.tds.pec4.dtos.DTOUsuarioConsulta;
@@ -168,6 +169,11 @@ public class GestorUsuario  extends GestorEntidad<DTOUsuario>{
 				GestorContacto gestorContacto = new GestorContacto(connection);
 				DTOContacto dtoContacto = gestorContacto.consultaEntidadById(dtoUsuario.getUsuario().getIdContacto());
 				if(dtoContacto != null) dtoUsuario.setDtoContacto(dtoContacto);
+				
+				GestorTelefono gestorTelefono = new GestorTelefono(connection);
+				DTOTelefono dtoTelefono = gestorTelefono.consultaEntidadById(dtoUsuario.getUsuario().getIdContacto());
+				if(dtoTelefono != null) dtoUsuario.setDtoTelefono(dtoTelefono);
+				
 			}
 			
 			

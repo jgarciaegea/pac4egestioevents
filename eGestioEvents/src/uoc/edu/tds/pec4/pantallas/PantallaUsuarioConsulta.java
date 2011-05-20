@@ -355,22 +355,11 @@ public class PantallaUsuarioConsulta extends javax.swing.JPanel implements Panta
 					if(jTableRes.getSelectedRow() == -1){
 						Utils.mostraMensajeInformacion(jPanel2, "No ha seleccionado ningún registro de la tabla", "Consulta Usuarios");
 					}else{
-						@SuppressWarnings("unchecked")
-						List<Object> lstRes = (Vector<Object>) dtm.getDataVector().get(jTableRes.getSelectedRow());
 						try {
-							Usuario usuario = new Usuario();
-							usuario.setCodigo(lstRes.get(0).toString());
-							DTOUsuario dtoUsuario = FactoriaUsuario.getUsuario(Integer.parseInt(lstRes.get(1).toString()));
-							dtoUsuario.setUsuario(usuario);
+							DTOUsuario dtoUsuario = getRecuperaUsuarioSeleccionado();
 							remote.bajaUsuario(dtoUsuario);
 							cargaListadoUsuarios();
 							Utils.mostraMensajeInformacion(jPanel2,"Usuario dado de baja correctamente", "Consulta usuario");
-						} catch (NumberFormatException e1) {
-							try {
-								throw new OperationErrorDatosFormulario(e1.getMessage());
-							} catch (OperationErrorDatosFormulario e2) {
-								e2.showDialogError();
-							}
 						} catch (Exception e1) {
 							try {
 								throw new OperationErrorDatosFormulario(e1.getMessage());
@@ -398,7 +387,14 @@ public class PantallaUsuarioConsulta extends javax.swing.JPanel implements Panta
 					if(jTableRes.getSelectedRow() == -1){
 						Utils.mostraMensajeInformacion(jPanel2, "No ha seleccionado ningún registro de la tabla", "Consulta Usuarios");
 					}else{
-						goPantallaUsuario();
+						try {
+							DTOUsuario dtoUsuario = getRecuperaUsuarioSeleccionado();
+							goPantallaUsuario(dtoUsuario);
+						} catch (OperationErrorDatosFormulario e1) {
+							e1.showDialogError();
+						}finally{
+							limpiaFormulario();
+						}
 					}
 				}
 				public void mousePressed(MouseEvent e) {}
@@ -418,22 +414,58 @@ public class PantallaUsuarioConsulta extends javax.swing.JPanel implements Panta
 	}
 	
 	/*
+	 * Recupera el usuario seleccionado de la tabla
+	 */
+	private DTOUsuario getRecuperaUsuarioSeleccionado() throws OperationErrorDatosFormulario{
+		try {
+			@SuppressWarnings("unchecked")
+			List<Object> lstRes = (Vector<Object>) dtm.getDataVector().get(jTableRes.getSelectedRow());
+			DTOUsuario dtoUsuario = obtenUsuario(lstRes.get(0).toString(),Integer.parseInt(lstRes.get(1).toString()));
+			return dtoUsuario;
+		} catch (NumberFormatException e1) {
+			throw new OperationErrorDatosFormulario(e1.getMessage());
+		} catch (Exception e1) {
+			throw new OperationErrorDatosFormulario(e1.getMessage());
+		}
+	}
+	
+	/*
 	 * Vamos a la pantalla de usuario
 	 */
-	private void goPantallaUsuario(){
+	private void goPantallaUsuario(DTOUsuario dtoUsuario){
 		this.removeAll();
 		this.setAlignmentX(LEFT_ALIGNMENT);
 		this.setAlignmentY(TOP_ALIGNMENT);
-		this.add((Component)new PantallaUsuario(gestorRMI, remote));
+		this.add((Component)new PantallaUsuario(gestorRMI, remote, dtoUsuario));
 		this.revalidate();
 	}
 	
+	/*
+	 * Obtenemos el usuario mediante los campos recuperados de la tabla
+	 */
+	private DTOUsuario obtenUsuario(String codigoUsuario,Integer tipoUsuario) throws OperationErrorDatosFormulario{
+		try{
+			Usuario usuario = new Usuario();
+			DTOUsuario dtoUsuario = FactoriaUsuario.getUsuario(tipoUsuario);
+			usuario.setCodigo(codigoUsuario);
+			usuario.setTipoUsuario(tipoUsuario);
+			dtoUsuario.setUsuario(usuario);
+			return dtoUsuario;
+		}catch(Exception e){
+			throw new OperationErrorDatosFormulario(e.getMessage());
+		}
+	}
+	
+	/*
+	 * Carga el listado de usuarios
+	 */
 	private void cargaListadoUsuarios() throws OperationErrorDatosFormulario{
 		try{
 			List<DTOUsuario> lstDtoUsuario = remote.getUsuarios(consultaUsuarios());
 			if(lstDtoUsuario == null || lstDtoUsuario.isEmpty()){
 				dtm.getDataVector().removeAllElements();
 				Utils.mostraMensajeInformacion(jPanel2,"No hay resultados","Búsqueda usuarios");
+				jTableRes.repaint();
 				return;
 			}
 			muestraResultado(lstDtoUsuario);
@@ -573,6 +605,11 @@ public class PantallaUsuarioConsulta extends javax.swing.JPanel implements Panta
 		
 	}
 	
+	/*
+	 * Parametrizamos el usuario que vamos consultar
+	 * @return
+	 * @throws OperationErrorDatosFormulario
+	 */
 	private DTOUsuarioConsulta consultaUsuarios() throws OperationErrorDatosFormulario{
 		//Rellenamos el usuario
 		DTOUsuarioConsulta dtoUsuario = new DTOUsuarioConsulta();
@@ -603,6 +640,9 @@ public class PantallaUsuarioConsulta extends javax.swing.JPanel implements Panta
 	}
 	
 	
+	/*
+	 * Mostramos el resultado obtenido
+	 */
 	private void muestraResultado(List<DTOUsuario> lstDtoUsuario) throws OperationErrorDatosFormulario{
 		
 		try{

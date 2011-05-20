@@ -28,6 +28,7 @@ import uoc.edu.tds.pec4.gestores.GestorDatosBancarios;
 import uoc.edu.tds.pec4.gestores.GestorDisco;
 import uoc.edu.tds.pec4.gestores.GestorDocumentoIdentificacion;
 import uoc.edu.tds.pec4.gestores.GestorPais;
+import uoc.edu.tds.pec4.gestores.GestorTelefono;
 import uoc.edu.tds.pec4.gestores.GestorTipoDocumento;
 import uoc.edu.tds.pec4.gestores.GestorTipoEvento;
 import uoc.edu.tds.pec4.gestores.GestorTipoRol;
@@ -69,7 +70,11 @@ public class RemotoImpl extends UnicastRemoteObject implements RemoteInterface,S
 			//Insertamos en contacto
 			GestorContacto gestorContacto = new GestorContacto(gestorDB.getConnection());
 			Integer idContacto = gestorContacto.insertaEntidadRetId(dtoUsuario.getDtoContacto());
-			dtoUsuario.getUsuario().setIdContacto(idContacto);
+			
+			GestorTelefono gestorTelefono = new GestorTelefono(gestorDB.getConnection());
+			dtoUsuario.getDtoTelefono().getTelefono().setIdContacto(idContacto);
+			gestorTelefono.insertaEntidad(dtoUsuario.getDtoTelefono());
+			
 			System.out.println("Contacto insertado correctamente");
 			
 			//Insertamos el documentoIdentificación
@@ -87,6 +92,7 @@ public class RemotoImpl extends UnicastRemoteObject implements RemoteInterface,S
 			
 			//Insertamos el usuario
 			GestorUsuario gestorUsuario = new GestorUsuario(gestorDB.getConnection());
+			dtoUsuario.getUsuario().setIdContacto(idContacto);
 			gestorUsuario.insertaEntidad(dtoUsuario);
 			System.out.println("Usuario insertado correctamente: " + dtoUsuario.getUsuario().getCodigo());
 			

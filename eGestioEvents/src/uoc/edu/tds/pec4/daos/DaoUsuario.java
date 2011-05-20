@@ -151,6 +151,7 @@ public class DaoUsuario extends DaoEntidad<Usuario>{
 			if(criteris.getEstado() !=null) sb.append("AND estado = ? ");
 			if(criteris.getIdDatosBancarios() !=null) sb.append("AND id_datos_bancarios = ? ");
 			if(criteris.getIdRol() !=null) sb.append("AND id_rol = ? ");
+			sb.append("order by nombre, apellidos ");
 			
 			ps = con.prepareStatement(sb.toString(), ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
 			

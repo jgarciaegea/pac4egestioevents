@@ -53,6 +53,18 @@ public class GestorTipoTelefono extends GestorEntidad<DTOTipoTelefono>{
 		}
 		return null;
 	}
+	
+	public DTOTipoTelefono consultaEntidadById(Integer idTipoTelf) throws Exception{
+		try{
+			DTOTipoTelefono dtoTipoTelf = new DTOTipoTelefono();
+			TipoTelefono tipoTelefono = new TipoTelefono();
+			tipoTelefono.setIdTipoTelefono(idTipoTelf);
+			dtoTipoTelf.setTipoTelefono(tipoTelefono);
+			return this.consultaEntidad(dtoTipoTelf);
+		}catch(Exception e){
+			throw e;
+		}
+	}
 
 	@Override
 	public void modificaEntidad(DTOTipoTelefono criteris) throws Exception {
