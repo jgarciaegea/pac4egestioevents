@@ -5,12 +5,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import uoc.edu.tds.pec4.beans.Estadisticas;
-import uoc.edu.tds.pec4.daos.DaoEstadisticasIngresos;
+import uoc.edu.tds.pec4.daos.DaoEstadisticasPorcentaje;
 import uoc.edu.tds.pec4.dtos.DTOEstadisticas;
 
-public class GestorEstadisticasIngresos extends GestorEntidad<DTOEstadisticas>{
+public class GestorEstadisticasPorcentaje extends GestorEntidad<DTOEstadisticas>{
 
-	public GestorEstadisticasIngresos(Connection connection) throws Exception {
+	public GestorEstadisticasPorcentaje(Connection connection) throws Exception {
 		super(connection);
 	}
 	
@@ -30,7 +30,7 @@ public class GestorEstadisticasIngresos extends GestorEntidad<DTOEstadisticas>{
 	@Override
 	public List<DTOEstadisticas> consultaEntidades(DTOEstadisticas criteris) throws Exception {
 		try{
-			DaoEstadisticasIngresos dao = new DaoEstadisticasIngresos(connection);
+			DaoEstadisticasPorcentaje dao = new DaoEstadisticasPorcentaje(connection);
 			List<Estadisticas> lstEstadisticas = dao.select(criteris.getEstadisticas());
 			if(lstEstadisticas != null && lstEstadisticas.size() > 0){
 				List<DTOEstadisticas> lstEst = new ArrayList<DTOEstadisticas>();
