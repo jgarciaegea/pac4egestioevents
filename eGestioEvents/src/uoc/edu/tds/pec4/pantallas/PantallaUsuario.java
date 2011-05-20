@@ -133,11 +133,11 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 	private RemoteInterface remote;
 	private ButtonGroup grupoBu;
 	private Boolean bUserModificacion = false;
-	
+	private DTOUsuario dtoUsuarioaModificar;
 	/*
 	 * Constructor que recibe un idUsuario y lo calculamos
 	 */
-	public PantallaUsuario(GestorRMI gestorRMI,RemoteInterface remote1, DTOUsuario dtoUsuario) {
+	public PantallaUsuario(GestorRMI gestorRMI,RemoteInterface remote1, DTOUsuario dtoUsuarioaModificar) {
 		super();
 		remote = remote1;
 		try {
@@ -147,14 +147,13 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 		}
 		System.out.print("Para quitar el warning que sale si no se utiliza es provisional " + remote.toString());
 		initGUI();
-		
-		if(dtoUsuario != null){
-			
+		this.dtoUsuarioaModificar = dtoUsuarioaModificar;
+		if(dtoUsuarioaModificar != null){
 			bUserModificacion = true;//Significa que vamos a realizar la modificación
-			cargaUsuario(dtoUsuario);
-			if(Constantes.ADMINISTRADOR == dtoUsuario.getUsuario().getTipoUsuario()) jRadioButtonAdmin.isSelected();
-			if(Constantes.SECRETARIA == dtoUsuario.getUsuario().getTipoUsuario()) jRadioButtonSecr.isSelected();
-			if(Constantes.ASISTENTE == dtoUsuario.getUsuario().getTipoUsuario()) jRadioButtonAsis.isSelected();
+			cargaUsuario();
+			if(Constantes.ADMINISTRADOR == dtoUsuarioaModificar.getUsuario().getTipoUsuario()) jRadioButtonAdmin.isSelected();
+			if(Constantes.SECRETARIA == dtoUsuarioaModificar.getUsuario().getTipoUsuario()) jRadioButtonSecr.isSelected();
+			if(Constantes.ASISTENTE == dtoUsuarioaModificar.getUsuario().getTipoUsuario()) jRadioButtonAsis.isSelected();
 			
 			//Desabilitamos que se pueda cambiar de tipo de Usuario
 			Enumeration<AbstractButton> ite = grupoBu.getElements();
@@ -162,7 +161,7 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 				JRadioButton jButton = (JRadioButton) ite.nextElement();
 				jButton.setEnabled(false);
 			}
-			
+			jTextFieldCon.setEnabled(false);
 		}
 		
 	}
@@ -509,6 +508,7 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 									String codigo = "";
 									validaFormulario(bUserModificacion.booleanValue());
 									if(bUserModificacion.booleanValue()){
+										remote.modificaUsuario(altaModificaUsuario(bUserModificacion.booleanValue()));
 									}else{
 										codigo = remote.insertaUsuario(altaModificaUsuario(bUserModificacion.booleanValue()));
 									}
@@ -829,9 +829,17 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 		
 	}
 	
+	/**
+	 * Método donde seteamos el usuario que se va a insertar o eliminar
+	 * @param modificacion
+	 * @return
+	 * @throws OperationErrorDatosFormulario
+	 */
 	private DTOUsuario altaModificaUsuario(boolean modificacion) throws OperationErrorDatosFormulario{
 		
-		//Datos específicos del contacto
+		/*****************************************
+		 * DATOS ESPECÍFICOS DEL CONRATO
+		 *****************************************/
 		DTOContacto dtoContacto = new DTOContacto();
 		Contacto contacto = new Contacto();
 		contacto.setDomicilio(jTextFieldDirec.getText());
@@ -841,15 +849,20 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 		contacto.setIdPais(Integer.parseInt(((MostrarCombo) jComboBoxpais.getSelectedItem()).getID().toString()));
 		contacto.setEmail(jTextFieldEmail.getText());
 		contacto.setWeb(jTextFieldWebBlog.getText());
-		
 		if(!modificacion){
 			contacto.setEstado(1);
 			contacto.setFechaEstado(new java.sql.Date(System.currentTimeMillis()));
 			contacto.setMotivoEstado("alta de usuario");
+		}else{
+			//MUY IMPORTANTE EL ID DEL CONTACTO SE HA DE DE RELLENAR DEL QUE PASAMOS PARA CONSULTAR. Digamos que es como si fuera un campo hidden
+			contacto.setIdContacto(dtoUsuarioaModificar.getUsuario().getIdContacto());
 		}
-		
 		dtoContacto.setContacto(contacto);
 		
+		
+		/*****************************************
+		 * DATOS ESPECÍFICOS DEL USUARIO
+		 *****************************************/
 		//Datos específicos del usuario
 		Usuario usuario = new Usuario();
 		usuario.setNombre(jTextFieldNombre.getText());
@@ -870,17 +883,7 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 			usuario.setMotivoEstado("Alta de usuario");
 			usuario.setCodigo(generaCodigo(usuario));
 		}
-		
 		usuario.setIdDocumentoIdentificacion(Integer.parseInt(((MostrarCombo) jComboBoxTipoDoc.getSelectedItem()).getID().toString()));
-		
-		//Rellenamos el d documento de identidad
-		DTODocumentoIdentificacion dtoDocumentoIden = new DTODocumentoIdentificacion();
-		DocumentoIdentificacion docIden = new DocumentoIdentificacion();
-		docIden.setIdDocumentoIdentificacion(usuario.getIdDocumentoIdentificacion());
-		docIden.setIdTipoDocumento(Integer.parseInt(((MostrarCombo) jComboBoxTipoDoc.getSelectedItem()).getID().toString()));
-		docIden.setIdPais(Integer.parseInt(((MostrarCombo) jComboBoxpais.getSelectedItem()).getID().toString()));
-		docIden.setNumeroDocumento(jTextFieldDocIden.getText());
-		dtoDocumentoIden.setDocumentoIdentificacion(docIden);
 		
 		//Tipo de usuario
 		if(jRadioButtonAdmin.isSelected()) usuario.setTipoUsuario(Constantes.ADMINISTRADOR);
@@ -891,6 +894,26 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 			usuario.setIdCentro(Integer.parseInt(((MostrarCombo) jComboBoxCentroDocente.getSelectedItem()).getID().toString()));
 		}
 		
+		/*****************************************
+		 * DATOS ESPECÍFICOS DEL DOCUMENTO IDENTIDAD
+		 *****************************************/
+		//Rellenamos el d documento de identidad
+		DTODocumentoIdentificacion dtoDocumentoIden = new DTODocumentoIdentificacion();
+		DocumentoIdentificacion docIden = new DocumentoIdentificacion();
+		docIden.setIdDocumentoIdentificacion(usuario.getIdDocumentoIdentificacion());
+		docIden.setIdTipoDocumento(Integer.parseInt(((MostrarCombo) jComboBoxTipoDoc.getSelectedItem()).getID().toString()));
+		docIden.setIdPais(Integer.parseInt(((MostrarCombo) jComboBoxpais.getSelectedItem()).getID().toString()));
+		docIden.setNumeroDocumento(jTextFieldDocIden.getText());
+		if(modificacion){
+			//MUY IMPORTANTE EL ID DEL CONTACTO SE HA DE DE RELLENAR DEL QUE PASAMOS PARA CONSULTAR. Digamos que es como si fuera un campo hidden
+			docIden.setIdDocumentoIdentificacion(dtoUsuarioaModificar.getUsuario().getIdDocumentoIdentificacion());
+		}
+		dtoDocumentoIden.setDocumentoIdentificacion(docIden);
+		
+		
+		/*****************************************
+		 * DATOS ESPECÍFICOS DE DATOS BANCARIOS
+		 *****************************************/
 		DTODatosBancarios dtoDatosBancarios = null;
 		if(Constantes.ASISTENTE == usuario.getTipoUsuario()){
 			usuario.setIdRol(Integer.parseInt(((MostrarCombo) jComboBoxTipoRol.getSelectedItem()).getID().toString()));
@@ -910,20 +933,34 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 			if(!modificacion){
 				datosBancarios.setFechaEstado(new java.sql.Date(System.currentTimeMillis()));
 				datosBancarios.setMotivoEstado("alta de usuario");
+			}else{
+				if(modificacion){
+					//MUY IMPORTANTE EL ID DEL DATOS BANCARIOS SE HA DE DE RELLENAR DEL QUE PASAMOS PARA CONSULTAR. Digamos que es como si fuera un campo hidden
+					datosBancarios.setIdDatosBancarios(dtoUsuarioaModificar.getUsuario().getIdDatosBancarios());
+				}
 			}
-			
-		
 			dtoDatosBancarios.setDatosBancarios(datosBancarios);
 		}
 		
-		//Añadimos el telefono
+		/*****************************************
+		 * DATOS ESPECÍFICOS DEL TELEFONO
+		 *****************************************/
 		DTOTelefono dtoTelefono = new DTOTelefono();
 		Telefono telefono = new Telefono();
 		if(!Utils.valorisNull(jTextFieldExtension.getText())) telefono.setExtension(Integer.parseInt(jTextFieldExtension.getText()));
 		telefono.setTelefono(jTextFieldTelefono.getText());
 		telefono.setIdTipoTelefono(Integer.parseInt(((MostrarCombo) jComboBoxTipo.getSelectedItem()).getID().toString()));
+		if(modificacion){
+			//MUY IMPORTANTE EL ID DEL TELEFONO Y DEL CONTACTO SE HA DE DE RELLENAR DEL QUE PASAMOS PARA CONSULTAR. Digamos que es como si fuera un campo hidden
+			telefono.setIdTelefono(dtoUsuarioaModificar.getUsuario().getIdContacto());
+			telefono.setIdTelefono(dtoUsuarioaModificar.getDtoTelefono().getTelefono().getIdTelefono());
+		}
 		dtoTelefono.setTelefono(telefono);
 		
+		
+		/***********************************************
+		 * RELLENAMOS EL DTOUSUARIO CON TODOS LOS VALORES
+		 ***********************************************/
 		DTOUsuario dtoUsuario = null;
 		try {
 			dtoUsuario = FactoriaUsuario.getUsuario(usuario.getTipoUsuario());
@@ -953,6 +990,15 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 		throw new OperationErrorDatosFormulario("El tipo de usuario " + usuario.getTipoUsuario() + " no está contemplado");
 	}
 	
+	/**
+	 * Rellena la información común de un usuario
+	 * @param dtoUsuario
+	 * @param usuario
+	 * @param dtoContacto
+	 * @param dtoDocumentoIden
+	 * @param dtoTelefono
+	 * @throws Exception
+	 */
 	private void rellenaInfoComun(DTOUsuario dtoUsuario,Usuario usuario, DTOContacto dtoContacto, 
 			DTODocumentoIdentificacion dtoDocumentoIden,DTOTelefono dtoTelefono) throws Exception{
 		try{
@@ -965,7 +1011,7 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 		}
 	}
 	
-	/*
+	/**
 	 * Limpia el formulario
 	 */
 	private void limpiaFormulario(){
@@ -974,8 +1020,10 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 		jRadioButtonAdmin.setSelected(true);
 	}
 	
-	/*
+	/**
 	 * Método que genera el código del usuario
+	 * @param usuario
+	 * @return
 	 */
 	private static String generaCodigo(Usuario usuario){
 		StringBuffer codigoUsuario = new StringBuffer();
@@ -993,13 +1041,18 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 		return codigoUsuario.toString();
 	}
 	
-	private void cargaUsuario(DTOUsuario dtoUsuario){
+	/**
+	 * Carga los valores del Usuario a consultar
+	 */
+	private void cargaUsuario(){
 		try {
-			DTOUsuario dtoUsuarioRec = remote.getUsuario(dtoUsuario);
+			DTOUsuario dtoUsuarioRec = remote.getUsuario(dtoUsuarioaModificar);
 			
 			if(dtoUsuarioRec != null){
-				System.out.println("Usuario recuperado correctamente");
 				
+				/*****************************************
+				 * CARGAMOS LOS VALORES DEL USUARIO
+				 *****************************************/
 				Usuario usuario = dtoUsuarioRec.getUsuario();
 				
 				//Valores del usuario
@@ -1021,7 +1074,9 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 							,dtoUsuarioRec.getDtoDocumentoIden().getDtoTipoDocumento().getTipoDocumento().getDescripcionDocumento()));
 				}
 				
-				//VALORES DE DTOCONTACTO
+				/*****************************************
+				 * CARGAMOS LOS VALORES DEL CONTACTO
+				 *****************************************/
 				if(dtoUsuarioRec.getDtoContacto() != null){
 					if(dtoUsuarioRec.getDtoContacto().getContacto().getDomicilio() != null){
 						jTextFieldDirec.setText(dtoUsuarioRec.getDtoContacto().getContacto().getDomicilio());
@@ -1051,7 +1106,9 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 				}
 				
 				
-				//VALORES DEL TELEFONO
+				/*****************************************
+				 * CARGAMOS LOS VALORES DEL TELEFONO
+				 *****************************************/
 				if(dtoUsuarioRec.getDtoTelefono() != null){
 					
 					jComboBoxTipo.setSelectedItem(new MostrarCombo(dtoUsuarioRec.getDtoTelefono().getTelefono().getIdTipoTelefono(),
@@ -1064,9 +1121,7 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 					if(dtoUsuarioRec.getDtoTelefono().getTelefono().getTelefono()!= null){
 						jTextFieldTelefono.setText(dtoUsuarioRec.getDtoTelefono().getTelefono().getTelefono().toString());
 					}
-					
 				}
-				
 			}
 			
 		} catch (RemoteException e) {
@@ -1083,6 +1138,5 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 			}
 		}
 	}
-	
 	
 }
