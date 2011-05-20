@@ -88,9 +88,9 @@ public class DaoDocumentoIdentificacion extends DaoEntidad<DocumentoIdentificaci
 		try {
 			StringBuffer sql = new StringBuffer();
 			sql.append("UPDATE DOCUMENTOIDENTIFICACION SET ");
-			if(objecte.getIdTipoDocumento() !=null) sql.append("AND id_tipo_documento = ? ");
-			if(objecte.getIdPais() !=null) sql.append("AND id_pais = ? ");
-			if(objecte.getNumeroDocumento() !=null) sql.append("AND numero_documento = ? ");
+			if(objecte.getIdTipoDocumento() !=null) sql.append(" id_tipo_documento = ?, ");
+			if(objecte.getIdPais() !=null) sql.append(" id_pais = ?, ");
+			if(objecte.getNumeroDocumento() !=null) sql.append(" numero_documento = ?, ");
 			sql = new StringBuffer(sql.substring(0,sql.length()-1) +" WHERE id_documento_identificacion = ?");
 			
 			ps = con.prepareStatement(sql.toString());

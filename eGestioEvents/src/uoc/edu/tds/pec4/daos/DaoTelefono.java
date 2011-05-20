@@ -104,14 +104,14 @@ public class DaoTelefono  extends DaoEntidad<Telefono>{
 			
 			StringBuffer sql = new StringBuffer();
 			sql.append("UPDATE telefono SET ");
-			if(objecte.getPrefijoPais() !=null) sql.append("AND prefijo_pais = ? ");
-			if(objecte.getTelefono() !=null) sql.append("AND telefono = ? ");
-			if(objecte.getExtension() !=null) sql.append("AND extension = ? ");
-			if(objecte.getFechaAlta() !=null) sql.append("AND fecha_alta = ? ");
-			if(objecte.getEstado() !=null) sql.append("AND estado = ? ");
-			if(objecte.getFechaEstado() !=null) sql.append("AND fecha_estado = ? ");
-			if(objecte.getMotivoEstado() !=null) sql.append("AND motivo_estado = ? ");
-			if(objecte.getIdTipoTelefono() !=null) sql.append("AND id_tipo_telefono = ? ");
+			if(objecte.getPrefijoPais() !=null) sql.append(" prefijo_pais = ?, ");
+			if(objecte.getTelefono() !=null) sql.append(" telefono = ?, ");
+			if(objecte.getExtension() !=null) sql.append(" extension = ?, ");
+			if(objecte.getFechaAlta() !=null) sql.append(" fecha_alta = ?, ");
+			if(objecte.getEstado() !=null) sql.append(" estado = ?, ");
+			if(objecte.getFechaEstado() !=null) sql.append(" fecha_estado = ?, ");
+			if(objecte.getMotivoEstado() !=null) sql.append(" motivo_estado = ?, ");
+			if(objecte.getIdTipoTelefono() !=null) sql.append(" id_tipo_telefono = ?, ");
 			sql = new StringBuffer(sql.substring(0,sql.length()-1) +" WHERE id_telefono = ? AND id_contacto = ?");
 			
 			ps = con.prepareStatement(sql.toString());
