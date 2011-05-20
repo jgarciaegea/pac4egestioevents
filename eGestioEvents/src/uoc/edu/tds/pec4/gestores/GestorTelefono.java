@@ -84,8 +84,12 @@ public class GestorTelefono extends GestorEntidad<DTOTelefono>{
 
 	@Override
 	public void modificaEntidad(DTOTelefono criteris) throws Exception {
-		// TODO Auto-generated method stub
-		
+		try {
+			DaoTelefono dao = new DaoTelefono(connection);
+			dao.update(criteris.getTelefono());
+		} catch (Exception e) {
+			throw e;
+		}
 	}
 
 	@Override
