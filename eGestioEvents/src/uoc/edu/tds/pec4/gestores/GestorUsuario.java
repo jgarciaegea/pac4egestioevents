@@ -58,7 +58,7 @@ public class GestorUsuario  extends GestorEntidad<DTOUsuario>{
 	public List<DTOUsuario> consultaEntidadesByView(DTOUsuarioConsulta criteris) throws Exception {
 		try{
 			
-			DaoUsuario dao = new DaoUsuario(connection);
+			DaoUsuario dao = new DaoUsuario(connection);		
 			List<Usuario> lstUsuarios = dao.selectUsersByView(criteris.getUsuarioViewConsulta());
 			if(lstUsuarios != null && lstUsuarios.size() > 0){
 				List<DTOUsuario> lstUsu = new ArrayList<DTOUsuario>();
