@@ -13,6 +13,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 import uoc.edu.tds.pec4.beans.Evento;
+import uoc.edu.tds.pec4.utils.Constantes;
 
 public class DaoEvento extends DaoEntidad<Evento>{
 	
@@ -33,12 +34,10 @@ public class DaoEvento extends DaoEntidad<Evento>{
 			ps.setString(3, objecte.getNombre());
 			ps.setString(4, objecte.getDescripcion());
 			ps.setDate(5, objecte.getFechaInicioCelebracion());
-			//ps.setDate(6, objecte.getFechaAlta());
-			ps.setDate(6, getDateSql(new java.util.Date()));
-			//ps.setInt(7, objecte.getEstado());
-			ps.setInt(7, ESTADO_ACTIVO);
-			ps.setDate(8, objecte.getFechaEstado());
-			ps.setString(9, objecte.getMotivoEstado());
+			ps.setDate(6, new java.sql.Date(System.currentTimeMillis())); //getDateSql(new java.sql.Date(System.currentTimeMillis())));
+			ps.setInt(7, Constantes.REGISTRO_ACTIVO);
+			ps.setDate(8, new java.sql.Date(System.currentTimeMillis()));
+			ps.setString(9, Constantes.REGISTRO_ACTIVO_MOTIVO);
 			ps.setInt(10, objecte.getIdTipoEvento());
 			ps.setInt(11, objecte.getPlazas());
 			ps.setInt(12, objecte.getUmbral());
@@ -195,9 +194,9 @@ public class DaoEvento extends DaoEntidad<Evento>{
 	public void delete(Evento criteris) throws Exception {
 		Evento evento = new Evento();
 		evento.setIdEvento(criteris.getIdEvento());
-		evento.setFechaEstado(getDateSql(new java.util.Date()));
-		evento.setEstado(ESTADO_BAJA);
-		evento.setMotivoEstado(criteris.getMotivoEstado());
+		evento.setFechaEstado(new java.sql.Date(System.currentTimeMillis())); //getDateSql(new java.util.Date()));
+		evento.setEstado(Constantes.REGISTRO_INACTIVO);
+		evento.setMotivoEstado(Constantes.REGISTRO_INACTIVO_MOTIVO); //criteris.getMotivoEstado());
 		this.update(evento);
 	}
 

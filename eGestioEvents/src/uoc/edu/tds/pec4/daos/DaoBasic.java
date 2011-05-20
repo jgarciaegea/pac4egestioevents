@@ -8,8 +8,6 @@ import java.sql.Statement;
 public class DaoBasic {
 	
 	protected Connection con = null;
-	protected final Integer ESTADO_ACTIVO = 1;
-	protected final Integer ESTADO_BAJA = 3;
 	
 	public DaoBasic(Connection con) {
 		this.con = con;

@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import uoc.edu.tds.pec4.beans.TipoEvento;
+import uoc.edu.tds.pec4.utils.Constantes;
 
 public class DaoTipoEvento extends DaoEntidad<TipoEvento>{
 
@@ -30,10 +31,9 @@ public class DaoTipoEvento extends DaoEntidad<TipoEvento>{
 			ps.setInt(1, objecte.getIdTipoEvento());
 			ps.setString(2, objecte.getDescripcion());
 			ps.setString(3, objecte.getDescripcionAmpliada());
-			//ps.setInt(4, objecte.getEstado());
-			ps.setInt(4, ESTADO_ACTIVO);
-			ps.setDate(5, objecte.getFechaEstado());
-			ps.setString(6, objecte.getMotivoEstado());
+			ps.setInt(4, Constantes.REGISTRO_ACTIVO);
+			ps.setDate(5, new java.sql.Date(System.currentTimeMillis()));
+			ps.setString(6, Constantes.REGISTRO_ACTIVO_MOTIVO);
 			ps.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -125,23 +125,11 @@ public class DaoTipoEvento extends DaoEntidad<TipoEvento>{
 
 	@Override
 	public void delete(TipoEvento criteris) throws Exception {
-		/*
-		PreparedStatement ps = null;
-		try {
-			ps = con.prepareStatement("DELETE FROM TIPOEVENTO WHERE id_tipo_evento = ?");
-			ps.setObject(1, criteris.getIdTipoEvento());
-			ps.executeUpdate();
-		} catch (Exception e) {
-			throw new Exception();
-		} finally {
-			close(ps);
-		}
-		*/
 		TipoEvento tipoEvento = new TipoEvento();
 		tipoEvento.setIdTipoEvento(criteris.getIdTipoEvento());
-		tipoEvento.setFechaEstado(getDateSql(new java.util.Date()));
-		tipoEvento.setEstado(ESTADO_BAJA);
-		tipoEvento.setMotivoEstado(criteris.getMotivoEstado());
+		tipoEvento.setFechaEstado(new java.sql.Date(System.currentTimeMillis()));
+		tipoEvento.setEstado(Constantes.REGISTRO_INACTIVO);
+		tipoEvento.setMotivoEstado(Constantes.REGISTRO_INACTIVO_MOTIVO);
 		this.update(tipoEvento);
 	}
 

@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import uoc.edu.tds.pec4.beans.Inscripcion;
+import uoc.edu.tds.pec4.utils.Constantes;
 
 public class DaoInscripcion extends DaoEntidad<Inscripcion>{
 
@@ -30,11 +31,9 @@ public class DaoInscripcion extends DaoEntidad<Inscripcion>{
                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
 			ps.setString(1, objecte.getCodigo());
 			ps.setInt(2, objecte.getIdEvento());
-			//ps.setInt(3, objecte.getEstado());
-			ps.setInt(3, ESTADO_ACTIVO);
-			ps.setDate(4, objecte.getFechaEstado());
-			ps.setDate(4, getDateSql(new java.util.Date()));
-			ps.setString(5, objecte.getMotivoEstado());
+			ps.setInt(3, Constantes.REGISTRO_ACTIVO);
+			ps.setDate(4, new java.sql.Date(System.currentTimeMillis()));
+			ps.setString(5, Constantes.REGISTRO_ACTIVO_MOTIVO);
 			ps.setDate(6, objecte.getFechaInscripcion());
 			ps.setBoolean(7, objecte.getCheckIn());
 			ps.setString(8, objecte.getCodigoAsistencia());			
@@ -139,9 +138,9 @@ public class DaoInscripcion extends DaoEntidad<Inscripcion>{
 		Inscripcion inscripcion = new Inscripcion();
 		inscripcion.setCodigo(criteris.getCodigo());
 		inscripcion.setIdEvento(criteris.getIdEvento());
-		inscripcion.setFechaEstado(getDateSql(new java.util.Date()));
-		inscripcion.setEstado(ESTADO_BAJA);
-		inscripcion.setMotivoEstado(criteris.getMotivoEstado());
+		inscripcion.setFechaEstado(new java.sql.Date(System.currentTimeMillis()));
+		inscripcion.setEstado(Constantes.REGISTRO_INACTIVO);
+		inscripcion.setMotivoEstado(Constantes.REGISTRO_INACTIVO_MOTIVO);
 		this.update(inscripcion);
 	}
 
