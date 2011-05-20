@@ -131,7 +131,7 @@ public class DaoUsuario extends DaoEntidad<Usuario>{
 			sb.append(CONSULTA_USUARIO);
 			sb.append("FROM USUARIO ");
 			sb.append("WHERE (1=1) ");
-			if(criteris.getCodigo() !=null) sb.append("AND codigo =  ");
+			if(criteris.getCodigo() !=null) sb.append("AND codigo = ?");
 			if(criteris.getNombre() !=null) sb.append("AND nombre = ? ");
 			if(criteris.getApellidos() !=null) sb.append("AND apellidos = ? ");
 			if(criteris.getSexo() !=null) sb.append("AND sexo = ? ");
@@ -162,7 +162,7 @@ public class DaoUsuario extends DaoEntidad<Usuario>{
 			if(criteris.getFechaNacimiento()!=null) {ps.setDate(i, criteris.getFechaNacimiento()); i++;}
 			if(criteris.getFechaAlta()!=null) {ps.setDate(i, criteris.getFechaAlta()); i++;}
 			if(criteris.getFechaContrasena()!=null) {ps.setDate(i, criteris.getFechaContrasena()); i++;}
-			if(criteris.getContrasena()!=null) {ps.setString(i, criteris.getContrasena()); i++;}
+			if(criteris.getContrasena()!=null) {ps.setString(i, (criteris.getContrasena())); i++;}
 			if(criteris.getCambiarContrasena()!=null) {ps.setBoolean(i, criteris.getCambiarContrasena()); i++;}
 			if(criteris.getFechaEstado()!=null) {ps.setDate(i, criteris.getFechaEstado()); i++;}
 			if(criteris.getMotivoEstado()!=null) {ps.setString(i, criteris.getMotivoEstado()); i++;}

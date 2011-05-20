@@ -4,6 +4,7 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;
 
+import uoc.edu.tds.pec4.beans.Usuario;
 import uoc.edu.tds.pec4.dtos.DTOCentroDocente;
 import uoc.edu.tds.pec4.dtos.DTOPais;
 import uoc.edu.tds.pec4.dtos.DTOTipoDocumento;
@@ -13,6 +14,7 @@ import uoc.edu.tds.pec4.dtos.DTOTipoTelefono;
 import uoc.edu.tds.pec4.dtos.DTOUniversidad;
 import uoc.edu.tds.pec4.dtos.DTOUsuario;
 import uoc.edu.tds.pec4.excepciones.OperationErrorBD;
+import uoc.edu.tds.pec4.excepciones.OperationErrorLogin;
 
 public interface RemoteInterface extends Remote{
 	
@@ -130,5 +132,14 @@ public interface RemoteInterface extends Remote{
 	
 	public abstract List<DTOTipoEvento> getTiposEventos() throws RemoteException, OperationErrorBD;
 	
+	/**
+	 * Realizamos el login del usuario
+	 * @param codigo
+	 * @param password
+	 * @return
+	 * @throws RemoteException
+	 * @throws OperationErrorLogin
+	 */
+	public Boolean loginUsuario(Usuario userLogin) throws RemoteException,OperationErrorLogin;
 	
 }

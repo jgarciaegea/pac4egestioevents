@@ -11,6 +11,7 @@ import uoc.edu.tds.pec4.beans.TipoEvento;
 import uoc.edu.tds.pec4.beans.TipoRol;
 import uoc.edu.tds.pec4.beans.TipoTelefono;
 import uoc.edu.tds.pec4.beans.Universidad;
+import uoc.edu.tds.pec4.beans.Usuario;
 import uoc.edu.tds.pec4.dtos.DTOCentroDocente;
 import uoc.edu.tds.pec4.dtos.DTOPais;
 import uoc.edu.tds.pec4.dtos.DTOTipoDocumento;
@@ -21,6 +22,7 @@ import uoc.edu.tds.pec4.dtos.DTOUniversidad;
 import uoc.edu.tds.pec4.dtos.DTOUsuario;
 import uoc.edu.tds.pec4.dtos.DTOUsuarioConsulta;
 import uoc.edu.tds.pec4.excepciones.OperationErrorBD;
+import uoc.edu.tds.pec4.excepciones.OperationErrorLogin;
 import uoc.edu.tds.pec4.gestores.GestorCentroDocente;
 import uoc.edu.tds.pec4.gestores.GestorContacto;
 import uoc.edu.tds.pec4.gestores.GestorDatosBancarios;
@@ -248,6 +250,15 @@ public class RemotoImpl extends UnicastRemoteObject implements RemoteInterface{
 			return gestorTipoRol.consultaEntidades(dtoTipoEvento);
 		}catch(Exception e){
 			throw new OperationErrorBD("Error al recuperar los tipos de rol: " + e.getMessage());
+		}
+	}
+	
+	public Boolean loginUsuario(Usuario userLogin) throws RemoteException,OperationErrorLogin{
+		try{
+			GestorUsuario gestorUsuario = new GestorUsuario(gestorDB.getConnection());
+			return gestorUsuario.loginUsuario(userLogin.getCodigo(), userLogin.getContrasena());
+		}catch(Exception e){
+			throw new OperationErrorLogin(e.getMessage());
 		}
 	}
 

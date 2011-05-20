@@ -18,6 +18,7 @@ import uoc.edu.tds.pec4.dtos.DTOTelefono;
 import uoc.edu.tds.pec4.dtos.DTOTipoRol;
 import uoc.edu.tds.pec4.dtos.DTOUsuario;
 import uoc.edu.tds.pec4.dtos.DTOUsuarioConsulta;
+import uoc.edu.tds.pec4.utils.Base64Coder;
 
 public class GestorUsuario  extends GestorEntidad<DTOUsuario>{
 
@@ -199,7 +200,25 @@ public class GestorUsuario  extends GestorEntidad<DTOUsuario>{
 		}
 	}
 	
-	
+	/**
+	 * Revisamos el login del usuario
+	 * @param codigo
+	 * @param password
+	 * @return
+	 * @throws Exception
+	 */
+	public Boolean loginUsuario(String codigo, String password) throws Exception{
+		try{
+			Usuario usuario = new Usuario();
+			usuario.setCodigo(codigo);
+			usuario.setContrasena(Base64Coder.encodeString(password));
+			DaoUsuario dao = new DaoUsuario(connection);
+			List<Usuario> lstUsuarios = dao.select(usuario);
+			return lstUsuarios != null && lstUsuarios.size() > 0? true:false;
+		}catch(Exception e){
+			throw new SQLException();
+		}
+	}
 	
 
 }

@@ -12,7 +12,6 @@ import java.awt.event.ActionListener;
 import java.net.MalformedURLException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
-import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -25,12 +24,6 @@ import javax.swing.JTextField;
 import javax.swing.UIManager;
 
 import uoc.edu.tds.pec4.beans.Usuario;
-import uoc.edu.tds.pec4.beans.UsuarioViewConsulta;
-import uoc.edu.tds.pec4.dtos.DTOAdministrador;
-import uoc.edu.tds.pec4.dtos.DTOAsistente;
-import uoc.edu.tds.pec4.dtos.DTOPersonalSecretaria;
-import uoc.edu.tds.pec4.dtos.DTOUsuario;
-import uoc.edu.tds.pec4.dtos.DTOUsuarioConsulta;
 import uoc.edu.tds.pec4.excepciones.OperationErrorBD;
 import uoc.edu.tds.pec4.excepciones.OperationErrorDatosFormulario;
 import uoc.edu.tds.pec4.excepciones.OperationErrorLogin;
@@ -38,10 +31,7 @@ import uoc.edu.tds.pec4.excepciones.OperationErrorRMI;
 import uoc.edu.tds.pec4.gestores.GestorRMI;
 import uoc.edu.tds.pec4.iface.RemoteInterface;
 import uoc.edu.tds.pec4.resources.TDSLanguageUtils;
-import uoc.edu.tds.pec4.utils.Base64Coder;
-import uoc.edu.tds.pec4.utils.Constantes;
 import uoc.edu.tds.pec4.utils.JTextFieldLimit;
-import uoc.edu.tds.pec4.utils.MostrarCombo;
 import uoc.edu.tds.pec4.utils.Utils;
 
 /**
@@ -60,8 +50,6 @@ public class PantallaLogin extends JFrame {
     private JTextField textoPwd;
 	private GestorRMI gestorRMI;
 	private RemoteInterface remote;
-	private DTOUsuario dtoUsuario;
-	private Usuario usuario;
 
 	
 	public PantallaLogin(){
@@ -172,47 +160,42 @@ public class PantallaLogin extends JFrame {
 	 * @throws RemoteException 
 	 * @throws OperationErrorLogin 
 	 */
-	
-	
 	public void inicializarAplicacion() throws RemoteException, OperationErrorLogin,MalformedURLException,NotBoundException,OperationErrorBD {
-		
-		connectRMI();
-		authenticate();		
-		PantallaPrincipal aplicacion = new PantallaPrincipal(gestorRMI,remote);
-		this.setVisible(false);
-		aplicacion.setVisible(true);
-		
+		try{
+			connectRMI();
+			if(!authenticate()){
+				throw new OperationErrorLogin("Contraseña incorrecta");
+			}
+			PantallaPrincipal aplicacion = new PantallaPrincipal(gestorRMI,remote);
+			this.setVisible(false);
+			aplicacion.setVisible(true);
+			Utils.mostraMensajeInformacion(panelPrincipal, "Usuario logineado correctamente", "Login usuario");
+		}catch(OperationErrorLogin oL){
+			oL.showDialogError(panelPrincipal);
+		}catch(OperationErrorRMI oL){
+			oL.showDialogError(panelPrincipal);
+		}
 	}
 	
 	/**
 	 * Comprobar Datos
+	 * @throws OperationErrorLogin 
 	 */
-	
-	
-    public boolean authenticate()  throws OperationErrorLogin {
-		
-    	usuario = new Usuario();
-        String user = textoLogin.getText();  
-        String pass = textoPwd.getText();
-        pass =  Base64Coder.encodeString(pass);
+    public boolean authenticate()  throws OperationErrorRMI, OperationErrorLogin {
     	try {
-    		DTOUsuarioConsulta dtoUsuarioConsulta = new DTOUsuarioConsulta();
-    		UsuarioViewConsulta usuarioConsulta = new UsuarioViewConsulta();
-    		usuarioConsulta.setCodigo(user);
-    		dtoUsuarioConsulta.setUsuarioViewConsulta(usuarioConsulta);
-    		List<DTOUsuario> lstDtoUsuario = remote.getUsuarios(dtoUsuarioConsulta);
-			if(lstDtoUsuario == null || lstDtoUsuario.isEmpty()){
-				throw new OperationErrorLogin("Login incorrecto");
-			}     		
-	    	if (!pass.equals(lstDtoUsuario.get(0).getUsuario().getContrasena())){
-	    		throw new OperationErrorLogin("Contrasenya incorrecta");
-	    	}   	
+    		Usuario usuario = new Usuario();
+    		usuario.setCodigo(textoLogin.getText());
+    		usuario.setContrasena(textoPwd.getText());
+    		Boolean loginOk = remote.loginUsuario(usuario);
+			if(loginOk.booleanValue()){
+				return true;
+			}
 		} catch (RemoteException e) {
-			e.printStackTrace();
-		} catch (OperationErrorBD e) {
-			e.printStackTrace();
+			throw new OperationErrorRMI(e.getMessage());
+		} catch(OperationErrorLogin e){
+			throw e;
 		}
-        return true;
+		return false;
     }
 	
 	
@@ -241,24 +224,14 @@ public class PantallaLogin extends JFrame {
 	 * Método que valida los datos introducidos en el formulario
 	 * @throws OperationErrorDatosFormulario
 	 */
-	@SuppressWarnings("deprecation")
 	private void validaFormulario() throws OperationErrorDatosFormulario{
 		try{
-					
 			if(Utils.valorisNull(textoLogin.getText())) throw new OperationErrorDatosFormulario(Utils.MESSAGE_ERROR + " Login " );
 			if(Utils.valorisNull(textoPwd.getText())) throw new OperationErrorDatosFormulario(Utils.MESSAGE_ERROR + " PWD " );
-			
-			
 		}catch(OperationErrorDatosFormulario ex){
 			throw new OperationErrorDatosFormulario(ex.getMessage());
-
 		}
-			
 	}
-	
-	
-	
-	
 	
 	/**
 	 * @return the panelPrincipal
