@@ -68,7 +68,7 @@ public class DaoUsuario extends DaoEntidad<Usuario>{
 			sb.append(CONSULTA_USUARIO);
 			sb.append("FROM v_consulta_usuarios ");
 			sb.append("WHERE (1=1) ");
-			if(criteris.getCodigo() !=null) sb.append("AND codigo = ? ");
+			if(criteris.getCodigo() !=null) sb.append("AND codigo = ? " );
 			if(criteris.getTipoUsuario() !=null) sb.append("AND tipo_usuario = ? ");
 			if(criteris.getNombre() !=null) sb.append("AND nombre like ? ");
 			if(criteris.getApellidos() !=null) sb.append("AND apellidos like ? ");
@@ -87,11 +87,12 @@ public class DaoUsuario extends DaoEntidad<Usuario>{
 			if(criteris.getEstado()!= null) sb.append("AND estado = ?");
 			
 			sb.append(" order by nombre,apellidos");
+
 			
 			ps = con.prepareStatement(sb.toString(), ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
 			
 			int i=1;
-			
+			if(criteris.getCodigo()!=null) {ps.setString(i, criteris.getCodigo()); i++;}
 			if(criteris.getTipoUsuario()!=null) {ps.setInt(i, criteris.getTipoUsuario()); i++;}
 			if(criteris.getNombre()!=null) {ps.setString(i, "%"+criteris.getNombre()+"%"); i++;}
 			if(criteris.getApellidos()!=null) {ps.setString(i, "%"+criteris.getApellidos()+"%"); i++;}
@@ -109,7 +110,6 @@ public class DaoUsuario extends DaoEntidad<Usuario>{
 			if(criteris.getIdCentro()!=null) {ps.setInt(i, criteris.getIdCentro()); i++;}
 			if(criteris.getIdRol()!=null) {ps.setInt(i, criteris.getIdRol()); i++;}
 			if(criteris.getEstado()!=null) {ps.setInt(i, criteris.getEstado()); i++;}
-			
 			rs = ps.executeQuery();
 			while (rs.next()) {
 				Usuario usu = retornaUsuario(rs);
@@ -133,7 +133,7 @@ public class DaoUsuario extends DaoEntidad<Usuario>{
 			sb.append(CONSULTA_USUARIO);
 			sb.append("FROM USUARIO ");
 			sb.append("WHERE (1=1) ");
-			if(criteris.getCodigo() !=null) sb.append("AND codigo = ? ");
+			if(criteris.getCodigo() !=null) sb.append("AND codigo =  ");
 			if(criteris.getNombre() !=null) sb.append("AND nombre = ? ");
 			if(criteris.getApellidos() !=null) sb.append("AND apellidos = ? ");
 			if(criteris.getSexo() !=null) sb.append("AND sexo = ? ");
