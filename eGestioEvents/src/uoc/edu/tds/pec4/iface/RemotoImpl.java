@@ -116,6 +116,8 @@ public class RemotoImpl extends UnicastRemoteObject implements RemoteInterface{
 	public void modificaUsuario(DTOUsuario dtoUsuario) throws RemoteException, OperationErrorBD {
 		try{
 			
+			//Añade información añadida
+			
 			//Modificamos contacto
 			GestorContacto gestorContacto = new GestorContacto(gestorDB.getConnection());
 			gestorContacto.modificaEntidad(dtoUsuario.getDtoContacto());
