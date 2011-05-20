@@ -68,7 +68,6 @@ public class DaoUsuario extends DaoEntidad<Usuario>{
 			sb.append(CONSULTA_USUARIO);
 			sb.append("FROM v_consulta_usuarios ");
 			sb.append("WHERE (1=1) ");
-			if(criteris.getCodigo() !=null) sb.append("AND codigo = ? " );
 			if(criteris.getTipoUsuario() !=null) sb.append("AND tipo_usuario = ? ");
 			if(criteris.getNombre() !=null) sb.append("AND nombre like ? ");
 			if(criteris.getApellidos() !=null) sb.append("AND apellidos like ? ");
@@ -92,7 +91,6 @@ public class DaoUsuario extends DaoEntidad<Usuario>{
 			ps = con.prepareStatement(sb.toString(), ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
 			
 			int i=1;
-			if(criteris.getCodigo()!=null) {ps.setString(i, criteris.getCodigo()); i++;}
 			if(criteris.getTipoUsuario()!=null) {ps.setInt(i, criteris.getTipoUsuario()); i++;}
 			if(criteris.getNombre()!=null) {ps.setString(i, "%"+criteris.getNombre()+"%"); i++;}
 			if(criteris.getApellidos()!=null) {ps.setString(i, "%"+criteris.getApellidos()+"%"); i++;}
