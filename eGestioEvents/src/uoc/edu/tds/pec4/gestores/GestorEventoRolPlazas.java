@@ -22,8 +22,13 @@ public class GestorEventoRolPlazas extends GestorEntidad<DTOEventoRolPlazas>{
 	}
 
 	@Override
-	public void insertaEntidad(DTOEventoRolPlazas newobject) {
-		throw new UnsupportedOperationException("Método no implementado");
+	public void insertaEntidad(DTOEventoRolPlazas newobject) throws Exception {
+		try {
+			DaoEventoRolPlazas dao = new DaoEventoRolPlazas(connection);
+			dao.insert(newobject.getEventoRolPlazas());
+		} catch (Exception e) {
+			throw e;
+		}
 	}
 
 	@Override
@@ -85,12 +90,22 @@ public class GestorEventoRolPlazas extends GestorEntidad<DTOEventoRolPlazas>{
 	
 	@Override
 	public void modificaEntidad(DTOEventoRolPlazas criteris) throws Exception {
-		throw new UnsupportedOperationException("Método no implementado");
+		try {
+			DaoEventoRolPlazas dao = new DaoEventoRolPlazas(connection);
+			dao.update(criteris.getEventoRolPlazas());
+		} catch (Exception e) {
+			throw e;
+		}
 	}
 
 	@Override
 	public void eliminaEntidad(DTOEventoRolPlazas criteris) throws Exception {
-		throw new UnsupportedOperationException("Método no implementado");
+		try {
+			DaoEventoRolPlazas dao = new DaoEventoRolPlazas(connection);
+			dao.delete(criteris.getEventoRolPlazas());
+		} catch (Exception e) {
+			throw e;
+		}
 	}
 
 }

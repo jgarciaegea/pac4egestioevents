@@ -94,17 +94,32 @@ public class GestorEvento extends GestorEntidad<DTOEvento>{
 	}
 	
 	@Override
-	public void insertaEntidad(DTOEvento newobject) {
-		throw new UnsupportedOperationException("Método no implementado");
+	public void insertaEntidad(DTOEvento newobject) throws Exception{
+		try {
+			DaoEvento dao = new DaoEvento(connection);
+			dao.insert(newobject.getEvento());
+		} catch (Exception e) {
+			throw e;
+		}
 	}
 
 	@Override
 	public void modificaEntidad(DTOEvento criteris) throws Exception {
-		throw new UnsupportedOperationException("Método no implementado");
+		try {
+			DaoEvento dao = new DaoEvento(connection);
+			dao.update(criteris.getEvento());
+		} catch (Exception e) {
+			throw e;
+		}
 	}
 
 	@Override
 	public void eliminaEntidad(DTOEvento criteris) throws Exception {
-		throw new UnsupportedOperationException("Método no implementado");
+		try {
+			DaoEvento dao = new DaoEvento(connection);
+			dao.delete(criteris.getEvento());
+		} catch (Exception e) {
+			throw e;
+		}
 	}
 }

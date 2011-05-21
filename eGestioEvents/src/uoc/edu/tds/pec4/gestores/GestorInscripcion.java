@@ -14,6 +14,7 @@ import java.util.List;
 
 import uoc.edu.tds.pec4.beans.Inscripcion;
 import uoc.edu.tds.pec4.daos.DaoInscripcion;
+//import uoc.edu.tds.pec4.dtos.DTOAsistente;
 import uoc.edu.tds.pec4.dtos.DTOEvento;
 import uoc.edu.tds.pec4.dtos.DTOInscripcion;
 
@@ -56,8 +57,8 @@ public class GestorInscripcion extends GestorEntidad<DTOInscripcion>{
 					/*
 					//A–adimos el Usuario
 					GestorUsuario gestorUsuario = new GestorUsuario(connection);
-					DTOUsuario dtoUsuario = gestorUsuario.consultaEntidadById(inscripcion.getCodigo());
-					if(dtoUsuario != null) dtoInscripcion.setDtoUsuario(dtoUsuario);
+					DTOAsistente dtoAsistente = gestorUsuario.consultaEntidadById(inscripcion.getCodigo());
+					if(dtoAsistente != null) dtoInscripcion.setDtoAsistente(dtoAsistente);
 					*/
 					lstDTOInscripcion.add(dtoInscripcion);
 				}
@@ -70,19 +71,59 @@ public class GestorInscripcion extends GestorEntidad<DTOInscripcion>{
 	}
 
 	@Override
-	public void insertaEntidad(DTOInscripcion newobject) {
-		throw new UnsupportedOperationException("Método no implementado");
+	public void insertaEntidad(DTOInscripcion newobject) throws Exception{
+		try {
+			DaoInscripcion dao = new DaoInscripcion(connection);
+			dao.insert(newobject.getInscripcion());
+		} catch (Exception e) {
+			throw e;
+		}
 	}
 
 	@Override
 	public void modificaEntidad(DTOInscripcion criteris) throws Exception {
-		throw new UnsupportedOperationException("Método no implementado");
+		try {
+			DaoInscripcion dao = new DaoInscripcion(connection);
+			dao.update(criteris.getInscripcion());
+		} catch (Exception e) {
+			throw e;
+		}
 	}
 
 	@Override
 	public void eliminaEntidad(DTOInscripcion criteris) throws Exception {
-		throw new UnsupportedOperationException("Método no implementado");
+		try {
+			DaoInscripcion dao = new DaoInscripcion(connection);
+			dao.delete(criteris.getInscripcion());
+		} catch (Exception e) {
+			throw e;
+		}
 	}
 
+	/*
+	 * Una vez finalizado el Evento se podr‡ notificar que el asistente ha asistido
+	 * al evento mediante la realizaci—n del check-IN de su inscripci—n. 
+	 */
+	public void checkIN(DTOInscripcion inscripcion) throws Exception {
+		try {
+			//TODO 1: Revisar que no se pueda hacer un checkIN si no est‡ finalizado el evento
+			DaoInscripcion dao = new DaoInscripcion(connection);
+			dao.checkIN(inscripcion.getInscripcion());
+		} catch (Exception e) {
+			throw e;
+		}
+	}
+	
+	/*
+	 * A efectos de error, que podamos desmarcar la asistencia a un evento del asistente.
+	 */
+	public void checkOUT(DTOInscripcion inscripcion) throws Exception {
+		try {
+			DaoInscripcion dao = new DaoInscripcion(connection);
+			dao.checkOUT(inscripcion.getInscripcion());
+		} catch (Exception e) {
+			throw e;
+		}
+	}
 
 }

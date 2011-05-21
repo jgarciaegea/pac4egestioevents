@@ -22,8 +22,13 @@ public class GestorEventoRequisitos extends GestorEntidad<DTOEventoRequisitos>{
 	}
 
 	@Override
-	public void insertaEntidad(DTOEventoRequisitos newobject) {
-		throw new UnsupportedOperationException("Método no implementado");
+	public void insertaEntidad(DTOEventoRequisitos newobject) throws Exception{
+		try {
+			DaoEventoRequisitos dao = new DaoEventoRequisitos(connection);
+			dao.insert(newobject.getEventoRequisitos());
+		} catch (Exception e) {
+			throw e;
+		}
 	}
 
 	@Override
@@ -73,12 +78,22 @@ public class GestorEventoRequisitos extends GestorEntidad<DTOEventoRequisitos>{
 	
 	@Override
 	public void modificaEntidad(DTOEventoRequisitos criteris) throws Exception {
-		throw new UnsupportedOperationException("Método no implementado");
+		try {
+			DaoEventoRequisitos dao = new DaoEventoRequisitos(connection);
+			dao.update(criteris.getEventoRequisitos());
+		} catch (Exception e) {
+			throw e;
+		}
 	}
 
 	@Override
 	public void eliminaEntidad(DTOEventoRequisitos criteris) throws Exception {
-		throw new UnsupportedOperationException("Método no implementado");
+		try {
+			DaoEventoRequisitos dao = new DaoEventoRequisitos(connection);
+			dao.delete(criteris.getEventoRequisitos());
+		} catch (Exception e) {
+			throw e;
+		}
 	}
 
 }

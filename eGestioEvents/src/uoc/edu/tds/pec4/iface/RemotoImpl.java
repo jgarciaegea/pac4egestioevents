@@ -13,6 +13,7 @@ import uoc.edu.tds.pec4.beans.TipoTelefono;
 import uoc.edu.tds.pec4.beans.Universidad;
 import uoc.edu.tds.pec4.beans.Usuario;
 import uoc.edu.tds.pec4.dtos.DTOCentroDocente;
+import uoc.edu.tds.pec4.dtos.DTOInscripcion;
 import uoc.edu.tds.pec4.dtos.DTOPais;
 import uoc.edu.tds.pec4.dtos.DTOTipoDocumento;
 import uoc.edu.tds.pec4.dtos.DTOTipoEvento;
@@ -28,6 +29,7 @@ import uoc.edu.tds.pec4.gestores.GestorContacto;
 import uoc.edu.tds.pec4.gestores.GestorDatosBancarios;
 import uoc.edu.tds.pec4.gestores.GestorDisco;
 import uoc.edu.tds.pec4.gestores.GestorDocumentoIdentificacion;
+import uoc.edu.tds.pec4.gestores.GestorInscripcion;
 import uoc.edu.tds.pec4.gestores.GestorPais;
 import uoc.edu.tds.pec4.gestores.GestorTelefono;
 import uoc.edu.tds.pec4.gestores.GestorTipoDocumento;
@@ -272,5 +274,36 @@ public class RemotoImpl extends UnicastRemoteObject implements RemoteInterface{
 		}
 	}
 
-
+	/*
+	 ********************************************************************************
+	 ****************************** Subsistema de Eventos ***************************
+	 ********************************************************************************
+	 */
+	/*
+	 * Tratamiento de Inscripciones
+	 */
+	/*
+	 * Una vez finalizado el Evento se podr‡ notificar que el asistente ha asistido
+	 * al evento mediante la realizaci—n del check-IN de su inscripci—n. 
+	 */
+	public void checkIN(DTOInscripcion inscripcion) throws RemoteException,OperationErrorLogin{
+		try{
+			GestorInscripcion gestorInscripcion = new GestorInscripcion(gestorDB.getConnection());
+			gestorInscripcion.checkIN(inscripcion);
+		}catch(Exception e){
+			throw new OperationErrorLogin(e.getMessage());
+		}
+	}
+	
+	/*
+	 * A efectos de error, que podamos desmarcar la asistencia a un evento del asistente.
+	 */	
+	public void checkOUT(DTOInscripcion inscripcion) throws RemoteException,OperationErrorLogin{
+		try{
+			GestorInscripcion gestorInscripcion = new GestorInscripcion(gestorDB.getConnection());
+			gestorInscripcion.checkOUT(inscripcion);
+		}catch(Exception e){
+			throw new OperationErrorLogin(e.getMessage());
+		}
+	}
 }

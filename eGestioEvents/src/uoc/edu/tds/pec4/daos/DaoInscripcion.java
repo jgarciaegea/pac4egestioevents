@@ -143,5 +143,20 @@ public class DaoInscripcion extends DaoEntidad<Inscripcion>{
 		inscripcion.setMotivoEstado(Constantes.REGISTRO_INACTIVO_MOTIVO);
 		this.update(inscripcion);
 	}
-
+	
+	public void checkIN(Inscripcion inscripcion) throws Exception {
+		Inscripcion insCheckIN = new Inscripcion();
+		insCheckIN.setCodigo(inscripcion.getCodigo());
+		insCheckIN.setIdEvento(inscripcion.getIdEvento());
+		insCheckIN.setCheckIn(true);
+		this.update(insCheckIN);
+	}
+	
+	public void checkOUT(Inscripcion inscripcion) throws Exception {
+		Inscripcion insCheckIN = new Inscripcion();
+		insCheckIN.setCodigo(inscripcion.getCodigo());
+		insCheckIN.setIdEvento(inscripcion.getIdEvento());
+		insCheckIN.setCheckIn(false);
+		this.update(insCheckIN);
+	}
 }
