@@ -619,7 +619,7 @@ public class PantallaUsuarioConsulta extends javax.swing.JPanel implements Panta
 		DTOUsuarioConsulta dtoUsuario = new DTOUsuarioConsulta();
 		UsuarioViewConsulta usuario = new UsuarioViewConsulta();
 		if(!"".equalsIgnoreCase(jTextFieldNombre.getText())) usuario.setNombre(jTextFieldNombre.getText());
-		if(!"".equalsIgnoreCase(jTextFieldApe.getText())) usuario.setNombre(jTextFieldApe.getText());
+		if(!"".equalsIgnoreCase(jTextFieldApe.getText())) usuario.setApellidos(jTextFieldApe.getText());
 		Integer idRol = Integer.parseInt(((MostrarCombo) jComboBoxTipoRol.getSelectedItem()).getID().toString());
 		usuario.setIdRol(idRol==0?null:idRol);
 		Integer idCentro = Integer.parseInt(((MostrarCombo) jComboBoxCentroDocente.getSelectedItem()).getID().toString());
