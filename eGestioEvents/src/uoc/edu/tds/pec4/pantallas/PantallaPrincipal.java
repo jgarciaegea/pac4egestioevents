@@ -10,7 +10,14 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import uoc.edu.tds.pec4.beans.Usuario;
+import uoc.edu.tds.pec4.dtos.DTOAdministrador;
+import uoc.edu.tds.pec4.dtos.DTOAsistente;
+import uoc.edu.tds.pec4.dtos.DTOPersonalSecretaria;
+import uoc.edu.tds.pec4.dtos.DTOUsuario;
+import uoc.edu.tds.pec4.excepciones.OperationErrorDatosFormulario;
 import uoc.edu.tds.pec4.excepciones.OperationErrorRMI;
+import uoc.edu.tds.pec4.gestores.FactoriaUsuario;
 import uoc.edu.tds.pec4.gestores.GestorRMI;
 import uoc.edu.tds.pec4.iface.RemoteInterface;
 import uoc.edu.tds.pec4.resources.TDSLanguageUtils;
@@ -37,10 +44,12 @@ public class PantallaPrincipal extends JFrame {
 	private JMenuItem consultaUsuario;
 	private JPanel panelPrincipal;
 	private GestorRMI gestorRMI;
-	private RemoteInterface remote;	
+	private RemoteInterface remote;
+	private  Usuario usuario;
 	
-	public PantallaPrincipal(GestorRMI gestorRMI,RemoteInterface remote){
-		
+	public PantallaPrincipal(GestorRMI gestorRMI,RemoteInterface remote,Usuario usuario1){
+       try {
+		this.usuario = usuario1;
 		this.gestorRMI = gestorRMI;
 		this.remote = remote;
 		setSize(784, 600);
@@ -49,10 +58,37 @@ public class PantallaPrincipal extends JFrame {
 	    setTitle(TDSLanguageUtils.getMessage("clientePEC4.framePrincipal.titulo"));
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         crearMenuBar();
+        gestionarPermisos();
         setJMenuBar(barraMenu);
         generaEventosPantallaPrincipal();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
+	
+	private void gestionarPermisos() throws Exception{
+		try {
+		DTOUsuario dtoUsuario = FactoriaUsuario.getUsuario(usuario.getTipoUsuario());
+		if(dtoUsuario instanceof DTOAdministrador){
+	        menuMantenimiento.setEnabled(true);
+		}else if(dtoUsuario instanceof DTOPersonalSecretaria){
+	        menuEstadisticas.setEnabled(true);
+	        menuConexion.setEnabled(true);
+	        menuProgramacionEvento.setEnabled(true);
+		}else if(dtoUsuario instanceof DTOAsistente){
+	        menuConexion.setEnabled(true);
+		}
+        menuSalir.setEnabled(true);
+        menuAyuda.setEnabled(true);
+		} catch (Exception e) {
+			throw new OperationErrorDatosFormulario(e.getMessage());
+		}
+		throw new OperationErrorDatosFormulario("El tipo de usuario " + usuario.getTipoUsuario() + " no está contemplado");
+	}
+
+	
 	
 	private void crearMenuBar(){
 		try{
@@ -63,17 +99,17 @@ public class PantallaPrincipal extends JFrame {
 			
 	        barraMenu = new JMenuBar();
 	        menuMantenimiento = new JMenu(TDSLanguageUtils.getMessage("clientePEC4.framePrincipal.titulo.menu1"));
-	        menuMantenimiento.setEnabled(true);
+	        menuMantenimiento.setEnabled(false);
 	        menuEstadisticas = new JMenu(TDSLanguageUtils.getMessage("clientePEC4.framePrincipal.titulo.menu2"));
-	        menuEstadisticas.setEnabled(true);
+	        menuEstadisticas.setEnabled(false);
 	        menuProgramacionEvento = new JMenu(TDSLanguageUtils.getMessage("clientePEC4.framePrincipal.titulo.menu3"));
-	        menuProgramacionEvento.setEnabled(true);
+	        menuProgramacionEvento.setEnabled(false);
 	        menuConexion = new JMenu(TDSLanguageUtils.getMessage("clientePEC4.framePrincipal.titulo.menu4"));
-	        menuConexion.setEnabled(true);
+	        menuConexion.setEnabled(false);
 	        menuSalir = new JMenu(TDSLanguageUtils.getMessage("clientePEC4.framePrincipal.titulo.menu5"));
 	        menuSalir.setEnabled(true);
 	        menuAyuda = new JMenu(TDSLanguageUtils.getMessage("clientePEC4.framePrincipal.titulo.menu6"));
-	        menuAyuda.setEnabled(true);
+	        menuAyuda.setEnabled(false);
 	        
 	        // items menu Conexion
 	        
