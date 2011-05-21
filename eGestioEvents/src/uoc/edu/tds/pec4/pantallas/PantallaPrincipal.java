@@ -3,6 +3,8 @@ package uoc.edu.tds.pec4.pantallas;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.rmi.RemoteException;
+
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -15,6 +17,7 @@ import uoc.edu.tds.pec4.dtos.DTOAdministrador;
 import uoc.edu.tds.pec4.dtos.DTOAsistente;
 import uoc.edu.tds.pec4.dtos.DTOPersonalSecretaria;
 import uoc.edu.tds.pec4.dtos.DTOUsuario;
+import uoc.edu.tds.pec4.excepciones.OperationErrorBD;
 import uoc.edu.tds.pec4.excepciones.OperationErrorDatosFormulario;
 import uoc.edu.tds.pec4.excepciones.OperationErrorLogin;
 import uoc.edu.tds.pec4.excepciones.OperationErrorRMI;
@@ -126,7 +129,19 @@ public class PantallaPrincipal extends JFrame {
 					} 
 	        	} }); 
 	        inscripcionEvento = new JMenuItem(TDSLanguageUtils.getMessage("clientePEC4.framePrincipal.titulo.menu4.item2"));	   
-	        historicoEventos = new JMenuItem(TDSLanguageUtils.getMessage("clientePEC4.framePrincipal.titulo.menu4.item3"));	   
+	        historicoEventos = new JMenuItem(TDSLanguageUtils.getMessage("clientePEC4.framePrincipal.titulo.menu4.item3"));	
+	        historicoEventos.addActionListener(new ActionListener() { 
+	        	public void actionPerformed(ActionEvent evt) { 
+	        		try {
+						showPanel(new PantallaInformeEventosAsistente(gestorRMI,remote));
+					} catch (RemoteException e) {
+						e.printStackTrace();
+					} catch (OperationErrorBD e) {
+						e.showDialogError();
+						e.printStackTrace();
+					} 
+	        	} }); 	        
+	        
 	        validarAsistenciaEvento = new JMenuItem(TDSLanguageUtils.getMessage("clientePEC4.framePrincipal.titulo.menu4.item4"));
 	        validarAsistenciaEvento.addActionListener(new ActionListener() { 
 	        	public void actionPerformed(ActionEvent evt) { 
@@ -184,6 +199,7 @@ public class PantallaPrincipal extends JFrame {
 	/**
 	 * Método para salir de la pantalla del cliente
 	 */
+	
 	private void generaEventosPantallaPrincipal(){
 		addWindowListener(new java.awt.event.WindowAdapter() {
 			public void windowClosing(java.awt.event.WindowEvent e) {
