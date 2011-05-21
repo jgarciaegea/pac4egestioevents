@@ -69,10 +69,10 @@ public class DaoUsuario extends DaoEntidad<Usuario>{
 			sb.append("FROM v_consulta_usuarios ");
 			sb.append("WHERE (1=1) ");
 			if(criteris.getTipoUsuario() !=null) sb.append("AND tipo_usuario = ? ");
-			if(criteris.getNombre() !=null) sb.append("AND nombre like ? ");
-			if(criteris.getApellidos() !=null) sb.append("AND apellidos like ? ");
+			if(criteris.getNombre() !=null) sb.append("AND upper(nombre) like ? ");
+			if(criteris.getApellidos() !=null) sb.append("AND upper(apellidos) like ? ");
 			if(criteris.getIdDocumentoIdentificacion() !=null) sb.append("AND id_documento_identificacion = ? ");
-			if(criteris.getNumeroDocumento() !=null) sb.append("AND numero_documento like ? ");
+			if(criteris.getNumeroDocumento() !=null) sb.append("AND upper(numero_documento) like ? ");
 			
 			if(criteris.getFechaInicio() != null && criteris.getFechaFin()!=null){
 				sb.append("AND fecha_alta BETWEEN ? AND ?");
@@ -80,7 +80,7 @@ public class DaoUsuario extends DaoEntidad<Usuario>{
 				sb.append("AND fecha_alta >=  ? ");
 			}
 			
-			if(criteris.getLocalidad() !=null) sb.append("AND localidad = ? ");
+			if(criteris.getLocalidad() !=null) sb.append("AND upper(localidad) = ? ");
 			if(criteris.getIdCentro() !=null) sb.append("AND id_centro = ? ");
 			if(criteris.getIdRol() !=null) sb.append("AND id_rol = ? ");
 			if(criteris.getEstado()!= null) sb.append("AND estado = ?");
@@ -92,10 +92,10 @@ public class DaoUsuario extends DaoEntidad<Usuario>{
 			
 			int i=1;
 			if(criteris.getTipoUsuario()!=null) {ps.setInt(i, criteris.getTipoUsuario()); i++;}
-			if(criteris.getNombre()!=null) {ps.setString(i, "%"+criteris.getNombre()+"%"); i++;}
-			if(criteris.getApellidos()!=null) {ps.setString(i, "%"+criteris.getApellidos()+"%"); i++;}
+			if(criteris.getNombre()!=null) {ps.setString(i, "%"+criteris.getNombre().toUpperCase()+"%"); i++;}
+			if(criteris.getApellidos()!=null) {ps.setString(i, "%"+criteris.getApellidos().toUpperCase()+"%"); i++;}
 			if(criteris.getIdDocumentoIdentificacion()!=null) {ps.setInt(i, criteris.getIdDocumentoIdentificacion()); i++;}
-			if(criteris.getNumeroDocumento()!=null) {ps.setString(i, "%"+criteris.getNumeroDocumento()+"%"); i++;}
+			if(criteris.getNumeroDocumento()!=null) {ps.setString(i, "%"+criteris.getNumeroDocumento().toUpperCase()+"%"); i++;}
 			
 			if(criteris.getFechaInicio() != null && criteris.getFechaFin()!=null){
 				ps.setDate(i, criteris.getFechaInicio()); i++;
@@ -104,7 +104,7 @@ public class DaoUsuario extends DaoEntidad<Usuario>{
 				ps.setDate(i, criteris.getFechaInicio()); i++;
 			}
 			
-			if(criteris.getLocalidad()!=null) {ps.setString(i, "%"+criteris.getLocalidad()+"%"); i++;}
+			if(criteris.getLocalidad()!=null) {ps.setString(i, "%"+criteris.getLocalidad().toUpperCase()+"%"); i++;}
 			if(criteris.getIdCentro()!=null) {ps.setInt(i, criteris.getIdCentro()); i++;}
 			if(criteris.getIdRol()!=null) {ps.setInt(i, criteris.getIdRol()); i++;}
 			if(criteris.getEstado()!=null) {ps.setInt(i, criteris.getEstado()); i++;}
