@@ -224,5 +224,18 @@ public class GestorUsuario  extends GestorEntidad<DTOUsuario>{
 		}
 	}
 	
+	
+	
+	public void updatePassword(Usuario usuario) throws Exception {
+		try {
+			DaoUsuario dao = new DaoUsuario(connection);
+			dao.updatePassword(usuario);
+		} catch (Exception e) {
+			throw new Exception();
+		}
+	}
+	
+	
+	
 
 }
