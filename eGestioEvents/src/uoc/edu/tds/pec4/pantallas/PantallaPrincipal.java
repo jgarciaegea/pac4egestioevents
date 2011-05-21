@@ -16,6 +16,7 @@ import uoc.edu.tds.pec4.dtos.DTOAsistente;
 import uoc.edu.tds.pec4.dtos.DTOPersonalSecretaria;
 import uoc.edu.tds.pec4.dtos.DTOUsuario;
 import uoc.edu.tds.pec4.excepciones.OperationErrorDatosFormulario;
+import uoc.edu.tds.pec4.excepciones.OperationErrorLogin;
 import uoc.edu.tds.pec4.excepciones.OperationErrorRMI;
 import uoc.edu.tds.pec4.gestores.FactoriaUsuario;
 import uoc.edu.tds.pec4.gestores.GestorRMI;
@@ -117,7 +118,12 @@ public class PantallaPrincipal extends JFrame {
 	        cambioPwd = new JMenuItem(TDSLanguageUtils.getMessage("clientePEC4.framePrincipal.titulo.menu4.item1"));
 	        cambioPwd.addActionListener(new ActionListener() { 
 	        	public void actionPerformed(ActionEvent evt) { 
-	        		showPanel(new PantallaCambioPassword(gestorRMI,remote,usuario)); 
+	        		try {
+						showPanel(new PantallaCambioPassword(gestorRMI,remote,usuario));
+					} catch (OperationErrorLogin e) {
+						e.showDialogError();
+						e.printStackTrace();
+					} 
 	        	} }); 
 	        inscripcionEvento = new JMenuItem(TDSLanguageUtils.getMessage("clientePEC4.framePrincipal.titulo.menu4.item2"));	   
 	        historicoEventos = new JMenuItem(TDSLanguageUtils.getMessage("clientePEC4.framePrincipal.titulo.menu4.item3"));	   

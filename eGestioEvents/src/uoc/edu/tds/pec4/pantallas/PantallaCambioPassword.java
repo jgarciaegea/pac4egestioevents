@@ -30,12 +30,12 @@ public class PantallaCambioPassword extends PanelComun implements Pantallas{
 	/**
 	 * 
 	 */
-	public PantallaCambioPassword(GestorRMI gestorRMI,RemoteInterface remote1,Usuario usuario1) {
+	public PantallaCambioPassword(GestorRMI gestorRMI,RemoteInterface remote1,Usuario usuario1)throws OperationErrorLogin {
 		// TODO Auto-generated constructor stub
 		super("clientePEC4.panelCambioPassword.titulo",450,260);
 		remote = remote1;
 		usuario = usuario1;
-		if (usuario1 == null) System.out.println("El usuario que nos han pasado es nulo....");  
+		if (usuario1 == null) throw new OperationErrorLogin("La session es invalida.....");
 		try {
 			remote.testConexion();
 		} catch (RemoteException e1) {
@@ -66,15 +66,18 @@ public class PantallaCambioPassword extends PanelComun implements Pantallas{
 	
 	public void acutalizaPassword() throws OperationErrorLogin, RemoteException, OperationErrorDatosFormulario{
 		validaFormulario();
-		System.out.println("formulario validado...");
-		String pass = this.findJPasswordField("cajaPwd").getText();
-		pass =  Base64Coder.encodeString(pass);
-		if (!pass.equals(usuario.getContrasena())){
+		
+		String passNueva = this.findJPasswordField("cajaRPwdNew").getText();
+		passNueva = Base64Coder.encodeString(passNueva);
+		
+		String passActual = this.findJPasswordField("cajaPwd").getText();
+		passActual =  Base64Coder.encodeString(passActual);
+		
+		if (!passActual.equals(usuario.getContrasena())){
 			throw new OperationErrorLogin("Contrasenya Actual incorrecta");
 		}  
-		usuario.setContrasena(pass);
-		System.out.println("DTO modificado...");
-		//remote.modificaUsuarioPassword(dtoUsuario);
+		usuario.setContrasena(passNueva);
+		remote.updatePassword(usuario);
 	}
 	
 	
@@ -120,18 +123,18 @@ public class PantallaCambioPassword extends PanelComun implements Pantallas{
 	
 
 	private void validaFormulario() throws OperationErrorDatosFormulario{
-	//	try{
+		try{
 					
-	//	if(Utils.valorisNull(this.findJPasswordField("cajaPwd").getText())) throw new OperationErrorDatosFormulario(Utils.MESSAGE_ERROR + " Password Actual");
-	//	if(Utils.valorisNull(this.findJPasswordField("cajaPwdNew").getText())) throw new OperationErrorDatosFormulario(Utils.MESSAGE_ERROR + " Password Nova");
-	//	if(Utils.valorisNull(this.findJPasswordField("cajaRPwdNew").getText())) throw new OperationErrorDatosFormulario(Utils.MESSAGE_ERROR + " Repetir Password ");
-	//	if (!this.findJPasswordField("cajaPwdNew").getText().equals(this.findJPasswordField("cajaRPwdNew").getText())){
+		if(Utils.valorisNull(this.findJPasswordField("cajaPwd").getText())) throw new OperationErrorDatosFormulario(Utils.MESSAGE_ERROR + " Password Actual");
+		if(Utils.valorisNull(this.findJPasswordField("cajaPwdNew").getText())) throw new OperationErrorDatosFormulario(Utils.MESSAGE_ERROR + " Password Nova");
+		if(Utils.valorisNull(this.findJPasswordField("cajaRPwdNew").getText())) throw new OperationErrorDatosFormulario(Utils.MESSAGE_ERROR + " Repetir Password ");
+		if (!this.findJPasswordField("cajaPwdNew").getText().equals(this.findJPasswordField("cajaRPwdNew").getText())){
 			throw new OperationErrorDatosFormulario(Utils.MESSAGE_ERROR + " la Nueva Password no coincide ");
-	//	}
+		}
 			
-	//	}catch(OperationErrorDatosFormulario ex){
-	//		throw new OperationErrorDatosFormulario(ex.getMessage());
-	//	}
+		}catch(OperationErrorDatosFormulario ex){
+			throw new OperationErrorDatosFormulario(ex.getMessage());
+		}
 			
 	}
 	
