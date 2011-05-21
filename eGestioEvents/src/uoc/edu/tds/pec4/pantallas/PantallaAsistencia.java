@@ -52,7 +52,7 @@ public class PantallaAsistencia extends PanelComun implements Pantallas{
 		lista.add("2");
 		
 		this.crearCombo(40, 130, 80, 20, "combo1", lista);
-		this.crearTabla(50, 200, 200, 150);
+		//this.crearTabla(50, 200, 200, 150);
 		
 		// anyadimos un evento al boton
 		this.findBoton("bBuscar").addActionListener(new ActionListener() {
