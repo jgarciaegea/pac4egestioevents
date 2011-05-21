@@ -253,7 +253,7 @@ public class RemotoImpl extends UnicastRemoteObject implements RemoteInterface{
 		}
 	}
 	
-	public Boolean loginUsuario(Usuario userLogin) throws RemoteException,OperationErrorLogin{
+	public Usuario loginUsuario(Usuario userLogin) throws RemoteException,OperationErrorLogin{
 		try{
 			GestorUsuario gestorUsuario = new GestorUsuario(gestorDB.getConnection());
 			return gestorUsuario.loginUsuario(userLogin.getCodigo(), userLogin.getContrasena());
