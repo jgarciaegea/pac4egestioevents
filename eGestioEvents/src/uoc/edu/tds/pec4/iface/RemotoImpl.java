@@ -246,12 +246,12 @@ public class RemotoImpl extends UnicastRemoteObject implements RemoteInterface{
 	
 	public List<DTOTipoEvento> getTiposEventos() throws RemoteException, OperationErrorBD {
 		try{
-			GestorTipoEvento gestorTipoRol = new GestorTipoEvento(gestorDB.getConnection());
+			GestorTipoEvento gestorTipoEvento = new GestorTipoEvento(gestorDB.getConnection());
 			DTOTipoEvento dtoTipoEvento = new DTOTipoEvento();
 			dtoTipoEvento.setTipoEvento(new TipoEvento());
-			return gestorTipoRol.consultaEntidades(dtoTipoEvento);
+			return gestorTipoEvento.consultaEntidades(dtoTipoEvento);
 		}catch(Exception e){
-			throw new OperationErrorBD("Error al recuperar los tipos de rol: " + e.getMessage());
+			throw new OperationErrorBD("Error al recuperar los tipos de Evento: " + e.getMessage());
 		}
 	}
 	
