@@ -260,4 +260,31 @@ public class DaoUsuario extends DaoEntidad<Usuario>{
 		return usu;
 	}
 	
+	
+	
+	
+	public void updatePassword(Usuario objecte) throws Exception {
+		PreparedStatement ps = null;
+		try {
+			
+			StringBuffer sql = new StringBuffer();
+			sql.append("UPDATE usuario SET ");
+			if(objecte.getContrasena() !=null) sql.append(" contrasena = ?,");
+			sql = new StringBuffer(sql.substring(0,sql.length()-1) +" WHERE codigo = ?");
+			
+			ps = con.prepareStatement(sql.toString());
+			
+			int i=1;
+			if(objecte.getContrasena()!=null) {ps.setString(i, objecte.getContrasena()); i++;}
+			if(objecte.getCodigo()!=null) {ps.setString(i, objecte.getCodigo()); i++;}
+			ps.executeUpdate();
+			
+        } catch (SQLException e) {
+        	throw new Exception(e.getMessage());
+        } finally {
+        	close(ps);
+        }		
+	}
+	
+	
 }
