@@ -124,7 +124,7 @@ public class PantallaUsuarioConsulta extends javax.swing.JPanel implements Panta
 	private void initGUI() {
 		try {
 			this.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder(null, "Consulta de usuarios", 0, 0, new Font("Dialog", 1, 12), new Color(51, 51, 51)), null), null));
-			this.setPreferredSize(new java.awt.Dimension(784, 585));
+			this.setPreferredSize(new java.awt.Dimension(784, 634));
 			{
 				jPanel2 = new JPanel();
 				this.add(jPanel2);
@@ -437,11 +437,14 @@ public class PantallaUsuarioConsulta extends javax.swing.JPanel implements Panta
 	 * Vamos a la pantalla de usuario
 	 */
 	private void goPantallaUsuario(DTOUsuario dtoUsuario){
+		this.setBorder(null);
 		this.removeAll();
 		this.setAlignmentX(LEFT_ALIGNMENT);
 		this.setAlignmentY(TOP_ALIGNMENT);
 		this.add((Component)new PantallaUsuario(gestorRMI, remote, dtoUsuario));
+		this.repaint();
 		this.revalidate();
+		this.updateUI();
 	}
 	
 	/*

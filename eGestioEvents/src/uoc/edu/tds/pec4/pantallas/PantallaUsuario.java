@@ -95,6 +95,8 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 	private JLabel jLabelTipo;
 	private JTextField jTextFieldExtension;
 	private JButton jButtonAcceptar;
+	private JTextField jTextFieldPrefijo;
+	private JLabel jLabelPrefijo;
 	private JButton jButtonCancelar;
 	private JPanel jPanelButtom;
 	private JLabel jLabelExtension;
@@ -215,7 +217,6 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 				jPanel2Layout.rowWeights = new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
 				jPanel2.setPreferredSize(new java.awt.Dimension(724, 500));
 				jPanel2.setLayout(jPanel2Layout);
-				jPanel2.setName("ALTA USUARIO");
 				{
 					jTextFieldNombre = new JTextField();
 					jPanel2.add(jTextFieldNombre, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0, GridBagConstraints.SOUTHWEST, GridBagConstraints.NONE, new Insets(0, 8, 0, 15), 0, 0));
@@ -494,6 +495,16 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 					jPanel2.add(jTextFieldCuenta, new GridBagConstraints(3, 17, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 					jTextFieldCuenta.setPreferredSize(new java.awt.Dimension(120, 21));
 					jTextFieldCuenta.setDocument(new JTextFieldLimit(12));
+				}
+				{
+					jLabelPrefijo = new JLabel();
+					jPanel2.add(jLabelPrefijo, new GridBagConstraints(2, 9, 1, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
+					jLabelPrefijo.setText("Prefijo");
+				}
+				{
+					jTextFieldPrefijo = new JTextField();
+					jPanel2.add(jTextFieldPrefijo, new GridBagConstraints(3, 9, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 8, 0, 0), 0, 0));
+					jTextFieldPrefijo.setPreferredSize(new java.awt.Dimension(200, 21));
 				}
 			}
 			{
@@ -960,6 +971,8 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 		DTOTelefono dtoTelefono = new DTOTelefono();
 		Telefono telefono = new Telefono();
 		if(!Utils.valorisNull(jTextFieldExtension.getText())) telefono.setExtension(Integer.parseInt(jTextFieldExtension.getText()));
+		if(!Utils.valorisNull(jTextFieldPrefijo.getText())) telefono.setPrefijoPais(jTextFieldPrefijo.getText());
+		
 		telefono.setTelefono(jTextFieldTelefono.getText());
 		telefono.setIdTipoTelefono(Integer.parseInt(((MostrarCombo) jComboBoxTipo.getSelectedItem()).getID().toString()));
 		if(modificacion){
@@ -1133,6 +1146,10 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 					
 					if(dtoUsuarioaModificar.getDtoTelefono().getTelefono().getTelefono()!= null){
 						jTextFieldTelefono.setText(dtoUsuarioaModificar.getDtoTelefono().getTelefono().getTelefono().toString());
+					}
+					
+					if(dtoUsuarioaModificar.getDtoTelefono().getTelefono().getPrefijoPais()!= null){
+						jTextFieldPrefijo.setText(dtoUsuarioaModificar.getDtoTelefono().getTelefono().getPrefijoPais());
 					}
 				}
 			}
