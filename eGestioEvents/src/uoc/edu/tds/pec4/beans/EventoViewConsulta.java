@@ -19,6 +19,7 @@ public class EventoViewConsulta extends Evento implements BeanInterface,Serializ
 	private String universidadEvento;
 	private String estadoAsistencia;
 	private String tipoEvento;
+	private String codigo;
 	/**
 	 * @return the centroEvento
 	 */
@@ -66,6 +67,18 @@ public class EventoViewConsulta extends Evento implements BeanInterface,Serializ
 	 */
 	public void setTipoEvento(String tipoEvento) {
 		this.tipoEvento = tipoEvento;
+	}
+	/**
+	 * @return the codigo
+	 */
+	public String getCodigo() {
+		return codigo;
+	}
+	/**
+	 * @param codigo the codigo to set
+	 */
+	public void setCodigo(String codigo) {
+		this.codigo = codigo;
 	} 
 	
 	
