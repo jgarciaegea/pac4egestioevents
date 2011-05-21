@@ -6,9 +6,6 @@ package uoc.edu.tds.pec4.pantallas;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.swing.table.DefaultTableModel;
-
 import uoc.edu.tds.pec4.dtos.DTOTipoEvento;
 import uoc.edu.tds.pec4.excepciones.OperationErrorBD;
 import uoc.edu.tds.pec4.gestores.GestorRMI;
