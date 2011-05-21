@@ -120,14 +120,14 @@ public class DaoContacto extends DaoEntidad<Contacto>{
 			
 			StringBuffer sql = new StringBuffer();
 			sql.append("UPDATE contacto SET ");
-			if(objecte.getDomicilio() !=null) sql.append("domicilio = ?, ");
-			if(objecte.getCp() !=null) sql.append(" cp = ?, ");
-			if(objecte.getLocalidad() !=null) sql.append(" localidad = ?, ");
-			if(objecte.getProvincia() !=null) sql.append(" provincia = ?, ");
-			if(objecte.getEmail() !=null) sql.append(" email = ?, ");
-			if(objecte.getWeb() !=null) sql.append(" web = ?, ");
-			if(objecte.getMotivoEstado() !=null) sql.append(" motivo_estado = ?, ");
-			sql = new StringBuffer(sql.substring(0,sql.length()-1) +" WHERE id_contacto = ? ");
+			if(objecte.getDomicilio() !=null) sql.append("domicilio = ?,");
+			if(objecte.getCp() !=null) sql.append(" cp = ?,");
+			if(objecte.getLocalidad() !=null) sql.append(" localidad = ?,");
+			if(objecte.getProvincia() !=null) sql.append(" provincia = ?,");
+			if(objecte.getEmail() !=null) sql.append(" email = ?,");
+			if(objecte.getWeb() !=null) sql.append(" web = ?,");
+			if(objecte.getMotivoEstado() !=null) sql.append(" motivo_estado = ?,");
+			sql = new StringBuffer(sql.substring(0,sql.length()-1) +" WHERE id_contacto = ?");
 			
 			ps = con.prepareStatement(sql.toString());
 			

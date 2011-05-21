@@ -1,7 +1,9 @@
 package uoc.edu.tds.pec4.pantallas;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -16,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
+import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
@@ -120,7 +123,8 @@ public class PantallaUsuarioConsulta extends javax.swing.JPanel implements Panta
 	
 	private void initGUI() {
 		try {
-			this.setPreferredSize(new java.awt.Dimension(784, 601));
+			this.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder(null, "Consulta de usuarios", 0, 0, new Font("Dialog", 1, 12), new Color(51, 51, 51)), null), null));
+			this.setPreferredSize(new java.awt.Dimension(784, 585));
 			{
 				jPanel2 = new JPanel();
 				this.add(jPanel2);
@@ -302,7 +306,7 @@ public class PantallaUsuarioConsulta extends javax.swing.JPanel implements Panta
 			{
 				jPanelButtom = new JPanel();
 				this.add(jPanelButtom);
-				jPanelButtom.setPreferredSize(new java.awt.Dimension(758, 565));
+				jPanelButtom.setPreferredSize(new java.awt.Dimension(247, 35));
 				jPanelButtom.setBounds(238, 280, 10, 10);
 				{
 					jButtonAcceptar = new JButton();
@@ -623,6 +627,8 @@ public class PantallaUsuarioConsulta extends javax.swing.JPanel implements Panta
 		if(!"".equalsIgnoreCase(jTextFieldDocuIden.getText())) usuario.setNumeroDocumento(jTextFieldDocuIden.getText());
 		Integer idtipoDocumento = Integer.parseInt(((MostrarCombo) jComboBoxTipoRol.getSelectedItem()).getID().toString());
 		usuario.setIdDocumentoIdentificacion(idtipoDocumento==0?null:idtipoDocumento);
+		Integer idTipoPerfil = Integer.parseInt(((MostrarCombo) jComboBoxPerfil.getSelectedItem()).getID().toString());
+		usuario.setTipoUsuario(idTipoPerfil==0?null:idTipoPerfil);
 		if(!"".equalsIgnoreCase(jTextFieldLocalidad.getText())) usuario.setLocalidad(jTextFieldLocalidad.getText());
 		if(jRadioButtonDesaNo.isSelected()) usuario.setEstado(Constantes.REGISTRO_ACTIVO);
 		if(jRadioButtonDesSi.isSelected()) usuario.setEstado(null);	//De esta manera visualizaremos todos los usuarios activos o inactivos

@@ -1,5 +1,7 @@
 package uoc.edu.tds.pec4.pantallas;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -13,6 +15,7 @@ import java.util.Enumeration;
 import java.util.List;
 
 import javax.swing.AbstractButton;
+import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
@@ -162,6 +165,8 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 				jButton.setEnabled(false);
 			}
 			jTextFieldCon.setEnabled(false);
+			jButtonCancelar.setVisible(false);
+			
 		}
 		
 	}
@@ -172,8 +177,8 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 	
 	private void initGUI() {
 		try {
-			
-			this.setPreferredSize(new java.awt.Dimension(784, 601));
+			this.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder(null, bUserModificacion.booleanValue()?"Modificación de usuarios":"Alta de usuarios", 0, 0, new Font("Dialog", 1, 12), new Color(51, 51, 51)), null), null));
+			this.setPreferredSize(new java.awt.Dimension(784, 634));
 			{
 				jPanel1 = new JPanel();
 				this.add(jPanel1);
@@ -210,6 +215,7 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 				jPanel2Layout.rowWeights = new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
 				jPanel2.setPreferredSize(new java.awt.Dimension(724, 500));
 				jPanel2.setLayout(jPanel2Layout);
+				jPanel2.setName("ALTA USUARIO");
 				{
 					jTextFieldNombre = new JTextField();
 					jPanel2.add(jTextFieldNombre, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0, GridBagConstraints.SOUTHWEST, GridBagConstraints.NONE, new Insets(0, 8, 0, 15), 0, 0));
@@ -438,7 +444,7 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 					
 					jComboBoxTipoRol = new JComboBox();
 					jPanel2.add(jComboBoxTipoRol, new GridBagConstraints(1, 14, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 8, 0, 0), 0, 0));
-					jComboBoxTipoRol.setPreferredSize(new java.awt.Dimension(200, 21));
+					jComboBoxTipoRol.setPreferredSize(new java.awt.Dimension(200, 26));
 				}
 				{
 					jLabelDatosBanc = new JLabel();
@@ -509,11 +515,12 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 									validaFormulario(bUserModificacion.booleanValue());
 									if(bUserModificacion.booleanValue()){
 										remote.modificaUsuario(altaModificaUsuario(bUserModificacion.booleanValue()));
+										Utils.mostraMensajeInformacion(jPanel2, "Registro modificado correctamente", "Modificación usuario");
 									}else{
 										codigo = remote.insertaUsuario(altaModificaUsuario(bUserModificacion.booleanValue()));
+										Utils.mostraMensajeInformacion(jPanel2, "Registro insertado correctamente.\nSu identificador de usuario es " + codigo, "Alta usuario");
+										limpiaFormulario();
 									}
-									limpiaFormulario();
-									Utils.mostraMensajeInformacion(jPanel2, "Registro insertado correctamente.\nSu identificador de usuario es " + codigo, "Alta usuario");
 								} catch (RemoteException e1) {
 									try {
 										throw new OperationErrorRMI(e1.getMessage());
@@ -532,7 +539,7 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 				{
 					jButtonCancelar = new JButton();
 					jPanelButtom.add(jButtonCancelar);
-					jButtonCancelar.setText("Cancelar");
+					jButtonCancelar.setText("Limpiar");
 					jButtonCancelar.setLayout(null);
 					
 					jButtonCancelar.addActionListener(new ActionListener() {
@@ -542,7 +549,7 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 			    	});
 				}
 			}
-			
+
 			//Group the radio buttons.
 			grupoBu = new ButtonGroup();
 			grupoBu.add(jRadioButtonAdmin);
@@ -882,7 +889,12 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 			usuario.setFechaEstado(new java.sql.Date(System.currentTimeMillis()));
 			usuario.setMotivoEstado("Alta de usuario");
 			usuario.setCodigo(generaCodigo(usuario));
+		}else{
+			//MUY IMPORTANTE EL ID DEL USUARIO SE HA DE DE RELLENAR DEL QUE PASAMOS PARA CONSULTAR. Digamos que es como si fuera un campo hidden
+			usuario.setIdContacto(dtoUsuarioaModificar.getUsuario().getIdContacto());
+			usuario.setCodigo(dtoUsuarioaModificar.getUsuario().getCodigo());
 		}
+		
 		usuario.setIdDocumentoIdentificacion(Integer.parseInt(((MostrarCombo) jComboBoxTipoDoc.getSelectedItem()).getID().toString()));
 		
 		//Tipo de usuario
@@ -952,7 +964,7 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 		telefono.setIdTipoTelefono(Integer.parseInt(((MostrarCombo) jComboBoxTipo.getSelectedItem()).getID().toString()));
 		if(modificacion){
 			//MUY IMPORTANTE EL ID DEL TELEFONO Y DEL CONTACTO SE HA DE DE RELLENAR DEL QUE PASAMOS PARA CONSULTAR. Digamos que es como si fuera un campo hidden
-			telefono.setIdTelefono(dtoUsuarioaModificar.getUsuario().getIdContacto());
+			telefono.setIdContacto(dtoUsuarioaModificar.getUsuario().getIdContacto());
 			telefono.setIdTelefono(dtoUsuarioaModificar.getDtoTelefono().getTelefono().getIdTelefono());
 		}
 		dtoTelefono.setTelefono(telefono);
@@ -1046,61 +1058,62 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 	 */
 	private void cargaUsuario(){
 		try {
-			DTOUsuario dtoUsuarioRec = remote.getUsuario(dtoUsuarioaModificar);
 			
-			if(dtoUsuarioRec != null){
+			dtoUsuarioaModificar = remote.getUsuario(dtoUsuarioaModificar);
+			
+			if(dtoUsuarioaModificar != null){
 				
 				/*****************************************
 				 * CARGAMOS LOS VALORES DEL USUARIO
 				 *****************************************/
-				Usuario usuario = dtoUsuarioRec.getUsuario();
+				Usuario usuario = dtoUsuarioaModificar.getUsuario();
 				
 				//Valores del usuario
 				if(usuario.getNombre()!= null) jTextFieldNombre.setText(usuario.getNombre());
 				if(usuario.getApellidos()!= null) jTextFieldApe.setText(usuario.getApellidos());
 				if(usuario.getCodigo()!= null) jTextFieldCodigo.setText(usuario.getCodigo());
 				
-				if(dtoUsuarioRec.getUsuario().getFechaNacimiento() !=  null){
+				if(dtoUsuarioaModificar.getUsuario().getFechaNacimiento() !=  null){
 					try {
-						jTextFieldFechaNac.setText(Utils.convertFecha(dtoUsuarioRec.getUsuario().getFechaNacimiento().toString()));
+						jTextFieldFechaNac.setText(Utils.convertFecha(dtoUsuarioaModificar.getUsuario().getFechaNacimiento().toString()));
 					} catch (OperationErrorDatosFormulario e) {
 						e.printStackTrace();
 					}
 				}
 				
-				if(dtoUsuarioRec.getDtoDocumentoIden() != null){
-					jTextFieldDocIden.setText(dtoUsuarioRec.getDtoDocumentoIden().getDocumentoIdentificacion().getNumeroDocumento());
-					jComboBoxTipoDoc.setSelectedItem(new MostrarCombo(dtoUsuarioRec.getDtoDocumentoIden().getDtoTipoDocumento().getTipoDocumento().getIdTipoDocumento()
-							,dtoUsuarioRec.getDtoDocumentoIden().getDtoTipoDocumento().getTipoDocumento().getDescripcionDocumento()));
+				if(dtoUsuarioaModificar.getDtoDocumentoIden() != null){
+					jTextFieldDocIden.setText(dtoUsuarioaModificar.getDtoDocumentoIden().getDocumentoIdentificacion().getNumeroDocumento());
+					jComboBoxTipoDoc.setSelectedItem(new MostrarCombo(dtoUsuarioaModificar.getDtoDocumentoIden().getDtoTipoDocumento().getTipoDocumento().getIdTipoDocumento()
+							,dtoUsuarioaModificar.getDtoDocumentoIden().getDtoTipoDocumento().getTipoDocumento().getDescripcionDocumento()));
 				}
 				
 				/*****************************************
 				 * CARGAMOS LOS VALORES DEL CONTACTO
 				 *****************************************/
-				if(dtoUsuarioRec.getDtoContacto() != null){
-					if(dtoUsuarioRec.getDtoContacto().getContacto().getDomicilio() != null){
-						jTextFieldDirec.setText(dtoUsuarioRec.getDtoContacto().getContacto().getDomicilio());
+				if(dtoUsuarioaModificar.getDtoContacto() != null){
+					if(dtoUsuarioaModificar.getDtoContacto().getContacto().getDomicilio() != null){
+						jTextFieldDirec.setText(dtoUsuarioaModificar.getDtoContacto().getContacto().getDomicilio());
 					}
 					
-					if(dtoUsuarioRec.getDtoContacto().getContacto().getWeb() != null){
-						jTextFieldWebBlog.setText(dtoUsuarioRec.getDtoContacto().getContacto().getWeb());
+					if(dtoUsuarioaModificar.getDtoContacto().getContacto().getWeb() != null){
+						jTextFieldWebBlog.setText(dtoUsuarioaModificar.getDtoContacto().getContacto().getWeb());
 					}
 					
-					if(dtoUsuarioRec.getDtoContacto().getContacto().getEmail() != null){
-						jTextFieldEmail.setText(dtoUsuarioRec.getDtoContacto().getContacto().getEmail());
+					if(dtoUsuarioaModificar.getDtoContacto().getContacto().getEmail() != null){
+						jTextFieldEmail.setText(dtoUsuarioaModificar.getDtoContacto().getContacto().getEmail());
 					}
 					
-					if(dtoUsuarioRec.getDtoContacto().getContacto().getCp() != null){
-						jTextFieldCP.setText(dtoUsuarioRec.getDtoContacto().getContacto().getCp().toString());
+					if(dtoUsuarioaModificar.getDtoContacto().getContacto().getCp() != null){
+						jTextFieldCP.setText(dtoUsuarioaModificar.getDtoContacto().getContacto().getCp().toString());
 					}
 					
-					if(dtoUsuarioRec.getDtoContacto().getContacto().getLocalidad() != null){
-						jTextFieldLocalidad.setText(dtoUsuarioRec.getDtoContacto().getContacto().getLocalidad());
+					if(dtoUsuarioaModificar.getDtoContacto().getContacto().getLocalidad() != null){
+						jTextFieldLocalidad.setText(dtoUsuarioaModificar.getDtoContacto().getContacto().getLocalidad());
 					}
 					
-					if(dtoUsuarioRec.getDtoContacto().getDtoPais().getPais().getIdPais()!= null){
-						jComboBoxpais.setSelectedItem(new MostrarCombo(dtoUsuarioRec.getDtoContacto().getDtoPais().getPais().getIdPais(),
-								dtoUsuarioRec.getDtoContacto().getDtoPais().getPais().getNombrePais()));
+					if(dtoUsuarioaModificar.getDtoContacto().getDtoPais().getPais().getIdPais()!= null){
+						jComboBoxpais.setSelectedItem(new MostrarCombo(dtoUsuarioaModificar.getDtoContacto().getDtoPais().getPais().getIdPais(),
+								dtoUsuarioaModificar.getDtoContacto().getDtoPais().getPais().getNombrePais()));
 					}
 					jComboBoxSexo.setSelectedItem(new MostrarCombo(usuario.getSexo(),"F".equalsIgnoreCase(usuario.getSexo())?"Femenino":"Masculino"));
 				}
@@ -1109,17 +1122,17 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 				/*****************************************
 				 * CARGAMOS LOS VALORES DEL TELEFONO
 				 *****************************************/
-				if(dtoUsuarioRec.getDtoTelefono() != null){
+				if(dtoUsuarioaModificar.getDtoTelefono() != null){
 					
-					jComboBoxTipo.setSelectedItem(new MostrarCombo(dtoUsuarioRec.getDtoTelefono().getTelefono().getIdTipoTelefono(),
-							dtoUsuarioRec.getDtoTelefono().getDtoTipoTelefono().getTipoTelefono().getDescripcion()));
+					jComboBoxTipo.setSelectedItem(new MostrarCombo(dtoUsuarioaModificar.getDtoTelefono().getTelefono().getIdTipoTelefono(),
+							dtoUsuarioaModificar.getDtoTelefono().getDtoTipoTelefono().getTipoTelefono().getDescripcion()));
 					
-					if(dtoUsuarioRec.getDtoTelefono().getTelefono().getExtension()!= null && dtoUsuarioRec.getDtoTelefono().getTelefono().getExtension()!=-1){
-						jTextFieldExtension.setText(dtoUsuarioRec.getDtoTelefono().getTelefono().getExtension().toString());
+					if(dtoUsuarioaModificar.getDtoTelefono().getTelefono().getExtension()!= null && dtoUsuarioaModificar.getDtoTelefono().getTelefono().getExtension()!=-1){
+						jTextFieldExtension.setText(dtoUsuarioaModificar.getDtoTelefono().getTelefono().getExtension().toString());
 					}
 					
-					if(dtoUsuarioRec.getDtoTelefono().getTelefono().getTelefono()!= null){
-						jTextFieldTelefono.setText(dtoUsuarioRec.getDtoTelefono().getTelefono().getTelefono().toString());
+					if(dtoUsuarioaModificar.getDtoTelefono().getTelefono().getTelefono()!= null){
+						jTextFieldTelefono.setText(dtoUsuarioaModificar.getDtoTelefono().getTelefono().getTelefono().toString());
 					}
 				}
 			}

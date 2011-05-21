@@ -194,13 +194,13 @@ public class DaoUsuario extends DaoEntidad<Usuario>{
 			
 			StringBuffer sql = new StringBuffer();
 			sql.append("UPDATE usuario SET ");
-			if(objecte.getNombre() !=null) sql.append(" nombre = ?, ");
-			if(objecte.getApellidos() !=null) sql.append(" apellidos = ?, ");
-			if(objecte.getSexo() !=null) sql.append(" sexo = ?, ");
-			if(objecte.getFechaNacimiento() !=null) sql.append(" fecha_nacimiento = ?, ");
-			if(objecte.getMotivoEstado() !=null) sql.append(" motivo_estado = ?, ");
-			if(objecte.getIdCentro() !=null) sql.append(" id_centro = ?, ");
-			sql = new StringBuffer(sql.substring(0,sql.length()-1) +" WHERE codigo = ? ");
+			if(objecte.getNombre() !=null) sql.append(" nombre = ?,");
+			if(objecte.getApellidos() !=null) sql.append(" apellidos = ?,");
+			if(objecte.getSexo() !=null) sql.append(" sexo = ?,");
+			if(objecte.getFechaNacimiento() !=null) sql.append(" fecha_nacimiento = ?,");
+			if(objecte.getMotivoEstado() !=null) sql.append(" motivo_estado = ?,");
+			if(objecte.getIdCentro() !=null) sql.append(" id_centro = ?,");
+			sql = new StringBuffer(sql.substring(0,sql.length()-1) +" WHERE codigo = ?");
 			
 			ps = con.prepareStatement(sql.toString());
 			

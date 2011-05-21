@@ -110,14 +110,14 @@ public class DaoDatosBancarios  extends DaoEntidad<DatosBancarios>{
 			
 			StringBuffer sql = new StringBuffer();
 			sql.append("UPDATE DATOSBANCARIOS SET ");
-			if(objecte.getBanco() !=null) sql.append(" banco = ?, ");
-			if(objecte.getSucursal() !=null) sql.append(" sucursal = ?, ");
-			if(objecte.getDc() !=null) sql.append(" dc = ?, ");
-			if(objecte.getCc() !=null) sql.append(" cc = ?, ");
-			if(objecte.getFechaAlta() !=null) sql.append(" fecha_alta = ?, ");
-			if(objecte.getEstado() !=null) sql.append(" estado = ?, ");
-			if(objecte.getFechaEstado() !=null) sql.append(" fecha_estado = ?, ");
-			if(objecte.getMotivoEstado() !=null) sql.append(" motivo_estado = ?, ");
+			if(objecte.getBanco() !=null) sql.append(" banco = ?,");
+			if(objecte.getSucursal() !=null) sql.append(" sucursal = ?,");
+			if(objecte.getDc() !=null) sql.append(" dc = ?,");
+			if(objecte.getCc() !=null) sql.append(" cc = ?,");
+			if(objecte.getFechaAlta() !=null) sql.append(" fecha_alta = ?,");
+			if(objecte.getEstado() !=null) sql.append(" estado = ?,");
+			if(objecte.getFechaEstado() !=null) sql.append(" fecha_estado = ?,");
+			if(objecte.getMotivoEstado() !=null) sql.append(" motivo_estado = ?,");
 			
 			sql = new StringBuffer(sql.substring(0,sql.length()-1) +" WHERE id_datos_bancarios = ?");
 			
