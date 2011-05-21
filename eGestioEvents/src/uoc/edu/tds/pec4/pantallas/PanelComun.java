@@ -14,6 +14,7 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JButton;
+import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -32,6 +33,7 @@ public abstract class PanelComun extends JPanel  {
 	private static final long serialVersionUID = 1L; 
 	private Map<String,JButton> botones;
 	private Map<String,JTextField> cajas ;
+	private Map<String,JTextField> cajasPwd ;
 	private Map<String,JLabel> titulos;
 	private Map<String,JComboBox> combos;
 	private JTable tablaResultados = null;
@@ -47,6 +49,7 @@ public abstract class PanelComun extends JPanel  {
 		System.out.println("Constructor Panel Generico");
 		botones = new HashMap<String, JButton>();
 		cajas = new HashMap<String, JTextField>();
+		cajasPwd = new HashMap<String, JTextField>();
         titulos = new HashMap<String, JLabel>();
         combos = new HashMap<String, JComboBox>();
 		System.out.println("Variables inicializadas");
@@ -175,6 +178,42 @@ public abstract class PanelComun extends JPanel  {
 	protected void removeTextField(String name){
 		this.cajas.remove(name);
 	}
+	
+	
+	
+	/**
+	 * Constructor JPasswordField
+	 */	
+	
+	protected JPasswordField crearJPasswordField(Integer x,Integer y,Integer ancho, Integer alto,/*String clave,*/String nombre){
+		System.out.println("Creando JPasswordField......");
+		JPasswordField caja = new JPasswordField();
+		 caja.setBounds(new Rectangle(x, y, ancho, alto));
+		// caja.setText(TDSLanguageUtils.getMessage(clave));
+		 this.addJPasswordField(caja,nombre);
+		 return caja;
+	}
+	
+	
+	
+	protected void addJPasswordField(JTextField caja,String name){
+
+		this.cajasPwd.put(name,caja);
+		System.out.println("Anyadir JPasswordField al Panel......");
+		this.add(caja,null);
+		
+	}
+	
+	public JTextField findJPasswordField(String name){
+		return(this.cajasPwd.get(name));
+		
+	}
+	
+	protected void removeJPasswordField(String name){
+		this.cajasPwd.remove(name);
+	}
+	
+	
 	
 	/**
 	 * Constructor Titulo

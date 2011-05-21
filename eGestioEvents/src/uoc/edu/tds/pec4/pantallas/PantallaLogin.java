@@ -136,6 +136,7 @@ public class PantallaLogin extends JFrame {
 		bOK.addActionListener(new ActionListener() { public void actionPerformed(ActionEvent evt) { 
 			try {
 				validaFormulario();
+				connectRMI();
 				inicializarAplicacion();
 			} catch (MalformedURLException e) {
 				// TODO Auto-generated catch block
@@ -166,7 +167,6 @@ public class PantallaLogin extends JFrame {
 	 */
 	public void inicializarAplicacion() throws Exception,RemoteException, OperationErrorLogin,MalformedURLException,NotBoundException,OperationErrorBD {
 		try{
-			connectRMI();
 			if(!authenticate()){
 				throw new OperationErrorLogin("Contraseña incorrecta");
 			}
@@ -175,9 +175,9 @@ public class PantallaLogin extends JFrame {
 			aplicacion.setVisible(true);
 			Utils.mostraMensajeInformacion(panelPrincipal, "Usuario logineado correctamente", "Login usuario");
 		}catch(OperationErrorLogin oL){
-			oL.showDialogError(panelPrincipal);
+			oL.showDialogError();
 		}catch(OperationErrorRMI oL){
-			oL.showDialogError(panelPrincipal);
+			oL.showDialogError();
 		}
 	}
 	
@@ -197,8 +197,8 @@ public class PantallaLogin extends JFrame {
 			}
 		} catch (RemoteException e) {
 			throw new OperationErrorRMI(e.getMessage());
-		} catch(OperationErrorLogin e){
-			throw e;
+		} catch(OperationErrorLogin oL){
+			oL.showDialogError();
 		}
 		return false;
     }

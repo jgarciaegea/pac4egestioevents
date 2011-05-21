@@ -73,6 +73,7 @@ public class PantallaPrincipal extends JFrame {
 		DTOUsuario dtoUsuario = FactoriaUsuario.getUsuario(usuario.getTipoUsuario());
 		if(dtoUsuario instanceof DTOAdministrador){
 	        menuMantenimiento.setEnabled(true);
+	        menuConexion.setEnabled(true); //test
 		}else if(dtoUsuario instanceof DTOPersonalSecretaria){
 	        menuEstadisticas.setEnabled(true);
 	        menuConexion.setEnabled(true);
@@ -85,7 +86,7 @@ public class PantallaPrincipal extends JFrame {
 		} catch (Exception e) {
 			throw new OperationErrorDatosFormulario(e.getMessage());
 		}
-		throw new OperationErrorDatosFormulario("El tipo de usuario " + usuario.getTipoUsuario() + " no está contemplado");
+		//throw new OperationErrorDatosFormulario("El tipo de usuario " + usuario.getTipoUsuario() + " no está contemplado");
 	}
 
 	
@@ -113,7 +114,11 @@ public class PantallaPrincipal extends JFrame {
 	        
 	        // items menu Conexion
 	        
-	        cambioPwd = new JMenuItem(TDSLanguageUtils.getMessage("clientePEC4.framePrincipal.titulo.menu4.item1"));	    
+	        cambioPwd = new JMenuItem(TDSLanguageUtils.getMessage("clientePEC4.framePrincipal.titulo.menu4.item1"));
+	        cambioPwd.addActionListener(new ActionListener() { 
+	        	public void actionPerformed(ActionEvent evt) { 
+	        		showPanel(new PantallaCambioPassword(gestorRMI,remote,usuario)); 
+	        	} }); 
 	        inscripcionEvento = new JMenuItem(TDSLanguageUtils.getMessage("clientePEC4.framePrincipal.titulo.menu4.item2"));	   
 	        historicoEventos = new JMenuItem(TDSLanguageUtils.getMessage("clientePEC4.framePrincipal.titulo.menu4.item3"));	   
 	        validarAsistenciaEvento = new JMenuItem(TDSLanguageUtils.getMessage("clientePEC4.framePrincipal.titulo.menu4.item4"));
