@@ -12,6 +12,7 @@ import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
 import uoc.edu.tds.pec4.beans.Evento;
+import uoc.edu.tds.pec4.beans.EventoViewConsulta;
 import uoc.edu.tds.pec4.daos.DaoEvento;
 import uoc.edu.tds.pec4.dtos.DTOCentroDocente;
 import uoc.edu.tds.pec4.dtos.DTOEventoRequisitos;
@@ -122,4 +123,19 @@ public class GestorEvento extends GestorEntidad<DTOEvento>{
 			throw e;
 		}
 	}
+	
+	public List<EventoViewConsulta> consultaEventosUsuario(EventoViewConsulta criteris) throws Exception {
+		try{
+			DaoEvento dao = new DaoEvento(connection);		
+			List<EventoViewConsulta> lstEventoViewConsulta = dao.selectEventosUserByView(criteris);
+			if(lstEventoViewConsulta != null && lstEventoViewConsulta.size() > 0){
+				return lstEventoViewConsulta;
+			}
+		}catch(Exception e){
+			throw new Exception();
+		}
+		return null;
+	}
+	
+	
 }
