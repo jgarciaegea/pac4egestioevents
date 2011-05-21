@@ -130,6 +130,7 @@ public class GestorEvento extends GestorEntidad<DTOEvento>{
 			List<EventoViewConsulta> lstEventoViewConsulta = dao.selectEventosUserByView(criteris);
 			if(lstEventoViewConsulta != null && lstEventoViewConsulta.size() > 0){
 				return lstEventoViewConsulta;
+				// falta crear el DTO y devolverlo
 			}
 		}catch(Exception e){
 			throw new Exception();
