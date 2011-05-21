@@ -140,6 +140,9 @@ public interface RemoteInterface extends Remote{
 	 * @throws RemoteException
 	 * @throws OperationErrorLogin
 	 */
-	public Usuario loginUsuario(Usuario userLogin) throws RemoteException,OperationErrorLogin;
+	public abstract Usuario loginUsuario(Usuario userLogin) throws RemoteException,OperationErrorLogin;
+	
+	
+	public abstract void updatePassword(Usuario user) throws RemoteException,OperationErrorLogin;
 	
 }

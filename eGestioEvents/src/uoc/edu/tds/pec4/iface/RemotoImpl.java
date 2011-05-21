@@ -261,6 +261,16 @@ public class RemotoImpl extends UnicastRemoteObject implements RemoteInterface{
 			throw new OperationErrorLogin(e.getMessage());
 		}
 	}
+	
+	
+	public void updatePassword(Usuario user) throws RemoteException,OperationErrorLogin{
+		try{
+			GestorUsuario gestorUsuario = new GestorUsuario(gestorDB.getConnection());
+			gestorUsuario.updatePassword(user);
+		}catch(Exception e){
+			throw new OperationErrorLogin(e.getMessage());
+		}
+	}
 
 
 }
