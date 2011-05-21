@@ -18,6 +18,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
 
 import uoc.edu.tds.pec4.resources.TDSLanguageUtils;
 
@@ -38,6 +39,7 @@ public abstract class PanelComun extends JPanel  {
 	private Map<String,JComboBox> combos;
 	private JTable tablaResultados = null;
 	private JScrollPane panelScroll = null;
+	private DefaultTableModel dtm;
 	
 	/**
 	 * Constructor
@@ -246,12 +248,20 @@ public abstract class PanelComun extends JPanel  {
 		this.titulos.remove(name);
 	}
 	
-	protected void crearTabla(Integer x,Integer y, Integer ancho, Integer alto){
-		this.tablaResultados = new JTable();
-		this.panelScroll = new JScrollPane();
-		panelScroll.setBounds(new Rectangle(x, y, ancho, alto));		
+	protected void crearTabla(Integer x,Integer y, Integer ancho, Integer alto,String[] columnNames){
+		dtm=new DefaultTableModel();
+		{
+			for(int i=0;i<columnNames.length;i++){
+	        	dtm.addColumn(columnNames[i]);
+	        }
+			
+		}
+		this.tablaResultados = new JTable(dtm);
 		tablaResultados.setBounds(new Rectangle(x+10, y+10, ancho-30, alto-30));
-		this.add(tablaResultados,null);
+		this.panelScroll = new JScrollPane(tablaResultados);
+		panelScroll.setBounds(new Rectangle(x, y, ancho, alto));		
+		
+		//this.add(tablaResultados,null);
 		this.add(panelScroll,null);
 	}
 
