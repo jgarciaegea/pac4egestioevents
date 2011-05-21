@@ -50,6 +50,7 @@ public class PantallaLogin extends JFrame {
     private JTextField textoPwd;
 	private GestorRMI gestorRMI;
 	private RemoteInterface remote;
+	private Usuario usuario;
 
 	
 	public PantallaLogin(){
@@ -151,6 +152,9 @@ public class PantallaLogin extends JFrame {
 			} catch (OperationErrorLogin e) {
 				// TODO Auto-generated catch block
 				e.showDialogError();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}	} });
 		
 	}
@@ -160,13 +164,13 @@ public class PantallaLogin extends JFrame {
 	 * @throws RemoteException 
 	 * @throws OperationErrorLogin 
 	 */
-	public void inicializarAplicacion() throws RemoteException, OperationErrorLogin,MalformedURLException,NotBoundException,OperationErrorBD {
+	public void inicializarAplicacion() throws Exception,RemoteException, OperationErrorLogin,MalformedURLException,NotBoundException,OperationErrorBD {
 		try{
 			connectRMI();
 			if(!authenticate()){
 				throw new OperationErrorLogin("Contraseña incorrecta");
 			}
-			PantallaPrincipal aplicacion = new PantallaPrincipal(gestorRMI,remote);
+			PantallaPrincipal aplicacion = new PantallaPrincipal(gestorRMI,remote,usuario);
 			this.setVisible(false);
 			aplicacion.setVisible(true);
 			Utils.mostraMensajeInformacion(panelPrincipal, "Usuario logineado correctamente", "Login usuario");
@@ -183,11 +187,12 @@ public class PantallaLogin extends JFrame {
 	 */
     public boolean authenticate()  throws OperationErrorRMI, OperationErrorLogin {
     	try {
-    		Usuario usuario = new Usuario();
+    		usuario = new Usuario();
     		usuario.setCodigo(textoLogin.getText());
     		usuario.setContrasena(textoPwd.getText());
-    		Boolean loginOk = remote.loginUsuario(usuario);
-			if(loginOk.booleanValue()){
+    		Usuario usuarioEncontrado = remote.loginUsuario(usuario);
+    		usuario = usuarioEncontrado;
+			if(usuarioEncontrado!=null){
 				return true;
 			}
 		} catch (RemoteException e) {
