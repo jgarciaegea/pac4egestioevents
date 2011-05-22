@@ -44,17 +44,8 @@ public class PantallaInformeEventosAsistente extends PanelComun implements Panta
 		
 		this.crearTitulo(20, 60, 140, 20, "clientePEC4.panelInformeEventosAsistencia.titulo1.TipoEvento", "tTipoEvento");
 		
-		//Recuperamos los diferentes tipos de Evento
-		
-		List<DTOTipoEvento> lstdtoTipoEvento = remote.getTiposEventos();
-		List<MostrarCombo> lstComoTipoEvento = new ArrayList<MostrarCombo>();
-		for(DTOTipoEvento dtoTipoEventoRes : lstdtoTipoEvento){
-			lstComoTipoEvento.add(new MostrarCombo(dtoTipoEventoRes.getTipoEvento().getEstado(),
-					dtoTipoEventoRes.getTipoEvento().getDescripcion()));
-		}
-		
-		
-		this.crearCombo(160, 60, 200, 20, "comboTipoEvento", lstComoTipoEvento);
+	
+		this.crearCombo(160, 60, 200, 20, "comboTipoEvento", recuperarTiposEvento());
 		
 		this.crearTitulo(20, 90, 80, 20, "clientePEC4.panelInformeEventosAsistencia.titulo1.FechaDesde", "tFechaDesde");
 		this.crearTextField(100, 90, 90, 20,"cajaFechaDeste");
@@ -65,6 +56,19 @@ public class PantallaInformeEventosAsistente extends PanelComun implements Panta
 
 		this.crearTabla(20, 150, 700, 300,columnNames);
 
+	}
+	
+	private  List<MostrarCombo> recuperarTiposEvento() throws RemoteException, OperationErrorBD{
+		
+		List<DTOTipoEvento> lstdtoTipoEvento = remote.getTiposEventos();
+		List<MostrarCombo> lstComoTipoEvento = new ArrayList<MostrarCombo>();
+		for(DTOTipoEvento dtoTipoEventoRes : lstdtoTipoEvento){
+			lstComoTipoEvento.add(new MostrarCombo(dtoTipoEventoRes.getTipoEvento().getEstado(),
+					dtoTipoEventoRes.getTipoEvento().getDescripcion()));
+		
+		
+		}
+		return lstComoTipoEvento;
 	}
 
 }
