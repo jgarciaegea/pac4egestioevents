@@ -1,11 +1,15 @@
 package uoc.edu.tds.pec4.pantallas;
 
+import java.awt.Color;
 import java.awt.Component;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.rmi.RemoteException;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -101,6 +105,15 @@ public class PantallaPrincipal extends JFrame {
 			System.out.println("Creando Objecto Menu Bar");
 			panelPrincipal = new JPanel();
 			super.getContentPane().add(panelPrincipal);
+			
+			//Crear el logo eGestioEvents en la pantalla principal
+			//panelPrincipal.setLayout(new GridLayout(3, 3));
+			panelPrincipal.setBackground(Color.white);
+			JLabel logo = new JLabel("",JLabel.CENTER);
+	        ImageIcon fondo = new ImageIcon("images/eGestio.jpg");
+			logo.setIcon(fondo);
+	        //panelPrincipal.add(logo,Component.CENTER_ALIGNMENT);      
+			panelPrincipal.add(logo);
 			
 	        barraMenu = new JMenuBar();
 	        menuMantenimiento = new JMenu(TDSLanguageUtils.getMessage("clientePEC4.framePrincipal.titulo.menu1"));
