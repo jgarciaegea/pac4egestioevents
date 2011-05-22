@@ -84,7 +84,7 @@ public class GestorDisco {
 		}
 	}	
 	
-	public void rollback() throws OperationErrorBD{
+	public synchronized void rollback() throws OperationErrorBD{
 		try{
 			connection.rollback();
 		}catch(SQLException e){
