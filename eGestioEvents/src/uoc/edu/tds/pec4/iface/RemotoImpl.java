@@ -13,6 +13,8 @@ import uoc.edu.tds.pec4.beans.TipoTelefono;
 import uoc.edu.tds.pec4.beans.Universidad;
 import uoc.edu.tds.pec4.beans.Usuario;
 import uoc.edu.tds.pec4.dtos.DTOCentroDocente;
+import uoc.edu.tds.pec4.dtos.DTOEvento;
+import uoc.edu.tds.pec4.dtos.DTOEventoCalendario;
 import uoc.edu.tds.pec4.dtos.DTOInscripcion;
 import uoc.edu.tds.pec4.dtos.DTOPais;
 import uoc.edu.tds.pec4.dtos.DTOTipoDocumento;
@@ -29,6 +31,7 @@ import uoc.edu.tds.pec4.gestores.GestorContacto;
 import uoc.edu.tds.pec4.gestores.GestorDatosBancarios;
 import uoc.edu.tds.pec4.gestores.GestorDisco;
 import uoc.edu.tds.pec4.gestores.GestorDocumentoIdentificacion;
+import uoc.edu.tds.pec4.gestores.GestorEvento;
 import uoc.edu.tds.pec4.gestores.GestorInscripcion;
 import uoc.edu.tds.pec4.gestores.GestorPais;
 import uoc.edu.tds.pec4.gestores.GestorTelefono;
@@ -282,9 +285,12 @@ public class RemotoImpl extends UnicastRemoteObject implements RemoteInterface{
 	/*
 	 * Tratamiento de Inscripciones
 	 */
-	/*
+	/**
 	 * Una vez finalizado el Evento se podr‡ notificar que el asistente ha asistido
 	 * al evento mediante la realizaci—n del check-IN de su inscripci—n. 
+	 * @param inscripcion
+	 * @throws RemoteException
+	 * @throws OperationErrorLogin
 	 */
 	public void checkIN(DTOInscripcion inscripcion) throws RemoteException,OperationErrorLogin{
 		try{
@@ -295,15 +301,59 @@ public class RemotoImpl extends UnicastRemoteObject implements RemoteInterface{
 		}
 	}
 	
-	/*
+	/**
 	 * A efectos de error, que podamos desmarcar la asistencia a un evento del asistente.
-	 */	
+	 * @param inscripcion
+	 * @throws RemoteException
+	 * @throws OperationErrorLogin
+	 */
 	public void checkOUT(DTOInscripcion inscripcion) throws RemoteException,OperationErrorLogin{
 		try{
 			GestorInscripcion gestorInscripcion = new GestorInscripcion(gestorDB.getConnection());
 			gestorInscripcion.checkOUT(inscripcion);
 		}catch(Exception e){
 			throw new OperationErrorLogin(e.getMessage());
+		}
+	}
+
+	/*
+	 * Tratamiento de Eventos
+	 */
+	
+	/**
+	 * Retorna la informaci—n de eventos que cumplen los requisitos segun los valores de dtoEventoCalendario
+	 * @param dtoEventoCalendario
+	 * @return
+	 * @throws RemoteException
+	 * @throws OperationErrorBD
+	 */
+	public List<DTOEventoCalendario> getEventosCalendario(
+			DTOEventoCalendario dtoEventoCalendario) throws RemoteException,
+			OperationErrorBD {
+		try{
+			System.out.println("Recuperando eventos.....");
+			GestorEvento gestorEvento = new GestorEvento(gestorDB.getConnection());
+			return gestorEvento.getEventosCalendario(dtoEventoCalendario);
+		}catch(Exception e){
+			throw new OperationErrorBD("Error al recuperar la informaci— de los eventos del calendario.....");
+		}
+	}
+
+	/**
+	 * Pasa un evento a estado cancelado
+	 * @param dtoEvento
+	 * @throws RemoteException
+	 * @throws OperationErrorBD
+	 */
+	@Override
+	public void bajaEvento(DTOEvento dtoEvento) throws RemoteException,
+			OperationErrorBD {
+		try{
+			System.out.println("Damos de baja el evento.....");
+			GestorEvento gestorEvento = new GestorEvento(gestorDB.getConnection());
+			gestorEvento.eliminaEntidad(dtoEvento);
+		}catch(Exception e){
+			throw new OperationErrorBD("Error al dar de baja el evento......");
 		}
 	}
 }

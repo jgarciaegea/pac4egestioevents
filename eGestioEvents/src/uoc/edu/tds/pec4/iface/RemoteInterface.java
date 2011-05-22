@@ -6,6 +6,8 @@ import java.util.List;
 
 import uoc.edu.tds.pec4.beans.Usuario;
 import uoc.edu.tds.pec4.dtos.DTOCentroDocente;
+import uoc.edu.tds.pec4.dtos.DTOEvento;
+import uoc.edu.tds.pec4.dtos.DTOEventoCalendario;
 import uoc.edu.tds.pec4.dtos.DTOInscripcion;
 import uoc.edu.tds.pec4.dtos.DTOPais;
 import uoc.edu.tds.pec4.dtos.DTOTipoDocumento;
@@ -174,4 +176,24 @@ public interface RemoteInterface extends Remote{
 	 */
 	public void checkOUT(DTOInscripcion inscripcion) throws RemoteException,OperationErrorLogin;
 	
+	/*
+	 * Tratamiento de Eventos
+	 */
+	
+	/**
+	 * Retorna la informaci—n de eventos que cumplen los requisitos segun los valores de dtoEventoCalendario
+	 * @param dtoEventoCalendario
+	 * @return
+	 * @throws RemoteException
+	 * @throws OperationErrorBD
+	 */
+	public List<DTOEventoCalendario> getEventosCalendario(DTOEventoCalendario dtoEventoCalendario) throws RemoteException, OperationErrorBD;
+	
+	/**
+	 * Pasa un evento a estado cancelado
+	 * @param dtoEvento
+	 * @throws RemoteException
+	 * @throws OperationErrorBD
+	 */
+	public void bajaEvento(DTOEvento dtoEvento) throws RemoteException, OperationErrorBD;
 }

@@ -14,6 +14,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import uoc.edu.tds.pec4.beans.Evento;
+import uoc.edu.tds.pec4.beans.EventoCalendario;
 import uoc.edu.tds.pec4.beans.EventoViewConsulta;
 import uoc.edu.tds.pec4.utils.Constantes;
 
@@ -264,7 +265,56 @@ public class DaoEvento extends DaoEntidad<Evento>{
 		return evento;
 	}
 	
-	
+	public List<EventoCalendario> selectEventosCalendario(EventoCalendario criteris)throws Exception {
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		List<EventoCalendario> lstEventoCalendario = new ArrayList<EventoCalendario>();
+		try{
+			StringBuffer sb = new StringBuffer();
+//			sb.append("SELECT id_evento, id_centro, id_universidad, evento, fecha_inicio_celebracion, umbral, centrodocente, universidad, estado");
+			sb.append(" SELECT id_evento, evento, fecha_inicio_celebracion, umbral, centrodocente, universidad, estado, eventoCancelado, eventoFinalizado ");
+			sb.append(" FROM v_consulta_eventos_calendario ");
+			sb.append(" WHERE (1=1) ");
+			if(criteris.getIdCentroDocente() !=null) sb.append("AND id_centro = ? ");
+			if(criteris.getIdUniversidad() !=null) sb.append("AND id_universidad = ? ");		
+			if(criteris.getFechaInicioCelebracion() != null) sb.append("AND fecha_inicio_celebracion >=  ? ");
+			if(criteris.getFechaFinCelebracion() != null) sb.append("AND fecha_fin_celebracion <=  ? ");
+			if(criteris.getEstado() != null) sb.append("AND estado =  ? ");
+			if(criteris.getEventoFinalizado() != null) sb.append("AND eventoFinalizado =  ? ");
+					
+			sb.append(" order by fecha_inicio_celebracion, evento");
+			
+			ps = con.prepareStatement(sb.toString(), ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
+			
+			int i=1;
+			if(criteris.getIdCentroDocente()!=null) {ps.setInt(i, criteris.getIdCentroDocente()); i++;}
+			if(criteris.getIdUniversidad()!=null) {ps.setInt(i, criteris.getIdUniversidad()); i++;}
+			if(criteris.getFechaInicioCelebracion() != null){ps.setDate(i, criteris.getFechaInicioCelebracion()); i++;}			
+			if(criteris.getFechaFinCelebracion() != null){ps.setDate(i, criteris.getFechaFinCelebracion()); i++;}
+			if(criteris.getEstado()!=null) {ps.setInt(i, criteris.getEstado()); i++;}
+			if(criteris.getEventoFinalizado()!=null) {ps.setBoolean(i, criteris.getEventoFinalizado()); i++;}
+			
+			System.out.println(ps.toString());
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				EventoCalendario eventoCalendario = new EventoCalendario();
+				eventoCalendario.setIdEvento(rs.getInt("id_evento"));
+				eventoCalendario.setNombre(rs.getString("evento"));
+				eventoCalendario.setFechaInicioCelebracion(rs.getDate("fecha_inicio_celebracion"));
+				eventoCalendario.setUmbral(rs.getInt("umbral"));
+				eventoCalendario.setUniversidad(rs.getString("universidad"));
+				eventoCalendario.setCentroDocente(rs.getString("centrodocente"));
+				eventoCalendario.setEventoCancelado(rs.getBoolean("eventoCancelado"));
+				eventoCalendario.setEventoFinalizado(rs.getBoolean("eventoFinalizado"));
+				lstEventoCalendario.add(eventoCalendario);
+			}		
+			return (lstEventoCalendario.isEmpty() || lstEventoCalendario.size() == 0) ? null:lstEventoCalendario;
+		}catch(Exception e){
+			throw new Exception(e.getMessage());
+		} finally {
+			close(ps,rs);
+		}
+	}
 	
 
 }

@@ -56,3 +56,22 @@ CREATE SEQUENCE seq_evento
   CACHE 1;
 ALTER TABLE seq_evento OWNER TO tdp;
 ALTER TABLE EVENTO ALTER COLUMN id_evento SET DEFAULT nextval('seq_evento'::regclass);
+
+CREATE OR REPLACE VIEW v_consulta_eventos_calendario AS 
+ SELECT evento.id_evento, evento.id_centro, universidad.id_universidad, evento.nombre AS evento, evento.fecha_inicio_celebracion, 
+	evento.fecha_fin_celebracion, evento.umbral, centrodocente.nombre AS centrodocente, universidad.nombre AS universidad, evento.estado,
+	case when evento.estado = 3 then true
+	else false
+	end as eventoCancelado, 
+	case when evento.estado = 3 then false
+	else 
+		case when evento.fecha_fin_celebracion < current_date then true
+		else false
+		end
+	end as eventoFinalizado
+   FROM evento, centrodocente, universidad
+  WHERE evento.id_centro = centrodocente.id_centro AND centrodocente.id_universidad = universidad.id_universidad;
+
+ALTER TABLE v_consulta_eventos_calendario OWNER TO tdp;
+COMMENT ON VIEW v_consulta_eventos_calendario IS 'Gestiona la información necesaria para poder filtrar dentro de la gestión del calendario de eventos';
+

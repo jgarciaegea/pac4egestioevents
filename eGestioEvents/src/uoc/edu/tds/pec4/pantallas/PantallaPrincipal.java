@@ -2,7 +2,6 @@ package uoc.edu.tds.pec4.pantallas;
 
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.rmi.RemoteException;
@@ -50,6 +49,9 @@ public class PantallaPrincipal extends JFrame {
 	private JMenuItem informeEventos;
 	private JMenuItem altaUsuario;
 	private JMenuItem consultaUsuario;
+    // items eventos y inscripciones
+	private JMenuItem calendarioEventos;
+	private JMenuItem consultaInscripciones;
 	private JMenuItem acercaDe;
 	private JPanel panelPrincipal;
 	private GestorRMI gestorRMI;
@@ -83,6 +85,7 @@ public class PantallaPrincipal extends JFrame {
 		if(dtoUsuario instanceof DTOAdministrador){
 	        menuMantenimiento.setEnabled(true);
 	        menuConexion.setEnabled(true); //test
+	        menuProgramacionEvento.setEnabled(true); //test
 		}else if(dtoUsuario instanceof DTOPersonalSecretaria){
 	        menuEstadisticas.setEnabled(true);
 	        menuConexion.setEnabled(true);
@@ -191,6 +194,14 @@ public class PantallaPrincipal extends JFrame {
 	        		p.show();
 	        	} }); 
 	        
+	        // items eventos y inscripciones
+	        calendarioEventos = new JMenuItem("Calendario de Eventos");
+	        calendarioEventos.addActionListener(new ActionListener() { 
+	        	public void actionPerformed(ActionEvent evt) { 
+	        		showPanel(new PantallaCalendarioEventos(gestorRMI,remote)); 
+	        	} }); 
+	        consultaInscripciones = new JMenuItem("Consulta de Inscripciones");
+	        
 	        menuConexion.add(cambioPwd);
 	        menuConexion.add(inscripcionEvento);
 	        menuConexion.add(historicoEventos);
@@ -203,7 +214,10 @@ public class PantallaPrincipal extends JFrame {
 	        
 	        menuMantenimiento.add(altaUsuario);
 	        menuMantenimiento.add(consultaUsuario);
-	        
+
+	        menuProgramacionEvento.add(calendarioEventos);
+	        menuProgramacionEvento.add(consultaInscripciones);
+
 	        menuAyuda.add(acercaDe);
 	        
 	        barraMenu.add(menuMantenimiento);

@@ -9,12 +9,15 @@ package uoc.edu.tds.pec4.gestores;
  */
 
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import uoc.edu.tds.pec4.beans.Evento;
+import uoc.edu.tds.pec4.beans.EventoCalendario;
 import uoc.edu.tds.pec4.beans.EventoViewConsulta;
 import uoc.edu.tds.pec4.daos.DaoEvento;
 import uoc.edu.tds.pec4.dtos.DTOCentroDocente;
+import uoc.edu.tds.pec4.dtos.DTOEventoCalendario;
 import uoc.edu.tds.pec4.dtos.DTOEventoRequisitos;
 import uoc.edu.tds.pec4.dtos.DTOEventoRolPlazas;
 import uoc.edu.tds.pec4.dtos.DTOEvento;
@@ -47,30 +50,10 @@ public class GestorEvento extends GestorEntidad<DTOEvento>{
 			if(lstEvento != null && lstEvento.size() > 0){
 				List<DTOEvento> lstDTOEvento = new ArrayList<DTOEvento>();
 				for(Evento evento : lstEvento){
-					
 					//A–adimos Evento
 					DTOEvento dtoEvento = new DTOEvento();
 					dtoEvento.setEvento(evento);
-
-					//A–adimos el CentroDocente
-					GestorCentroDocente gestorCentroDocente = new GestorCentroDocente(connection);
-					DTOCentroDocente dtoCentroDocente = gestorCentroDocente.consultaEntidadById(evento.getIdEvento());
-					if(dtoCentroDocente != null) dtoEvento.setDtoCentroDocente(dtoCentroDocente);
-
-					//A–adimos el TipoEvento
-					GestorTipoEvento gestorTipoEvento = new GestorTipoEvento(connection);
-					DTOTipoEvento dtoTipoEvento = gestorTipoEvento.consultaEntidadById(evento.getIdTipoEvento());
-					if(dtoTipoEvento != null) dtoEvento.setDtoTipoEvento(dtoTipoEvento);
-					
-					//A–adimos el EventoRequisitos
-					GestorEventoRequisitos gestorEventoRequisitos = new GestorEventoRequisitos(connection);
-					List<DTOEventoRequisitos> dtoEventoRequisitos = gestorEventoRequisitos.consultaEntidadById(evento.getIdEvento());
-					if(dtoEventoRequisitos != null) dtoEvento.setDtoEventoRequisitos(dtoEventoRequisitos);
-					
-					//A–adimos el EventoRequisitos
-					GestorEventoRolPlazas gestorEventoRolPlazas = new GestorEventoRolPlazas(connection);
-					List<DTOEventoRolPlazas> dtoEventoRolPlazas = gestorEventoRolPlazas.consultaEntidadesById(evento.getIdEvento());
-					if(dtoEventoRolPlazas != null) dtoEvento.setDtoEventoRolPlazas(dtoEventoRolPlazas);
+					rellenaObjeto(dtoEvento);
 
 					lstDTOEvento.add(dtoEvento);
 				}
@@ -80,6 +63,38 @@ public class GestorEvento extends GestorEntidad<DTOEvento>{
 			throw new Exception();
 		}
 		return null;
+	}
+
+	/*
+	 * Rellenamos la información genérica para todos los tipos de objeto DTOUsario
+	 * en este caso es el centro Docente, el contacto y el documento de identificación
+	 */
+	private void rellenaObjeto (DTOEvento dtoEvento) throws Exception{
+		try{
+			//A–adimos el CentroDocente
+			if(dtoEvento.getEvento().getIdCentro() != null){
+				GestorCentroDocente gestorCentroDocente = new GestorCentroDocente(connection);
+				DTOCentroDocente dtoCentroDocente = gestorCentroDocente.consultaEntidadById(dtoEvento.getEvento().getIdEvento());
+				if(dtoCentroDocente != null) dtoEvento.setDtoCentroDocente(dtoCentroDocente);
+			}
+			//A–adimos el TipoEvento
+			if(dtoEvento.getEvento().getIdTipoEvento() != null){
+				GestorTipoEvento gestorTipoEvento = new GestorTipoEvento(connection);
+				DTOTipoEvento dtoTipoEvento = gestorTipoEvento.consultaEntidadById(dtoEvento.getEvento().getIdTipoEvento());
+				if(dtoTipoEvento != null) dtoEvento.setDtoTipoEvento(dtoTipoEvento);
+			}
+			//A–adimos el EventoRequisitos
+			GestorEventoRequisitos gestorEventoRequisitos = new GestorEventoRequisitos(connection);
+			List<DTOEventoRequisitos> dtoEventoRequisitos = gestorEventoRequisitos.consultaEntidadById(dtoEvento.getEvento().getIdEvento());
+			if(dtoEventoRequisitos != null) dtoEvento.setDtoEventoRequisitos(dtoEventoRequisitos);
+			
+			//A–adimos el EventoRequisitos
+			GestorEventoRolPlazas gestorEventoRolPlazas = new GestorEventoRolPlazas(connection);
+			List<DTOEventoRolPlazas> dtoEventoRolPlazas = gestorEventoRolPlazas.consultaEntidadesById(dtoEvento.getEvento().getIdEvento());
+			if(dtoEventoRolPlazas != null) dtoEvento.setDtoEventoRolPlazas(dtoEventoRolPlazas);
+		}catch(Exception e){
+			throw new SQLException();
+		}
 	}
 
 	public DTOEvento consultaEntidadById(Integer idEvento)  throws Exception {
@@ -138,5 +153,27 @@ public class GestorEvento extends GestorEntidad<DTOEvento>{
 		return null;
 	}
 	
-	
+	public List<DTOEventoCalendario> getEventosCalendario(DTOEventoCalendario criteris) throws Exception {
+		try{
+			
+			DaoEvento dao = new DaoEvento(connection);		
+			List<EventoCalendario> lstEventoCalendario = dao.selectEventosCalendario(criteris.getEventoCalendario());
+			if(lstEventoCalendario != null && lstEventoCalendario.size() > 0){
+				List<DTOEventoCalendario> lstDtoEventoCalendario = new ArrayList<DTOEventoCalendario>();
+				for(EventoCalendario eventoCalendario : lstEventoCalendario){
+					//A–adimos Evento
+					DTOEventoCalendario dtoEventoCalendario = new DTOEventoCalendario();
+					dtoEventoCalendario.setEvento(eventoCalendario);
+					dtoEventoCalendario.setEventoCalendario(eventoCalendario);
+					rellenaObjeto(dtoEventoCalendario);
+					
+					lstDtoEventoCalendario.add(dtoEventoCalendario);
+				}
+				return lstDtoEventoCalendario;
+			}
+		}catch(Exception e){
+			throw new Exception();
+		}
+		return null;
+	}
 }
