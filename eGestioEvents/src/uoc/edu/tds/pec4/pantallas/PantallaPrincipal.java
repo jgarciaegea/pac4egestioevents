@@ -115,7 +115,7 @@ public class PantallaPrincipal extends JFrame {
 	        panelPrincipal.add(logo,Component.BOTTOM_ALIGNMENT);      
 			panelPrincipal.add(logo);
 			
-	        barraMenu = new JMenuBar();
+			barraMenu = new JMenuBar();
 	        menuMantenimiento = new JMenu(TDSLanguageUtils.getMessage("clientePEC4.framePrincipal.titulo.menu1"));
 	        menuMantenimiento.setEnabled(false);
 	        menuEstadisticas = new JMenu(TDSLanguageUtils.getMessage("clientePEC4.framePrincipal.titulo.menu2"));
