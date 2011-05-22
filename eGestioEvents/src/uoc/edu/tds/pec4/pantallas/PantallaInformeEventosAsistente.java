@@ -6,6 +6,8 @@ package uoc.edu.tds.pec4.pantallas;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
+
+import uoc.edu.tds.pec4.beans.Usuario;
 import uoc.edu.tds.pec4.dtos.DTOTipoEvento;
 import uoc.edu.tds.pec4.excepciones.OperationErrorBD;
 import uoc.edu.tds.pec4.gestores.GestorRMI;
@@ -21,19 +23,24 @@ public class PantallaInformeEventosAsistente extends PanelComun implements Panta
 	private static final long serialVersionUID = 1L; 
 	private RemoteInterface remote;
 	private String[] columnNames = {"Universidad ","Centro ","Evento", "Tipo Evento", "Fecha inicio", "Fecha fin", "Cerrado" , "Estado "};
+	private Usuario usuario;
 
 	/**
 	 * @throws OperationErrorBD 
 	 * @throws RemoteException 
 	 * 
 	 */
-	public PantallaInformeEventosAsistente(GestorRMI gestorRMI,RemoteInterface remote1) throws RemoteException, OperationErrorBD {
+	public PantallaInformeEventosAsistente(GestorRMI gestorRMI,RemoteInterface remote1,Usuario usu) throws RemoteException, OperationErrorBD {
 		
 		super("clientePEC4.panelInformeEventosAsistencia.titulo",800,700);
 		remote = remote1;
+		usuario = usu;
 		
 		this.crearTitulo(20, 30, 140, 20, "clientePEC4.panelInformeEventosAsistencia.titulo1.Asistente", "tAsistente");
 		this.crearTextField(160, 30, 200, 20,"cajaAsistente");
+		this.findTextField("cajaAsistente").setText(usuario.getApellidos() + ", "+ usuario.getNombre());
+		this.findTextField("cajaAsistente").setEditable(false);
+		
 		
 		this.crearTitulo(20, 60, 140, 20, "clientePEC4.panelInformeEventosAsistencia.titulo1.TipoEvento", "tTipoEvento");
 		
