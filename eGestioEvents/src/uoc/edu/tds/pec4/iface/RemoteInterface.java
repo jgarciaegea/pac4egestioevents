@@ -16,7 +16,6 @@ import uoc.edu.tds.pec4.dtos.DTOUniversidad;
 import uoc.edu.tds.pec4.dtos.DTOUsuario;
 import uoc.edu.tds.pec4.excepciones.OperationErrorBD;
 import uoc.edu.tds.pec4.excepciones.OperationErrorLogin;
-import uoc.edu.tds.pec4.gestores.GestorInscripcion;
 
 public interface RemoteInterface extends Remote{
 	
