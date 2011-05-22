@@ -51,6 +51,7 @@ public class PantallaLogin extends JFrame {
 	private GestorRMI gestorRMI;
 	private RemoteInterface remote;
 	private Usuario usuario;
+	public static final String CLIENT = "CLIENT";
 
 	
 	public PantallaLogin(){
@@ -124,6 +125,13 @@ public class PantallaLogin extends JFrame {
 
 	public void generaEventosPantallaLogin(){
 		
+		
+		bCANCEL.addActionListener(new ActionListener() { public void actionPerformed(ActionEvent evt) { 	
+			if (JOptionPane.showConfirmDialog(PantallaLogin.this,TDSLanguageUtils.getMessage("ClientePEC4.cerrar"), null, JOptionPane.YES_NO_OPTION) == 0){
+				System.exit(0);
+			}
+			} });
+		
 		addWindowListener(new java.awt.event.WindowAdapter() {
 			public void windowClosing(java.awt.event.WindowEvent e) {
 				if (JOptionPane.showConfirmDialog(PantallaLogin.this,TDSLanguageUtils.getMessage("ClientePEC4.cerrar"), null, JOptionPane.YES_NO_OPTION) == 0){
@@ -168,12 +176,12 @@ public class PantallaLogin extends JFrame {
 	public void inicializarAplicacion() throws Exception,RemoteException, OperationErrorLogin,MalformedURLException,NotBoundException,OperationErrorBD {
 		try{
 			if(!authenticate()){
-				throw new OperationErrorLogin("Contraseña incorrecta");
+				throw new OperationErrorLogin(TDSLanguageUtils.getMessage("clientePEC4.error.login1"));
 			}
 			PantallaPrincipal aplicacion = new PantallaPrincipal(gestorRMI,remote,usuario);
-			this.setVisible(false);
+			this.removeAll();
 			aplicacion.setVisible(true);
-			Utils.mostraMensajeInformacion(panelPrincipal, "Usuario logineado correctamente", "Login usuario");
+			//Utils.mostraMensajeInformacion(panelPrincipal, "Usuario logineado correctamente", "Login usuario");
 		}catch(OperationErrorLogin oL){
 			oL.showDialogError();
 		}catch(OperationErrorRMI oL){
