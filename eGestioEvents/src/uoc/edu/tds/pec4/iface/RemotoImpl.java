@@ -79,8 +79,8 @@ public class RemotoImpl extends UnicastRemoteObject implements RemoteInterface{
 			Integer idContacto = gestorContacto.insertaEntidadRetId(dtoUsuario.getDtoContacto());
 			
 			GestorTelefono gestorTelefono = new GestorTelefono(gestorDB.getConnection());
-			dtoUsuario.getDtoTelefono().getTelefono().setIdContacto(idContacto);
-			gestorTelefono.insertaEntidad(dtoUsuario.getDtoTelefono());
+			dtoUsuario.getDtoContacto().getDtoTelefono().getTelefono().setIdContacto(idContacto);
+			gestorTelefono.insertaEntidad(dtoUsuario.getDtoContacto().getDtoTelefono());
 			
 			System.out.println("Contacto insertado correctamente");
 			
@@ -139,7 +139,7 @@ public class RemotoImpl extends UnicastRemoteObject implements RemoteInterface{
 			
 			//Modificamos telefono
 			GestorTelefono gestorTelefono = new GestorTelefono(gestorDB.getConnection());
-			gestorTelefono.modificaEntidad(dtoUsuario.getDtoTelefono());
+			gestorTelefono.modificaEntidad(dtoUsuario.getDtoContacto().getDtoTelefono());
 			
 			//Modificamos documentoIdentificación
 			GestorDocumentoIdentificacion gestorDocumIden = new GestorDocumentoIdentificacion(gestorDB.getConnection());
@@ -387,11 +387,11 @@ public class RemotoImpl extends UnicastRemoteObject implements RemoteInterface{
 			Integer idContacto = gestorContacto.insertaEntidadRetId(dtoCentroDocente.getDtoContacto());
 			
 			//Insertamos la universidad
-			GestorUniversidad gestorUniversidad = new GestorUniversidad(gestorDB.getConnection());
-			Integer idUniversidad = gestorUniversidad.insertaEntidadRetId(dtoCentroDocente.getDtoUniversidad());
+			//GestorUniversidad gestorUniversidad = new GestorUniversidad(gestorDB.getConnection());
+			//Integer idUniversidad = gestorUniversidad.insertaEntidadRetId(dtoCentroDocente.getDtoUniversidad());
 			
 			dtoCentroDocente.getCentroDocente().setIdContacto(idContacto);
-			dtoCentroDocente.getCentroDocente().setIdUniversidad(idUniversidad);
+			//dtoCentroDocente.getCentroDocente().setIdUniversidad(idUniversidad);
 			
 			GestorCentroDocente gestorCentroDocente = new GestorCentroDocente(gestorDB.getConnection());
 			gestorCentroDocente.insertaEntidad(dtoCentroDocente);

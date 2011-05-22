@@ -45,7 +45,7 @@ public class GestorTelefono extends GestorEntidad<DTOTelefono>{
 					
 					GestorContacto gestorContacto = new GestorContacto(connection);
 					DTOContacto dtoContacto = gestorContacto.consultaEntidadById(telefono.getIdContacto());
-					if(dtoContacto != null) dtoTelefono.setDtoContacto(dtoContacto);
+					if(dtoContacto != null) dtoTelefono.setContacto(dtoContacto.getContacto());
 					
 					lstDtoTelfs.add(dtoTelefono);
 				}

@@ -196,4 +196,12 @@ public interface RemoteInterface extends Remote{
 	 * @throws OperationErrorBD
 	 */
 	public void bajaEvento(DTOEvento dtoEvento) throws RemoteException, OperationErrorBD;
+	
+	/**
+	 * Insertamos un centro docente
+	 * @param dtoCentroDocente
+	 * @throws RemoteException
+	 * @throws OperationErrorBD
+	 */
+	public void insertaCentroDocente(DTOCentroDocente dtoCentroDocente) throws RemoteException, OperationErrorBD;
 }

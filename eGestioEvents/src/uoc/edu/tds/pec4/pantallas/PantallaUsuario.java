@@ -978,7 +978,7 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 		if(modificacion){
 			//MUY IMPORTANTE EL ID DEL TELEFONO Y DEL CONTACTO SE HA DE DE RELLENAR DEL QUE PASAMOS PARA CONSULTAR. Digamos que es como si fuera un campo hidden
 			telefono.setIdContacto(dtoUsuarioaModificar.getUsuario().getIdContacto());
-			telefono.setIdTelefono(dtoUsuarioaModificar.getDtoTelefono().getTelefono().getIdTelefono());
+			telefono.setIdTelefono(dtoUsuarioaModificar.getDtoContacto().getDtoTelefono().getTelefono().getIdTelefono());
 		}
 		dtoTelefono.setTelefono(telefono);
 		
@@ -1029,8 +1029,8 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 		try{
 			dtoUsuario.setUsuario(usuario);
 			dtoUsuario.setDtoContacto(dtoContacto);
+			dtoContacto.setDtoTelefono(dtoTelefono);
 			dtoUsuario.setDtoDocumentoIden(dtoDocumentoIden);
-			dtoUsuario.setDtoTelefono(dtoTelefono);
 		}catch(Exception e){
 			throw e;
 		}
@@ -1135,21 +1135,21 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 				/*****************************************
 				 * CARGAMOS LOS VALORES DEL TELEFONO
 				 *****************************************/
-				if(dtoUsuarioaModificar.getDtoTelefono() != null){
+				if(dtoUsuarioaModificar.getDtoContacto().getDtoTelefono() != null){
 					
-					jComboBoxTipo.setSelectedItem(new MostrarCombo(dtoUsuarioaModificar.getDtoTelefono().getTelefono().getIdTipoTelefono(),
-							dtoUsuarioaModificar.getDtoTelefono().getDtoTipoTelefono().getTipoTelefono().getDescripcion()));
+					jComboBoxTipo.setSelectedItem(new MostrarCombo(dtoUsuarioaModificar.getDtoContacto().getDtoTelefono().getDtoTelefono().getDtoTipoTelefono().getTipoTelefono().getIdTipoTelefono(),
+							dtoUsuarioaModificar.getDtoContacto().getDtoTelefono().getDtoTipoTelefono().getTipoTelefono().getDescripcion()));
 					
-					if(dtoUsuarioaModificar.getDtoTelefono().getTelefono().getExtension()!= null && dtoUsuarioaModificar.getDtoTelefono().getTelefono().getExtension()!=-1){
-						jTextFieldExtension.setText(dtoUsuarioaModificar.getDtoTelefono().getTelefono().getExtension().toString());
+					if(dtoUsuarioaModificar.getDtoContacto().getDtoTelefono().getTelefono().getExtension()!= null && dtoUsuarioaModificar.getDtoContacto().getDtoTelefono().getTelefono().getExtension()!=-1){
+						jTextFieldExtension.setText(dtoUsuarioaModificar.getDtoContacto().getDtoTelefono().getTelefono().getExtension().toString());
 					}
 					
-					if(dtoUsuarioaModificar.getDtoTelefono().getTelefono().getTelefono()!= null){
-						jTextFieldTelefono.setText(dtoUsuarioaModificar.getDtoTelefono().getTelefono().getTelefono().toString());
+					if(dtoUsuarioaModificar.getDtoContacto().getDtoTelefono().getTelefono().getTelefono()!= null){
+						jTextFieldTelefono.setText(dtoUsuarioaModificar.getDtoContacto().getDtoTelefono().getTelefono().getTelefono().toString());
 					}
 					
-					if(dtoUsuarioaModificar.getDtoTelefono().getTelefono().getPrefijoPais()!= null){
-						jTextFieldPrefijo.setText(dtoUsuarioaModificar.getDtoTelefono().getTelefono().getPrefijoPais());
+					if(dtoUsuarioaModificar.getDtoContacto().getDtoTelefono().getTelefono().getPrefijoPais()!= null){
+						jTextFieldPrefijo.setText(dtoUsuarioaModificar.getDtoContacto().getDtoTelefono().getTelefono().getPrefijoPais());
 					}
 				}
 			}

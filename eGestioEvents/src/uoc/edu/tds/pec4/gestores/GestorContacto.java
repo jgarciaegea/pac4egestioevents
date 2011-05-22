@@ -8,6 +8,7 @@ import uoc.edu.tds.pec4.beans.Contacto;
 import uoc.edu.tds.pec4.daos.DaoContacto;
 import uoc.edu.tds.pec4.dtos.DTOContacto;
 import uoc.edu.tds.pec4.dtos.DTOPais;
+import uoc.edu.tds.pec4.dtos.DTOTelefono;
 
 public class GestorContacto extends GestorEntidad<DTOContacto>{
 
@@ -40,6 +41,11 @@ public class GestorContacto extends GestorEntidad<DTOContacto>{
 					//Añadimos contrato
 					DTOContacto dtoCon = new DTOContacto();
 					dtoCon.setContacto(contacto);
+					
+					//Añadimos el telefono si tiene
+					GestorTelefono gestorTelefono = new GestorTelefono(connection);
+					DTOTelefono dtoTelefono = gestorTelefono.consultaEntidadById(contacto.getIdContacto());
+					if(dtoTelefono != null) dtoCon.setDtoTelefono(dtoTelefono);
 					
 					//Añadimos el país
 					GestorPais gestorPais = new GestorPais(connection);

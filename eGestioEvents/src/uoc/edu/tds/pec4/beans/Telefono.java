@@ -3,7 +3,7 @@ package uoc.edu.tds.pec4.beans;
 import java.io.Serializable;
 import java.sql.Date;
 
-public class Telefono implements BeanInterface, Serializable{
+public class Telefono extends Contacto implements BeanInterface, Serializable{
 
 	private static final long serialVersionUID = 1L;
 	
@@ -16,7 +16,6 @@ public class Telefono implements BeanInterface, Serializable{
 	private Date fechaEstado;
 	private String motivoEstado;
 	private Integer idTipoTelefono;
-	private Integer idContacto;
 	
 	public Integer getIdTelefono() {
 		return idTelefono;
@@ -67,12 +66,7 @@ public class Telefono implements BeanInterface, Serializable{
 	public void setIdTipoTelefono(Integer idTipoTelefono) {
 		this.idTipoTelefono = idTipoTelefono;
 	}
-	public Integer getIdContacto() {
-		return idContacto;
-	}
-	public void setIdContacto(Integer idContacto) {
-		this.idContacto = idContacto;
-	}
+	
 	public Integer getExtension() {
 		return extension;
 	}

@@ -176,7 +176,7 @@ public class GestorUsuario  extends GestorEntidad<DTOUsuario>{
 				
 				GestorTelefono gestorTelefono = new GestorTelefono(connection);
 				DTOTelefono dtoTelefono = gestorTelefono.consultaEntidadById(dtoUsuario.getUsuario().getIdContacto());
-				if(dtoTelefono != null) dtoUsuario.setDtoTelefono(dtoTelefono);
+				if(dtoTelefono != null) dtoUsuario.getDtoContacto().setDtoTelefono(dtoTelefono);
 				
 			}
 			

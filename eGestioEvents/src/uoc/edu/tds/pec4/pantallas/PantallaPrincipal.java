@@ -163,7 +163,7 @@ public class PantallaPrincipal extends JFrame {
 	        validarAsistenciaEvento = new JMenuItem(TDSLanguageUtils.getMessage("clientePEC4.framePrincipal.titulo.menu4.item4"));
 	        validarAsistenciaEvento.addActionListener(new ActionListener() { 
 	        	public void actionPerformed(ActionEvent evt) { 
-	        		showPanel(new PantallaAsistencia(gestorRMI,remote,usuario)); 
+	        		//showPanel(new PantallaAsistencia(gestorRMI,remote,usuario)); 
 	        	} }); 
 	        
 	     // items estadisticas
@@ -224,6 +224,8 @@ public class PantallaPrincipal extends JFrame {
 	        
 	        menuMantenimiento.add(altaUsuario);
 	        menuMantenimiento.add(consultaUsuario);
+	        menuMantenimiento.add(altaCentroDocente);
+	        menuMantenimiento.add(consultaCentroDocente);
 
 	        menuProgramacionEvento.add(calendarioEventos);
 	        menuProgramacionEvento.add(consultaInscripciones);
