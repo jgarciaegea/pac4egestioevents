@@ -50,6 +50,7 @@ public class PantallaPrincipal extends JFrame {
 	private JMenuItem informeEventos;
 	private JMenuItem altaUsuario;
 	private JMenuItem consultaUsuario;
+	private JMenuItem acercaDe;
 	private JPanel panelPrincipal;
 	private GestorRMI gestorRMI;
 	private RemoteInterface remote;
@@ -107,12 +108,11 @@ public class PantallaPrincipal extends JFrame {
 			super.getContentPane().add(panelPrincipal);
 			
 			//Crear el logo eGestioEvents en la pantalla principal
-			//panelPrincipal.setLayout(new GridLayout(3, 3));
 			panelPrincipal.setBackground(Color.white);
 			JLabel logo = new JLabel("",JLabel.CENTER);
 	        ImageIcon fondo = new ImageIcon("images/eGestio.jpg");
 			logo.setIcon(fondo);
-	        //panelPrincipal.add(logo,Component.CENTER_ALIGNMENT);      
+	        panelPrincipal.add(logo,Component.BOTTOM_ALIGNMENT);      
 			panelPrincipal.add(logo);
 			
 	        barraMenu = new JMenuBar();
@@ -182,7 +182,14 @@ public class PantallaPrincipal extends JFrame {
 	        	public void actionPerformed(ActionEvent evt) { 
 	        		showPanel(new PantallaUsuarioConsulta(gestorRMI,remote)); 
 	        	} }); 
-
+	        //Ayuda
+	        acercaDe = new JMenuItem("Acerca de eGestioEvents");
+	        
+	        acercaDe.addActionListener(new ActionListener() { 
+	        	public void actionPerformed(ActionEvent evt) { 
+	        		PantallaAcercaDe p = new PantallaAcercaDe();
+	        		p.show();
+	        	} }); 
 	        
 	        menuConexion.add(cambioPwd);
 	        menuConexion.add(inscripcionEvento);
@@ -196,6 +203,8 @@ public class PantallaPrincipal extends JFrame {
 	        
 	        menuMantenimiento.add(altaUsuario);
 	        menuMantenimiento.add(consultaUsuario);
+	        
+	        menuAyuda.add(acercaDe);
 	        
 	        barraMenu.add(menuMantenimiento);
 	        barraMenu.add(menuEstadisticas);
