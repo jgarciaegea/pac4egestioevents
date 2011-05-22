@@ -9,6 +9,7 @@ public class DTOContacto implements DTOInterface, Serializable{
 	
 	private Contacto contacto;
 	private DTOPais dtoPais;
+	private DTOTelefono dtoTelefono;
 	
 	public Contacto getContacto() {
 		return contacto;
@@ -21,6 +22,12 @@ public class DTOContacto implements DTOInterface, Serializable{
 	}
 	public void setDtoPais(DTOPais dtoPais) {
 		this.dtoPais = dtoPais;
+	}
+	public DTOTelefono getDtoTelefono() {
+		return dtoTelefono;
+	}
+	public void setDtoTelefono(DTOTelefono dtoTelefono) {
+		this.dtoTelefono = dtoTelefono;
 	}
 	
 }
