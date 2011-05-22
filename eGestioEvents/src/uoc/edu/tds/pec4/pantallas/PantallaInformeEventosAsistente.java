@@ -32,7 +32,7 @@ public class PantallaInformeEventosAsistente extends PanelComun implements Panta
 	 */
 	public PantallaInformeEventosAsistente(GestorRMI gestorRMI,RemoteInterface remote1,Usuario usu) throws RemoteException, OperationErrorBD {
 		
-		super("clientePEC4.panelInformeEventosAsistencia.titulo",800,700);
+		super("clientePEC4.panelInformeEventosAsistencia.titulo",800,500);
 		remote = remote1;
 		usuario = usu;
 		
@@ -54,7 +54,12 @@ public class PantallaInformeEventosAsistente extends PanelComun implements Panta
 		this.crearTextField(300, 90, 90, 20,"cajaFechaHasta");
 		
 
+
 		this.crearTabla(20, 150, 700, 300,columnNames);
+		
+		this.crearBoton(50, 500, 80, 40, "clientePEC4.panelInformeEventosAsistencia.boton.bBuscar","bBuscar");
+		
+		this.crearBoton(160, 500, 80, 40, "clientePEC4.panelInformeEventosAsistencia.boton.bCancel", "bCancel");
 
 	}
 	
