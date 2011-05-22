@@ -9,6 +9,7 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
+import uoc.edu.tds.pec4.beans.Usuario;
 import uoc.edu.tds.pec4.gestores.GestorRMI;
 import uoc.edu.tds.pec4.iface.RemoteInterface;
 
@@ -25,16 +26,18 @@ public class PantallaAsistencia extends PanelComun implements Pantallas{
 	 */
 	private static final long serialVersionUID = 1L; 
 	private RemoteInterface remote;
+	private Usuario usuario;
 	
 	/**
 	 * Constructor
 	 */
 	
 	
-	public PantallaAsistencia(GestorRMI gestorRMI,RemoteInterface remote1) {
+	public PantallaAsistencia(GestorRMI gestorRMI,RemoteInterface remote1,Usuario usuario1) {
 
 		super("clientePEC4.panelAsistencia.titulo",300,500);
 		remote = remote1;
+		usuario = usuario1;
 		try {
 			remote.testConexion();
 		} catch (RemoteException e1) {
