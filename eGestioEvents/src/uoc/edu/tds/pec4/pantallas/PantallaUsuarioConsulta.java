@@ -437,6 +437,7 @@ public class PantallaUsuarioConsulta extends javax.swing.JPanel implements Panta
 	 * Vamos a la pantalla de usuario
 	 */
 	private void goPantallaUsuario(DTOUsuario dtoUsuario){
+		
 		this.setBorder(null);
 		this.removeAll();
 		this.setAlignmentX(LEFT_ALIGNMENT);
