@@ -56,7 +56,7 @@ public class PantallaPrincipal extends JFrame {
 	private JPanel panelPrincipal;
 	private GestorRMI gestorRMI;
 	private RemoteInterface remote;
-	private  Usuario usuario;
+	private Usuario usuario;
 	
 	public PantallaPrincipal(GestorRMI gestorRMI,RemoteInterface remote,Usuario usuario1){
        try {
@@ -149,7 +149,7 @@ public class PantallaPrincipal extends JFrame {
 	        historicoEventos.addActionListener(new ActionListener() { 
 	        	public void actionPerformed(ActionEvent evt) { 
 	        		try {
-						showPanel(new PantallaInformeEventosAsistente(gestorRMI,remote));
+						showPanel(new PantallaInformeEventosAsistente(gestorRMI,remote,usuario));
 					} catch (RemoteException e) {
 						e.printStackTrace();
 					} catch (OperationErrorBD e) {
@@ -161,7 +161,7 @@ public class PantallaPrincipal extends JFrame {
 	        validarAsistenciaEvento = new JMenuItem(TDSLanguageUtils.getMessage("clientePEC4.framePrincipal.titulo.menu4.item4"));
 	        validarAsistenciaEvento.addActionListener(new ActionListener() { 
 	        	public void actionPerformed(ActionEvent evt) { 
-	        		showPanel(new PantallaAsistencia(gestorRMI,remote)); 
+	        		showPanel(new PantallaAsistencia(gestorRMI,remote,usuario)); 
 	        	} }); 
 	        
 	     // items estadisticas
