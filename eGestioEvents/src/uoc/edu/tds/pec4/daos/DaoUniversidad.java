@@ -53,6 +53,7 @@ public class DaoUniversidad extends DaoEntidad<Universidad>{
 			if(criteris.getEstado() !=null) sb.append("AND estado = ? ");
 			if(criteris.getFechaEstado() !=null) sb.append("AND fecha_estado = ? ");
 			if(criteris.getMotivoEstado() !=null) sb.append("AND motivo_estado = ? ");
+			sb.append("order by nombre ");
 			
 			ps = con.prepareStatement(sb.toString(), ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
 			

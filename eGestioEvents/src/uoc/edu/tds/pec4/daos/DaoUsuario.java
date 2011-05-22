@@ -41,7 +41,7 @@ public class DaoUsuario extends DaoEntidad<Usuario>{
 			ps.setString(8, Base64Coder.encodeString(objecte.getContrasena()));
 			ps.setBoolean(9, objecte.getCambiarContrasena());
 			ps.setInt(10, Constantes.REGISTRO_ACTIVO);
-			ps.setDate(11,objecte.getFechaEstado());
+			ps.setDate(11, new java.sql.Date(System.currentTimeMillis()));
 			ps.setString(12, objecte.getMotivoEstado());
 			ps.setInt(13, objecte.getTipoUsuario());
 			ps.setInt(14, objecte.getIdRol());
