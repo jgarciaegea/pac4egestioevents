@@ -6,6 +6,7 @@ import java.util.List;
 
 import uoc.edu.tds.pec4.beans.Usuario;
 import uoc.edu.tds.pec4.dtos.DTOCentroDocente;
+import uoc.edu.tds.pec4.dtos.DTOInscripcion;
 import uoc.edu.tds.pec4.dtos.DTOPais;
 import uoc.edu.tds.pec4.dtos.DTOTipoDocumento;
 import uoc.edu.tds.pec4.dtos.DTOTipoEvento;
@@ -15,6 +16,7 @@ import uoc.edu.tds.pec4.dtos.DTOUniversidad;
 import uoc.edu.tds.pec4.dtos.DTOUsuario;
 import uoc.edu.tds.pec4.excepciones.OperationErrorBD;
 import uoc.edu.tds.pec4.excepciones.OperationErrorLogin;
+import uoc.edu.tds.pec4.gestores.GestorInscripcion;
 
 public interface RemoteInterface extends Remote{
 	
@@ -144,5 +146,36 @@ public interface RemoteInterface extends Remote{
 	
 	
 	public abstract void updatePassword(Usuario user) throws RemoteException,OperationErrorLogin;
+	
+	
+	/*
+	 ********************************************************************************
+	 ****************************** Subsistema de Eventos ***************************
+	 ********************************************************************************
+	 */
+	
+	/*
+	 * Tratamiento de Inscripciones
+	 */
+
+	/**
+	 * Una vez finalizado el Evento se podr‡ notificar que el asistente ha asistido
+	 * al evento mediante la realizaci—n del check-IN de su inscripci—n. 
+	 * @param inscripcion
+	 * @throws RemoteException
+	 * @throws OperationErrorLogin
+	 */
+	public void checkIN(DTOInscripcion inscripcion) throws RemoteException, OperationErrorLogin;
+	
+	/*
+	 * 
+	 */	
+	/**
+	 * A efectos de error, que podamos desmarcar la asistencia a un evento del asistente.
+	 * @param inscripcion
+	 * @throws RemoteException
+	 * @throws OperationErrorLogin
+	 */
+	public void checkOUT(DTOInscripcion inscripcion) throws RemoteException,OperationErrorLogin;
 	
 }
