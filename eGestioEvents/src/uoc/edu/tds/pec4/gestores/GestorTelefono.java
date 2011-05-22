@@ -6,7 +6,6 @@ import java.util.List;
 
 import uoc.edu.tds.pec4.beans.Telefono;
 import uoc.edu.tds.pec4.daos.DaoTelefono;
-import uoc.edu.tds.pec4.dtos.DTOContacto;
 import uoc.edu.tds.pec4.dtos.DTOTelefono;
 import uoc.edu.tds.pec4.dtos.DTOTipoTelefono;
 
@@ -42,10 +41,6 @@ public class GestorTelefono extends GestorEntidad<DTOTelefono>{
 					GestorTipoTelefono gestorTipoTelefono = new GestorTipoTelefono(connection);
 					DTOTipoTelefono dtoTipoTelefono = gestorTipoTelefono.consultaEntidadById(telefono.getIdTipoTelefono());
 					if(dtoTipoTelefono != null) dtoTelefono.setDtoTipoTelefono(dtoTipoTelefono);
-					
-					GestorContacto gestorContacto = new GestorContacto(connection);
-					DTOContacto dtoContacto = gestorContacto.consultaEntidadById(telefono.getIdContacto());
-					if(dtoContacto != null) dtoTelefono.setContacto(dtoContacto.getContacto());
 					
 					lstDtoTelfs.add(dtoTelefono);
 				}
