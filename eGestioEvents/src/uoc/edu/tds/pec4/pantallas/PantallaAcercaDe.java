@@ -21,7 +21,7 @@ class PantallaAcercaDe extends JDialog {
 	JButton aceptar = new JButton("Aceptar");
 
 	JPanel principal = new JPanel(new BorderLayout());
-	JPanel info = new JPanel(new GridLayout(3, 1));
+	JPanel info = new JPanel(new GridLayout(7, 1));
 	JPanel boton = new JPanel(new FlowLayout());
 
 
@@ -29,6 +29,7 @@ class PantallaAcercaDe extends JDialog {
 	public PantallaAcercaDe(){
 		super(new Frame(), "Acerca de...", true);
 
+		//getContentPane().setLayout(new GridLayout(3, 1));
 		//AGREGAMOS AL PANEL info, LAS TRES ETIQUETAS QUE CREAMOS
 		info.add(programa);
 		info.add(autor);
@@ -43,6 +44,7 @@ class PantallaAcercaDe extends JDialog {
 		principal.add("Center", info);
 		principal.add("South", boton);
 
+		
 		getContentPane().add(principal);
 		pack();
 
