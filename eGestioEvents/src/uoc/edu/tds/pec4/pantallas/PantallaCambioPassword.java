@@ -3,6 +3,7 @@
  */
 package uoc.edu.tds.pec4.pantallas;
 
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.rmi.RemoteException;
@@ -58,7 +59,7 @@ public class PantallaCambioPassword extends PanelComun implements Pantallas{
 		
 		this.crearBoton(50, 160, 80, 40, "clientePEC4.panelCambioPassword.boton.bOK","bOK");
 		this.crearBoton(160, 160, 80, 40, "clientePEC4.panelCambioPassword.boton.bCancel", "bCancel");
-	
+		this.setAlignmentX(RIGHT_ALIGNMENT);
 		generaEventos();
 		
 		
@@ -137,5 +138,16 @@ public class PantallaCambioPassword extends PanelComun implements Pantallas{
 		}
 			
 	}
+	
+	public void borrarPanel(){
+		this.setBorder(null);
+		this.removeAll();
+		this.setAlignmentX(LEFT_ALIGNMENT);
+		this.setAlignmentY(TOP_ALIGNMENT);
+		this.repaint();
+		this.revalidate();
+		this.updateUI();
+	}
+	
 	
 }
