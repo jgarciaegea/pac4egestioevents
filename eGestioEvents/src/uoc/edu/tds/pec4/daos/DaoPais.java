@@ -31,6 +31,7 @@ public class DaoPais extends DaoEntidad<Pais>{
 			sb.append("WHERE (1=1) ");
 			if(criteris.getIdPais()!=null) sb.append("AND id_pais = ? ");
 			if(criteris.getNombrePais() !=null) sb.append("AND nombre_pais = ? ");
+			sb.append("order by nombre_pais");
 			
 			ps = con.prepareStatement(sb.toString(), ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
 			
