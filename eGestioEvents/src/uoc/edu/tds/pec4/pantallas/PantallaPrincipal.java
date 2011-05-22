@@ -49,6 +49,8 @@ public class PantallaPrincipal extends JFrame {
 	private JMenuItem informeEventos;
 	private JMenuItem altaUsuario;
 	private JMenuItem consultaUsuario;
+	private JMenuItem altaCentroDocente;
+	private JMenuItem consultaCentroDocente;
     // items eventos y inscripciones
 	private JMenuItem calendarioEventos;
 	private JMenuItem consultaInscripciones;
@@ -175,6 +177,8 @@ public class PantallaPrincipal extends JFrame {
 	        
 	        altaUsuario = new JMenuItem("Alta usuario");
 	        consultaUsuario = new JMenuItem("Consulta usuario");
+	        altaCentroDocente = new JMenuItem("Alta centro docente");
+	        consultaCentroDocente = new JMenuItem("Consulta centro docente");
 	        
 	        altaUsuario.addActionListener(new ActionListener() { 
 	        	public void actionPerformed(ActionEvent evt) { 
@@ -185,6 +189,12 @@ public class PantallaPrincipal extends JFrame {
 	        	public void actionPerformed(ActionEvent evt) { 
 	        		showPanel(new PantallaUsuarioConsulta(gestorRMI,remote)); 
 	        	} }); 
+	        
+	        altaCentroDocente.addActionListener(new ActionListener() { 
+	        	public void actionPerformed(ActionEvent evt) { 
+	        		showPanel(new PantallaCentroDocente(gestorRMI,remote)); 
+	        	} }); 
+	        
 	        //Ayuda
 	        acercaDe = new JMenuItem("Acerca de eGestioEvents");
 	        
