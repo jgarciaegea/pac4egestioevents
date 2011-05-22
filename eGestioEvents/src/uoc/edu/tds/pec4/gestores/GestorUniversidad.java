@@ -57,9 +57,24 @@ public class GestorUniversidad extends GestorEntidad<DTOUniversidad>{
 	}
 
 	@Override
-	public void insertaEntidad(DTOUniversidad newobject) {
-		throw new UnsupportedOperationException("Método no implementado");
+	public void insertaEntidad(DTOUniversidad newobject) throws Exception {
+		try {
+			DaoUniversidad dao = new DaoUniversidad(connection);
+			dao.insert(newobject.getUniversidad());
+		} catch (Exception e) {
+			throw new Exception(e.getMessage());
+		}
 	}
+	
+	public Integer insertaEntidadRetId(DTOUniversidad newobject) throws Exception {
+		try {
+			DaoUniversidad dao = new DaoUniversidad(connection);
+			return dao.insertReturnId(newobject.getUniversidad());
+		} catch (Exception e) {
+			throw e;
+		}
+	}
+	
 
 	@Override
 	public void modificaEntidad(DTOUniversidad criteris) throws Exception {

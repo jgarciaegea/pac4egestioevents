@@ -16,8 +16,13 @@ public class GestorCentroDocente extends GestorEntidad<DTOCentroDocente>{
 	}
 
 	@Override
-	public void insertaEntidad(DTOCentroDocente newobject) {
-		throw new UnsupportedOperationException("Método no implementado");
+	public void insertaEntidad(DTOCentroDocente newobject) throws Exception {
+		try {
+			DaoCentroDocente dao = new DaoCentroDocente(connection);
+			dao.insert(newobject.getCentroDocente());
+		} catch (Exception e) {
+			throw new Exception(e.getMessage());
+		}
 	}
 
 	@Override

@@ -76,9 +76,21 @@ public class GestorDisco {
 		return connection;
 	}
 	
-	public boolean isClosedConnection() throws OperationErrorBD, SQLException {
-		return (connection == null || connection.isClosed());
+	public boolean isClosedConnection() throws OperationErrorBD {
+		try {
+			return (connection == null || connection.isClosed());
+		} catch (SQLException e) {
+			throw new OperationErrorBD(e.getMessage());
+		}
 	}	
+	
+	public void rollback() throws OperationErrorBD{
+		try{
+			connection.rollback();
+		}catch(SQLException e){
+			throw new OperationErrorBD("Error al realizar el rollback");
+		}
+    }
 	
 	
 }

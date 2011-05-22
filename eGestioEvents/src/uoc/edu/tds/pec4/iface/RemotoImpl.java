@@ -72,6 +72,8 @@ public class RemotoImpl extends UnicastRemoteObject implements RemoteInterface{
 	public String insertaUsuario(DTOUsuario dtoUsuario) throws RemoteException, OperationErrorBD {
 		try {
 			
+			gestorDB.getConnection().setAutoCommit(false);
+			
 			//Insertamos en contacto
 			GestorContacto gestorContacto = new GestorContacto(gestorDB.getConnection());
 			Integer idContacto = gestorContacto.insertaEntidadRetId(dtoUsuario.getDtoContacto());
@@ -101,9 +103,12 @@ public class RemotoImpl extends UnicastRemoteObject implements RemoteInterface{
 			gestorUsuario.insertaEntidad(dtoUsuario);
 			System.out.println("Usuario insertado correctamente: " + dtoUsuario.getUsuario().getCodigo());
 			
+			gestorDB.getConnection().commit();
+			
 			return dtoUsuario.getUsuario().getCodigo();
 			
 		} catch (Exception e) {
+			gestorDB.rollback();
 			throw new OperationErrorBD("Error al insertar el usuario: " + e.getMessage());
 		}
 		
@@ -111,10 +116,13 @@ public class RemotoImpl extends UnicastRemoteObject implements RemoteInterface{
 	
 	public void bajaUsuario(DTOUsuario dtoUsuario) throws RemoteException, OperationErrorBD {
 		try{
+			gestorDB.getConnection().setAutoCommit(false);
 			System.out.println("damos de baja el usuario.....");
 			GestorUsuario gestorUsuario = new GestorUsuario(gestorDB.getConnection());
 			gestorUsuario.eliminaEntidad(dtoUsuario);
+			gestorDB.getConnection().commit();
 		}catch(Exception e){
+			gestorDB.rollback();
 			throw new OperationErrorBD("Error al recuperar la información de los usuarios......");
 		}
 		
@@ -123,7 +131,7 @@ public class RemotoImpl extends UnicastRemoteObject implements RemoteInterface{
 	public void modificaUsuario(DTOUsuario dtoUsuario) throws RemoteException, OperationErrorBD {
 		try{
 			
-			//Añade información añadida
+			gestorDB.getConnection().setAutoCommit(false);
 			
 			//Modificamos contacto
 			GestorContacto gestorContacto = new GestorContacto(gestorDB.getConnection());
@@ -147,7 +155,10 @@ public class RemotoImpl extends UnicastRemoteObject implements RemoteInterface{
 			GestorUsuario gestorUsuario = new GestorUsuario(gestorDB.getConnection());
 			gestorUsuario.modificaEntidad(dtoUsuario);
 			
+			gestorDB.getConnection().commit();
+			
 		}catch(Exception e){
+			gestorDB.rollback();
 			throw new OperationErrorBD("Error al recuperar la información de los usuarios......");
 		}
 		
@@ -155,6 +166,7 @@ public class RemotoImpl extends UnicastRemoteObject implements RemoteInterface{
 	
 	public List<DTOTipoDocumento> getTiposDocumento() throws RemoteException, OperationErrorBD {
 		try{
+			
 			GestorTipoDocumento gestorTipoDocumento = new GestorTipoDocumento(gestorDB.getConnection());
 			DTOTipoDocumento dtoTipoDoc = new DTOTipoDocumento();
 			TipoDocumento tipoDocumento = new TipoDocumento();
@@ -270,9 +282,16 @@ public class RemotoImpl extends UnicastRemoteObject implements RemoteInterface{
 	
 	public void updatePassword(Usuario user) throws RemoteException,OperationErrorLogin{
 		try{
+			gestorDB.getConnection().setAutoCommit(false);
 			GestorUsuario gestorUsuario = new GestorUsuario(gestorDB.getConnection());
 			gestorUsuario.updatePassword(user);
+			gestorDB.getConnection().commit();
 		}catch(Exception e){
+			try {
+				gestorDB.rollback();
+			} catch (OperationErrorBD e1) {
+				throw new OperationErrorLogin(e.getMessage());
+			}
 			throw new OperationErrorLogin(e.getMessage());
 		}
 	}
@@ -345,15 +364,45 @@ public class RemotoImpl extends UnicastRemoteObject implements RemoteInterface{
 	 * @throws RemoteException
 	 * @throws OperationErrorBD
 	 */
-	@Override
-	public void bajaEvento(DTOEvento dtoEvento) throws RemoteException,
-			OperationErrorBD {
+	public void bajaEvento(DTOEvento dtoEvento) throws RemoteException, OperationErrorBD {
 		try{
+			gestorDB.getConnection().setAutoCommit(false);
 			System.out.println("Damos de baja el evento.....");
 			GestorEvento gestorEvento = new GestorEvento(gestorDB.getConnection());
 			gestorEvento.eliminaEntidad(dtoEvento);
+			gestorDB.getConnection().commit();
 		}catch(Exception e){
+			gestorDB.rollback();
 			throw new OperationErrorBD("Error al dar de baja el evento......");
 		}
 	}
+	
+	public void insertaCentroDocente(DTOCentroDocente dtoCentroDocente) throws RemoteException, OperationErrorBD {
+		try {
+			
+			gestorDB.getConnection().setAutoCommit(false);
+			
+			//Insertamos en contacto
+			GestorContacto gestorContacto = new GestorContacto(gestorDB.getConnection());
+			Integer idContacto = gestorContacto.insertaEntidadRetId(dtoCentroDocente.getDtoContacto());
+			
+			//Insertamos la universidad
+			GestorUniversidad gestorUniversidad = new GestorUniversidad(gestorDB.getConnection());
+			Integer idUniversidad = gestorUniversidad.insertaEntidadRetId(dtoCentroDocente.getDtoUniversidad());
+			
+			dtoCentroDocente.getCentroDocente().setIdContacto(idContacto);
+			dtoCentroDocente.getCentroDocente().setIdUniversidad(idUniversidad);
+			
+			GestorCentroDocente gestorCentroDocente = new GestorCentroDocente(gestorDB.getConnection());
+			gestorCentroDocente.insertaEntidad(dtoCentroDocente);
+			
+			gestorDB.getConnection().commit();
+			
+		} catch (Exception e) {
+			gestorDB.rollback();
+			throw new OperationErrorBD("Error al insertar el usuario: " + e.getMessage());
+		}
+		
+	}
+	
 }

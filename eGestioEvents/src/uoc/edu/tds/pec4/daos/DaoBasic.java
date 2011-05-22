@@ -5,6 +5,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import uoc.edu.tds.pec4.excepciones.OperationErrorBD;
+
 public class DaoBasic {
 	
 	protected Connection con = null;
@@ -24,12 +26,8 @@ public class DaoBasic {
      */
 	protected final void close(ResultSet rs) {
         try {
-            if (rs != null) {
-                rs.close();
-            }
-        } catch (Exception e) {
-        	e.printStackTrace();
-        }
+            if (rs != null)  rs.close();
+        } catch (Exception e) { e.printStackTrace(); }
     }
 
     /**
@@ -38,19 +36,14 @@ public class DaoBasic {
      */
 	protected final void close(Statement statement) {
         try {
-            if (statement != null) {
-                statement.close();
-            }
-        } catch (Exception e) {
-        	e.printStackTrace();
-        }
+            if (statement != null) statement.close();
+        } catch (Exception e) { e.printStackTrace(); }
     }	
 	
 	protected final java.sql.Date getDateSql(java.util.Date valor) {
 		if(valor!=null) {
 			return new java.sql.Date(valor.getTime());
-		}
-		else {
+		}else {
 			return null;
 		}
 	}
@@ -61,7 +54,7 @@ public class DaoBasic {
 	 * @return
 	 * @throws Exception
 	 */
-	protected Integer retornaIdGenerado(String secuencia) throws Exception{
+	protected Integer retornaIdGenerado(String secuencia) throws OperationErrorBD{
 		Statement stmt = null;
 		ResultSet rs = null;
 		try {
@@ -72,7 +65,7 @@ public class DaoBasic {
 			    return rs.getInt(1);
 			 }
         } catch (SQLException e) {
-        	throw new Exception(e.getMessage());
+        	throw new OperationErrorBD(e.getMessage());
         } finally {
         	close(stmt,rs);
         }

@@ -3,10 +3,12 @@ package uoc.edu.tds.pec4.daos;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import uoc.edu.tds.pec4.beans.CentroDocente;
+import uoc.edu.tds.pec4.utils.Constantes;
 
 public class DaoCentroDocente extends DaoEntidad<CentroDocente>{
 
@@ -16,7 +18,23 @@ public class DaoCentroDocente extends DaoEntidad<CentroDocente>{
 
 	@Override
 	public void insert(CentroDocente objecte) throws Exception {
-		throw new UnsupportedOperationException("Método no implementado");
+		PreparedStatement ps = null;
+		try {
+			ps = con.prepareStatement("INSERT INTO centrodocente (nombre, id_contacto, id_universidad, fecha_alta, estado,fecha_estado, motivo_estado) " +
+			" VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+			ps.setString(1, objecte.getNombre());
+			ps.setInt(2, objecte.getIdContacto());
+			ps.setInt(3, objecte.getIdUniversidad());
+			ps.setDate(4, new java.sql.Date(System.currentTimeMillis()));
+			ps.setInt(5, Constantes.REGISTRO_ACTIVO);
+			ps.setDate(6, new java.sql.Date(System.currentTimeMillis()));
+			ps.setString(7, objecte.getMotivoEstado());
+			ps.executeUpdate();
+        } catch (SQLException e) {
+        	throw new Exception(e.getMessage());
+        } finally {
+        	close(ps);
+        }		
 	}
 
 	@Override

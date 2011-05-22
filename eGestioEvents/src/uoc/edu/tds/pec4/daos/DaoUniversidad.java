@@ -3,10 +3,12 @@ package uoc.edu.tds.pec4.daos;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import uoc.edu.tds.pec4.beans.Universidad;
+import uoc.edu.tds.pec4.utils.Constantes;
 
 public class DaoUniversidad extends DaoEntidad<Universidad>{
 
@@ -16,7 +18,22 @@ public class DaoUniversidad extends DaoEntidad<Universidad>{
 
 	@Override
 	public void insert(Universidad objecte) throws Exception {
-		throw new UnsupportedOperationException("Método no implementado");
+		PreparedStatement ps = null;
+		try {
+			ps = con.prepareStatement("INSERT INTO universidad (nombre, id_contacto, fecha_alta, estado, fecha_estado, motivo_estado) " +
+			" VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+			ps.setString(1, objecte.getNombre());
+			ps.setInt(2, objecte.getIdContacto());
+			ps.setDate(3, new java.sql.Date(System.currentTimeMillis()));
+			ps.setInt(4, Constantes.REGISTRO_ACTIVO);
+			ps.setDate(5, new java.sql.Date(System.currentTimeMillis()));
+			ps.setString(6, objecte.getMotivoEstado());
+			ps.executeUpdate();
+        } catch (SQLException e) {
+        	throw new Exception(e.getMessage());
+        } finally {
+        	close(ps);
+        }		
 	}
 
 	@Override
@@ -76,6 +93,15 @@ public class DaoUniversidad extends DaoEntidad<Universidad>{
 	@Override
 	public void delete(Universidad criteris) throws Exception {
 		throw new UnsupportedOperationException("Método no implementado");
+	}
+	
+	public Integer insertReturnId(Universidad universidad) throws Exception {
+		try {
+			 this.insert(universidad);
+			 return retornaIdGenerado("seq_universidad");
+        } catch (SQLException e) {
+        	throw new Exception(e.getMessage());
+        } 
 	}
 
 }

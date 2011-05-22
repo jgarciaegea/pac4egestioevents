@@ -23,7 +23,7 @@ public class GestorContacto extends GestorEntidad<DTOContacto>{
 				return lstContr.get(0);
 			}
 		}catch(Exception e){
-			throw e;
+			throw new Exception(e.getMessage());
 		}
 		return null;
 	}
@@ -51,7 +51,7 @@ public class GestorContacto extends GestorEntidad<DTOContacto>{
 				return lstContr;
 			}
 		}catch(Exception e){
-			throw new Exception();
+			throw new Exception(e.getMessage());
 		}
 		return null;
 	}
@@ -64,7 +64,7 @@ public class GestorContacto extends GestorEntidad<DTOContacto>{
 			dtoContacto.setContacto(contacto);
 			return this.consultaEntidad(dtoContacto);
 		}catch(Exception e){
-			throw e;
+			throw new Exception(e.getMessage());
 		}
 	}
 
@@ -74,7 +74,7 @@ public class GestorContacto extends GestorEntidad<DTOContacto>{
 			DaoContacto dao = new DaoContacto(connection);
 			dao.insert(newobject.getContacto());
 		} catch (Exception e) {
-			throw e;
+			throw new Exception(e.getMessage());
 		}
 	}
 	
@@ -83,7 +83,7 @@ public class GestorContacto extends GestorEntidad<DTOContacto>{
 			DaoContacto dao = new DaoContacto(connection);
 			return dao.insertReturnId(newobject.getContacto());
 		} catch (Exception e) {
-			throw e;
+			throw new Exception(e.getMessage());
 		}
 	}
 	@Override
@@ -92,7 +92,7 @@ public class GestorContacto extends GestorEntidad<DTOContacto>{
 			DaoContacto dao = new DaoContacto(connection);
 			dao.update(criteris.getContacto());
 		} catch (Exception e) {
-			throw e;
+			throw new Exception(e.getMessage());
 		}
 	}
 
