@@ -17,6 +17,7 @@ import javax.swing.JButton;
 import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
@@ -31,10 +32,12 @@ public abstract class PanelComun extends JPanel  {
 	/**
 	 * Lista de Componentes
 	 */
+	
 	private static final long serialVersionUID = 1L; 
 	private Map<String,JButton> botones;
 	private Map<String,JTextField> cajas ;
 	private Map<String,JTextField> cajasPwd ;
+	private Map<String,JTextArea> areas ;
 	private Map<String,JLabel> titulos;
 	private Map<String,JComboBox> combos;
 	private JTable tablaResultados = null;
@@ -54,6 +57,7 @@ public abstract class PanelComun extends JPanel  {
 		cajasPwd = new HashMap<String, JTextField>();
         titulos = new HashMap<String, JLabel>();
         combos = new HashMap<String, JComboBox>();
+        areas = new  HashMap<String, JTextArea>();
 		System.out.println("Variables inicializadas");
 		this.setLayout(null);
 		this.setPreferredSize(new Dimension(x, y));
@@ -293,6 +297,28 @@ public abstract class PanelComun extends JPanel  {
 		this.panelScroll = panelScroll;
 	}
 	
+	protected void crearJTextArea(Integer x,Integer y,Integer ancho, Integer alto,/*String clave,*/String nombre){
+		System.out.println("Creando  JTextArea......");
+		JTextArea area = new JTextArea();
+		area.setBounds(new Rectangle(x, y, ancho, alto));
+		this.addJTextArea(area, nombre);
+	}
+	
+	protected void addJTextArea(JTextArea area,String name){
+		this.areas.put(name,area);
+		System.out.println("Anyadir JTextArea al Panel......");
+		this.add(area,null);
+		
+	}
+	
+	public JTextArea findJTextAreaString(String name){
+		return(this.areas.get(name));
+		
+	}
+	
+	protected void removeJTextArea(String name){
+		this.areas.remove(name);
+	}
 	
 	
 	
