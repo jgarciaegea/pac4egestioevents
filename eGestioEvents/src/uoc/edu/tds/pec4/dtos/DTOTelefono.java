@@ -8,12 +8,19 @@ public class DTOTelefono extends DTOContacto implements DTOInterface, Serializab
 	private static final long serialVersionUID = 1L;
 	
 	private Telefono telefono;
+	private DTOTipoTelefono dtoTipoTelefono;
 	
 	public Telefono getTelefono() {
 		return telefono;
 	}
 	public void setTelefono(Telefono telefono) {
 		this.telefono = telefono;
+	}
+	public DTOTipoTelefono getDtoTipoTelefono() {
+		return dtoTipoTelefono;
+	}
+	public void setDtoTipoTelefono(DTOTipoTelefono dtoTipoTelefono) {
+		this.dtoTipoTelefono = dtoTipoTelefono;
 	}
 	
 }
