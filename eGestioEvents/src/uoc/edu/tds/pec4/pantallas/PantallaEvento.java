@@ -199,30 +199,38 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 				 * CARGAMOS LOS VALORES DEL EVENTO
 				 *****************************************/
 				jTextFieldNombre.setText(dtoEventoAModficar.getEvento().getNombre());
-				try {
-					jTextFieldFechaInicioCelebracion.setText(Utils.convertFecha(dtoEventoAModficar.getEvento().getFechaInicioCelebracion().toString()));
-				} catch (OperationErrorDatosFormulario e) {
-					e.printStackTrace();
+				if(dtoEventoAModficar.getEvento().getFechaInicioCelebracion() !=  null){
+					try {
+						jTextFieldFechaInicioCelebracion.setText(Utils.convertFecha(dtoEventoAModficar.getEvento().getFechaInicioCelebracion().toString()));
+					} catch (OperationErrorDatosFormulario e) {
+						e.printStackTrace();
+					}
 				}
-				try {
-					jTextFieldFechaFinCelebracion.setText(Utils.convertFecha(dtoEventoAModficar.getEvento().getFechaFinCelebracion().toString()));
-				} catch (OperationErrorDatosFormulario e) {
-					e.printStackTrace();
+				if(dtoEventoAModficar.getEvento().getFechaFinCelebracion() !=  null){
+					try {
+						jTextFieldFechaFinCelebracion.setText(Utils.convertFecha(dtoEventoAModficar.getEvento().getFechaFinCelebracion().toString()));
+					} catch (OperationErrorDatosFormulario e) {
+						e.printStackTrace();
+					}
 				}
-				try {
-					jTextFieldFechaInicioInscripcion.setText(Utils.convertFecha(dtoEventoAModficar.getEvento().getFechaInicioInscripcion().toString()));
-				} catch (OperationErrorDatosFormulario e) {
-					e.printStackTrace();
+				if(dtoEventoAModficar.getEvento().getFechaInicioInscripcion() !=  null){
+					try {
+						jTextFieldFechaInicioInscripcion.setText(Utils.convertFecha(dtoEventoAModficar.getEvento().getFechaInicioInscripcion().toString()));
+					} catch (OperationErrorDatosFormulario e) {
+						e.printStackTrace();
+					}
 				}
-				try {
-					jTextFieldFechaFinInscripcion.setText(Utils.convertFecha(dtoEventoAModficar.getEvento().getFechaFinInscripcion().toString()));
-				} catch (OperationErrorDatosFormulario e) {
-					e.printStackTrace();
+				if(dtoEventoAModficar.getEvento().getFechaFinInscripcion() !=  null){
+					try {
+						jTextFieldFechaFinInscripcion.setText(Utils.convertFecha(dtoEventoAModficar.getEvento().getFechaFinInscripcion().toString()));
+					} catch (OperationErrorDatosFormulario e) {
+						e.printStackTrace();
+					}
 				}
 				// TODO 1: Realmente todos son obligatorios por lo que no hay que mirar si son null.
 				if (dtoEventoAModficar.getEvento().getUmbral() != null) jTextFieldUmbral.setText(dtoEventoAModficar.getEvento().getUmbral().toString());
 				if (dtoEventoAModficar.getEvento().getPrecio() != null) jTextFieldPrecio.setText(dtoEventoAModficar.getEvento().getPrecio().toString());
-				jTextFieldPlazas.setText(dtoEventoAModficar.getEvento().getPlazas().toString());
+				if (dtoEventoAModficar.getEvento().getPlazas() != null) jTextFieldPlazas.setText(dtoEventoAModficar.getEvento().getPlazas().toString());
 				if (dtoEventoAModficar.getEvento().getDescripcion() != null) jTextAreaDescripcion.setText(dtoEventoAModficar.getEvento().getDescripcion());
 				/*
 				if(dtoEventoAModficar.getDtoCentroDocente() != null){
