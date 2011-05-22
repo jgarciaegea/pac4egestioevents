@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import uoc.edu.tds.pec4.beans.Contacto;
+import uoc.edu.tds.pec4.utils.Constantes;
 
 public class DaoContacto extends DaoEntidad<Contacto>{
 
@@ -29,8 +30,8 @@ public class DaoContacto extends DaoEntidad<Contacto>{
 			ps.setString(6, objecte.getEmail());
 			ps.setString(7, objecte.getWeb());
 			ps.setDate(8, new java.sql.Date(System.currentTimeMillis()));
-			ps.setInt(9, objecte.getEstado());
-			ps.setDate(10,objecte.getFechaEstado());
+			ps.setInt(9, Constantes.REGISTRO_ACTIVO);
+			ps.setDate(10, new java.sql.Date(System.currentTimeMillis()));
 			ps.setString(11, objecte.getMotivoEstado());
 			ps.executeUpdate();
         } catch (SQLException e) {

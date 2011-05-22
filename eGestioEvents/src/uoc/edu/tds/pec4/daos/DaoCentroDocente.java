@@ -21,7 +21,7 @@ public class DaoCentroDocente extends DaoEntidad<CentroDocente>{
 		PreparedStatement ps = null;
 		try {
 			ps = con.prepareStatement("INSERT INTO centrodocente (nombre, id_contacto, id_universidad, fecha_alta, estado,fecha_estado, motivo_estado) " +
-			" VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+			" VALUES (?, ?, ?, ?, ?, ?, ?)");
 			ps.setString(1, objecte.getNombre());
 			ps.setInt(2, objecte.getIdContacto());
 			ps.setInt(3, objecte.getIdUniversidad());
@@ -55,6 +55,7 @@ public class DaoCentroDocente extends DaoEntidad<CentroDocente>{
 			if(criteris.getEstado()!=null) sb.append("AND estado = ? ");
 			if(criteris.getFechaEstado()!=null) sb.append("AND fecha_estado = ? ");
 			if(criteris.getMotivoEstado()!=null) sb.append("AND motivo_estado = ? ");
+			sb.append("order by nombre = ? ");
 			
 			ps = con.prepareStatement(sb.toString(), ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
 			
