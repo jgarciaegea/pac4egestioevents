@@ -311,12 +311,15 @@ public class RemotoImpl extends UnicastRemoteObject implements RemoteInterface{
 	 * @throws RemoteException
 	 * @throws OperationErrorLogin
 	 */
-	public void checkIN(DTOInscripcion inscripcion) throws RemoteException,OperationErrorLogin{
+	public void checkIN(DTOInscripcion inscripcion) throws RemoteException, OperationErrorBD{
 		try{
+			gestorDB.getConnection().setAutoCommit(false);
 			GestorInscripcion gestorInscripcion = new GestorInscripcion(gestorDB.getConnection());
 			gestorInscripcion.checkIN(inscripcion);
+			gestorDB.getConnection().commit();
 		}catch(Exception e){
-			throw new OperationErrorLogin(e.getMessage());
+			gestorDB.rollback();
+			throw new OperationErrorBD("Error al hacer checkIN de la inscripci—n: " + e.getMessage());
 		}
 	}
 	
@@ -326,12 +329,15 @@ public class RemotoImpl extends UnicastRemoteObject implements RemoteInterface{
 	 * @throws RemoteException
 	 * @throws OperationErrorLogin
 	 */
-	public void checkOUT(DTOInscripcion inscripcion) throws RemoteException,OperationErrorLogin{
+	public void checkOUT(DTOInscripcion inscripcion) throws RemoteException, OperationErrorBD{
 		try{
+			gestorDB.getConnection().setAutoCommit(false);
 			GestorInscripcion gestorInscripcion = new GestorInscripcion(gestorDB.getConnection());
 			gestorInscripcion.checkOUT(inscripcion);
+			gestorDB.getConnection().commit();
 		}catch(Exception e){
-			throw new OperationErrorLogin(e.getMessage());
+			gestorDB.rollback();
+			throw new OperationErrorBD("Error al hacer checkOUT de la inscripci—n: " + e.getMessage());
 		}
 	}
 
@@ -346,9 +352,7 @@ public class RemotoImpl extends UnicastRemoteObject implements RemoteInterface{
 	 * @throws RemoteException
 	 * @throws OperationErrorBD
 	 */
-	public List<DTOEventoCalendario> getEventosCalendario(
-			DTOEventoCalendario dtoEventoCalendario) throws RemoteException,
-			OperationErrorBD {
+	public List<DTOEventoCalendario> getEventosCalendario(DTOEventoCalendario dtoEventoCalendario) throws RemoteException, OperationErrorBD {
 		try{
 			System.out.println("Recuperando eventos.....");
 			GestorEvento gestorEvento = new GestorEvento(gestorDB.getConnection());
@@ -404,5 +408,80 @@ public class RemotoImpl extends UnicastRemoteObject implements RemoteInterface{
 		}
 		
 	}
+	
+	/**
+	 * Retorna un evento a partir de un dtoEvento(idEvento)
+	 * @param dtoEvento
+	 * @return
+	 * @throws RemoteException
+	 * @throws OperationErrorBD
+	 */
+	public DTOEvento getEvento(DTOEvento dtoEvento) throws RemoteException, OperationErrorBD {
+		try{
+			System.out.println("Recuperando datos del evento..... " + dtoEvento.getEvento().getIdEvento().toString());
+			GestorEvento gestorEvento = new GestorEvento(gestorDB.getConnection());
+			return gestorEvento.consultaEntidad(dtoEvento);
+		}catch(Exception e){
+			throw new OperationErrorBD("Error al recuperar el evento......");
+		}
+
+	}
+
+	/**
+	 * Genera un nuevo evento en el calendario AUE
+	 * @param dtoEvento
+	 * @throws RemoteException
+	 * @throws OperationErrorBD
+	 */
+	public void insertaEvento(DTOEvento dtoEvento) throws RemoteException, OperationErrorBD {
+		try {
+			
+			gestorDB.getConnection().setAutoCommit(false);
+			
+			// TODO 1: Insertamos en requisitos
+			// TODO 2: Insertamos en rol/plazas
+			
+			//Insertamos el evento
+			GestorEvento gestorEvento = new GestorEvento(gestorDB.getConnection());
+			gestorEvento.insertaEntidad(dtoEvento);
+			System.out.println("Evento insertado correctamente: ");
+			gestorDB.getConnection().commit();			
+		} catch (Exception e) {
+			gestorDB.rollback();
+			throw new OperationErrorBD("Error al insertar el evento: " + e.getMessage());
+		}
+	}	
+
+	/**
+	 * Modfica un evento
+	 * @param dtoEvento
+	 * @throws RemoteException
+	 * @throws OperationErrorBD
+	 */
+	public void modificaEvento(DTOEvento dtoEvento) throws RemoteException, OperationErrorBD {
+		try{
+			
+			gestorDB.getConnection().setAutoCommit(false);
+			
+			// TODO 1: Modificamos en requisitos
+			//GestorEventoRequisitos gestorEventoRequisitos = new GestorEventoRequisitos(gestorDB.getConnection());
+			//gestorEventoRequisitos.modificaEntidad(dtoEvento.getDtoEventoRequisitos());
+			
+			// TODO 2: Modificamos en rol/plazas
+			//GestorEventoRolPlazas gestorEventoRolPlazas = new GestorEventoRolPlazas(gestorDB.getConnection());
+			//update
+			
+			//Modificamos el evento
+			GestorEvento gestorEvento = new GestorEvento(gestorDB.getConnection());
+			gestorEvento.modificaEntidad(dtoEvento);
+			
+			gestorDB.getConnection().commit();
+		}catch(Exception e){
+			gestorDB.rollback();
+			throw new OperationErrorBD("Error al modificar el evento: " + e.getMessage());
+		}
+		
+	}
+	
 	
 }

@@ -1,6 +1,7 @@
 package uoc.edu.tds.pec4.pantallas;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -28,6 +29,7 @@ import javax.swing.table.DefaultTableModel;
 
 import uoc.edu.tds.pec4.beans.Evento;
 import uoc.edu.tds.pec4.beans.EventoCalendario;
+import uoc.edu.tds.pec4.beans.Usuario;
 import uoc.edu.tds.pec4.dtos.DTOCentroDocente;
 import uoc.edu.tds.pec4.dtos.DTOEvento;
 import uoc.edu.tds.pec4.dtos.DTOEventoCalendario;
@@ -83,17 +85,20 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 	private JButton jButtonUpdate;
 	private JButton jButtonDelete;
 	private JButton jButtonViewAsistentesEvento;
+	private JButton jButtonInscripcion;
 
 	private RemoteInterface remote;
 	private GestorRMI gestorRMI;
+	private Usuario usuario;
 
 	// TODO 1: Revisar	
 	final static int interval = 1000;
 	
-	public PantallaCalendarioEventos(GestorRMI gestorRMI, RemoteInterface remote1) {
+	public PantallaCalendarioEventos(GestorRMI gestorRMI, RemoteInterface remote1, Usuario usuario1) {
 		super();
 		this.remote = remote1;
 		this.gestorRMI = gestorRMI;
+		this.usuario = usuario1;
 		try {
 			remote.testConexion();
 		} catch (RemoteException e) {
@@ -123,6 +128,7 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 		}
 	}
 	
+	
 	/**
 	 * Recupera el evento seleccionado de la tabla
 	 */
@@ -142,20 +148,20 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 		}
 	}
 	
-	/*
-	 * Vamos a la pantalla de usuario
-	
-	private void goPantallaUsuario(DTOUsuario dtoUsuario){
+	/**
+	 * Vamos a la pantalla de gesti—n del evento
+	*/
+	private void goPantallaEvento(DTOEvento dtoEvento){
 		this.setBorder(null);
 		this.removeAll();
 		this.setAlignmentX(LEFT_ALIGNMENT);
 		this.setAlignmentY(TOP_ALIGNMENT);
-		this.add((Component)new PantallaUsuario(gestorRMI, remote, dtoUsuario));
+		this.add((Component)new PantallaEvento(remote, usuario, dtoEvento));
 		this.repaint();
 		this.revalidate();
 		this.updateUI();
 	}
-	 */
+	 
 	
 	/**
 	 * Parametrizamos el eventoCalendario que vamos a consultar
@@ -295,6 +301,7 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 	 * Limpia el formulario
 	 */
 	private void jButtonClearActionPerformed(){
+		ClearForm.clearForm(jPanelFiltro);
 		ClearForm.clearForm(jPanelDatos);
 	}
 	
@@ -510,11 +517,9 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 		return jButtonClear;
 	}
 
-
 	/*
 	 ************************* PANEL DATOS ****************************** 
 	 */
-	
 	private JPanel getJPanelDatos() {
 		if(jPanelDatos == null) {
 			jPanelDatos = new JPanel();
@@ -525,6 +530,7 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 			jPanelDatos.add(getJButtonUpdate());
 			jPanelDatos.add(getJButtonDelete());
 			jPanelDatos.add(getJButtonViewAsistentesEvento());
+			jPanelDatos.add(getJButtonInscripcion());
 			jPanelDatos.add(getJScrollPane1());
 		}
 		return jPanelDatos;
@@ -561,7 +567,13 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 			jButtonNew.setIcon(icon);
 			jButtonNew.setLayout(null);
 			jButtonNew.setText("Nuevo Evento");
-			jButtonNew.setBounds(22, 244, 150, 25);
+			jButtonNew.setBounds(22, 244, 130, 25);
+			jButtonNew.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					goPantallaEvento(null);
+					//jButtonClearActionPerformed();
+				}
+			});
 		}
 		return jButtonNew;
 	}
@@ -571,36 +583,24 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 			jButtonUpdate = new JButton();
 			jButtonUpdate.setLayout(null);
 			jButtonUpdate.setText("Modificar Evento");
-			jButtonUpdate.setBounds(205, 244, 150, 25);
-			/*
-			jLabelElimina.addMouseListener(new MouseListener(){
-				public void mouseClicked(MouseEvent e) {
+			jButtonUpdate.setBounds(157, 244, 130, 25);
+			jButtonUpdate.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
 					if(jTableDatos.getSelectedRow() == -1){
-						Utils.mostraMensajeInformacion(jPanelDatos, "No ha seleccionado ningún registro de la tabla", "Consulta Usuarios");
+						Utils.mostraMensajeInformacion(jPanelDatos, "No ha seleccionado ningœn registro de la tabla", "Calendario Eventos");
 					}else{
 						try {
-							DTOUsuario dtoUsuario = getRecuperaUsuarioSeleccionado();
-							remote.bajaUsuario(dtoUsuario);
-							getEventosCalendario();
-							Utils.mostraMensajeInformacion(jPanelDatos,"Usuario dado de baja correctamente", "Consulta usuario");
-						} catch (Exception e1) {
-							try {
-								throw new OperationErrorDatosFormulario(e1.getMessage());
-							} catch (OperationErrorDatosFormulario e2) {
-								e2.showDialogError();
-							}
+							DTOEvento dtoEvento = getSelectedEvento();
+							// TODO 1: Modificar el evento siempre que podamos, llamamos a la pantalla de eventos.
+							goPantallaEvento(dtoEvento);
+						} catch (OperationErrorDatosFormulario e1) {
+							e1.showDialogError();
 						}finally{
 							jButtonClearActionPerformed();
 						}
-						
 					}
 				}
-				public void mousePressed(MouseEvent e) {}
-				public void mouseReleased(MouseEvent e) {}
-				public void mouseEntered(MouseEvent e) {}
-				public void mouseExited(MouseEvent e) {}
 			});
-			*/
 		}
 		return jButtonUpdate;
 	}
@@ -610,7 +610,7 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 			jButtonDelete = new JButton();
 			jButtonDelete.setLayout(null);
 			jButtonDelete.setText("Cancelar Evento");
-			jButtonDelete.setBounds(381, 244, 150, 25);
+			jButtonDelete.setBounds(292, 244, 130, 25);
 			jButtonDelete.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					if(jTableDatos.getSelectedRow() == -1){
@@ -643,7 +643,8 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 			jButtonViewAsistentesEvento = new JButton();
 			jButtonViewAsistentesEvento.setLayout(null);
 			jButtonViewAsistentesEvento.setText("Ver Asistentes");
-			jButtonViewAsistentesEvento.setBounds(563, 244, 150, 25);
+			jButtonViewAsistentesEvento.setBounds(427, 244, 130, 25);
+			// TODO 1: Ver los asistentens del evento.
 			/*
 			jButtonViewAsistentesEvento.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
@@ -663,5 +664,16 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 			});*/
 		}
 		return jButtonViewAsistentesEvento;
+	}
+	
+	private JButton getJButtonInscripcion() {
+		if(jButtonInscripcion == null) {
+			jButtonInscripcion = new JButton();
+			jButtonInscripcion.setLayout(null);
+			jButtonInscripcion.setText("Inscripci—n");
+			jButtonInscripcion.setBounds(583, 244, 130, 25);
+			//TODO 1: Comprobar que nos podamos inscribir y llamar a la pantalla de isncripci—n (alta)
+		}
+		return jButtonInscripcion;
 	}
 }

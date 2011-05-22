@@ -189,12 +189,12 @@ public class PantallaPrincipal extends JFrame {
 	        	public void actionPerformed(ActionEvent evt) { 
 	        		showPanel(new PantallaUsuarioConsulta(gestorRMI,remote)); 
 	        	} }); 
-	        
+	 /*       
 	        altaCentroDocente.addActionListener(new ActionListener() { 
 	        	public void actionPerformed(ActionEvent evt) { 
 	        		showPanel(new PantallaCentroDocente(gestorRMI,remote)); 
 	        	} }); 
-	        
+	   */     
 	        //Ayuda
 	        acercaDe = new JMenuItem("Acerca de eGestioEvents");
 	        
@@ -208,7 +208,7 @@ public class PantallaPrincipal extends JFrame {
 	        calendarioEventos = new JMenuItem("Calendario de Eventos");
 	        calendarioEventos.addActionListener(new ActionListener() { 
 	        	public void actionPerformed(ActionEvent evt) { 
-	        		showPanel(new PantallaCalendarioEventos(gestorRMI,remote)); 
+	        		showPanel(new PantallaCalendarioEventos(gestorRMI, remote, usuario)); 
 	        	} }); 
 	        consultaInscripciones = new JMenuItem("Consulta de Inscripciones");
 	        

@@ -166,7 +166,7 @@ public interface RemoteInterface extends Remote{
 	 * @throws RemoteException
 	 * @throws OperationErrorLogin
 	 */
-	public void checkIN(DTOInscripcion inscripcion) throws RemoteException, OperationErrorLogin;
+	public abstract void checkIN(DTOInscripcion inscripcion) throws RemoteException, OperationErrorBD;
 	
 	/**
 	 * A efectos de error, que podamos desmarcar la asistencia a un evento del asistente.
@@ -174,7 +174,7 @@ public interface RemoteInterface extends Remote{
 	 * @throws RemoteException
 	 * @throws OperationErrorLogin
 	 */
-	public void checkOUT(DTOInscripcion inscripcion) throws RemoteException,OperationErrorLogin;
+	public abstract void checkOUT(DTOInscripcion inscripcion) throws RemoteException, OperationErrorBD;
 	
 	/*
 	 * Tratamiento de Eventos
@@ -187,7 +187,7 @@ public interface RemoteInterface extends Remote{
 	 * @throws RemoteException
 	 * @throws OperationErrorBD
 	 */
-	public List<DTOEventoCalendario> getEventosCalendario(DTOEventoCalendario dtoEventoCalendario) throws RemoteException, OperationErrorBD;
+	public abstract List<DTOEventoCalendario> getEventosCalendario(DTOEventoCalendario dtoEventoCalendario) throws RemoteException, OperationErrorBD;
 	
 	/**
 	 * Pasa un evento a estado cancelado
@@ -195,7 +195,7 @@ public interface RemoteInterface extends Remote{
 	 * @throws RemoteException
 	 * @throws OperationErrorBD
 	 */
-	public void bajaEvento(DTOEvento dtoEvento) throws RemoteException, OperationErrorBD;
+	public abstract void bajaEvento(DTOEvento dtoEvento) throws RemoteException, OperationErrorBD;
 	
 	/**
 	 * Insertamos un centro docente
@@ -204,4 +204,29 @@ public interface RemoteInterface extends Remote{
 	 * @throws OperationErrorBD
 	 */
 	public void insertaCentroDocente(DTOCentroDocente dtoCentroDocente) throws RemoteException, OperationErrorBD;
+	
+	/**
+	 * Retorna un evento a partir de un dtoEvento(idEvento)
+	 * @param dtoEvento
+	 * @return
+	 * @throws RemoteException
+	 * @throws OperationErrorBD
+	 */
+	public abstract DTOEvento getEvento(DTOEvento dtoEvento) throws RemoteException, OperationErrorBD;
+	
+	/**
+	 * Modfica un evento
+	 * @param dtoEvento
+	 * @throws RemoteException
+	 * @throws OperationErrorBD
+	 */
+	public abstract void modificaEvento(DTOEvento dtoEvento)  throws RemoteException, OperationErrorBD;
+	
+	/**
+	 * Genera un nuevo evento en el calendario AUE
+	 * @param dtoEvento
+	 * @throws RemoteException
+	 * @throws OperationErrorBD
+	 */
+	public abstract void insertaEvento(DTOEvento dtoEvento)  throws RemoteException, OperationErrorBD;
 }
