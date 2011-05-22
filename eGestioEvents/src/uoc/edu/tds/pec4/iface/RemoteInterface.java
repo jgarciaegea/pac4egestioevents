@@ -166,9 +166,6 @@ public interface RemoteInterface extends Remote{
 	 */
 	public void checkIN(DTOInscripcion inscripcion) throws RemoteException, OperationErrorLogin;
 	
-	/*
-	 * 
-	 */	
 	/**
 	 * A efectos de error, que podamos desmarcar la asistencia a un evento del asistente.
 	 * @param inscripcion
