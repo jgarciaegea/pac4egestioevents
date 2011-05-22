@@ -981,6 +981,7 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 			telefono.setIdTelefono(dtoUsuarioaModificar.getDtoContacto().getDtoTelefono().getTelefono().getIdTelefono());
 		}
 		dtoTelefono.setTelefono(telefono);
+		dtoContacto.setDtoTelefono(dtoTelefono);
 		
 		
 		/***********************************************
