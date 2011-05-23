@@ -21,7 +21,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
-import javax.swing.UIManager;
 
 import uoc.edu.tds.pec4.beans.Usuario;
 import uoc.edu.tds.pec4.excepciones.OperationErrorBD;
@@ -63,11 +62,11 @@ public class PantallaLogin extends JFrame {
 	    setTitle(TDSLanguageUtils.getMessage("clientePEC4.frameLogin.titulo"));
 	    setContentPane(inicializar());
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-        try{
+       /* try{
         	UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
         }catch(Exception e){
         	System.err.println("No se ha podido cargar el estilo");
-        }
+        }*/
         
 	}
 	
