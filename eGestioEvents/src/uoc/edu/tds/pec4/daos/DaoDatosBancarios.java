@@ -25,7 +25,7 @@ public class DaoDatosBancarios  extends DaoEntidad<DatosBancarios>{
 			ps.setInt(1, objecte.getBanco());
 			ps.setInt(2, objecte.getSucursal());
 			ps.setInt(3, objecte.getDc());
-			ps.setString(4, objecte.getCc());
+			ps.setObject(4, objecte.getCc());
 			ps.setDate(5, new java.sql.Date(System.currentTimeMillis()));
 			ps.setInt(6, Constantes.REGISTRO_ACTIVO);
 			ps.setDate(7,objecte.getFechaEstado());
