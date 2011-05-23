@@ -125,7 +125,7 @@ public class PantallaLogin extends JFrame {
     }
 	
 
-	public void generaEventosPantallaLogin(){
+	public void generaEventosPantallaLogin()  {
 		
 		
 		bCANCEL.addActionListener(new ActionListener() { public void actionPerformed(ActionEvent evt) { 	
@@ -161,6 +161,7 @@ public class PantallaLogin extends JFrame {
 			} catch (OperationErrorDatosFormulario e) {
 					e.showDialogError();
 			} catch (OperationErrorLogin e) {
+				System.out.println("error...sup");
 				e.showDialogError();
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
@@ -176,26 +177,26 @@ public class PantallaLogin extends JFrame {
 	 */
 	public void inicializarAplicacion() throws Exception,RemoteException,MalformedURLException,NotBoundException,OperationErrorBD {
 		try{
-			authenticate();
+			authenticate(); 	
     		if(usuarioEncontrado== null){
-    			System.out.println("usuario no encontrado....");
+    			System.out.println("error...1");
     			throw new OperationErrorLogin(TDSLanguageUtils.getMessage("clientePEC4.error.login1"));
-			} 
+			} 	
     		if (!usuarioEncontrado.getContrasena().equals(Base64Coder.encodeString(usuario.getContrasena()))){
-    			System.out.println("usuario pwd diferente....");
-    			throw new OperationErrorLogin(TDSLanguageUtils.getMessage("clientePEC4.error.login1"));
-    		}    		
-    		usuario = usuarioEncontrado;
-    		
+    			System.out.println("error...2");
+    			throw new OperationErrorLogin(TDSLanguageUtils.getMessage("clientePEC4.error.login2"));
+    		} 
+    		usuario = usuarioEncontrado;  
 			PantallaPrincipal aplicacion = new PantallaPrincipal(gestorRMI,remote,usuario);
 			this.setVisible(false);
 			this.removeAll();
 			aplicacion.setVisible(true);
 			//Utils.mostraMensajeInformacion(panelPrincipal, "Usuario logineado correctamente", "Login usuario");
-		}catch(OperationErrorLogin oL){
-			oL.showDialogError();
+		}catch(OperationErrorLogin ex){
+			ex.showDialogError();
 		}
-	}
+		}
+	
 	
 	/**
 	 * Comprobar Datos
@@ -204,11 +205,12 @@ public class PantallaLogin extends JFrame {
 	 */
 	
 	public void authenticate() throws RemoteException, OperationErrorLogin  {
-    		usuario = new Usuario();
-    		usuarioEncontrado = new Usuario();
+			usuario = new Usuario();
+    		usuarioEncontrado = null;
     		usuario.setCodigo(textoLogin.getText());
     		usuario.setContrasena(textoPwd.getText());
     		usuarioEncontrado = remote.loginUsuario(usuario);
+    		
     }
 	
 	
@@ -242,7 +244,7 @@ public class PantallaLogin extends JFrame {
 			if(Utils.valorisNull(textoLogin.getText())) throw new OperationErrorDatosFormulario(Utils.MESSAGE_ERROR + " Login " );
 			if(Utils.valorisNull(textoPwd.getText())) throw new OperationErrorDatosFormulario(Utils.MESSAGE_ERROR + " PWD " );
 		}catch(OperationErrorDatosFormulario ex){
-			throw new OperationErrorDatosFormulario(ex.getMessage());
+			ex.showDialogError();
 		}
 	}
 	
