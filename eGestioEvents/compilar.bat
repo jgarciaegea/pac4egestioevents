@@ -16,6 +16,10 @@ mkdir bin\i18n
 copy src\i18n bin\i18n
 mkdir bin\conf
 copy conf bin\conf
+mkdir bin\images
+copy images bin\images
+mkdir bin\imagen
+copy imagen bin\imagen
 echo  -----------------------------------------------
 echo    Fase 2: Creacion de la documentacion
 echo  -----------------------------------------------
@@ -25,10 +29,10 @@ echo    Fase 3: Compilación
 echo  -----------------------------------------------
 echo    BEANS:
 echo  -----------------------------------------------
-javac -d bin  -cp  bin src\uoc\edu\tds\pec4\beans\*.java 
-javac -d bin  -cp  bin src\uoc\edu\tds\pec4\utils\*.java 
 javac -d bin  -cp  bin src\uoc\edu\tds\pec4\resources\*.java 
+javac -d bin  -cp  bin src\uoc\edu\tds\pec4\beans\*.java 
 javac -d bin  -cp  bin src\uoc\edu\tds\pec4\excepciones\*.java 
+javac -d bin  -cp  bin src\uoc\edu\tds\pec4\utils\*.java 
 echo  -----------------------------------------------
 echo    DTOS:
 echo  -----------------------------------------------
@@ -41,21 +45,6 @@ echo  -----------------------------------------------
 echo    GESTORES & echo    IFACE::
 echo  -----------------------------------------------
 javac -d bin  -cp  bin src\uoc\edu\tds\pec4\iface\RemoteInterface.java
-javac -d bin  -cp  bin src\uoc\edu\tds\pec4\gestores\GestorDisco.java 
-javac -d bin  -cp  bin src\uoc\edu\tds\pec4\gestores\GestorEntidad.java 
-javac -d bin  -cp  bin src\uoc\edu\tds\pec4\gestores\GestorPais.java 
-javac -d bin  -cp  bin src\uoc\edu\tds\pec4\gestores\GestorContacto.java 
-javac -d bin  -cp  bin src\uoc\edu\tds\pec4\gestores\GestorCentroDocente.java 
-javac -d bin  -cp  bin src\uoc\edu\tds\pec4\gestores\GestorTipoDocumento.java 
-javac -d bin  -cp  bin src\uoc\edu\tds\pec4\gestores\GestorTipoTelefono.java 
-javac -d bin  -cp  bin src\uoc\edu\tds\pec4\gestores\GestorTipoRol.java 
-javac -d bin  -cp  bin src\uoc\edu\tds\pec4\gestores\GestorUniversidad.java 
-javac -d bin  -cp  bin src\uoc\edu\tds\pec4\gestores\GestorDatosBancarios.java 
-javac -d bin  -cp  bin src\uoc\edu\tds\pec4\gestores\GestorDocumentoIdentificacion.java 
-javac -d bin  -cp  bin src\uoc\edu\tds\pec4\gestores\GestorUsuario.java 
-javac -d bin  -cp  bin src\uoc\edu\tds\pec4\gestores\GestorTipoEvento.java
-javac -d bin  -cp  bin src\uoc\edu\tds\pec4\iface\*.java
-javac -d bin  -cp  bin src\uoc\edu\tds\pec4\gestores\GestorRMI.java 
 javac -d bin  -cp  bin src\uoc\edu\tds\pec4\gestores\*.java 
 echo  -----------------------------------------------
 echo    PANTALLAS:
