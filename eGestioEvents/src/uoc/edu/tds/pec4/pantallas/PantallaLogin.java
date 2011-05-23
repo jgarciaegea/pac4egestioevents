@@ -164,7 +164,6 @@ public class PantallaLogin extends JFrame {
 				System.out.println("error...sup");
 				e.showDialogError();
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}	} });
 		
@@ -179,12 +178,10 @@ public class PantallaLogin extends JFrame {
 		try{
 			authenticate(); 	
     		if(usuarioEncontrado== null){
-    			System.out.println("error...1");
-    			throw new OperationErrorLogin(TDSLanguageUtils.getMessage("clientePEC4.error.login1"));
+    			throw new OperationErrorLogin(TDSLanguageUtils.getMessage("clientePEC4.error.login2"));
 			} 	
     		if (!usuarioEncontrado.getContrasena().equals(Base64Coder.encodeString(usuario.getContrasena()))){
-    			System.out.println("error...2");
-    			throw new OperationErrorLogin(TDSLanguageUtils.getMessage("clientePEC4.error.login2"));
+    			throw new OperationErrorLogin(TDSLanguageUtils.getMessage("clientePEC4.error.login1"));
     		} 
     		usuario = usuarioEncontrado;  
 			PantallaPrincipal aplicacion = new PantallaPrincipal(gestorRMI,remote,usuario);
@@ -194,23 +191,32 @@ public class PantallaLogin extends JFrame {
 			//Utils.mostraMensajeInformacion(panelPrincipal, "Usuario logineado correctamente", "Login usuario");
 		}catch(OperationErrorLogin ex){
 			ex.showDialogError();
+		}catch(OperationErrorRMI oL){
+			oL.showDialogError();
 		}
-		}
+	}
 	
 	
 	/**
 	 * Comprobar Datos
 	 * @throws RemoteException 
 	 * @throws OperationErrorLogin OperationErrorRMI
+	 * @throws OperationErrorRMI 
 	 */
 	
-	public void authenticate() throws RemoteException, OperationErrorLogin  {
+	public void authenticate() throws OperationErrorLogin, OperationErrorRMI  {
+    	try {
+		
 			usuario = new Usuario();
     		usuarioEncontrado = null;
     		usuario.setCodigo(textoLogin.getText());
     		usuario.setContrasena(textoPwd.getText());
     		usuarioEncontrado = remote.loginUsuario(usuario);
-    		
+		} catch (RemoteException e) {
+			throw new OperationErrorRMI(e.getMessage());
+		} catch(OperationErrorLogin oL){
+			oL.showDialogError();
+		}
     }
 	
 	
