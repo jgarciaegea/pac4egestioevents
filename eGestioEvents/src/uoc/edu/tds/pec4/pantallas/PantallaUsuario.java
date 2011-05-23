@@ -619,7 +619,7 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 			
 		} catch (Exception e) {
 			try{
-				throw new OperationErrorDatosFormulario(e.getMessage());
+				throw new OperationErrorDatosFormulario("Error al cargar la pantalla de usuarios");
 			}catch(OperationErrorDatosFormulario ex){
 				ex.showDialogError(jPanel2);
 			}
@@ -733,14 +733,14 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 				if(!Utils.validaNumerico(jTextFieldSucursal.getText())) throw new Exception(Utils.MESSAGE_ERROR + " sucursal" + Utils.MESSAGE_NUMERIC );
 				if(!Utils.validaNumerico(jTextFieldDC.getText())) throw new Exception(Utils.MESSAGE_ERROR + " DC" + Utils.MESSAGE_NUMERIC );
 				if(!Utils.validaNumerico(jTextFieldBanco.getText())) throw new Exception(Utils.MESSAGE_ERROR + " banco" + Utils.MESSAGE_NUMERIC );
-				if(!Utils.validaNumerico(jTextFieldCuenta.getText())) throw new Exception(Utils.MESSAGE_ERROR + " cuenta" + Utils.MESSAGE_NUMERIC );
+				if(!Utils.validaCuenta(jTextFieldCuenta.getText())) throw new Exception(Utils.MESSAGE_ERROR + " cuenta" + Utils.MESSAGE_NUMERIC );
 			}
 			
 			EmailValidator emailValidator = new EmailValidator();
 			if(!emailValidator.validate(jTextFieldEmail.getText())) throw new Exception (Utils.MESSAGE_EMAIL); 
 			
 		}catch(Exception e){
-			throw new OperationErrorDatosFormulario(e.getMessage());
+			throw new OperationErrorDatosFormulario("Error al validar los campos del fomulario");
 		}
 			
 	}
@@ -840,7 +840,7 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 			jComboBoxTipo.setModel(jComboBoxTipoModel);
 			
 		}catch(Exception e){
-			throw new OperationErrorDatosFormulario("Error al cargar las listas seleccionables");
+			throw new OperationErrorDatosFormulario("Error al cargar los combos relacionados con la información del usuario");
 		}
 		
 	}
@@ -1006,7 +1006,7 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 			}	
 			
 		} catch (Exception e) {
-			throw new OperationErrorDatosFormulario(e.getMessage());
+			throw new OperationErrorDatosFormulario("Error al rellenar la información común del usuario");
 		}
 		throw new OperationErrorDatosFormulario("El tipo de usuario " + usuario.getTipoUsuario() + " no está contemplado");
 	}
@@ -1194,7 +1194,7 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 			}
 		} catch (OperationErrorBD e) {
 			try {
-				throw new OperationErrorBD(e.getMessage());
+				throw new OperationErrorBD("Error al cargar los datos del usuario a modificar");
 			} catch (OperationErrorBD e1) {
 				e1.showDialogError();
 			}
