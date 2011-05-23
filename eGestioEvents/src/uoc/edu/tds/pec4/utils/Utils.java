@@ -67,7 +67,7 @@ public class Utils {
     
 	public static Boolean validaNumerico(Object campo) throws OperationErrorDatosFormulario{
     	try{
-    		Integer.parseInt(getValor(campo));
+    		Float.parseFloat(getValor(campo));
     	}catch(NumberFormatException e){
     		return false;
     	}
@@ -129,6 +129,5 @@ public class Utils {
     		tbl.getTableHeader().getColumnModel().getColumn(columna).setMinWidth(0);
     	}
     }
-
     
 }
