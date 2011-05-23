@@ -10,7 +10,7 @@ public class DatosBancarios implements BeanInterface, Serializable{
 	private Integer banco;
 	private Integer sucursal;
 	private Integer dc;
-	private Integer cc;
+	private String cc;
 	private Date fechaAlta;
 	private Integer estado;
 	private Date fechaEstado;
@@ -21,12 +21,6 @@ public class DatosBancarios implements BeanInterface, Serializable{
 	}
 	public void setIdDatosBancarios(Integer idDatosBancarios) {
 		this.idDatosBancarios = idDatosBancarios;
-	}
-	public Integer getBanco() {
-		return banco;
-	}
-	public void setBanco(Integer banco) {
-		this.banco = banco;
 	}
 	public Integer getSucursal() {
 		return sucursal;
@@ -40,12 +34,7 @@ public class DatosBancarios implements BeanInterface, Serializable{
 	public void setDc(Integer dc) {
 		this.dc = dc;
 	}
-	public Integer getCc() {
-		return cc;
-	}
-	public void setCc(Integer cc) {
-		this.cc = cc;
-	}
+	
 	public Date getFechaAlta() {
 		return fechaAlta;
 	}
@@ -70,5 +59,18 @@ public class DatosBancarios implements BeanInterface, Serializable{
 	public void setMotivoEstado(String motivoEstado) {
 		this.motivoEstado = motivoEstado;
 	}
+	public Integer getBanco() {
+		return banco;
+	}
+	public void setBanco(Integer banco) {
+		this.banco = banco;
+	}
+	public String getCc() {
+		return cc;
+	}
+	public void setCc(String cc) {
+		this.cc = cc;
+	}
+	
 
 }
