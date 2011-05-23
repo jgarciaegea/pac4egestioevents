@@ -73,6 +73,17 @@ public class GestorUsuario  extends GestorEntidad<DTOUsuario>{
 		}
 		return null;
 	}
+	
+	public DTOUsuario consultaEntidadById(String codigoUsuario) throws Exception{
+		try{
+			Usuario usuario = new Usuario();
+			usuario.setCodigo(codigoUsuario);
+			DaoUsuario daoUsuario = new DaoUsuario(connection);
+			return (DTOUsuario) daoUsuario.select(usuario);
+		}catch(Exception e){
+			throw new Exception(e.getMessage());
+		}
+	}
 
 	@Override
 	public DTOUsuario consultaEntidad(DTOUsuario criteris) throws Exception {

@@ -15,6 +15,7 @@ import java.util.List;
 import uoc.edu.tds.pec4.beans.Inscripcion;
 import uoc.edu.tds.pec4.daos.DaoInscripcion;
 //import uoc.edu.tds.pec4.dtos.DTOAsistente;
+import uoc.edu.tds.pec4.dtos.DTOAsistente;
 import uoc.edu.tds.pec4.dtos.DTOEvento;
 import uoc.edu.tds.pec4.dtos.DTOInscripcion;
 
@@ -54,12 +55,12 @@ public class GestorInscripcion extends GestorEntidad<DTOInscripcion>{
 					GestorEvento gestorEvento = new GestorEvento(connection);
 					DTOEvento dtoEvento = gestorEvento.consultaEntidadById(inscripcion.getIdEvento());
 					if(dtoEvento != null) dtoInscripcion.setDtoEvento(dtoEvento);
-					/*
-					//A–adimos el Usuario
+					
+					//Añadimos el Usuario
 					GestorUsuario gestorUsuario = new GestorUsuario(connection);
-					DTOAsistente dtoAsistente = gestorUsuario.consultaEntidadById(inscripcion.getCodigo());
+					DTOAsistente dtoAsistente = (DTOAsistente) gestorUsuario.consultaEntidadById(inscripcion.getCodigo());
 					if(dtoAsistente != null) dtoInscripcion.setDtoAsistente(dtoAsistente);
-					*/
+					
 					lstDTOInscripcion.add(dtoInscripcion);
 				}
 				return lstDTOInscripcion;
