@@ -11,7 +11,6 @@ import uoc.edu.tds.pec4.excepciones.OperationErrorDatosFormulario;
 
 /**
  * Clase con utilidades varias para la aplicacion
- * @author Susana Ortega
  */
 public class Utils {
 	
