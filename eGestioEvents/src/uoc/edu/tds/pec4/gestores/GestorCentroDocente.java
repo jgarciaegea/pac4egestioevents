@@ -8,6 +8,7 @@ import uoc.edu.tds.pec4.beans.CentroDocente;
 import uoc.edu.tds.pec4.daos.DaoCentroDocente;
 import uoc.edu.tds.pec4.dtos.DTOCentroDocente;
 import uoc.edu.tds.pec4.dtos.DTOContacto;
+import uoc.edu.tds.pec4.dtos.DTOUniversidad;
 
 public class GestorCentroDocente extends GestorEntidad<DTOCentroDocente>{
 
@@ -38,11 +39,17 @@ public class GestorCentroDocente extends GestorEntidad<DTOCentroDocente>{
 					DTOCentroDocente dtoCen = new DTOCentroDocente();
 					dtoCen.setCentroDocente(centroDocente);
 					
+					GestorUniversidad gestorUniversidad = new GestorUniversidad(connection);
+					DTOUniversidad dtoUniversidad = gestorUniversidad.consultaEntidadById(centroDocente.getIdUniversidad());
+					if(dtoUniversidad != null) dtoCen.setDtoUniversidad(dtoUniversidad);
+					
 					//Añadimos contacto
 					GestorContacto gestorContacto = new GestorContacto(connection);
 					DTOContacto dtoContacto = gestorContacto.consultaEntidadById(centroDocente.getIdContacto());
 					if(dtoContacto != null) dtoCen.setDtoContacto(dtoContacto);
 					lstCentroDoc.add(dtoCen);
+					
+					
 				}
 				return lstCentroDoc;
 			}
