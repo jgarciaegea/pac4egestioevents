@@ -16,8 +16,6 @@ mkdir build\i18n
 copy src\i18n build\i18n
 mkdir build\conf
 copy conf build\conf
-mkdir build\images
-copy images build\images
 mkdir build\imagen
 copy imagen build\imagen
 echo  -----------------------------------------------
