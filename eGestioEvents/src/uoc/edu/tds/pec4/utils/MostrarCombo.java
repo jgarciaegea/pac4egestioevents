@@ -3,8 +3,6 @@ package uoc.edu.tds.pec4.utils;
 
 /**
  * Classe per mostrar combos amb identificador i valor
- * 
- * @author Xavier
  *
  */
 
