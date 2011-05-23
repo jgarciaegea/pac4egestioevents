@@ -133,7 +133,7 @@ public class PantallaUsuarioConsulta extends javax.swing.JPanel implements Panta
 				jPanel2Layout.rowHeights = new int[] {28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 25, 128};
 				jPanel2Layout.columnWeights = new double[] {0.0, 0.0, 0.1};
 				jPanel2Layout.rowWeights = new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
-				jPanel2.setPreferredSize(new java.awt.Dimension(649, 502));
+				jPanel2.setPreferredSize(new java.awt.Dimension(649, 559));
 				jPanel2.setLayout(jPanel2Layout);
 				{
 					jTextFieldNombre = new JTextField();
@@ -275,10 +275,10 @@ public class PantallaUsuarioConsulta extends javax.swing.JPanel implements Panta
 					Utils.ocultaColumna(jTableRes,1);
 					
 					jTableRes.setSize(297, 130);
-					jTableRes.setPreferredSize(new java.awt.Dimension(597, 148));
+					jTableRes.setPreferredSize(new java.awt.Dimension(582, 186));
 					scrollPane=new JScrollPane(jTableRes);
 					scrollPane.setVisible(true);
-					jPanel2.add(scrollPane, new GridBagConstraints(0, 12, 3, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
+					jPanel2.add(scrollPane, new GridBagConstraints(0, 12, 3, 6, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 					
 					jLabelFechaAlta = new JLabel();
 					jLabelFechaAlta.setText("Fecha Alta");
