@@ -75,6 +75,17 @@ public class GestorUniversidad extends GestorEntidad<DTOUniversidad>{
 		}
 	}
 	
+	public DTOUniversidad consultaEntidadById(Integer idUniversidad) throws Exception{
+		try{
+			DTOUniversidad dtoUniversidad = new DTOUniversidad();
+			Universidad universidad = new Universidad();
+			universidad.setIdUniversidad(idUniversidad);
+			dtoUniversidad.setUniversidad(universidad);
+			return this.consultaEntidad(dtoUniversidad);
+		}catch(Exception e){
+			throw new Exception(e.getMessage());
+		}
+	}
 
 	@Override
 	public void modificaEntidad(DTOUniversidad criteris) throws Exception {
