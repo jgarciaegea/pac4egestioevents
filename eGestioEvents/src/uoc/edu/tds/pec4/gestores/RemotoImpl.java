@@ -13,7 +13,6 @@ import uoc.edu.tds.pec4.beans.TipoRol;
 import uoc.edu.tds.pec4.beans.TipoTelefono;
 import uoc.edu.tds.pec4.beans.Universidad;
 import uoc.edu.tds.pec4.beans.Usuario;
-import uoc.edu.tds.pec4.daos.DaoEvento;
 import uoc.edu.tds.pec4.dtos.DTOCentroDocente;
 import uoc.edu.tds.pec4.dtos.DTOEvento;
 import uoc.edu.tds.pec4.dtos.DTOEventoCalendario;
