@@ -22,10 +22,10 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.BevelBorder;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
 
 import uoc.edu.tds.pec4.beans.Evento;
 import uoc.edu.tds.pec4.beans.Usuario;
+import uoc.edu.tds.pec4.dtos.DTOCentroDocente;
 import uoc.edu.tds.pec4.dtos.DTOEvento;
 import uoc.edu.tds.pec4.dtos.DTOTipoEvento;
 import uoc.edu.tds.pec4.excepciones.OperationErrorBD;
@@ -80,17 +80,21 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 	private JTextField jTextFieldPrecio;
 	private JLabel jLabelPlazas;
 	private JTextField jTextFieldPlazas;
+	private JLabel jLabelDuracion;
+	private JTextField jTextFieldDuracion;
 	private JLabel jLabelDescripcion;
 	private JTextArea jTextAreaDescripcion;	
 	private JLabel jLabelRequisitos;
 	private JScrollPane jScrollPaneRequisitos;
 	private JTable jTableRequisitos;
+	private DefaultTableModel dtmRequisitos;
+	private String[] columnNamesRequisitos = {"idEvento", "Evento"};
 	private JButton jButtonRequisitos;
-//	private DefaultTableModel dtm;
-//	private String[] columnNames = {"idEvento", "Fecha", "Evento", "Universidad", "Centro docente", "Duraci—n", "Cancelado", "Celebrado"};
 	private JLabel jLabelRolPlazas;
 	private JScrollPane jScrollPaneRolPlazas;
 	private JTable jTableRolPlazas;
+	private DefaultTableModel dtmRolPlazas;
+	private String[] columnNamesRolPlazas = {"idRol", "Rol", "Plazas"};
 	private JButton jButtonRolPlazas;
 	private JButton jButtonAlta;
 	private JButton jButtonCancelar;
@@ -99,13 +103,12 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 	private RemoteInterface remote;
 	private Usuario usuario;
 	private DTOEvento dtoEventoAModficar;
+	private DTOCentroDocente dtoCentroDocente;
 	private Boolean bEventoModificacion = false;
 
 	// TODO 1: Revisar	
 	final static int interval = 1000;
 
-	
-	
 
 	public PantallaEvento(RemoteInterface remote1, Usuario usuarioLogin, DTOEvento eventoAModificar){
 		super();
@@ -136,7 +139,6 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 		this(remote1, usuarioLogin, null);
 	}
 
-
 	private void initGUI() {
 		try {
 			this.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder(null, bEventoModificacion.booleanValue()?"Modificaci—n de evento":"Alta de evento", 0, 0, new Font("Dialog", 1, 12), new Color(51, 51, 51)), null), null));
@@ -156,18 +158,21 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 		}
 	}
 	
+	private void cargaDatosCentroDocenteEnPantalla(DTOCentroDocente dto){
+		if (dto != null){
+			jLabelNombreCentro.setText(dto.getCentroDocente().getNombre());
+			jLabelCodigo.setText(dto.getCentroDocente().getIdCentro().toString());
+		}
+	}
 	/**
 	 * Carga los valores del Centro docente del usuario
 	 */
 	private void cargaCentroUsuario(){
-		//TODO 1: Probar cuando este el metodo de los centrosdocentes
 		/*
 		try {
-			DTOCentroDocente dtoCentroDocente = remote.getCentoDocentebyId(usuario.getIdCentro());
+			dtoCentroDocente = remote.getCentoDocentebyId(usuario.getIdCentro());
 			
-			if(dtoCentroDocente != null){
-				jLabelNombreCentro.setText(dtoCentroDocente.getCentroDocente().getNombre());
-				jLabelCodigo.setText(dtoCentroDocente.getCentroDocente().getIdCentro().toString());
+			cargaDatosCentroDocenteEnPantalla(dtoCentroDocente);
 			}	
 		} catch (RemoteException e) {
 			try {
@@ -181,8 +186,7 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 			} catch (OperationErrorBD e1) {
 				e1.showDialogError();
 			}
-		}
-		*/
+		}*/
 	}
 		
 	/**
@@ -190,10 +194,11 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 	 */
 	private void cargaEvento(){
 		try {
-			
 			dtoEventoAModficar = remote.getEvento(dtoEventoAModficar);
 			
-			if(dtoEventoAModficar != null){
+			if(dtoEventoAModficar != null){	
+				// Cargamos el centro docente del evento en pantalla
+				cargaDatosCentroDocenteEnPantalla(dtoEventoAModficar.getDtoCentroDocente());
 				
 				/*****************************************
 				 * CARGAMOS LOS VALORES DEL EVENTO
@@ -231,14 +236,16 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 				if (dtoEventoAModficar.getEvento().getUmbral() != null) jTextFieldUmbral.setText(dtoEventoAModficar.getEvento().getUmbral().toString());
 				if (dtoEventoAModficar.getEvento().getPrecio() != null) jTextFieldPrecio.setText(dtoEventoAModficar.getEvento().getPrecio().toString());
 				if (dtoEventoAModficar.getEvento().getPlazas() != null) jTextFieldPlazas.setText(dtoEventoAModficar.getEvento().getPlazas().toString());
+				if (dtoEventoAModficar.getEvento().getDuracion() != null) jTextFieldDuracion.setText(dtoEventoAModficar.getEvento().getDuracion().toString());
+				
 				if (dtoEventoAModficar.getEvento().getDescripcion() != null) jTextAreaDescripcion.setText(dtoEventoAModficar.getEvento().getDescripcion());
-				/*
-				if(dtoEventoAModficar.getDtoCentroDocente() != null){
-					jTextFieldDocIden.setText(dtoUsuarioaModificar.getDtoDocumentoIden().getDocumentoIdentificacion().getNumeroDocumento());
-					jComboBoxTipoEventoDoc.setSelectedItem(new MostrarCombo(dtoUsuarioaModificar.getDtoDocumentoIden().getDtoTipoDocumento().getTipoDocumento().getIdTipoDocumento()
-							,dtoUsuarioaModificar.getDtoDocumentoIden().getDtoTipoDocumento().getTipoDocumento().getDescripcionDocumento()));
+
+				
+				if(dtoEventoAModficar.getDtoTipoEvento() != null){
+					jComboBoxTipoEvento.setSelectedItem(new MostrarCombo(dtoEventoAModficar.getDtoTipoEvento().getTipoEvento().getIdTipoEvento()
+							,dtoEventoAModficar.getDtoTipoEvento().getTipoEvento().getDescripcion()));
 				}
-				*/
+				
 				/*****************************************
 				 * CARGAMOS LOS REQUISITOS
 				 *****************************************/
@@ -247,7 +254,9 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 				
 				/*****************************************
 				 * CARGAMOS LOS ROL  /PLAZAS
-				 *****************************************/
+				 ****************************************/
+				
+
 			}
 			
 		} catch (RemoteException e) {
@@ -280,6 +289,7 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 			if(Utils.valorisNull(jTextFieldUmbral.getText())) throw new Exception(Utils.MESSAGE_ERROR + " umbral" );
 			if(Utils.valorisNull(jTextFieldPrecio.getText())) throw new Exception(Utils.MESSAGE_ERROR + " precio" );
 			if(Utils.valorisNull(jTextFieldPlazas.getText())) throw new Exception(Utils.MESSAGE_ERROR + " plazas" );
+			if(Utils.valorisNull(jTextFieldDuracion.getText())) throw new Exception(Utils.MESSAGE_ERROR + " duraci—n" );
 			
 			//Desde la pantalla de modificaci—n no se puede cambiar el tipo evento
 			if(!modificacion){
@@ -294,6 +304,7 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 			if(!Utils.validaNumerico(jTextFieldUmbral.getText())) throw new Exception(Utils.MESSAGE_ERROR + " umbral " + Utils.MESSAGE_NUMERIC );
 			if(!Utils.validaNumerico(jTextFieldPrecio.getText())) throw new Exception(Utils.MESSAGE_ERROR + " precio " + Utils.MESSAGE_NUMERIC );
 			if(!Utils.validaNumerico(jTextFieldPlazas.getText())) throw new Exception(Utils.MESSAGE_ERROR + " plazas " + Utils.MESSAGE_NUMERIC );
+			if(!Utils.validaNumerico(jTextFieldDuracion.getText())) throw new Exception(Utils.MESSAGE_ERROR + " duraci—n " + Utils.MESSAGE_NUMERIC );
 		}catch(Exception e){
 			throw new OperationErrorDatosFormulario(e.getMessage());
 		}
@@ -348,18 +359,19 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 			throw e;
 		}
 		try {
-			evento.setFechaInicioCelebracion(Utils.transformFecha(jTextFieldFechaInicioCelebracion.getText()));
+			evento.setFechaInicioInscripcion(Utils.transformFecha(jTextFieldFechaInicioInscripcion.getText()));
 		} catch (OperationErrorDatosFormulario e) {
 			throw e;
 		}		
 		try {
-			evento.setFechaFinCelebracion(Utils.transformFecha(jTextFieldFechaFinCelebracion.getText()));
+			evento.setFechaFinInscripcion(Utils.transformFecha(jTextFieldFechaFinInscripcion.getText()));
 		} catch (OperationErrorDatosFormulario e) {
 			throw e;
 		}			
 		evento.setUmbral(Integer.parseInt(jTextFieldUmbral.getText()));
 		evento.setPrecio(Integer.parseInt(jTextFieldPrecio.getText()));
 		evento.setPlazas(Integer.parseInt(jTextFieldPlazas.getText()));
+		evento.setDuracion(Integer.parseInt(jTextFieldDuracion.getText()));
 		evento.setDescripcion(jTextAreaDescripcion.getText());
 		
 		if(modificacion){
@@ -400,6 +412,7 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 			jPanelCentro.setLayout(null);
 			jPanelCentro.setBounds(17, 32, 744, 58);
 			jPanelCentro.setBorder(BorderFactory.createEtchedBorder(BevelBorder.LOWERED));
+			jPanelCentro.setFont(new java.awt.Font("Arial",0,10));
 			jPanelCentro.add(getJLabelNombreCentroText());
 			jPanelCentro.add(getJLabelNombreCentro());
 			jPanelCentro.add(getJLabelCodigoText());
@@ -457,6 +470,7 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 			jPanelDatos.setLayout(null);
 			jPanelDatos.setBounds(17, 96, 744, 429);
 			jPanelDatos.setBorder(BorderFactory.createEtchedBorder(BevelBorder.LOWERED));
+			jPanelDatos.setFont(new java.awt.Font("Arial",0,10));
 			jPanelDatos.add(getJLabelEventoText());
 			jPanelDatos.add(getJLabelNombreText());
 			jPanelDatos.add(getJTextFieldNombre());
@@ -476,6 +490,8 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 			jPanelDatos.add(getJTextFieldPrecio());
 			jPanelDatos.add(getJLabelPlazas());
 			jPanelDatos.add(getJTextFieldPlazas());
+			jPanelDatos.add(getJLabelDuracion());
+			jPanelDatos.add(getJTextFieldDuracion());
 			jPanelDatos.add(getJLabelDescripcion());
 			jPanelDatos.add(getJTextAreaDescripcion());
 			jPanelDatos.add(getJLabelRequisitos());
@@ -665,7 +681,7 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 		if(jTextFieldPrecio == null) {
 			jTextFieldPrecio = new JTextField();
 			jTextFieldPrecio.setText("0");
-			jTextFieldPrecio.setBounds(263, 176, 78, 19);
+			jTextFieldPrecio.setBounds(275, 175, 78, 19);
 		}
 		return jTextFieldPrecio;
 	}
@@ -689,12 +705,10 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 	
 	private JTable getJTableRolPlazas() {
 		if(jTableRolPlazas == null) {
-			TableModel jTable1Model = 
-				new DefaultTableModel(
-						new String[][] { { "One", "Two" }, { "Three", "Four" } },
-						new String[] { "Column 1", "Column 2" });
-			jTableRolPlazas = new JTable();
-			jTableRolPlazas.setModel(jTable1Model);
+			dtmRolPlazas = new DefaultTableModel();
+			for(int i=0;i<columnNamesRolPlazas.length;i++){dtmRolPlazas.addColumn(columnNamesRolPlazas[i]);}
+			jTableRolPlazas = new JTable(dtmRolPlazas);
+			Utils.ocultaColumna(jTableRequisitos, 0);
 			jTableRolPlazas.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 			jTableRolPlazas.setPreferredSize(new java.awt.Dimension(117, 108));
 			jTableRolPlazas.setVerifyInputWhenFocusTarget(false);
@@ -739,13 +753,10 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 	}
 	private JTable getJTableRequisitos() {
 		if(jTableRequisitos == null) {
-			/*
-			dtm = new DefaultTableModel();
-			for(int i=0;i<columnNames.length;i++){dtm.addColumn(columnNames[i]);}
-			jTableRequisitos = new JTable(dtm);
+			dtmRequisitos = new DefaultTableModel();
+			for(int i=0;i<columnNamesRequisitos.length;i++){dtmRequisitos.addColumn(columnNamesRequisitos[i]);}
+			jTableRequisitos = new JTable(dtmRequisitos);
 			Utils.ocultaColumna(jTableRequisitos, 0);
-			*/
-			jTableRequisitos = new JTable();
 			jTableRequisitos.setBounds(519, 60, 117, 126);
 			jTableRequisitos.setVerifyInputWhenFocusTarget(false);
 			jTableRequisitos.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
@@ -833,5 +844,22 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 	    	});
 		}
 		return JButtonClear;
+	}
+	
+	private JLabel getJLabelDuracion() {
+		if(jLabelDuracion == null) {
+			jLabelDuracion = new JLabel();
+			jLabelDuracion.setText("Duraci—n");
+			jLabelDuracion.setBounds(198, 218, 51, 15);
+		}
+		return jLabelDuracion;
+	}
+	
+	private JTextField getJTextFieldDuracion() {
+		if(jTextFieldDuracion == null) {
+			jTextFieldDuracion = new JTextField();
+			jTextFieldDuracion.setBounds(275, 216, 66, 19);
+		}
+		return jTextFieldDuracion;
 	}
 }

@@ -32,27 +32,27 @@ public class DaoEvento extends DaoEntidad<Evento>{
 	public void insert(Evento objecte) throws Exception {
 		PreparedStatement ps = null;
 		try {
-			ps = con.prepareStatement("INSERT INTO EVENTO (id_evento, id_centro, nombre, descripcion, fecha_inicio_celebracion, fecha_alta," + 
+			ps = con.prepareStatement("INSERT INTO EVENTO (id_centro, nombre, descripcion, fecha_inicio_celebracion, fecha_alta," + 
                     "estado, fecha_estado, motivo_estado, id_tipo_evento, plazas, umbral, fecha_inicio_inscripcion," +
                     "fecha_fin_inscripcion, duracion, precio, fecha_fin_celebracion)" + 
-                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-			ps.setInt(1, objecte.getIdEvento());
-			ps.setInt(2, objecte.getIdCentro());
-			ps.setString(3, objecte.getNombre());
-			ps.setString(4, objecte.getDescripcion());
-			ps.setDate(5, objecte.getFechaInicioCelebracion());
-			ps.setDate(6, new java.sql.Date(System.currentTimeMillis())); //getDateSql(new java.sql.Date(System.currentTimeMillis())));
-			ps.setInt(7, Constantes.REGISTRO_ACTIVO);
-			ps.setDate(8, new java.sql.Date(System.currentTimeMillis()));
-			ps.setString(9, Constantes.REGISTRO_ACTIVO_MOTIVO);
-			ps.setInt(10, objecte.getIdTipoEvento());
-			ps.setInt(11, objecte.getPlazas());
-			ps.setInt(12, objecte.getUmbral());
-			ps.setDate(13, objecte.getFechaInicioInscripcion());
-			ps.setDate(14, objecte.getFechaFinInscripcion());
-			ps.setInt(15, objecte.getDuracion());
-			ps.setInt(16, objecte.getPrecio());
-			ps.setDate(17, objecte.getFechaFinCelebracion());
+                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+			ps.setInt(1, objecte.getIdCentro());
+			ps.setString(2, objecte.getNombre());
+			ps.setString(3, objecte.getDescripcion());
+			ps.setDate(4, objecte.getFechaInicioCelebracion());
+			ps.setDate(5, new java.sql.Date(System.currentTimeMillis())); //getDateSql(new java.sql.Date(System.currentTimeMillis())));
+			ps.setInt(6, Constantes.REGISTRO_ACTIVO);
+			ps.setDate(7, new java.sql.Date(System.currentTimeMillis()));
+			ps.setString(8, Constantes.REGISTRO_ACTIVO_MOTIVO);
+			ps.setInt(9, objecte.getIdTipoEvento());
+			ps.setInt(10, objecte.getPlazas());
+			ps.setInt(11, objecte.getUmbral());
+			ps.setDate(12, objecte.getFechaInicioInscripcion());
+			ps.setDate(13, objecte.getFechaFinInscripcion());
+			ps.setInt(14, objecte.getDuracion());
+			ps.setInt(15, objecte.getPrecio());
+			ps.setDate(16, objecte.getFechaFinCelebracion());
+			System.out.println(ps.toString());
 			ps.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
