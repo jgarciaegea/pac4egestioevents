@@ -124,15 +124,15 @@ public class PantallaUsuarioConsulta extends javax.swing.JPanel implements Panta
 	private void initGUI() {
 		try {
 			this.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder(null, "Consulta de usuarios", 0, 0, new Font("Dialog", 1, 12), new Color(51, 51, 51)), null), null));
-			this.setPreferredSize(new java.awt.Dimension(784, 634));
+			this.setPreferredSize(new java.awt.Dimension(784, 675));
 			{
 				jPanel2 = new JPanel();
 				this.add(jPanel2);
 				GridBagLayout jPanel2Layout = new GridBagLayout();
 				jPanel2Layout.columnWidths = new int[] {142, 222, 7};
-				jPanel2Layout.rowHeights = new int[] {28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 25, 128};
+				jPanel2Layout.rowHeights = new int[] {28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 25, 128, 0, 0, 0, 0, 0, 0, 0, 57};
 				jPanel2Layout.columnWeights = new double[] {0.0, 0.0, 0.1};
-				jPanel2Layout.rowWeights = new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+				jPanel2Layout.rowWeights = new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
 				jPanel2.setPreferredSize(new java.awt.Dimension(649, 559));
 				jPanel2.setLayout(jPanel2Layout);
 				{
@@ -259,49 +259,6 @@ public class PantallaUsuarioConsulta extends javax.swing.JPanel implements Panta
 					jPanel2.add(jComboBoxPerfil, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 8, 0, 0), 0, 0));
 					
 				}
-				{
-					dtm=new DefaultTableModel();
-					{
-						for(int i=0;i<columnNames.length;i++){
-				        	dtm.addColumn(columnNames[i]);
-				        }
-						
-					}
-					
-					jTableRes = new JTable(dtm);
-					
-					//Ocultamos la columna del id
-					Utils.ocultaColumna(jTableRes,0);
-					Utils.ocultaColumna(jTableRes,1);
-					
-					jTableRes.setSize(297, 130);
-					jTableRes.setPreferredSize(new java.awt.Dimension(582, 186));
-					scrollPane=new JScrollPane(jTableRes);
-					scrollPane.setVisible(true);
-					jPanel2.add(scrollPane, new GridBagConstraints(0, 12, 3, 6, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-					
-					jLabelFechaAlta = new JLabel();
-					jLabelFechaAlta.setText("Fecha Alta");
-					jPanel2.add(jLabelFechaAlta, new GridBagConstraints(0, 9, 1, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-					
-					jTextFieldFechaIni = new JTextField();
-					jTextFieldFechaIni.setPreferredSize(new java.awt.Dimension(100, 21));
-					jPanel2.add(jTextFieldFechaIni, new GridBagConstraints(1, 9, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 20), 0, 0));
-					
-					jLabelDesde = new JLabel();
-					jLabelDesde.setText("Desde");
-					jPanel2.add(jLabelDesde, new GridBagConstraints(1, 9, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 10, 0, 0), 0, 0));
-					
-					jLabelHasta = new JLabel();
-					jLabelHasta.setText("Hasta");
-					jPanel2.add(jLabelHasta, new GridBagConstraints(1, 9, 1, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-					jTextFieldHasta = new JTextField();
-					jTextFieldHasta.setPreferredSize(new java.awt.Dimension(100, 21));
-					jPanel2.add(jTextFieldHasta, new GridBagConstraints(2, 9, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 7, 0, 0), 0, 0));
-					jPanel2.add(getJLabelElimina(), new GridBagConstraints(2, 11, 1, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 45), 0, 0));
-					jPanel2.add(getJLabelModifica(), new GridBagConstraints(2, 11, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-					scrollPane.setPreferredSize(new java.awt.Dimension(600, 150));
-				}
 			}
 			{
 				jPanelButtom = new JPanel();
@@ -339,6 +296,52 @@ public class PantallaUsuarioConsulta extends javax.swing.JPanel implements Panta
 						}
 			    	});
 				}
+			}
+			{
+				
+				dtm=new DefaultTableModel();
+				{
+					for(int i=0;i<columnNames.length;i++){
+			        	dtm.addColumn(columnNames[i]);
+			        }
+					
+				}
+				
+				jTableRes = new JTable(dtm);
+				
+				//Ocultamos la columna del id
+				Utils.ocultaColumna(jTableRes,0);
+				Utils.ocultaColumna(jTableRes,1);
+				
+				jTableRes.setSize(297, 130);
+				jTableRes.setPreferredSize(new java.awt.Dimension(582, 148));
+				scrollPane=new JScrollPane(jTableRes);
+				scrollPane.setVisible(true);
+				jPanel2.add(scrollPane, new GridBagConstraints(0, 12, 3, 9, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
+				
+				jLabelFechaAlta = new JLabel();
+				jLabelFechaAlta.setText("Fecha Alta");
+				jPanel2.add(jLabelFechaAlta, new GridBagConstraints(0, 9, 1, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
+				
+				jTextFieldFechaIni = new JTextField();
+				jTextFieldFechaIni.setPreferredSize(new java.awt.Dimension(100, 21));
+				jPanel2.add(jTextFieldFechaIni, new GridBagConstraints(1, 9, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 20), 0, 0));
+				
+				jLabelDesde = new JLabel();
+				jLabelDesde.setText("Desde");
+				jPanel2.add(jLabelDesde, new GridBagConstraints(1, 9, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 10, 0, 0), 0, 0));
+				
+				jLabelHasta = new JLabel();
+				jLabelHasta.setText("Hasta");
+				jPanel2.add(jLabelHasta, new GridBagConstraints(1, 9, 1, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
+				jTextFieldHasta = new JTextField();
+				jTextFieldHasta.setPreferredSize(new java.awt.Dimension(100, 21));
+				jPanel2.add(jTextFieldHasta, new GridBagConstraints(2, 9, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 7, 0, 0), 0, 0));
+				jPanel2.add(getJLabelElimina(), new GridBagConstraints(2, 11, 1, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 60), 0, 0));
+				jPanel2.add(getJLabelModifica(), new GridBagConstraints(2, 11, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 60), 0, 0));
+				scrollPane.setPreferredSize(new java.awt.Dimension(600, 150));
+				scrollPane.setAutoscrolls(true);
+				scrollPane.getVerticalScrollBar().setMaximum(8);
 			}
 			
 			//Group the radio buttons.
@@ -410,7 +413,7 @@ public class PantallaUsuarioConsulta extends javax.swing.JPanel implements Panta
 			
 		} catch (Exception e) {
 			try{
-				throw new OperationErrorDatosFormulario(e.getMessage());
+				throw new OperationErrorDatosFormulario("Error al carga la pantalla de consulta de usuario");
 			}catch(OperationErrorDatosFormulario ex){
 				ex.showDialogError(jPanel2);
 			}
@@ -427,7 +430,7 @@ public class PantallaUsuarioConsulta extends javax.swing.JPanel implements Panta
 			DTOUsuario dtoUsuario = obtenUsuario(lstRes.get(0).toString(),Integer.parseInt(lstRes.get(1).toString()));
 			return dtoUsuario;
 		} catch (NumberFormatException e1) {
-			throw new OperationErrorDatosFormulario(e1.getMessage());
+			throw new OperationErrorDatosFormulario("Error al parsear el campo númerico");
 		} catch (Exception e1) {
 			throw new OperationErrorDatosFormulario(e1.getMessage());
 		}
@@ -460,7 +463,7 @@ public class PantallaUsuarioConsulta extends javax.swing.JPanel implements Panta
 			dtoUsuario.setUsuario(usuario);
 			return dtoUsuario;
 		}catch(Exception e){
-			throw new OperationErrorDatosFormulario(e.getMessage());
+			throw new OperationErrorDatosFormulario("Error al obtener la información del usuario");
 		}
 	}
 	
@@ -476,9 +479,9 @@ public class PantallaUsuarioConsulta extends javax.swing.JPanel implements Panta
 				return;
 			}
 			muestraResultado(lstDtoUsuario);
-			jTableRes.repaint();
+			actualizaTabla();
 		}catch(Exception e){
-			throw new OperationErrorDatosFormulario(e.getMessage());
+			throw new OperationErrorDatosFormulario("Error al cargar el listado de usuarios");
 		}
 		
 	}
@@ -529,7 +532,7 @@ public class PantallaUsuarioConsulta extends javax.swing.JPanel implements Panta
 			}
 			
 		}catch(Exception e){
-			throw new OperationErrorDatosFormulario(e.getMessage());
+			throw new OperationErrorDatosFormulario("Error al validar los campos del formulario");
 		}
 			
 	}
@@ -608,7 +611,7 @@ public class PantallaUsuarioConsulta extends javax.swing.JPanel implements Panta
 			});
 			
 		}catch(Exception e){
-			throw new OperationErrorDatosFormulario("Error al cargar las listas seleccionables");
+			throw new OperationErrorDatosFormulario("Error al cargar los combos relacionados con la información del usuario");
 		}
 		
 	}
@@ -647,8 +650,16 @@ public class PantallaUsuarioConsulta extends javax.swing.JPanel implements Panta
 	 */
 	private void limpiaFormulario(){
 		ClearForm.clearForm(jPanel2);
+		dtm.getDataVector().removeAllElements();
+		actualizaTabla();
+		
 	}
 	
+	private void actualizaTabla(){
+		jTableRes.repaint();
+		jTableRes.revalidate();
+		jTableRes.updateUI();
+	}
 	
 	/*
 	 * Mostramos el resultado obtenido
@@ -656,6 +667,7 @@ public class PantallaUsuarioConsulta extends javax.swing.JPanel implements Panta
 	private void muestraResultado(List<DTOUsuario> lstDtoUsuario) throws OperationErrorDatosFormulario{
 		
 		try{
+			
 			dtm.getDataVector().removeAllElements();
 		     
 			Object[][] aobj = new Object[lstDtoUsuario.size()][7];
@@ -675,15 +687,16 @@ public class PantallaUsuarioConsulta extends javax.swing.JPanel implements Panta
 	                 }
 	                 k++;
 	       	 	}
-	       	 
-	       	 	if(aobj != null && aobj.length > 0){
+				
+				if(aobj != null && aobj.length > 0){
 	       	 		for(int row = 0; row < aobj.length; row++){
 	       	 			dtm.addRow(aobj[row]);
 	       	 		}
 	       	 	}
+	       	 	
 			}
 		}catch(Exception e){
-			throw new OperationErrorDatosFormulario(e.getMessage());
+			throw new OperationErrorDatosFormulario("Error al mostrar el resultado obtenido");
 		}
 	}
 	
