@@ -41,6 +41,7 @@ public class DatosBancarios implements BeanInterface, Serializable{
 	public void setFechaAlta(Date fechaAlta) {
 		this.fechaAlta = fechaAlta;
 	}
+	
 	public Integer getEstado() {
 		return estado;
 	}
@@ -71,6 +72,5 @@ public class DatosBancarios implements BeanInterface, Serializable{
 	public void setCc(String cc) {
 		this.cc = cc;
 	}
-	
 
 }
