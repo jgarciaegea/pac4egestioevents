@@ -16,7 +16,6 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.UIManager;
 
 import uoc.edu.tds.pec4.excepciones.OperationErrorBD;
 import uoc.edu.tds.pec4.excepciones.OperationErrorRMI;
@@ -47,11 +46,11 @@ public class PantallaServidor extends JFrame {
         etiqueta1 = null;
         incicializarPantalla();
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-        try{
+       /* try{
         	UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
         }catch(Exception e){
         	System.err.println("No se ha podido cargar el estilo");
-        }
+        }*/
 	}
     
 	/**
