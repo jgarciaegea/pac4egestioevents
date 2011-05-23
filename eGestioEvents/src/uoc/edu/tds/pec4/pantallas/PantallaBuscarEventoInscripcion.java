@@ -13,13 +13,17 @@ import java.util.List;
 
 import javax.swing.BorderFactory;
 
+import uoc.edu.tds.pec4.beans.Evento;
 import uoc.edu.tds.pec4.beans.Usuario;
+import uoc.edu.tds.pec4.dtos.DTOEvento;
 import uoc.edu.tds.pec4.dtos.DTOTipoEvento;
 import uoc.edu.tds.pec4.excepciones.OperationErrorBD;
+import uoc.edu.tds.pec4.excepciones.OperationErrorDatosFormulario;
 import uoc.edu.tds.pec4.excepciones.OperationErrorLogin;
 import uoc.edu.tds.pec4.iface.RemoteInterface;
-import uoc.edu.tds.pec4.resources.TDSLanguageUtils;
+import uoc.edu.tds.pec4.utils.EmailValidator;
 import uoc.edu.tds.pec4.utils.MostrarCombo;
+import uoc.edu.tds.pec4.utils.Utils;
 
 /**
  * @author ML019882
@@ -103,11 +107,46 @@ public class PantallaBuscarEventoInscripcion  extends PanelComun implements Pant
 		
 		this.findBoton("botonBuscar").addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				setVisible(false);
-				System.out.println("EVENTO PARA EL Cancel");
+				buscarEventos();
 			}
 		});
 	}
+	
+	
+	
+	public void buscarEventos(){
+		try {
+			validaFormulario();
+			Evento event = new Evento();
+			event.setFechaInicioCelebracion(Utils.transformFecha(this.findTextField("cajaFechaEvento").getText()));
+			event.setIdTipoEvento(Integer.parseInt(((MostrarCombo) this.findCombo("comboTipoEvento").getSelectedItem()).getID().toString()));
+			
+		} catch (OperationErrorDatosFormulario e) {
+			e.printStackTrace();
+			e.showDialogError();
+		}
+		
+	}
+	
+	
+	/**
+	 * Método que valida los datos introducidos en el formulario
+	 * @throws OperationErrorDatosFormulario
+	 */
+	private void validaFormulario() throws OperationErrorDatosFormulario{
+		try{
+			
+
+			if(Utils.valorisNull(this.findCombo("comboTipoEvento").getSelectedItem())) throw new Exception(Utils.MESSAGE_ERROR + " Tipo de Evento" );
+			if(Utils.valorisNull(this.findTextField("cajaFechaEvento").getText())) throw new Exception(Utils.MESSAGE_ERROR + " Fecha Evento" );
+
+		
+		}catch(Exception e){
+			throw new OperationErrorDatosFormulario(e.getMessage());
+		}
+			
+	}
+	
 	
 	
 	public void goPantallaInscripcion() throws OperationErrorLogin, RemoteException, OperationErrorBD{
