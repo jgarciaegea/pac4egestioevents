@@ -66,7 +66,6 @@ import uoc.edu.tds.pec4.utils.Utils;
 */
 public class PantallaUsuarioConsulta extends javax.swing.JPanel implements Pantallas {
 	private String[] columnNames = {"Codigo","idTipoUsuario","Nombre", "Apellidos", "Fecha de alta", "Perfil", "Universidad"};
-	final static int interval = 1000;
 	private DefaultTableModel dtm;
 	private static final long serialVersionUID = 1L;
 	private JComboBox jComboBoxCentroDocente;
