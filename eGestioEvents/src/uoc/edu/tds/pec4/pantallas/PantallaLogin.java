@@ -177,16 +177,14 @@ public class PantallaLogin extends JFrame {
 	public void inicializarAplicacion() throws Exception,RemoteException,MalformedURLException,NotBoundException,OperationErrorBD {
 		try{
 			authenticate();
-    		if(usuarioEncontrado==null){
+    		if(usuarioEncontrado== null){
     			System.out.println("usuario no encontrado....");
-    			throw new OperationErrorLogin(TDSLanguageUtils.getMessage("clientePEC4.error.login2"));
+    			throw new OperationErrorLogin(TDSLanguageUtils.getMessage("clientePEC4.error.login1"));
 			} 
-    		if (usuarioEncontrado.getContrasena().equals(Base64Coder.encodeString(usuario.getContrasena()))){
+    		if (!usuarioEncontrado.getContrasena().equals(Base64Coder.encodeString(usuario.getContrasena()))){
     			System.out.println("usuario pwd diferente....");
     			throw new OperationErrorLogin(TDSLanguageUtils.getMessage("clientePEC4.error.login1"));
-    		}
-
-    		
+    		}    		
     		usuario = usuarioEncontrado;
     		
 			PantallaPrincipal aplicacion = new PantallaPrincipal(gestorRMI,remote,usuario);
