@@ -9,7 +9,6 @@ import java.rmi.registry.LocateRegistry;
 import uoc.edu.tds.pec4.excepciones.OperationErrorBD;
 import uoc.edu.tds.pec4.excepciones.OperationErrorRMI;
 import uoc.edu.tds.pec4.iface.RemoteInterface;
-import uoc.edu.tds.pec4.iface.RemotoImpl;
 import uoc.edu.tds.pec4.resources.TDSLanguageUtils;
 import java.rmi.registry.*;
 
