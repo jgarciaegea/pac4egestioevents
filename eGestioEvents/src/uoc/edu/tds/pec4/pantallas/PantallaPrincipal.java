@@ -39,10 +39,13 @@ public class PantallaPrincipal extends JFrame {
 	private JMenu menuConexion;
 	private JMenu menuSalir;
 	private JMenu menuAyuda;
+	   // items conexion y reserva
 	private JMenuItem cambioPwd;
 	private JMenuItem inscripcionEvento;
 	private JMenuItem historicoEventos;
 	private JMenuItem validarAsistenciaEvento;
+	private JMenuItem salirAplicacion;	
+	
 	private JMenuItem informePorcentajes;
 	private JMenuItem informeIngresos;
 	private JMenuItem informeAsistentes;
@@ -134,39 +137,15 @@ public class PantallaPrincipal extends JFrame {
 	        menuAyuda = new JMenu(TDSLanguageUtils.getMessage("clientePEC4.framePrincipal.titulo.menu6"));
 	        menuAyuda.setEnabled(false);
 	        
-	        // items menu Conexion
+ // items menu Conexion y reserva
 	        
 	        cambioPwd = new JMenuItem(TDSLanguageUtils.getMessage("clientePEC4.framePrincipal.titulo.menu4.item1"));
-	        cambioPwd.addActionListener(new ActionListener() { 
-	        	public void actionPerformed(ActionEvent evt) { 
-	        		try {
-						showPanel(new PantallaCambioPassword(gestorRMI,remote,usuario));
-					} catch (OperationErrorLogin e) {
-						e.showDialogError();
-						e.printStackTrace();
-					} 
-	        	} }); 
-	        inscripcionEvento = new JMenuItem(TDSLanguageUtils.getMessage("clientePEC4.framePrincipal.titulo.menu4.item2"));	   
+	        inscripcionEvento = new JMenuItem(TDSLanguageUtils.getMessage("clientePEC4.framePrincipal.titulo.menu4.item2"));
 	        historicoEventos = new JMenuItem(TDSLanguageUtils.getMessage("clientePEC4.framePrincipal.titulo.menu4.item3"));	
-	        historicoEventos.addActionListener(new ActionListener() { 
-	        	public void actionPerformed(ActionEvent evt) { 
-	        		try {
-						showPanel(new PantallaInformeEventosAsistente(gestorRMI,remote,usuario));
-					} catch (RemoteException e) {
-						e.printStackTrace();
-					} catch (OperationErrorBD e) {
-						e.showDialogError();
-						e.printStackTrace();
-					} 
-	        	} }); 	        
-	        
 	        validarAsistenciaEvento = new JMenuItem(TDSLanguageUtils.getMessage("clientePEC4.framePrincipal.titulo.menu4.item4"));
-	        validarAsistenciaEvento.addActionListener(new ActionListener() { 
-	        	public void actionPerformed(ActionEvent evt) { 
-	        		//showPanel(new PantallaAsistencia(gestorRMI,remote,usuario)); 
-	        	} }); 
-	        
-	     // items estadisticas
+	        salirAplicacion = new JMenuItem(TDSLanguageUtils.getMessage("clientePEC4.framePrincipal.titulo.menu5.item5"));
+
+// items estadisticas
 	        
 	        informePorcentajes = new JMenuItem(TDSLanguageUtils.getMessage("clientePEC4.framePrincipal.titulo.menu2.item1"));	    
 	        informeIngresos = new JMenuItem(TDSLanguageUtils.getMessage("clientePEC4.framePrincipal.titulo.menu2.item2"));
@@ -192,7 +171,7 @@ public class PantallaPrincipal extends JFrame {
 	 /*       
 	        altaCentroDocente.addActionListener(new ActionListener() { 
 	        	public void actionPerformed(ActionEvent evt) { 
-	        		showPanel(new PantallaCentroDocente(gestorRMI,remote)); 
+	        		//showPanel(new PantallaCentroDocente(gestorRMI,remote)); 
 	        	} }); 
 	   */     
 	        //Ayuda
@@ -231,7 +210,7 @@ public class PantallaPrincipal extends JFrame {
 	        menuProgramacionEvento.add(consultaInscripciones);
 
 	        menuAyuda.add(acercaDe);
-	        
+	        menuSalir.add(salirAplicacion);
 	        barraMenu.add(menuMantenimiento);
 	        barraMenu.add(menuEstadisticas);
 	        barraMenu.add(menuProgramacionEvento);
@@ -244,24 +223,110 @@ public class PantallaPrincipal extends JFrame {
 		}
 	}
 	
-	/**
-	 * Método para salir de la pantalla del cliente
-	 */
+	/************************************************
+	 * Método GENERADOR DE EVENTOS********************
+	 ************************************************/
 	
 	private void generaEventosPantallaPrincipal(){
-		addWindowListener(new java.awt.event.WindowAdapter() {
+		/*******************
+		 *GENERICOS*********
+		 *******************/
+		
+	// Evento Salir Pantalla	
+	addWindowListener(new java.awt.event.WindowAdapter() {
 			public void windowClosing(java.awt.event.WindowEvent e) {
-				if (JOptionPane.showConfirmDialog(PantallaPrincipal.this,TDSLanguageUtils.getMessage("ClientePEC4.cerrar"), null, JOptionPane.YES_NO_OPTION) == 0){
-					System.exit(0);
-					//Cerramos la conexión RMI
-					try {
-						gestorRMI.disconnectRMI();
-					} catch (OperationErrorRMI e1) {
-						e1.showDialogError();
-					}
-				}
+				salirAplicacion();
 			}
 		}) ; 
+	
+	
+	/*******************
+	 *SUB CONEXION*******
+	 *******************/
+	
+    
+    cambioPwd.addActionListener(new ActionListener() { 
+    	public void actionPerformed(ActionEvent evt) { 
+    		try {
+				showPanel(new PantallaCambioPassword(gestorRMI,remote,usuario));
+			} catch (OperationErrorLogin e) {
+				e.showDialogError();
+				e.printStackTrace();
+			} 
+    	} }); 
+    
+
+    inscripcionEvento.addActionListener(new ActionListener() { 
+    	public void actionPerformed(ActionEvent evt) { 
+    		try {
+				showPanel(new PantallaBuscarEventoInscripcion(remote,usuario));
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			} catch (OperationErrorBD e) {
+				e.showDialogError();
+				e.printStackTrace();
+			} catch (OperationErrorLogin e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} 
+    	} }); 	
+    
+
+    historicoEventos.addActionListener(new ActionListener() { 
+    	public void actionPerformed(ActionEvent evt) { 
+    		try {
+				showPanel(new PantallaInformeEventosAsistente(gestorRMI,remote,usuario));
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			} catch (OperationErrorBD e) {
+				e.showDialogError();
+				e.printStackTrace();
+			} 
+    	} }); 	        
+    
+
+    validarAsistenciaEvento.addActionListener(new ActionListener() { 
+    	public void actionPerformed(ActionEvent evt) { 
+    		//showPanel(new PantallaAsistencia(gestorRMI,remote,usuario)); 
+    	} }); 
+    
+    
+
+    salirAplicacion.addActionListener(new ActionListener() { 
+    	public void actionPerformed(ActionEvent evt) { 
+    		salirAplicacion();
+    	} });  
+    
+	
+	/*******************
+	 *SUB CONEXION*******
+	 *******************/
+    
+    
+		
+	}
+	
+	
+	/************************************************
+	 * Método para salir de la pantalla del cliente**
+	 ************************************************/
+	
+	private void salirAplicacion(){
+
+		if (JOptionPane.showConfirmDialog(PantallaPrincipal.this,TDSLanguageUtils.getMessage("ClientePEC4.cerrar"), null, JOptionPane.YES_NO_OPTION) == 0){
+			System.exit(0);
+			//Cerramos la conexión RMI
+			try {
+				gestorRMI.disconnectRMI();
+			} catch (OperationErrorRMI e1) {
+				e1.showDialogError();
+			}
+		}
+		
+
+		
+		
+		
 	}
 	
 	
