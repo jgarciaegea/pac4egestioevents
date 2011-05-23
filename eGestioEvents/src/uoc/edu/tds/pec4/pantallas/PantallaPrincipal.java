@@ -168,12 +168,17 @@ public class PantallaPrincipal extends JFrame {
 	        	public void actionPerformed(ActionEvent evt) { 
 	        		showPanel(new PantallaUsuarioConsulta(gestorRMI,remote)); 
 	        	} }); 
-	 /*       
+	        
 	        altaCentroDocente.addActionListener(new ActionListener() { 
 	        	public void actionPerformed(ActionEvent evt) { 
-	        		//showPanel(new PantallaCentroDocente(gestorRMI,remote)); 
+	        		showPanel(new PantallaCentroDocente(gestorRMI,remote)); 
 	        	} }); 
-	   */     
+	        
+	        consultaCentroDocente.addActionListener(new ActionListener() { 
+	        	public void actionPerformed(ActionEvent evt) { 
+	        		showPanel(new PantallaCentroDocenteConsulta(gestorRMI,remote)); 
+	        	} }); 
+	        
 	        //Ayuda
 	        acercaDe = new JMenuItem("Acerca de eGestioEvents");
 	        
