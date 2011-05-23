@@ -153,10 +153,10 @@ public class PantallaPrincipal extends JFrame {
 	        
 	// items mantenimiento
 	        
-	        altaUsuario = new JMenuItem("Alta usuario");
-	        consultaUsuario = new JMenuItem("Consulta usuario");
-	        altaCentroDocente = new JMenuItem("Alta centro docente");
-	        consultaCentroDocente = new JMenuItem("Consulta centro docente");
+	        altaUsuario = new JMenuItem(TDSLanguageUtils.getMessage("clientePEC4.altausuario.title"));
+	        consultaUsuario = new JMenuItem(TDSLanguageUtils.getMessage("clientePEC4.consultausuario.title"));
+	        altaCentroDocente = new JMenuItem(TDSLanguageUtils.getMessage("clientePEC4.altacentro.title"));
+	        consultaCentroDocente = new JMenuItem(TDSLanguageUtils.getMessage("clientePEC4.consultacentro.title"));
 	        
 	        altaUsuario.addActionListener(new ActionListener() { 
 	        	public void actionPerformed(ActionEvent evt) { 
