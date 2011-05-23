@@ -58,6 +58,16 @@ public interface RemoteInterface extends Remote{
 	public List<DTOUsuario> getUsuarios(DTOUsuario dtoUsuario) throws RemoteException, OperationErrorBD;
 	
 	/**
+	 * Método para recuperar un Usuario
+	 * @param codigoUsuario
+	 * @return
+	 * @throws RemoteException
+	 * @throws OperationErrorBD
+	 */
+	
+	public abstract  DTOUsuario getUsuario(DTOUsuario dtoUsuario) throws RemoteException, OperationErrorBD;
+	
+	/**
 	 * Damos de baja un usuario, es decir, ponemos el usuario como inactivo (valor 3)
 	 * @param dtoUsuario
 	 * @throws RemoteException
@@ -122,16 +132,6 @@ public interface RemoteInterface extends Remote{
 	 * @throws OperationErrorBD
 	 */
 	public abstract List<DTOCentroDocente> rellenaCentrosByIdUniversidad(Integer idUniversidad) throws RemoteException, OperationErrorBD;
-	
-	/**
-	 * Método para recuperar un Usuario
-	 * @param codigoUsuario
-	 * @return
-	 * @throws RemoteException
-	 * @throws OperationErrorBD
-	 */
-	
-	public abstract  DTOUsuario getUsuario(DTOUsuario dtoUsuario) throws RemoteException, OperationErrorBD;
 	
 	
 	public abstract List<DTOTipoEvento> getTiposEventos() throws RemoteException, OperationErrorBD;
@@ -207,6 +207,41 @@ public interface RemoteInterface extends Remote{
 	public void insertaCentroDocente(DTOCentroDocente dtoCentroDocente) throws RemoteException, OperationErrorBD;
 	
 	/**
+	 * Consulta los centros docentes existentes
+	 * @param dtoCentroDocente
+	 * @return 
+	 * @throws RemoteException
+	 * @throws OperationErrorBD
+	 */
+	public List<DTOCentroDocente> consultaCentrosDocentes(DTOCentroDocente dtoCentroDocente) throws RemoteException, OperationErrorBD;
+	
+	/**
+	 * Damos de baja el centro Docente
+	 * @param dtoCentroDocente
+	 * @throws RemoteException
+	 * @throws OperationErrorBD
+	 */
+	public void bajaCentroDocente(DTOCentroDocente dtoCentroDocente) throws RemoteException, OperationErrorBD;
+	
+	/**
+	 * Consultamos un centro Docente
+	 * @param dtoCentroDocente
+	 * @return
+	 * @throws RemoteException
+	 * @throws OperationErrorBD
+	 */
+	public DTOCentroDocente getCentroDocente(DTOCentroDocente dtoCentroDocente) throws RemoteException, OperationErrorBD;
+	
+	/**
+	 * Modificar el centro docente
+	 * @param dtoCentroDocente
+	 * @throws RemoteException
+	 * @throws OperationErrorBD
+	 */
+	public void modificaCentroDocente(DTOCentroDocente dtoCentroDocente) throws RemoteException, OperationErrorBD;
+	
+	
+	/**
 	 * Retorna un evento a partir de un dtoEvento(idEvento)
 	 * @param dtoEvento
 	 * @return
@@ -240,4 +275,5 @@ public interface RemoteInterface extends Remote{
 	 * @throws Exception 
 	 */
 	public abstract List<DTOEvento> buscarEvento(Evento evento)  throws RemoteException, OperationErrorBD, Exception;
+
 }
