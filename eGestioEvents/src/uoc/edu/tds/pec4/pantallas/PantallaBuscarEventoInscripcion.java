@@ -107,20 +107,31 @@ public class PantallaBuscarEventoInscripcion  extends PanelComun implements Pant
 		
 		this.findBoton("botonBuscar").addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				buscarEventos();
+				try {
+					buscarEventos();
+				} catch (RemoteException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (OperationErrorBD e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 	}
 	
 	
 	
-	public void buscarEventos(){
+	public void buscarEventos() throws RemoteException, OperationErrorBD, Exception{
 		try {
 			validaFormulario();
-			Evento event = new Evento();
-			event.setFechaInicioCelebracion(Utils.transformFecha(this.findTextField("cajaFechaEvento").getText()));
-			event.setIdTipoEvento(Integer.parseInt(((MostrarCombo) this.findCombo("comboTipoEvento").getSelectedItem()).getID().toString()));
-			
+			Evento evento = new Evento();
+			evento.setFechaInicioCelebracion(Utils.transformFecha(this.findTextField("cajaFechaEvento").getText()));
+			evento.setIdTipoEvento(Integer.parseInt(((MostrarCombo) this.findCombo("comboTipoEvento").getSelectedItem()).getID().toString()));
+			remote.buscarEvento(evento);
 		} catch (OperationErrorDatosFormulario e) {
 			e.printStackTrace();
 			e.showDialogError();
