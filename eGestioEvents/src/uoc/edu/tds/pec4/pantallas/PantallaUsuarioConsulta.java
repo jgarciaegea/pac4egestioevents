@@ -46,6 +46,7 @@ import uoc.edu.tds.pec4.excepciones.OperationErrorDatosFormulario;
 import uoc.edu.tds.pec4.gestores.FactoriaUsuario;
 import uoc.edu.tds.pec4.gestores.GestorRMI;
 import uoc.edu.tds.pec4.iface.RemoteInterface;
+import uoc.edu.tds.pec4.resources.TDSLanguageUtils;
 import uoc.edu.tds.pec4.utils.ClearForm;
 import uoc.edu.tds.pec4.utils.Constantes;
 import uoc.edu.tds.pec4.utils.MostrarCombo;
@@ -66,6 +67,7 @@ import uoc.edu.tds.pec4.utils.Utils;
 */
 public class PantallaUsuarioConsulta extends javax.swing.JPanel implements Pantallas {
 	private String[] columnNames = {"Codigo","idTipoUsuario","Nombre", "Apellidos", "Fecha de alta", "Perfil", "Universidad"};
+	final static int interval = 1000;
 	private DefaultTableModel dtm;
 	private static final long serialVersionUID = 1L;
 	private JComboBox jComboBoxCentroDocente;
@@ -142,7 +144,7 @@ public class PantallaUsuarioConsulta extends javax.swing.JPanel implements Panta
 				{
 					jLabelNombre = new JLabel();
 					jPanel2.add(jLabelNombre, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(4, 0, 0, 0), 0, 0));
-					jLabelNombre.setText("Nombre");
+					jLabelNombre.setText(TDSLanguageUtils.getMessage("clientePEC4.altausuario.label5"));
 					jLabelNombre.setLayout(null);
 				}
 				{
@@ -153,13 +155,13 @@ public class PantallaUsuarioConsulta extends javax.swing.JPanel implements Panta
 				{
 					jLabelApe = new JLabel();
 					jPanel2.add(jLabelApe, new GridBagConstraints(0, 2, 1, 1, 0.0, 0.0, GridBagConstraints.NORTHEAST, GridBagConstraints.NONE, new Insets(6, 0, 0, 0), 0, 0));
-					jLabelApe.setText("Apellidos");
+					jLabelApe.setText(TDSLanguageUtils.getMessage("clientePEC4.altausuario.label6"));
 					jLabelApe.setLayout(null);
 				}
 				{
 					jLabelTipoDoc = new JLabel();
 					jPanel2.add(jLabelTipoDoc, new GridBagConstraints(0, 3, 1, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-					jLabelTipoDoc.setText("Tipo de documento");
+					jLabelTipoDoc.setText(TDSLanguageUtils.getMessage("clientePEC4.altausuario.label7"));
 					jLabelTipoDoc.setLayout(null);
 				}
 				{
@@ -170,13 +172,13 @@ public class PantallaUsuarioConsulta extends javax.swing.JPanel implements Panta
 				{
 					jLabelDocIden = new JLabel();
 					jPanel2.add(jLabelDocIden, new GridBagConstraints(0, 4, 1, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-					jLabelDocIden.setText("Documento identificación");
+					jLabelDocIden.setText(TDSLanguageUtils.getMessage("clientePEC4.altausuario.label17"));
 					jLabelDocIden.setLayout(null);
 				}
 				{
 					jLabelLocalidad = new JLabel();
 					jPanel2.add(jLabelLocalidad, new GridBagConstraints(0, 5, 1, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-					jLabelLocalidad.setText("Localidad");
+					jLabelLocalidad.setText(TDSLanguageUtils.getMessage("clientePEC4.altausuario.label9"));
 					jLabelLocalidad.setLayout(null);
 				}
 				{
@@ -193,18 +195,18 @@ public class PantallaUsuarioConsulta extends javax.swing.JPanel implements Panta
 				{
 					jLabelTelf = new JLabel();
 					jPanel2.add(jLabelTelf, new GridBagConstraints(0, 7, 1, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-					jLabelTelf.setText("Centro Docente");
+					jLabelTelf.setText(TDSLanguageUtils.getMessage("clientePEC4.altausuario.label12"));
 					jLabelTelf.setLayout(null);
 				}
 				{
 					jLabelTipo = new JLabel();
 					jPanel2.add(jLabelTipo, new GridBagConstraints(0, 8, 1, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-					jLabelTipo.setText("Tipo Rol");
+					jLabelTipo.setText(TDSLanguageUtils.getMessage("clientePEC4.altausuario.label25"));
 				}
 				{
 					jLabelUniversidad = new JLabel();
 					jPanel2.add(jLabelUniversidad, new GridBagConstraints(0, 6, 1, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-					jLabelUniversidad.setText("Universidad");
+					jLabelUniversidad.setText(TDSLanguageUtils.getMessage("clientePEC4.altausuario.label23"));
 				}
 				{
 					
@@ -224,17 +226,17 @@ public class PantallaUsuarioConsulta extends javax.swing.JPanel implements Panta
 				{
 					jLabelActivos = new JLabel();
 					jPanel2.add(jLabelActivos, new GridBagConstraints(0, 10, 1, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-					jLabelActivos.setText("Incluir desactivados");
+					jLabelActivos.setText(TDSLanguageUtils.getMessage("clientePEC4.consultausuario.label4"));
 				}
 				{
 					jRadioButtonDesSi = new JRadioButton();
 					jPanel2.add(jRadioButtonDesSi, new GridBagConstraints(1, 10, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 8, 0, 0), 0, 0));
-					jRadioButtonDesSi.setText("Si");
+					jRadioButtonDesSi.setText(TDSLanguageUtils.getMessage("clientePEC4.consultausuario.label5"));
 				}
 				{
 					jRadioButtonDesaNo = new JRadioButton();
 					jPanel2.add(jRadioButtonDesaNo, new GridBagConstraints(1, 10, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.VERTICAL, new Insets(0, 0, 0, 80), 0, 0));
-					jRadioButtonDesaNo.setText("No");
+					jRadioButtonDesaNo.setText(TDSLanguageUtils.getMessage("clientePEC4.consultausuario.label6"));
 				}
 				{
 					jTextFieldDocuIden = new JTextField();
@@ -243,7 +245,7 @@ public class PantallaUsuarioConsulta extends javax.swing.JPanel implements Panta
 				}
 				{
 					jLabelTipoPerfil = new JLabel();
-					jLabelTipoPerfil.setText("Tipo Perfil");
+					jLabelTipoPerfil.setText(TDSLanguageUtils.getMessage("clientePEC4.altausuario.Perfil"));
 					jPanel2.add(jLabelTipoPerfil, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 					
 					jComboBoxTipoRol = new JComboBox();
@@ -267,7 +269,7 @@ public class PantallaUsuarioConsulta extends javax.swing.JPanel implements Panta
 				{
 					jButtonAcceptar = new JButton();
 					jPanelButtom.add(jButtonAcceptar);
-					jButtonAcceptar.setText("Acceptar");
+					jButtonAcceptar.setText(TDSLanguageUtils.getMessage("clientePEC4.altausuario.boton1"));
 					jButtonAcceptar.setLayout(null);
 					jButtonAcceptar.setBounds(277, -16, 64, 21);
 					
@@ -286,7 +288,7 @@ public class PantallaUsuarioConsulta extends javax.swing.JPanel implements Panta
 				{
 					jButtonCancelar = new JButton();
 					jPanelButtom.add(jButtonCancelar);
-					jButtonCancelar.setText("Cancelar");
+					jButtonCancelar.setText(TDSLanguageUtils.getMessage("clientePEC4.consultausuario.boton"));
 					jButtonCancelar.setLayout(null);
 					
 					jButtonCancelar.addActionListener(new ActionListener() {
@@ -319,7 +321,7 @@ public class PantallaUsuarioConsulta extends javax.swing.JPanel implements Panta
 				jPanel2.add(scrollPane, new GridBagConstraints(0, 12, 3, 9, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 				
 				jLabelFechaAlta = new JLabel();
-				jLabelFechaAlta.setText("Fecha Alta");
+				jLabelFechaAlta.setText(TDSLanguageUtils.getMessage("clientePEC4.consultausuario.label1"));
 				jPanel2.add(jLabelFechaAlta, new GridBagConstraints(0, 9, 1, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 				
 				jTextFieldFechaIni = new JTextField();
@@ -327,11 +329,11 @@ public class PantallaUsuarioConsulta extends javax.swing.JPanel implements Panta
 				jPanel2.add(jTextFieldFechaIni, new GridBagConstraints(1, 9, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 20), 0, 0));
 				
 				jLabelDesde = new JLabel();
-				jLabelDesde.setText("Desde");
+				jLabelDesde.setText(TDSLanguageUtils.getMessage("clientePEC4.consultausuario.label2"));
 				jPanel2.add(jLabelDesde, new GridBagConstraints(1, 9, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 10, 0, 0), 0, 0));
 				
 				jLabelHasta = new JLabel();
-				jLabelHasta.setText("Hasta");
+				jLabelHasta.setText(TDSLanguageUtils.getMessage("clientePEC4.consultausuario.label3"));
 				jPanel2.add(jLabelHasta, new GridBagConstraints(1, 9, 1, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 				jTextFieldHasta = new JTextField();
 				jTextFieldHasta.setPreferredSize(new java.awt.Dimension(100, 21));
@@ -359,13 +361,13 @@ public class PantallaUsuarioConsulta extends javax.swing.JPanel implements Panta
 			jLabelElimina.addMouseListener(new MouseListener(){
 				public void mouseClicked(MouseEvent e) {
 					if(jTableRes.getSelectedRow() == -1){
-						Utils.mostraMensajeInformacion(jPanel2, "No ha seleccionado ningún registro de la tabla", "Consulta Usuarios");
+						Utils.mostraMensajeInformacion(jPanel2, TDSLanguageUtils.getMessage("clientePEC4.consultausuario.INFO.MSG1"), TDSLanguageUtils.getMessage("clientePEC4.consultausuario.title"));
 					}else{
 						try {
 							DTOUsuario dtoUsuario = getRecuperaUsuarioSeleccionado();
 							remote.bajaUsuario(dtoUsuario);
 							cargaListadoUsuarios();
-							Utils.mostraMensajeInformacion(jPanel2,"Usuario dado de baja correctamente", "Consulta usuario");
+							Utils.mostraMensajeInformacion(jPanel2,TDSLanguageUtils.getMessage("clientePEC4.consultausuario.INFO.MSG2"), TDSLanguageUtils.getMessage("clientePEC4.consultausuario.title"));
 						} catch (Exception e1) {
 							try {
 								throw new OperationErrorDatosFormulario(e1.getMessage());
@@ -391,7 +393,7 @@ public class PantallaUsuarioConsulta extends javax.swing.JPanel implements Panta
 			jLabelModifica.addMouseListener(new MouseListener(){
 				public void mouseClicked(MouseEvent e) {
 					if(jTableRes.getSelectedRow() == -1){
-						Utils.mostraMensajeInformacion(jPanel2, "No ha seleccionado ningún registro de la tabla", "Consulta Usuarios");
+						Utils.mostraMensajeInformacion(jPanel2, TDSLanguageUtils.getMessage("clientePEC4.consultausuario.INFO.MSG1"), TDSLanguageUtils.getMessage("clientePEC4.consultausuario.title"));
 					}else{
 						try {
 							DTOUsuario dtoUsuario = getRecuperaUsuarioSeleccionado();
@@ -412,7 +414,7 @@ public class PantallaUsuarioConsulta extends javax.swing.JPanel implements Panta
 			
 		} catch (Exception e) {
 			try{
-				throw new OperationErrorDatosFormulario("Error al carga la pantalla de consulta de usuario");
+				throw new OperationErrorDatosFormulario(TDSLanguageUtils.getMessage("clientePEC4.error10"));
 			}catch(OperationErrorDatosFormulario ex){
 				ex.showDialogError(jPanel2);
 			}
@@ -429,7 +431,7 @@ public class PantallaUsuarioConsulta extends javax.swing.JPanel implements Panta
 			DTOUsuario dtoUsuario = obtenUsuario(lstRes.get(0).toString(),Integer.parseInt(lstRes.get(1).toString()));
 			return dtoUsuario;
 		} catch (NumberFormatException e1) {
-			throw new OperationErrorDatosFormulario("Error al parsear el campo númerico");
+			throw new OperationErrorDatosFormulario(TDSLanguageUtils.getMessage("clientePEC4.error11"));
 		} catch (Exception e1) {
 			throw new OperationErrorDatosFormulario(e1.getMessage());
 		}
@@ -462,7 +464,7 @@ public class PantallaUsuarioConsulta extends javax.swing.JPanel implements Panta
 			dtoUsuario.setUsuario(usuario);
 			return dtoUsuario;
 		}catch(Exception e){
-			throw new OperationErrorDatosFormulario("Error al obtener la información del usuario");
+			throw new OperationErrorDatosFormulario(TDSLanguageUtils.getMessage("clientePEC4.error12"));
 		}
 	}
 	
@@ -474,13 +476,13 @@ public class PantallaUsuarioConsulta extends javax.swing.JPanel implements Panta
 			dtm.getDataVector().removeAllElements();
 			List<DTOUsuario> lstDtoUsuario = remote.getUsuarios(consultaUsuarios());
 			if(lstDtoUsuario == null || lstDtoUsuario.isEmpty()){
-				Utils.mostraMensajeInformacion(jPanel2,"No hay resultados","Búsqueda usuarios");
+				Utils.mostraMensajeInformacion(jPanel2,TDSLanguageUtils.getMessage("clientePEC4.consultausuario.INFO.MSG3"),TDSLanguageUtils.getMessage("clientePEC4.consultausuario.title"));
 				return;
 			}
 			muestraResultado(lstDtoUsuario);
 			actualizaTabla();
 		}catch(Exception e){
-			throw new OperationErrorDatosFormulario("Error al cargar el listado de usuarios");
+			throw new OperationErrorDatosFormulario(TDSLanguageUtils.getMessage("clientePEC4.error13"));
 		}
 		
 	}
@@ -519,19 +521,19 @@ public class PantallaUsuarioConsulta extends javax.swing.JPanel implements Panta
 		try{
 			
 			if(!"".equalsIgnoreCase(jTextFieldHasta.getText()) && "".equalsIgnoreCase(jTextFieldFechaIni.getText())){
-				 throw new Exception("No puede introducir la fecha final sin previamente informar la fecha de inicio");
+				 throw new Exception(TDSLanguageUtils.getMessage("clientePEC4.error5"));
 			}
 			
 			if(!"".equalsIgnoreCase(jTextFieldFechaIni.getText())){
-				if(!Utils.parseaFecha(jTextFieldFechaIni.getText())) throw new Exception(Utils.MESSAGE_ERROR + " fecha inicio" + Utils.MESSAGE_FECHA );
+				if(!Utils.parseaFecha(jTextFieldFechaIni.getText())) throw new Exception(Utils.MESSAGE_ERROR + " " + TDSLanguageUtils.getMessage("clientePEC4.calendarioeventos.label2") + Utils.MESSAGE_FECHA );
 			}
 			
 			if(!"".equalsIgnoreCase(jTextFieldHasta.getText())){
-				if(!Utils.parseaFecha(jTextFieldHasta.getText())) throw new Exception(Utils.MESSAGE_ERROR + " fecha fin" + Utils.MESSAGE_FECHA );
+				if(!Utils.parseaFecha(jTextFieldHasta.getText())) throw new Exception(Utils.MESSAGE_ERROR + " " + TDSLanguageUtils.getMessage("clientePEC4.calendarioeventos.label3") + Utils.MESSAGE_FECHA );
 			}
 			
 		}catch(Exception e){
-			throw new OperationErrorDatosFormulario("Error al validar los campos del formulario");
+			throw new OperationErrorDatosFormulario(TDSLanguageUtils.getMessage("clientePEC4.error14"));
 		}
 			
 	}
@@ -610,7 +612,7 @@ public class PantallaUsuarioConsulta extends javax.swing.JPanel implements Panta
 			});
 			
 		}catch(Exception e){
-			throw new OperationErrorDatosFormulario("Error al cargar los combos relacionados con la información del usuario");
+			throw new OperationErrorDatosFormulario(TDSLanguageUtils.getMessage("clientePEC4.error6"));
 		}
 		
 	}
@@ -695,14 +697,14 @@ public class PantallaUsuarioConsulta extends javax.swing.JPanel implements Panta
 	       	 	
 			}
 		}catch(Exception e){
-			throw new OperationErrorDatosFormulario("Error al mostrar el resultado obtenido");
+			throw new OperationErrorDatosFormulario(TDSLanguageUtils.getMessage("clientePEC4.error15"));
 		}
 	}
 	
 	private JLabel getJLabelElimina() {
 		if(jLabelElimina == null) {
 			jLabelElimina = new JLabel();
-			jLabelElimina.setText("Elimina");
+			jLabelElimina.setText(TDSLanguageUtils.getMessage("clientePEC4.consultausuario.label8"));
 			ImageIcon icon = new ImageIcon("imagen/dcib022t.gif");
 			jLabelElimina.setIcon(icon);
 			jLabelElimina.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -714,7 +716,7 @@ public class PantallaUsuarioConsulta extends javax.swing.JPanel implements Panta
 	private JLabel getJLabelModifica() {
 		if(jLabelModifica == null) {
 			jLabelModifica = new JLabel();
-			jLabelModifica.setText("Modifica");
+			jLabelModifica.setText(TDSLanguageUtils.getMessage("clientePEC4.consultausuario.label7"));
 			ImageIcon icon = new ImageIcon("imagen/dcib023t.gif");
 			jLabelModifica.setIcon(icon);
 			jLabelModifica.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
