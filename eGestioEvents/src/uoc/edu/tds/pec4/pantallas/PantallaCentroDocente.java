@@ -86,7 +86,7 @@ public class PantallaCentroDocente extends javax.swing.JPanel implements Pantall
 	private JPanel jPanel2;
 	private RemoteInterface remote;
 	private Boolean bCentroDocenteModif = false;
-	private DTOCentroDocente dtoCentroDocente;
+	private DTOCentroDocente dtoCentroDocenteModificar;
 	/*
 	 * Constructor que recibe un idUsuario y lo calculamos
 	 */
@@ -100,8 +100,8 @@ public class PantallaCentroDocente extends javax.swing.JPanel implements Pantall
 		}
 		System.out.print("Para quitar el warning que sale si no se utiliza es provisional " + remote.toString());
 		initGUI();
-		this.dtoCentroDocente = dtoCentroDocente;
-		if(dtoCentroDocente != null){
+		this.dtoCentroDocenteModificar = dtoCentroDocente;
+		if(dtoCentroDocenteModificar != null){
 			bCentroDocenteModif = true;//Significa que vamos a realizar la modificación
 			cargaCentroDocente();
 			
@@ -280,6 +280,8 @@ public class PantallaCentroDocente extends javax.swing.JPanel implements Pantall
 									try {
 										validaFormulario(bCentroDocenteModif.booleanValue());
 										if(bCentroDocenteModif.booleanValue()){
+											remote.modificaCentroDocente(altaModificaCentroDocente(bCentroDocenteModif.booleanValue()));
+											Utils.mostraMensajeInformacion(jPanel2, "Registro modificado correctamente", "Modificación centro docente");
 										}else{
 											remote.insertaCentroDocente(altaModificaCentroDocente(bCentroDocenteModif.booleanValue()));
 											Utils.mostraMensajeInformacion(jPanel2, "La alta de centro docente se ha registrado correctamente", "Alta de centro docente");
@@ -351,7 +353,7 @@ public class PantallaCentroDocente extends javax.swing.JPanel implements Pantall
 			if(Utils.valorisNull(jComboBoxTipo.getSelectedItem())) throw new Exception(Utils.MESSAGE_ERROR + " tipo teléfono" );
 			
 		}catch(Exception e){
-			throw new OperationErrorDatosFormulario(e.getMessage());
+			throw new OperationErrorDatosFormulario("Error al validar los campos del formulario");
 		}
 			
 	}
@@ -401,7 +403,7 @@ public class PantallaCentroDocente extends javax.swing.JPanel implements Pantall
 			jComboBoxTipo.setModel(jComboBoxTipoModel);
 			
 		}catch(Exception e){
-			throw new OperationErrorDatosFormulario("Error al cargar las listas seleccionables");
+			throw new OperationErrorDatosFormulario("Error al cargar los combos relacionados con la información del centro docente");
 		}
 		
 	}
@@ -425,7 +427,7 @@ public class PantallaCentroDocente extends javax.swing.JPanel implements Pantall
 		}else{
 			contacto.setMotivoEstado("Modificación de usuario");
 			//MUY IMPORTANTE EL ID DEL CONTACTO SE HA DE DE RELLENAR DEL QUE PASAMOS PARA CONSULTAR. Digamos que es como si fuera un campo hidden
-			contacto.setIdContacto(dtoCentroDocente.getCentroDocente().getIdContacto());
+			contacto.setIdContacto(dtoCentroDocenteModificar.getCentroDocente().getIdContacto());
 		}
 		dtoContacto.setContacto(contacto);
 		
@@ -441,8 +443,8 @@ public class PantallaCentroDocente extends javax.swing.JPanel implements Pantall
 		telefono.setIdTipoTelefono(Integer.parseInt(((MostrarCombo) jComboBoxTipo.getSelectedItem()).getID().toString()));
 		if(modificacion){
 			//MUY IMPORTANTE EL ID DEL TELEFONO Y DEL CONTACTO SE HA DE DE RELLENAR DEL QUE PASAMOS PARA CONSULTAR. Digamos que es como si fuera un campo hidden
-			telefono.setIdContacto(dtoCentroDocente.getCentroDocente().getIdContacto());
-			telefono.setIdTelefono(dtoCentroDocente.getDtoContacto().getDtoTelefono().getTelefono().getIdTelefono());
+			telefono.setIdContacto(dtoCentroDocenteModificar.getCentroDocente().getIdContacto());
+			if(dtoCentroDocenteModificar.getDtoContacto().getDtoTelefono() != null) telefono.setIdTelefono(dtoCentroDocenteModificar.getDtoContacto().getDtoTelefono().getTelefono().getIdTelefono());
 		}
 		dtoTelefono.setTelefono(telefono);
 		dtoContacto.setDtoTelefono(dtoTelefono);
@@ -456,8 +458,8 @@ public class PantallaCentroDocente extends javax.swing.JPanel implements Pantall
 		centroDocente.setIdUniversidad(Integer.parseInt(((MostrarCombo) jComboBoxUniver.getSelectedItem()).getID().toString()));
 		if(modificacion){
 			//MUY IMPORTANTE EL ID DEL CONTACTO SE HA DE DE RELLENAR DEL QUE PASAMOS PARA CONSULTAR. Digamos que es como si fuera un campo hidden
-			contacto.setIdContacto(dtoCentroDocente.getCentroDocente().getIdContacto());
-			centroDocente.setIdCentro(dtoCentroDocente.getCentroDocente().getIdCentro());
+			contacto.setIdContacto(dtoCentroDocenteModificar.getCentroDocente().getIdContacto());
+			centroDocente.setIdCentro(dtoCentroDocenteModificar.getCentroDocente().getIdCentro());
 			centroDocente.setMotivoEstado("Modificación de centro docente");
 		}else{
 			centroDocente.setMotivoEstado("Alta de centro docente");
@@ -481,7 +483,97 @@ public class PantallaCentroDocente extends javax.swing.JPanel implements Pantall
 	 * Carga los valores del Usuario a consultar
 	 */
 	private void cargaCentroDocente(){
+		try {
 			
+			dtoCentroDocenteModificar = remote.getCentroDocente(dtoCentroDocenteModificar);
+			
+			if(dtoCentroDocenteModificar != null){
+				
+				
+				/*****************************************
+				 * CARGAMOS LA UNIVERSIDAD
+				 *****************************************/
+				if(dtoCentroDocenteModificar.getDtoUniversidad() != null){
+					jComboBoxpais.setSelectedItem(new MostrarCombo(dtoCentroDocenteModificar.getDtoUniversidad().getUniversidad().getIdUniversidad()
+							,dtoCentroDocenteModificar.getDtoUniversidad().getUniversidad().getNombre()));
+				}
+				
+				/*****************************************
+				 * CARGAMOS LOS VALORES DEL CENTRO DOCENTE
+				 *****************************************/
+				if(dtoCentroDocenteModificar.getCentroDocente() != null){
+					jTextFieldNombre.setText(dtoCentroDocenteModificar.getCentroDocente().getNombre());
+				}
+				
+				/*****************************************
+				 * CARGAMOS LOS VALORES DEL CONTACTO
+				 *****************************************/
+				if(dtoCentroDocenteModificar.getDtoContacto() != null){
+					
+					if(dtoCentroDocenteModificar.getDtoContacto().getContacto().getDomicilio() != null){
+						jTextFieldDirec.setText(dtoCentroDocenteModificar.getDtoContacto().getContacto().getDomicilio());
+					}
+					
+					if(dtoCentroDocenteModificar.getDtoContacto().getContacto().getWeb() != null){
+						jTextFieldWebBlog.setText(dtoCentroDocenteModificar.getDtoContacto().getContacto().getWeb());
+					}
+					
+					if(dtoCentroDocenteModificar.getDtoContacto().getContacto().getEmail() != null){
+						jTextFieldEmail.setText(dtoCentroDocenteModificar.getDtoContacto().getContacto().getEmail());
+					}
+					
+					if(dtoCentroDocenteModificar.getDtoContacto().getContacto().getCp() != null){
+						jTextFieldCP.setText(dtoCentroDocenteModificar.getDtoContacto().getContacto().getCp().toString());
+					}
+					
+					if(dtoCentroDocenteModificar.getDtoContacto().getContacto().getLocalidad() != null){
+						jTextFieldLocalidad.setText(dtoCentroDocenteModificar.getDtoContacto().getContacto().getLocalidad());
+					}
+					
+					if(dtoCentroDocenteModificar.getDtoContacto().getDtoPais().getPais().getIdPais()!= null){
+						jComboBoxpais.setSelectedItem(new MostrarCombo(dtoCentroDocenteModificar.getDtoContacto().getDtoPais().getPais().getIdPais(),
+								dtoCentroDocenteModificar.getDtoContacto().getDtoPais().getPais().getNombrePais()));
+					}
+				}
+				
+				/*****************************************
+				 * CARGAMOS LOS VALORES DEL TELEFONO
+				 *****************************************/
+				if(dtoCentroDocenteModificar.getDtoContacto().getDtoTelefono() != null){
+					
+					jComboBoxTipo.setSelectedItem(new MostrarCombo(dtoCentroDocenteModificar.getDtoContacto().getDtoTelefono().getDtoTipoTelefono().getTipoTelefono().getIdTipoTelefono(),
+							dtoCentroDocenteModificar.getDtoContacto().getDtoTelefono().getDtoTipoTelefono().getTipoTelefono().getDescripcion()));
+					
+					if(dtoCentroDocenteModificar.getDtoContacto().getDtoTelefono().getTelefono().getExtension()!= null && dtoCentroDocenteModificar.getDtoContacto().getDtoTelefono().getTelefono().getExtension()!=-1){
+						jTextFieldExtension.setText(dtoCentroDocenteModificar.getDtoContacto().getDtoTelefono().getTelefono().getExtension().toString());
+					}
+					
+					if(dtoCentroDocenteModificar.getDtoContacto().getDtoTelefono().getTelefono().getTelefono()!= null){
+						jTextFieldTelefono.setText(dtoCentroDocenteModificar.getDtoContacto().getDtoTelefono().getTelefono().getTelefono().toString());
+					}
+					
+					if(dtoCentroDocenteModificar.getDtoContacto().getDtoTelefono().getTelefono().getPrefijoPais()!= null){
+						jTextFieldPrefijo.setText(dtoCentroDocenteModificar.getDtoContacto().getDtoTelefono().getTelefono().getPrefijoPais());
+					}
+				}
+				
+			}
+			
+			
+		} catch (RemoteException e) {
+			try {
+				throw new OperationErrorRMI("Error al cargar la pantalla de alta de centro docente");
+			} catch (OperationErrorRMI e1) {
+				e1.showDialogError();
+			}
+		} catch (OperationErrorBD e) {
+			try {
+				throw new OperationErrorBD("Error al cargar los datos del centro docente a modificar");
+			} catch (OperationErrorBD e1) {
+				e1.showDialogError();
+			}
+		}
+		
 	}
 	
 }
