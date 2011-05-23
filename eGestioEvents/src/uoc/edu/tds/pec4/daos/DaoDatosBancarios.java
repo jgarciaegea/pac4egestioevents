@@ -25,7 +25,7 @@ public class DaoDatosBancarios  extends DaoEntidad<DatosBancarios>{
 			ps.setInt(1, objecte.getBanco());
 			ps.setInt(2, objecte.getSucursal());
 			ps.setInt(3, objecte.getDc());
-			ps.setInt(4, objecte.getCc());
+			ps.setString(4, objecte.getCc());
 			ps.setDate(5, new java.sql.Date(System.currentTimeMillis()));
 			ps.setInt(6, Constantes.REGISTRO_ACTIVO);
 			ps.setDate(7,objecte.getFechaEstado());
@@ -53,6 +53,7 @@ public class DaoDatosBancarios  extends DaoEntidad<DatosBancarios>{
 		ResultSet rs = null;
 		List<DatosBancarios> lstDatosBancarios = new ArrayList<DatosBancarios>();
 		try{
+			
 			StringBuffer sb = new StringBuffer();
 			sb.append("SELECT id_datos_bancarios, banco, sucursal, dc, cc, fecha_alta, estado, fecha_estado, motivo_estado ");
 			sb.append("FROM DATOSBANCARIOS ");
@@ -75,7 +76,7 @@ public class DaoDatosBancarios  extends DaoEntidad<DatosBancarios>{
 			if(criteris.getBanco()!=null) {ps.setInt(i, criteris.getBanco()); i++;}
 			if(criteris.getSucursal()!=null) {ps.setInt(i, criteris.getSucursal()); i++;}
 			if(criteris.getDc()!=null) {ps.setInt(i, criteris.getDc()); i++;}
-			if(criteris.getCc()!=null) {ps.setInt(i, criteris.getCc()); i++;}
+			if(criteris.getCc()!=null) {ps.setString(i, criteris.getCc()); i++;}
 			if(criteris.getFechaAlta()!=null) {ps.setDate(i, criteris.getFechaAlta()); i++;}
 			if(criteris.getEstado()!=null) {ps.setInt(i, criteris.getEstado()); i++;}
 			if(criteris.getFechaEstado()!=null) {ps.setDate(i, criteris.getFechaEstado()); i++;}
@@ -88,7 +89,7 @@ public class DaoDatosBancarios  extends DaoEntidad<DatosBancarios>{
 				datosBancarios.setBanco(rs.getInt("banco"));
 				datosBancarios.setSucursal(rs.getInt("sucursal"));
 				datosBancarios.setDc(rs.getInt("dc"));
-				datosBancarios.setCc(rs.getInt("cc"));
+				datosBancarios.setCc(rs.getString("cc"));
 				datosBancarios.setFechaAlta(rs.getDate("fecha_alta"));
 				datosBancarios.setEstado(rs.getInt("estado"));
 				datosBancarios.setFechaEstado(rs.getDate("fecha_estado"));
@@ -127,7 +128,7 @@ public class DaoDatosBancarios  extends DaoEntidad<DatosBancarios>{
 			if(objecte.getBanco()!=null) {ps.setInt(i, objecte.getBanco()); i++;}
 			if(objecte.getSucursal()!=null) {ps.setInt(i, objecte.getSucursal()); i++;}
 			if(objecte.getDc()!=null) {ps.setInt(i, objecte.getDc()); i++;}
-			if(objecte.getCc()!=null) {ps.setInt(i, objecte.getCc()); i++;}
+			if(objecte.getCc()!=null) {ps.setString(i, objecte.getCc()); i++;}
 			if(objecte.getFechaAlta()!=null) {ps.setDate(i, objecte.getFechaAlta()); i++;}
 			if(objecte.getEstado()!=null) {ps.setInt(i, objecte.getEstado()); i++;}
 			if(objecte.getFechaEstado()!=null) {ps.setDate(i, new java.sql.Date(System.currentTimeMillis())); i++;}
