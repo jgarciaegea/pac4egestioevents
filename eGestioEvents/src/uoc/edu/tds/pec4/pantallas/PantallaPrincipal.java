@@ -116,7 +116,6 @@ public class PantallaPrincipal extends JFrame {
 			super.getContentPane().add(panelPrincipal);
 			
 			//Crear el logo eGestioEvents en la pantalla principal
-			panelPrincipal.setBackground(Color.white);
 			JLabel logo = new JLabel("",JLabel.CENTER);
 	        ImageIcon fondo = new ImageIcon("imagen/eGestio.jpg");
 			logo.setIcon(fondo);
