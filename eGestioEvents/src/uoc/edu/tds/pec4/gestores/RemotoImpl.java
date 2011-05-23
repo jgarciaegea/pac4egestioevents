@@ -14,6 +14,7 @@ import uoc.edu.tds.pec4.beans.TipoTelefono;
 import uoc.edu.tds.pec4.beans.Universidad;
 import uoc.edu.tds.pec4.beans.Usuario;
 import uoc.edu.tds.pec4.dtos.DTOCentroDocente;
+import uoc.edu.tds.pec4.dtos.DTOCentroDocenteConsulta;
 import uoc.edu.tds.pec4.dtos.DTOEvento;
 import uoc.edu.tds.pec4.dtos.DTOEventoCalendario;
 import uoc.edu.tds.pec4.dtos.DTOInscripcion;
@@ -477,6 +478,74 @@ public class RemotoImpl extends UnicastRemoteObject implements RemoteInterface{
 		GestorEvento gestorEvento = new GestorEvento(gestorDB.getConnection());
 		return(gestorEvento.consultaEntidades(dtoEvento));
 	}
+
+	public List<DTOCentroDocente> consultaCentrosDocentes(DTOCentroDocente dtoCentroDocente) throws RemoteException, OperationErrorBD{
+		try{
+			System.out.println("Consultamos el centro docente con id: " + ((DTOCentroDocenteConsulta) dtoCentroDocente).getCentroDocenteView().getIdCentro());
+			GestorCentroDocente getorCentroDocente = new GestorCentroDocente(gestorDB.getConnection());
+			return getorCentroDocente.consultaEntidadesByView((DTOCentroDocenteConsulta) dtoCentroDocente);
+		}catch(Exception e){
+			throw new OperationErrorBD("Error al recuperar la información de los centros docentes......");
+		}
+	}
+	
+	
+	public  DTOCentroDocente getCentroDocente(DTOCentroDocente dtoCentroDocente) throws RemoteException, OperationErrorBD {
+		try{
+			System.out.println("Damos de baja el centro docente con id: " + dtoCentroDocente.getCentroDocente().getIdCentro());
+			GestorCentroDocente gestorCentroDocente = new GestorCentroDocente(gestorDB.getConnection());
+			return gestorCentroDocente.consultaEntidad(dtoCentroDocente);
+		}catch(Exception e){
+			throw new OperationErrorBD("Error al recuperar el centro docente...");
+		}
+
+	}
+	
+	public void bajaCentroDocente(DTOCentroDocente dtoCentroDocente) throws RemoteException, OperationErrorBD {
+		try{
+			System.out.println("Damos de baja el centro docente con id: " + dtoCentroDocente.getCentroDocente().getIdCentro());
+			gestorDB.getConnection().setAutoCommit(false);
+			GestorCentroDocente gestorCenDoc = new GestorCentroDocente(gestorDB.getConnection());
+			gestorCenDoc.eliminaEntidad(dtoCentroDocente);
+			gestorDB.getConnection().commit();
+			System.out.println("centro docente eliminado correctamente");
+		}catch(Exception e){
+			gestorDB.rollback();
+			throw new OperationErrorBD("Error al dar de baja el centro docente...");
+		}
+	}
+	
+	public void modificaCentroDocente(DTOCentroDocente dtoCentroDocente) throws RemoteException, OperationErrorBD{
+		try{
+			
+			gestorDB.getConnection().setAutoCommit(false);
+			
+			System.out.println("Modificamos el centro docente con id: " + dtoCentroDocente.getCentroDocente().getIdCentro());
+			
+			//Modificamos contacto
+			GestorContacto gestorContacto = new GestorContacto(gestorDB.getConnection());
+			gestorContacto.modificaEntidad(dtoCentroDocente.getDtoContacto());
+			System.out.println("contacto modificado correctamente");
+			
+			//Modificamos telefono
+			GestorTelefono gestorTelefono = new GestorTelefono(gestorDB.getConnection());
+			gestorTelefono.modificaEntidad(dtoCentroDocente.getDtoContacto().getDtoTelefono());
+			System.out.println("telefono modificado correctamente");
+			
+			//Modificamos el centro docente
+			GestorCentroDocente gestorCentroDocente = new GestorCentroDocente(gestorDB.getConnection());
+			gestorCentroDocente.modificaEntidad(dtoCentroDocente);
+			
+			gestorDB.getConnection().commit();
+			System.out.println("centro docente modificado correctamente");
+			
+		}catch(Exception e){
+			gestorDB.rollback();
+			throw new OperationErrorBD("Error al modificar el centro docente...");
+		}
+	}
+	
+	
 	
 	
 	
