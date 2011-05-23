@@ -529,7 +529,7 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 										Utils.mostraMensajeInformacion(jPanel2, "Registro modificado correctamente", "Modificación usuario");
 									}else{
 										codigo = remote.insertaUsuario(altaModificaUsuario(bUserModificacion.booleanValue()));
-										Utils.mostraMensajeInformacion(jPanel2, "Registro insertado correctamente.\nSu identificador de usuario es " + codigo, "Alta usuario");
+										Utils.mostraMensajeInformacion(jPanel2, "La alta de usuario se ha registrado correctamente.\nSu identificador de usuario es " + codigo, "Alta usuario");
 										limpiaFormulario();
 									}
 								} catch (RemoteException e1) {
@@ -728,10 +728,8 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 				if(Utils.valorisNull(jTextFieldCuenta.getText())) throw new Exception(Utils.MESSAGE_ERROR + " cuenta" );
 				
 				//Aquí ya no vendrá ningún campo null así que realizamos más modificaciones
-				if(!Utils.validaNumerico(jTextFieldCon.getText())) 	throw new Exception(Utils.MESSAGE_ERROR + " password " + Utils.MESSAGE_NUMERIC );
 				if(!Utils.validaNumerico(jTextFieldCP.getText())) 	throw new Exception(Utils.MESSAGE_ERROR + " código postal " + Utils.MESSAGE_NUMERIC );
 				if(!Utils.validaNumerico(jTextFieldTelefono.getText())) throw new Exception(Utils.MESSAGE_ERROR + " teléfono" + Utils.MESSAGE_NUMERIC );
-				if(!Utils.valorisNull(jTextFieldEmail.getText()) && !Utils.validaNumerico(jTextFieldExtension.getText())) throw new Exception(Utils.MESSAGE_ERROR + " extensión teléfono" + Utils.MESSAGE_NUMERIC );
 				if(!Utils.validaNumerico(jTextFieldSucursal.getText())) throw new Exception(Utils.MESSAGE_ERROR + " sucursal" + Utils.MESSAGE_NUMERIC );
 				if(!Utils.validaNumerico(jTextFieldDC.getText())) throw new Exception(Utils.MESSAGE_ERROR + " DC" + Utils.MESSAGE_NUMERIC );
 				if(!Utils.validaNumerico(jTextFieldBanco.getText())) throw new Exception(Utils.MESSAGE_ERROR + " banco" + Utils.MESSAGE_NUMERIC );
@@ -868,8 +866,6 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 		contacto.setEmail(jTextFieldEmail.getText());
 		contacto.setWeb(jTextFieldWebBlog.getText());
 		if(!modificacion){
-			contacto.setEstado(1);
-			contacto.setFechaEstado(new java.sql.Date(System.currentTimeMillis()));
 			contacto.setMotivoEstado("alta de usuario");
 		}else{
 			//MUY IMPORTANTE EL ID DEL CONTACTO SE HA DE DE RELLENAR DEL QUE PASAMOS PARA CONSULTAR. Digamos que es como si fuera un campo hidden
@@ -897,7 +893,6 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 			usuario.setFechaContrasena(new java.sql.Date(System.currentTimeMillis()));
 			usuario.setContrasena(jTextFieldCon.getText());
 			usuario.setCambiarContrasena(false);
-			usuario.setFechaEstado(new java.sql.Date(System.currentTimeMillis()));
 			usuario.setMotivoEstado("Alta de usuario");
 			usuario.setCodigo(generaCodigo(usuario));
 		}else{
@@ -945,10 +940,10 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 			dtoDatosBancarios = new DTODatosBancarios();
 			DatosBancarios datosBancarios = new DatosBancarios();
 			try {
-				datosBancarios.setBanco(Integer.parseInt(jTextFieldCuenta.getText()));
+				datosBancarios.setBanco(Integer.parseInt(jTextFieldBanco.getText()));
 				datosBancarios.setSucursal(Integer.parseInt(jTextFieldSucursal.getText()));
 				datosBancarios.setDc(Integer.parseInt(jTextFieldDC.getText()));
-				datosBancarios.setCc(Integer.parseInt(jTextFieldCuenta.getText()));
+				datosBancarios.setCc(jTextFieldCuenta.getText());
 			} catch (NumberFormatException e) {
 				throw e;
 			}
@@ -1059,7 +1054,7 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 			if(usuario.getApellidos().length() > 2) codigoUsuario.append(usuario.getApellidos().toUpperCase().trim().substring(0, 1));	
 			
 			for(int i=0;i<5;i++){
-				codigoUsuario.append(((int) Math.floor(Math.random()*10)+1));
+				codigoUsuario.append(((int) Math.floor(Math.random()*9)));
 			}
 			//Falta método para comprobar codigo
 			codigoAcep = true;
@@ -1076,6 +1071,10 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 			dtoUsuarioaModificar = remote.getUsuario(dtoUsuarioaModificar);
 			
 			if(dtoUsuarioaModificar != null){
+				
+				if(Constantes.ADMINISTRADOR == dtoUsuarioaModificar.getUsuario().getTipoUsuario()) jRadioButtonAdmin.setSelected(true);
+				if(Constantes.SECRETARIA == dtoUsuarioaModificar.getUsuario().getTipoUsuario()) jRadioButtonSecr.setSelected(true);
+				if(Constantes.ASISTENTE == dtoUsuarioaModificar.getUsuario().getTipoUsuario()) jRadioButtonAsis.setSelected(true);
 				
 				/*****************************************
 				 * CARGAMOS LOS VALORES DEL USUARIO
@@ -1138,7 +1137,7 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 				 *****************************************/
 				if(dtoUsuarioaModificar.getDtoContacto().getDtoTelefono() != null){
 					
-					jComboBoxTipo.setSelectedItem(new MostrarCombo(dtoUsuarioaModificar.getDtoContacto().getDtoTelefono().getDtoTelefono().getDtoTipoTelefono().getTipoTelefono().getIdTipoTelefono(),
+					jComboBoxTipo.setSelectedItem(new MostrarCombo(dtoUsuarioaModificar.getDtoContacto().getDtoTelefono().getDtoTipoTelefono().getTipoTelefono().getIdTipoTelefono(),
 							dtoUsuarioaModificar.getDtoContacto().getDtoTelefono().getDtoTipoTelefono().getTipoTelefono().getDescripcion()));
 					
 					if(dtoUsuarioaModificar.getDtoContacto().getDtoTelefono().getTelefono().getExtension()!= null && dtoUsuarioaModificar.getDtoContacto().getDtoTelefono().getTelefono().getExtension()!=-1){
@@ -1153,6 +1152,38 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 						jTextFieldPrefijo.setText(dtoUsuarioaModificar.getDtoContacto().getDtoTelefono().getTelefono().getPrefijoPais());
 					}
 				}
+				
+				/*****************************************
+				 * CARGAMOS LOS VALORES DE LA UNIVERSIDAD
+				 *****************************************/
+				showHideDatosUni(false);
+				showHideDatosUsuario(false);
+				
+				if(Constantes.ADMINISTRADOR != dtoUsuarioaModificar.getUsuario().getTipoUsuario()){
+					showHideDatosUni(true);
+					if(dtoUsuarioaModificar.getDtoCentroDocente().getDtoUniversidad().getUniversidad().getIdUniversidad()!= null){
+						jComboBoxpais.setSelectedItem(new MostrarCombo(dtoUsuarioaModificar.getDtoCentroDocente().getDtoUniversidad().getUniversidad().getIdUniversidad(),
+								dtoUsuarioaModificar.getDtoCentroDocente().getDtoUniversidad().getUniversidad().getNombre()));
+					}
+					
+					if(dtoUsuarioaModificar.getDtoCentroDocente().getCentroDocente().getIdCentro()!= null){
+						jComboBoxCentroDocente.setSelectedItem(new MostrarCombo(dtoUsuarioaModificar.getDtoCentroDocente().getCentroDocente().getIdCentro(),
+								dtoUsuarioaModificar.getDtoCentroDocente().getCentroDocente().getNombre()));
+					}
+					
+				}
+				
+				/*****************************************
+				 * CARGAMOS LOS VALORES DEL BANCO
+				 *****************************************/
+				if(Constantes.ASISTENTE == dtoUsuarioaModificar.getUsuario().getTipoUsuario()) {
+					showHideDatosUsuario(true);
+					jTextFieldBanco.setText(dtoUsuarioaModificar.getDtoDatosBancarios().getDatosBancarios().getBanco().toString());
+					jTextFieldSucursal.setText(dtoUsuarioaModificar.getDtoDatosBancarios().getDatosBancarios().getSucursal().toString());
+					jTextFieldDC.setText(dtoUsuarioaModificar.getDtoDatosBancarios().getDatosBancarios().getDc().toString());
+					jTextFieldCuenta.setText(dtoUsuarioaModificar.getDtoDatosBancarios().getDatosBancarios().getCc().toString());
+				}
+				
 			}
 			
 		} catch (RemoteException e) {
