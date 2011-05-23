@@ -52,6 +52,7 @@ import uoc.edu.tds.pec4.excepciones.OperationErrorRMI;
 import uoc.edu.tds.pec4.gestores.FactoriaUsuario;
 import uoc.edu.tds.pec4.gestores.GestorRMI;
 import uoc.edu.tds.pec4.iface.RemoteInterface;
+import uoc.edu.tds.pec4.resources.TDSLanguageUtils;
 import uoc.edu.tds.pec4.utils.ClearForm;
 import uoc.edu.tds.pec4.utils.Constantes;
 import uoc.edu.tds.pec4.utils.EmailValidator;
@@ -187,24 +188,24 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 				{
 					tipoperfil = new JLabel();
 					jPanel1.add(tipoperfil);
-					tipoperfil.setText("Tipo Perfil");
+					tipoperfil.setText(TDSLanguageUtils.getMessage("clientePEC4.altausuario.Perfil"));
 				}
 				{
 					jRadioButtonAdmin = new JRadioButton();
 					jPanel1.add(jRadioButtonAdmin);
-					jRadioButtonAdmin.setText("Administrador");
+					jRadioButtonAdmin.setText(TDSLanguageUtils.getMessage("clientePEC4.altausuario.label2"));
 					jRadioButtonAdmin.setBounds(103, 7, 86, 18);
 				}
 				{
 					jRadioButtonSecr = new JRadioButton();
 					jPanel1.add(jRadioButtonSecr);
-					jRadioButtonSecr.setText("Personal Secretaria");
+					jRadioButtonSecr.setText(TDSLanguageUtils.getMessage("clientePEC4.altausuario.label3"));
 					jRadioButtonSecr.setBounds(61, 5, 86, 18);
 				}
 				{
 					jRadioButtonAsis = new JRadioButton();
 					jPanel1.add(jRadioButtonAsis);
-					jRadioButtonAsis.setText("Asistente");
+					jRadioButtonAsis.setText(TDSLanguageUtils.getMessage("clientePEC4.altausuario.label4"));
 				}
 			}
 			{
@@ -225,7 +226,7 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 				{
 					jLabelNombre = new JLabel();
 					jPanel2.add(jLabelNombre, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(4, 0, 0, 0), 0, 0));
-					jLabelNombre.setText("Nombre");
+					jLabelNombre.setText(TDSLanguageUtils.getMessage("clientePEC4.altausuario.label5"));
 					jLabelNombre.setLayout(null);
 				}
 				{
@@ -236,7 +237,7 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 				{
 					jLabelApe = new JLabel();
 					jPanel2.add(jLabelApe, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0, GridBagConstraints.NORTHEAST, GridBagConstraints.NONE, new Insets(6, 0, 0, 0), 0, 0));
-					jLabelApe.setText("Apellidos");
+					jLabelApe.setText(TDSLanguageUtils.getMessage("clientePEC4.altausuario.label6"));
 					jLabelApe.setLayout(null);
 				}
 				{
@@ -247,13 +248,13 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 				{
 					jLabelCodigo = new JLabel();
 					jPanel2.add(jLabelCodigo, new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0, GridBagConstraints.NORTHEAST, GridBagConstraints.NONE, new Insets(5, 0, 0, 0), 0, 0));
-					jLabelCodigo.setText("Codigo Usuario");
+					jLabelCodigo.setText(TDSLanguageUtils.getMessage("clientePEC4.altausuario.label15"));
 					jLabelCodigo.setLayout(null);
 				}
 				{
 					jLabelCont = new JLabel();
 					jPanel2.add(jLabelCont, new GridBagConstraints(2, 1, 1, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(3, 0, 0, 0), 0, 0));
-					jLabelCont.setText("Contraseña");
+					jLabelCont.setText(TDSLanguageUtils.getMessage("clientePEC4.altausuario.label16"));
 					jLabelCont.setLayout(null);
 				}
 				{
@@ -265,7 +266,7 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 				{
 					jLabelTipoDoc = new JLabel();
 					jPanel2.add(jLabelTipoDoc, new GridBagConstraints(0, 2, 1, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-					jLabelTipoDoc.setText("Tipo de documento");
+					jLabelTipoDoc.setText(TDSLanguageUtils.getMessage("clientePEC4.altausuario.label7"));
 					jLabelTipoDoc.setLayout(null);
 				}
 				{
@@ -278,7 +279,7 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 				{
 					jLabelDirec = new JLabel();
 					jPanel2.add(jLabelDirec, new GridBagConstraints(0, 3, 1, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-					jLabelDirec.setText("Direccion");
+					jLabelDirec.setText(TDSLanguageUtils.getMessage("clientePEC4.altausuario.label8"));
 					jLabelDirec.setLayout(null);
 				}
 				{
@@ -289,7 +290,7 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 				{
 					jLabelDocIden = new JLabel();
 					jPanel2.add(jLabelDocIden, new GridBagConstraints(2, 2, 1, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-					jLabelDocIden.setText("Documento identificación");
+					jLabelDocIden.setText(TDSLanguageUtils.getMessage("clientePEC4.altausuario.label17"));
 					jLabelDocIden.setLayout(null);
 				}
 				{
@@ -300,7 +301,7 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 				{
 					jLabelLocalidad = new JLabel();
 					jPanel2.add(jLabelLocalidad, new GridBagConstraints(0, 4, 1, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-					jLabelLocalidad.setText("Localidad");
+					jLabelLocalidad.setText(TDSLanguageUtils.getMessage("clientePEC4.altausuario.label9"));
 					jLabelLocalidad.setLayout(null);
 				}
 				{
@@ -311,7 +312,7 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 				{
 					jLabelCP = new JLabel();
 					jPanel2.add(jLabelCP, new GridBagConstraints(2, 4, 1, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-					jLabelCP.setText("CP");
+					jLabelCP.setText(TDSLanguageUtils.getMessage("clientePEC4.altausuario.label18"));
 					jLabelCP.setLayout(null);
 					
 				}
@@ -324,7 +325,7 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 				{
 					jLabelPais = new JLabel();
 					jPanel2.add(jLabelPais, new GridBagConstraints(2, 5, 1, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-					jLabelPais.setText("Pais");
+					jLabelPais.setText(TDSLanguageUtils.getMessage("clientePEC4.altausuario.label19"));
 					jLabelPais.setLayout(null);
 				}
 				{
@@ -336,7 +337,7 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 				{
 					jLabelEmail = new JLabel();
 					jPanel2.add(jLabelEmail, new GridBagConstraints(0, 5, 1, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-					jLabelEmail.setText("Email");
+					jLabelEmail.setText(TDSLanguageUtils.getMessage("clientePEC4.altausuario.label10"));
 					jLabelEmail.setLayout(null);
 				}
 				{
@@ -347,7 +348,7 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 				{
 					jLabelSexo = new JLabel();
 					jPanel2.add(jLabelSexo, new GridBagConstraints(2, 6, 1, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-					jLabelSexo.setText("Sexo");
+					jLabelSexo.setText(TDSLanguageUtils.getMessage("clientePEC4.altausuario.label20"));
 					jLabelSexo.setLayout(null);
 				}
 				{
@@ -359,7 +360,7 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 				{
 					jLabelBlog = new JLabel();
 					jPanel2.add(jLabelBlog, new GridBagConstraints(0, 6, 1, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-					jLabelBlog.setText("Página Web o Blog");
+					jLabelBlog.setText(TDSLanguageUtils.getMessage("clientePEC4.altausuario.label11"));
 					jLabelBlog.setLayout(null);
 				}
 				{
@@ -370,7 +371,7 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 				{
 					jLabelFechaNac = new JLabel();
 					jPanel2.add(jLabelFechaNac, new GridBagConstraints(2, 7, 1, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-					jLabelFechaNac.setText("Fecha Nacimiento");
+					jLabelFechaNac.setText(TDSLanguageUtils.getMessage("clientePEC4.altausuario.label21"));
 					jLabelFechaNac.setLayout(null);
 				}
 				{
@@ -382,7 +383,7 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 				{
 					jLabelTelf = new JLabel();
 					jPanel2.add(jLabelTelf, new GridBagConstraints(0, 9, 1, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-					jLabelTelf.setText("Teléfono");
+					jLabelTelf.setText(TDSLanguageUtils.getMessage("clientePEC4.altausuario.label12"));
 					jLabelTelf.setLayout(null);
 				}
 				{
@@ -394,7 +395,7 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 				{
 					jLabelExtension = new JLabel();
 					jPanel2.add(jLabelExtension, new GridBagConstraints(0, 10, 1, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-					jLabelExtension.setText("Extension");
+					jLabelExtension.setText(TDSLanguageUtils.getMessage("clientePEC4.altausuario.label13"));
 				}
 				{
 					jTextFieldExtension = new JTextField();
@@ -404,7 +405,7 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 				{
 					jLabelTipo = new JLabel();
 					jPanel2.add(jLabelTipo, new GridBagConstraints(0, 11, 1, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-					jLabelTipo.setText("Tipo");
+					jLabelTipo.setText(TDSLanguageUtils.getMessage("clientePEC4.altausuario.label14"));
 				}
 				{
 					
@@ -416,7 +417,7 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 				{
 					jLabelUniversidad = new JLabel();
 					jPanel2.add(jLabelUniversidad, new GridBagConstraints(0, 13, 1, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-					jLabelUniversidad.setText("Universidad");
+					jLabelUniversidad.setText(TDSLanguageUtils.getMessage("clientePEC4.altausuario.label23"));
 				}
 				{
 					jComboBoxUniver = new JComboBox();
@@ -433,12 +434,12 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 				{
 					jLabelCenDocente = new JLabel();
 					jPanel2.add(jLabelCenDocente, new GridBagConstraints(2, 13, 1, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-					jLabelCenDocente.setText("Centro Docente");
+					jLabelCenDocente.setText(TDSLanguageUtils.getMessage("clientePEC4.altausuario.label24"));
 				}
 				{
 					jLabelTipoRol = new JLabel();
 					jPanel2.add(jLabelTipoRol, new GridBagConstraints(0, 14, 1, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-					jLabelTipoRol.setText("Tipo Rol");
+					jLabelTipoRol.setText(TDSLanguageUtils.getMessage("clientePEC4.altausuario.label25"));
 				}
 				{
 					
@@ -450,12 +451,12 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 				{
 					jLabelDatosBanc = new JLabel();
 					jPanel2.add(jLabelDatosBanc, new GridBagConstraints(0, 16, 1, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-					jLabelDatosBanc.setText("Datos Bancarios");
+					jLabelDatosBanc.setText(TDSLanguageUtils.getMessage("clientePEC4.altausuario.label26"));
 				}
 				{
 					jLabelBanco = new JLabel();
 					jPanel2.add(jLabelBanco, new GridBagConstraints(1, 17, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-					jLabelBanco.setText("Banco");
+					jLabelBanco.setText(TDSLanguageUtils.getMessage("clientePEC4.altausuario.label27"));
 				}
 				{
 					jTextFieldBanco = new JTextField();
@@ -466,7 +467,7 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 				{
 					jLabelSucursal = new JLabel();
 					jPanel2.add(jLabelSucursal, new GridBagConstraints(1, 17, 1, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 62), 0, 0));
-					jLabelSucursal.setText("Sucursal");
+					jLabelSucursal.setText(TDSLanguageUtils.getMessage("clientePEC4.altausuario.label28"));
 				}
 				{
 					jTextFieldSucursal = new JTextField();
@@ -477,7 +478,7 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 				{
 					jLabelDC = new JLabel();
 					jPanel2.add(jLabelDC, new GridBagConstraints(2, 17, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 9, 0, 0), 0, 0));
-					jLabelDC.setText("DC");
+					jLabelDC.setText(TDSLanguageUtils.getMessage("clientePEC4.altausuario.label29"));
 				}
 				{
 					jTextFieldDC = new JTextField();
@@ -488,7 +489,7 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 				{
 					jLabelCuenta = new JLabel();
 					jPanel2.add(jLabelCuenta, new GridBagConstraints(2, 17, 1, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 9), 0, 0));
-					jLabelCuenta.setText("Cuenta");
+					jLabelCuenta.setText(TDSLanguageUtils.getMessage("clientePEC4.altausuario.label30"));
 				}
 				{
 					jTextFieldCuenta = new JTextField();
@@ -499,7 +500,7 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 				{
 					jLabelPrefijo = new JLabel();
 					jPanel2.add(jLabelPrefijo, new GridBagConstraints(2, 9, 1, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-					jLabelPrefijo.setText("Prefijo");
+					jLabelPrefijo.setText(TDSLanguageUtils.getMessage("clientePEC4.altausuario.label22"));
 				}
 				{
 					jTextFieldPrefijo = new JTextField();
@@ -515,7 +516,7 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 				{
 					jButtonAcceptar = new JButton();
 					jPanelButtom.add(jButtonAcceptar);
-					jButtonAcceptar.setText("Acceptar");
+					jButtonAcceptar.setText(TDSLanguageUtils.getMessage("clientePEC4.altausuario.boton1"));
 					jButtonAcceptar.setLayout(null);
 					jButtonAcceptar.setBounds(277, -16, 64, 21);
 					
@@ -526,10 +527,10 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 									validaFormulario(bUserModificacion.booleanValue());
 									if(bUserModificacion.booleanValue()){
 										remote.modificaUsuario(altaModificaUsuario(bUserModificacion.booleanValue()));
-										Utils.mostraMensajeInformacion(jPanel2, "Registro modificado correctamente", "Modificación usuario");
+										Utils.mostraMensajeInformacion(jPanel2, TDSLanguageUtils.getMessage("clientePEC4.altausuario.INFO.MSG1"), TDSLanguageUtils.getMessage("clientePEC4.altausuario.INFO.MSG1.title"));
 									}else{
 										codigo = remote.insertaUsuario(altaModificaUsuario(bUserModificacion.booleanValue()));
-										Utils.mostraMensajeInformacion(jPanel2, "La alta de usuario se ha registrado correctamente.\nSu identificador de usuario es " + codigo, "Alta usuario");
+										Utils.mostraMensajeInformacion(jPanel2, TDSLanguageUtils.getMessage("clientePEC4.altausuario.INFO.MSG2") + " " + codigo, TDSLanguageUtils.getMessage("clientePEC4.altausuario.title"));
 										limpiaFormulario();
 									}
 								} catch (RemoteException e1) {
@@ -550,7 +551,7 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 				{
 					jButtonCancelar = new JButton();
 					jPanelButtom.add(jButtonCancelar);
-					jButtonCancelar.setText("Limpiar");
+					jButtonCancelar.setText(TDSLanguageUtils.getMessage("clientePEC4.altausuario.boton2"));
 					jButtonCancelar.setLayout(null);
 					
 					jButtonCancelar.addActionListener(new ActionListener() {
@@ -619,7 +620,7 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 			
 		} catch (Exception e) {
 			try{
-				throw new OperationErrorDatosFormulario("Error al cargar la pantalla de usuarios");
+				throw new OperationErrorDatosFormulario(TDSLanguageUtils.getMessage("clientePEC4.altausuario.INFO.MSG3"));
 			}catch(OperationErrorDatosFormulario ex){
 				ex.showDialogError(jPanel2);
 			}
@@ -688,59 +689,59 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 			//Campos a validar genéricamente
 			if(!jRadioButtonAdmin.isSelected() && !jRadioButtonSecr.isSelected() && !jRadioButtonAsis.isSelected()) throw new Exception("Ha de seleccionar un tipo de perfil");
 			
-			if(Utils.valorisNull(jTextFieldNombre.getText())) throw new Exception(Utils.MESSAGE_ERROR + " nombre" );
-			if(Utils.valorisNull(jTextFieldApe.getText())) throw new Exception(Utils.MESSAGE_ERROR + " apellidos" );
-			if(Utils.valorisNull(jComboBoxTipoDoc.getSelectedItem())) throw new Exception(Utils.MESSAGE_ERROR + " tipo de documento" );
-			if(Utils.valorisNull(jTextFieldDirec.getText())) throw new Exception(Utils.MESSAGE_ERROR + " direccion" );
-			if(Utils.valorisNull(jComboBoxTipo.getSelectedItem())) throw new Exception(Utils.MESSAGE_ERROR + " tipo teléfono" );
-			if(Utils.valorisNull(jComboBoxpais.getSelectedItem())) throw new Exception(Utils.MESSAGE_ERROR + " país" );
-			if(Utils.valorisNull(jTextFieldTelefono.getText())) throw new Exception(Utils.MESSAGE_ERROR + " teléfono" );
-			if(Utils.valorisNull(jTextFieldFechaNac.getText())) throw new Exception(Utils.MESSAGE_ERROR + " fecha nacimiento" );
-			if(Utils.valorisNull(jComboBoxSexo.getSelectedItem())) throw new Exception(Utils.MESSAGE_ERROR + " sexo" );
-			if(Utils.valorisNull(jTextFieldCP.getText())) throw new Exception(Utils.MESSAGE_ERROR + " código postal" );
-			if(Utils.valorisNull(jTextFieldLocalidad.getText())) throw new Exception(Utils.MESSAGE_ERROR + " localidad" );
-			if(Utils.valorisNull(jTextFieldDocIden.getText())) throw new Exception(Utils.MESSAGE_ERROR + " documento identificación" );
-			if(Utils.valorisNull(jTextFieldDirec.getText())) throw new Exception(Utils.MESSAGE_ERROR + " dirección" );
+			if(Utils.valorisNull(jTextFieldNombre.getText())) throw new Exception(Utils.MESSAGE_ERROR + " " +  TDSLanguageUtils.getMessage("clientePEC4.altausuario.label5"));
+			if(Utils.valorisNull(jTextFieldApe.getText())) throw new Exception(Utils.MESSAGE_ERROR + " " + TDSLanguageUtils.getMessage("clientePEC4.altausuario.label6") );
+			if(Utils.valorisNull(jComboBoxTipoDoc.getSelectedItem())) throw new Exception(Utils.MESSAGE_ERROR + " " + TDSLanguageUtils.getMessage("clientePEC4.altausuario.label7") );
+			if(Utils.valorisNull(jTextFieldDirec.getText())) throw new Exception(Utils.MESSAGE_ERROR + " " + TDSLanguageUtils.getMessage("clientePEC4.altausuario.label8"));
+			if(Utils.valorisNull(jComboBoxTipo.getSelectedItem())) throw new Exception(Utils.MESSAGE_ERROR + " " + TDSLanguageUtils.getMessage("clientePEC4.altausuario.label14"));
+			if(Utils.valorisNull(jComboBoxpais.getSelectedItem())) throw new Exception(Utils.MESSAGE_ERROR + " " + TDSLanguageUtils.getMessage("clientePEC4.altausuario.label19"));
+			if(Utils.valorisNull(jTextFieldTelefono.getText())) throw new Exception(Utils.MESSAGE_ERROR + " " + TDSLanguageUtils.getMessage("clientePEC4.altausuario.label12") );
+			if(Utils.valorisNull(jTextFieldFechaNac.getText())) throw new Exception(Utils.MESSAGE_ERROR + " " + TDSLanguageUtils.getMessage("clientePEC4.altausuario.label21") );
+			if(Utils.valorisNull(jComboBoxSexo.getSelectedItem())) throw new Exception(Utils.MESSAGE_ERROR + " " + TDSLanguageUtils.getMessage("clientePEC4.altausuario.label20") );
+			if(Utils.valorisNull(jTextFieldCP.getText())) throw new Exception(Utils.MESSAGE_ERROR + " " + TDSLanguageUtils.getMessage("clientePEC4.altausuario.label18") );
+			if(Utils.valorisNull(jTextFieldLocalidad.getText())) throw new Exception(Utils.MESSAGE_ERROR + " " + TDSLanguageUtils.getMessage("clientePEC4.altausuario.label9") );
+			if(Utils.valorisNull(jTextFieldDocIden.getText())) throw new Exception(Utils.MESSAGE_ERROR + " " + TDSLanguageUtils.getMessage("clientePEC4.altausuario.label17") );
+			if(Utils.valorisNull(jTextFieldDirec.getText())) throw new Exception(Utils.MESSAGE_ERROR + " " + TDSLanguageUtils.getMessage("clientePEC4.altausuario.label8"));
 			
 			//Desde la pantalla de modificación no se puede cambiar la contraseña
 			if(!modificacion){
-				if(Utils.valorisNull(jTextFieldCon.getText())) throw new Exception(Utils.MESSAGE_ERROR + " contraseña" );
+				if(Utils.valorisNull(jTextFieldCon.getText())) throw new Exception(Utils.MESSAGE_ERROR + " " + TDSLanguageUtils.getMessage("clientePEC4.altausuario.label16"));
 			}
 			
-			if(!Utils.parseaFecha(jTextFieldFechaNac.getText())) throw new Exception(Utils.MESSAGE_ERROR + " fecha nacimiento" + Utils.MESSAGE_FECHA );
+			if(!Utils.parseaFecha(jTextFieldFechaNac.getText())) throw new Exception(Utils.MESSAGE_ERROR + TDSLanguageUtils.getMessage("clientePEC4.altausuario.label21") + Utils.MESSAGE_FECHA );
 			//if(Utils.valorisNull(jTextFieldExtension.getText())) throw new Exception(Utils.MESSAGE_ERROR + " extensión teléfono" );
 			//if(Utils.valorisNull(jTextFieldWebBlog.getText())) throw new Exception(Utils.MESSAGE_ERROR + " página web o blog" );
 			//if(Utils.valorisNull(jTextFieldEmail.getText())) throw new Exception(Utils.MESSAGE_ERROR + " email" );
 			
 			//Campos a validar exclusivamente para un ASISTENTE o SECRETARIA
 			if(jRadioButtonSecr.isSelected() || jRadioButtonAsis.isSelected()){
-				if(Utils.valorisNull(jComboBoxUniver.getSelectedItem())) throw new Exception(Utils.MESSAGE_ERROR + " universidad" );
-				if(Utils.valorisNull(jComboBoxCentroDocente.getSelectedItem())) throw new Exception(Utils.MESSAGE_ERROR + " centro docente" );
+				if(Utils.valorisNull(jComboBoxUniver.getSelectedItem())) throw new Exception(Utils.MESSAGE_ERROR + " " + TDSLanguageUtils.getMessage("clientePEC4.altausuario.label23") );
+				if(Utils.valorisNull(jComboBoxCentroDocente.getSelectedItem())) throw new Exception(Utils.MESSAGE_ERROR + " " + TDSLanguageUtils.getMessage("clientePEC4.altausuario.label24"));
 			}
 			
 			//Campos a validar exclusivamente para un ASISTENTE
 			if(jRadioButtonAsis.isSelected()){
 				//Campos a validar si es un DTOAsistente
-				if(Utils.valorisNull(jTextFieldBanco.getText())) throw new Exception(Utils.MESSAGE_ERROR + " banco" );
-				if(Utils.valorisNull(jComboBoxTipoRol.getSelectedItem())) throw new Exception(Utils.MESSAGE_ERROR + " tipo de rol" );
-				if(Utils.valorisNull(jTextFieldSucursal.getText())) throw new Exception(Utils.MESSAGE_ERROR + " sucursal" );
-				if(Utils.valorisNull(jTextFieldDC.getText())) throw new Exception(Utils.MESSAGE_ERROR + " DC" );
-				if(Utils.valorisNull(jTextFieldCuenta.getText())) throw new Exception(Utils.MESSAGE_ERROR + " cuenta" );
+				if(Utils.valorisNull(jTextFieldBanco.getText())) throw new Exception(Utils.MESSAGE_ERROR + " "+ TDSLanguageUtils.getMessage("clientePEC4.altausuario.label27"));
+				if(Utils.valorisNull(jComboBoxTipoRol.getSelectedItem())) throw new Exception(Utils.MESSAGE_ERROR + " "+ TDSLanguageUtils.getMessage("clientePEC4.altausuario.label25"));
+				if(Utils.valorisNull(jTextFieldSucursal.getText())) throw new Exception(Utils.MESSAGE_ERROR + " " + TDSLanguageUtils.getMessage("clientePEC4.altausuario.label28"));
+				if(Utils.valorisNull(jTextFieldDC.getText())) throw new Exception(Utils.MESSAGE_ERROR + " " + TDSLanguageUtils.getMessage("clientePEC4.altausuario.label29"));
+				if(Utils.valorisNull(jTextFieldCuenta.getText())) throw new Exception(Utils.MESSAGE_ERROR + " " + TDSLanguageUtils.getMessage("clientePEC4.altausuario.label30"));
 				
 				//Aquí ya no vendrá ningún campo null así que realizamos más modificaciones
-				if(!Utils.validaNumerico(jTextFieldCP.getText())) 	throw new Exception(Utils.MESSAGE_ERROR + " código postal " + Utils.MESSAGE_NUMERIC );
-				if(!Utils.validaNumerico(jTextFieldTelefono.getText())) throw new Exception(Utils.MESSAGE_ERROR + " teléfono" + Utils.MESSAGE_NUMERIC );
-				if(!Utils.validaNumerico(jTextFieldSucursal.getText())) throw new Exception(Utils.MESSAGE_ERROR + " sucursal" + Utils.MESSAGE_NUMERIC );
-				if(!Utils.validaNumerico(jTextFieldDC.getText())) throw new Exception(Utils.MESSAGE_ERROR + " DC" + Utils.MESSAGE_NUMERIC );
-				if(!Utils.validaNumerico(jTextFieldBanco.getText())) throw new Exception(Utils.MESSAGE_ERROR + " banco" + Utils.MESSAGE_NUMERIC );
-				if(!Utils.validaCuenta(jTextFieldCuenta.getText())) throw new Exception(Utils.MESSAGE_ERROR + " cuenta" + Utils.MESSAGE_NUMERIC );
+				if(!Utils.validaNumerico(jTextFieldCP.getText())) 	throw new Exception(Utils.MESSAGE_ERROR + " " + TDSLanguageUtils.getMessage("clientePEC4.altausuario.label18") + " " + Utils.MESSAGE_NUMERIC );
+				if(!Utils.validaNumerico(jTextFieldTelefono.getText())) throw new Exception(Utils.MESSAGE_ERROR + " " + TDSLanguageUtils.getMessage("clientePEC4.altausuario.label12") + Utils.MESSAGE_NUMERIC );
+				if(!Utils.validaNumerico(jTextFieldSucursal.getText())) throw new Exception(Utils.MESSAGE_ERROR + " " + TDSLanguageUtils.getMessage("clientePEC4.altausuario.label28") + Utils.MESSAGE_NUMERIC );
+				if(!Utils.validaNumerico(jTextFieldDC.getText())) throw new Exception(Utils.MESSAGE_ERROR + " " + TDSLanguageUtils.getMessage("clientePEC4.altausuario.label29") + Utils.MESSAGE_NUMERIC );
+				if(!Utils.validaNumerico(jTextFieldBanco.getText())) throw new Exception(Utils.MESSAGE_ERROR + " " + TDSLanguageUtils.getMessage("clientePEC4.altausuario.label27") + Utils.MESSAGE_NUMERIC );
+				if(!Utils.validaCuenta(jTextFieldCuenta.getText())) throw new Exception(Utils.MESSAGE_ERROR + " " + TDSLanguageUtils.getMessage("clientePEC4.altausuario.label30") + Utils.MESSAGE_NUMERIC );
 			}
 			
 			EmailValidator emailValidator = new EmailValidator();
 			if(!emailValidator.validate(jTextFieldEmail.getText())) throw new Exception (Utils.MESSAGE_EMAIL); 
 			
 		}catch(Exception e){
-			throw new OperationErrorDatosFormulario("Error al validar los campos del fomulario");
+			throw new OperationErrorDatosFormulario(TDSLanguageUtils.getMessage("clientePEC4.error14"));
 		}
 			
 	}
@@ -821,8 +822,8 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 			jComboBoxpais.setModel(jComboBoxpaisModel);
 			
 			List<MostrarCombo> lstComboBox = new ArrayList<MostrarCombo>();
-			lstComboBox.add(new MostrarCombo("M","Masculino"));
-			lstComboBox.add(new MostrarCombo("F","Femenino"));
+			lstComboBox.add(new MostrarCombo("M",TDSLanguageUtils.getMessage("clientePEC4.altausuario.sexo1")));
+			lstComboBox.add(new MostrarCombo("F",TDSLanguageUtils.getMessage("clientePEC4.altausuario.sexo2")));
 			ComboBoxModel jComboBoxSexoModel =  new DefaultComboBoxModel(lstComboBox.toArray());
 			jComboBoxSexo.setModel(jComboBoxSexoModel);
 			
@@ -840,7 +841,7 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 			jComboBoxTipo.setModel(jComboBoxTipoModel);
 			
 		}catch(Exception e){
-			throw new OperationErrorDatosFormulario("Error al cargar los combos relacionados con la información del usuario");
+			throw new OperationErrorDatosFormulario(TDSLanguageUtils.getMessage("clientePEC4.error6"));
 		}
 		
 	}
@@ -893,7 +894,7 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 			usuario.setFechaContrasena(new java.sql.Date(System.currentTimeMillis()));
 			usuario.setContrasena(jTextFieldCon.getText());
 			usuario.setCambiarContrasena(false);
-			usuario.setMotivoEstado("Alta de usuario");
+			usuario.setMotivoEstado(TDSLanguageUtils.getMessage("clientePEC4.altausuario.title"));
 			usuario.setCodigo(generaCodigo(usuario));
 		}else{
 			//MUY IMPORTANTE EL ID DEL USUARIO SE HA DE DE RELLENAR DEL QUE PASAMOS PARA CONSULTAR. Digamos que es como si fuera un campo hidden
@@ -950,7 +951,7 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 			
 			if(!modificacion){
 				datosBancarios.setFechaEstado(new java.sql.Date(System.currentTimeMillis()));
-				datosBancarios.setMotivoEstado("alta de usuario");
+				datosBancarios.setMotivoEstado(TDSLanguageUtils.getMessage("clientePEC4.altausuario.title"));
 			}else{
 				if(modificacion){
 					//MUY IMPORTANTE EL ID DEL DATOS BANCARIOS SE HA DE DE RELLENAR DEL QUE PASAMOS PARA CONSULTAR. Digamos que es como si fuera un campo hidden
@@ -1006,9 +1007,9 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 			}	
 			
 		} catch (Exception e) {
-			throw new OperationErrorDatosFormulario("Error al rellenar la información común del usuario");
+			throw new OperationErrorDatosFormulario(TDSLanguageUtils.getMessage("clientePEC4.error7"));
 		}
-		throw new OperationErrorDatosFormulario("El tipo de usuario " + usuario.getTipoUsuario() + " no está contemplado");
+		throw new OperationErrorDatosFormulario(TDSLanguageUtils.getMessage("clientePEC4.error8") + " " + usuario.getTipoUsuario() + " " + TDSLanguageUtils.getMessage("clientePEC4.error9"));
 	}
 	
 	/**
@@ -1128,7 +1129,7 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 						jComboBoxpais.setSelectedItem(new MostrarCombo(dtoUsuarioaModificar.getDtoContacto().getDtoPais().getPais().getIdPais(),
 								dtoUsuarioaModificar.getDtoContacto().getDtoPais().getPais().getNombrePais()));
 					}
-					jComboBoxSexo.setSelectedItem(new MostrarCombo(usuario.getSexo(),"F".equalsIgnoreCase(usuario.getSexo())?"Femenino":"Masculino"));
+					jComboBoxSexo.setSelectedItem(new MostrarCombo(usuario.getSexo(),"F".equalsIgnoreCase(usuario.getSexo())?TDSLanguageUtils.getMessage("clientePEC4.altausuario.sexo2"):TDSLanguageUtils.getMessage("clientePEC4.altausuario.sexo1")));
 				}
 				
 				
