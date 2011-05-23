@@ -120,6 +120,14 @@ public class Utils {
     	}
     }
     
+    public static Boolean validaCuenta(String texto) throws OperationErrorDatosFormulario{
+    	if(texto!= null && texto.trim().matches("[0-9]{12}")){
+    		return true;
+    	}
+    	return false;
+
+    }
+    
     public static void ocultaColumna(JTable tbl, int columna){
     	
     	if(tbl != null && tbl.getColumnCount() >0){
