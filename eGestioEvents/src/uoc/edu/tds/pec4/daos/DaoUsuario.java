@@ -58,7 +58,6 @@ public class DaoUsuario extends DaoEntidad<Usuario>{
         }		
 	}
 	
-	
 	public List<Usuario> selectUsersByView(UsuarioViewConsulta criteris)throws Exception {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -305,7 +304,6 @@ public class DaoUsuario extends DaoEntidad<Usuario>{
         } finally {
         	close(ps);
         }		
-        
         return false;
 	}
 	
