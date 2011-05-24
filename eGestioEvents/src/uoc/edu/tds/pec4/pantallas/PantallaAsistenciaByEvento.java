@@ -58,18 +58,33 @@ public class PantallaAsistenciaByEvento extends javax.swing.JDialog {
 		
 	public PantallaAsistenciaByEvento(JFrame frame, RemoteInterface remote1, DTOEvento dtoEvento1) {
 		super(frame);
-		initGUI();
+		initGUI(frame);
 		this.remote = remote1;
 		this.dtoEvento = dtoEvento1;
 		
 		if (dtoEvento != null && dtoEvento.getEvento() != null){
 			try
 			{
+				cargaDatosEvento();
 				cargaInscripcionesByEvento();
 			} catch (OperationErrorDatosFormulario e3) {
 				e3.showDialogError(jPanelBase);
 			}
 		}
+	}
+
+	private void cargaDatosEvento() throws OperationErrorDatosFormulario{
+		try{
+			dtoEvento = remote.getEvento(dtoEvento);
+			if(dtoEvento == null){
+				Utils.mostraMensajeInformacion(jPanelBase, "El Evento no se puede consultar", "Asistencia/Ausencia del evento");
+				return;
+			}
+			jLabelEvento.setText(dtoEvento.getEvento().getNombre());
+			jLabelCodigo.setText(dtoEvento.getEvento().getIdEvento().toString());
+		}catch(Exception e){
+			throw new OperationErrorDatosFormulario("Error en la carga de los datos del evento en asistencia/ausencia");
+		}		
 	}
 
 	/*
@@ -99,8 +114,7 @@ public class PantallaAsistenciaByEvento extends javax.swing.JDialog {
 			actualizaTabla();
 		}catch(Exception e){
 			throw new OperationErrorDatosFormulario("Error en la carga de la asistencia/ausencia");
-		}
-		
+		}		
 	}
 	
 	private void actualizaTabla(){
@@ -137,7 +151,11 @@ public class PantallaAsistenciaByEvento extends javax.swing.JDialog {
 			throw new OperationErrorDatosFormulario("Error en la carga de la asistencia/ausencia en la pantalla");
 		}
 	}
-	private void initGUI() {
+	private void initGUI(JFrame frame) {
+		this.setTitle("Ver asistencia / ausencia a un eveto");
+		this.setModal(true);
+		this.setLocationRelativeTo(frame);
+		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		try {
 			{
 				jPanelBase = new JPanel();

@@ -65,6 +65,7 @@ public class PantallaInscripcionesByEvento extends javax.swing.JDialog {
 		if (dtoEvento != null && dtoEvento.getEvento() != null){
 			try
 			{
+				cargaDatosEvento();
 				cargaInscripcionesByEvento();
 			} catch (OperationErrorDatosFormulario e3) {
 				e3.showDialogError(jPanelBase);
@@ -72,6 +73,19 @@ public class PantallaInscripcionesByEvento extends javax.swing.JDialog {
 		}
 	}
 
+	private void cargaDatosEvento() throws OperationErrorDatosFormulario{
+		try{
+			dtoEvento = remote.getEvento(dtoEvento);
+			if(dtoEvento == null){
+				Utils.mostraMensajeInformacion(jPanelBase, "El Evento no se puede consultar", "Inscripciones del evento");
+				return;
+			}
+			jLabelEvento.setText(dtoEvento.getEvento().getNombre());
+			jLabelCodigo.setText(dtoEvento.getEvento().getIdEvento().toString());
+		}catch(Exception e){
+			throw new OperationErrorDatosFormulario("Error en la carga de los datos del evento en inscripciones");
+		}		
+	}
 	/*
 	 * Parametrizamos el DTOInscripcion a consultar
 	 * @return

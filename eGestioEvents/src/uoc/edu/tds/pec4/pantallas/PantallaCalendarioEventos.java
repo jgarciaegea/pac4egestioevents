@@ -670,7 +670,7 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 						} catch (OperationErrorDatosFormulario e1) {
 							e1.showDialogError();
 						}finally{
-							jButtonClearActionPerformed();
+							//jButtonClearActionPerformed();
 						}
 					}
 				}
@@ -700,7 +700,7 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 						} catch (OperationErrorDatosFormulario e1) {
 							e1.showDialogError();
 						}finally{
-							jButtonClearActionPerformed();
+							//jButtonClearActionPerformed();
 						}
 					}
 				}
