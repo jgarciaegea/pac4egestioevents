@@ -15,7 +15,7 @@ class PantallaAcercaDe extends JDialog {
 	JLabel autor2 = new JLabel("                  Jonathan Garcia", JLabel.CENTER);
 	JLabel autor3 = new JLabel("                  José Garcia", JLabel.CENTER);
 	JLabel autor4 = new JLabel("                  Miquel Luis", JLabel.CENTER);
-	JLabel autor5 = new JLabel("                  Susana Roig", JLabel.CENTER);
+	JLabel autor5 = new JLabel("                  Susana Ortega", JLabel.CENTER);
 	
 	JLabel derechos = new JLabel("Copyright 2011. Todos los derechos reservados", JLabel.CENTER);
 	JButton aceptar = new JButton("Aceptar");
