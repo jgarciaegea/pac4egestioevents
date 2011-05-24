@@ -70,6 +70,12 @@ public class Inscripcion implements BeanInterface, Serializable{
 	public void setCodigo(String codigo) {
 		this.codigo = codigo;
 	}
+	public String getAsistencia() {
+		if (checkIn)
+			return new String("Confirmada");
+		else
+			return new String("No confirmada");
+	}
 	
 
 }

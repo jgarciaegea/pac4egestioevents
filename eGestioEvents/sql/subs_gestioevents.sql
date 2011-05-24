@@ -1,4 +1,4 @@
-﻿-- Se añade la posibilidad de prerequisitos de los evento
+-- Se añade la posibilidad de prerequisitos de los evento
 CREATE TABLE EVENTOREQUISITOS
 (
    id_evento integer NOT NULL, 
@@ -74,4 +74,13 @@ CREATE OR REPLACE VIEW v_consulta_eventos_calendario AS
 
 ALTER TABLE v_consulta_eventos_calendario OWNER TO tdp;
 COMMENT ON VIEW v_consulta_eventos_calendario IS 'Gestiona la información necesaria para poder filtrar dentro de la gestión del calendario de eventos';
+
+CREATE OR REPLACE VIEW v_consulta_inscipciones_eventos_celebrados AS 
+ SELECT inscripcion.codigo, inscripcion.id_evento, inscripcion.estado, inscripcion.fecha_estado, inscripcion.motivo_estado, inscripcion.fecha_inscripcion, inscripcion.check_in, inscripcion.codigo_asistencia
+   FROM evento, inscripcion
+  WHERE evento.id_evento = inscripcion.id_evento AND evento.fecha_fin_celebracion < '2011-05-24'::date;
+
+ALTER TABLE v_consulta_inscipciones_eventos_celebrados OWNER TO tdp;
+
+
 
