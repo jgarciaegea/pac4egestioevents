@@ -319,6 +319,20 @@ public abstract class PanelComun extends JPanel  {
 	protected void removeJTextArea(String name){
 		this.areas.remove(name);
 	}
+
+	/**
+	 * @return the dtm
+	 */
+	public DefaultTableModel getDtm() {
+		return dtm;
+	}
+
+	/**
+	 * @param dtm the dtm to set
+	 */
+	public void setDtm(DefaultTableModel dtm) {
+		this.dtm = dtm;
+	}
 	
 	
 	
