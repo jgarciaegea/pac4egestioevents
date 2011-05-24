@@ -12,11 +12,7 @@ import java.io.Serializable;
 public class EventoCalendario extends Evento implements BeanInterface,Serializable{
 
 	private static final long serialVersionUID = 1L;
-	
 	private Integer idUniversidad;
-	private String universidad;
-	private Integer idCentroDocente;
-	private String centroDocente;
 	private Boolean eventoCancelado;
 	private Boolean eventoFinalizado;
 	
@@ -31,42 +27,6 @@ public class EventoCalendario extends Evento implements BeanInterface,Serializab
 	 */
 	public void setIdUniversidad(Integer idUniversidad) {
 		this.idUniversidad = idUniversidad;
-	}
-	/**
-	 * @return the universidad
-	 */
-	public String getUniversidad() {
-		return universidad;
-	}
-	/**
-	 * @param universidad the universidad to set
-	 */
-	public void setUniversidad(String universidad) {
-		this.universidad = universidad;
-	}
-	/**
-	 * @return the idCentroDocente
-	 */
-	public Integer getIdCentroDocente() {
-		return idCentroDocente;
-	}
-	/**
-	 * @param idCentroDocente the idCentroDocente to set
-	 */
-	public void setIdCentroDocente(Integer idCentroDocente) {
-		this.idCentroDocente = idCentroDocente;
-	}
-	/**
-	 * @return the centroDocente
-	 */
-	public String getCentroDocente() {
-		return centroDocente;
-	}
-	/**
-	 * @param centroDocente the centroDocente to set
-	 */
-	public void setCentroDocente(String centroDocente) {
-		this.centroDocente = centroDocente;
 	}
 	/**
 	 * @return the eventoFinalizado

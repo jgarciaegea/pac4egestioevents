@@ -74,9 +74,10 @@ public class GestorEvento extends GestorEntidad<DTOEvento>{
 			//A–adimos el CentroDocente
 			if(dtoEvento.getEvento().getIdCentro() != null){
 				GestorCentroDocente gestorCentroDocente = new GestorCentroDocente(connection);
-				DTOCentroDocente dtoCentroDocente = gestorCentroDocente.consultaEntidadById(dtoEvento.getEvento().getIdEvento());
+				DTOCentroDocente dtoCentroDocente = gestorCentroDocente.consultaEntidadById(dtoEvento.getEvento().getIdCentro());
 				if(dtoCentroDocente != null) dtoEvento.setDtoCentroDocente(dtoCentroDocente);
 			}
+			
 			//A–adimos el TipoEvento
 			if(dtoEvento.getEvento().getIdTipoEvento() != null){
 				GestorTipoEvento gestorTipoEvento = new GestorTipoEvento(connection);
@@ -166,7 +167,6 @@ public class GestorEvento extends GestorEntidad<DTOEvento>{
 					dtoEventoCalendario.setEvento(eventoCalendario);
 					dtoEventoCalendario.setEventoCalendario(eventoCalendario);
 					rellenaObjeto(dtoEventoCalendario);
-					
 					lstDtoEventoCalendario.add(dtoEventoCalendario);
 				}
 				return lstDtoEventoCalendario;
