@@ -73,15 +73,21 @@ public class GestorUsuario  extends GestorEntidad<DTOUsuario>{
 		}
 		return null;
 	}
-	
+	// modificado por Miquel....
 	public DTOUsuario consultaEntidadById(String codigoUsuario) throws Exception{
 		try{
 			Usuario usuario = new Usuario();
 			usuario.setCodigo(codigoUsuario);
+			DTOUsuario dtoUsuario = null;
 			DaoUsuario daoUsuario = new DaoUsuario(connection);
-			return (DTOUsuario) daoUsuario.select(usuario);
+			List<Usuario> lstUsuarios = daoUsuario.select(usuario);
+			if (lstUsuarios.size() > 0){
+				 dtoUsuario = getTypeDTO(lstUsuarios.get(0));
+			}
+			return dtoUsuario;			
 		}catch(Exception e){
 			throw new Exception(e.getMessage());
+			
 		}
 	}
 
