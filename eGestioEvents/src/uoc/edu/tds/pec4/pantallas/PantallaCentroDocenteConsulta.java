@@ -33,6 +33,7 @@ import javax.swing.table.DefaultTableModel;
 
 import uoc.edu.tds.pec4.beans.CentroDocente;
 import uoc.edu.tds.pec4.beans.CentroDocenteViewConsulta;
+import uoc.edu.tds.pec4.beans.Usuario;
 import uoc.edu.tds.pec4.dtos.DTOCentroDocente;
 import uoc.edu.tds.pec4.dtos.DTOCentroDocenteConsulta;
 import uoc.edu.tds.pec4.dtos.DTOUniversidad;
@@ -267,9 +268,16 @@ public class PantallaCentroDocenteConsulta extends javax.swing.JPanel implements
 					}else{
 						try {
 							DTOCentroDocente dtoCentroDocente = getRecuperaCentroSeleccionado();
-							remote.bajaCentroDocente(dtoCentroDocente);
-							cargaListadoCentroDocentes();
-							Utils.mostraMensajeInformacion(jPanel2,"Centro docente dado de baja correctamente", "Consulta centro docente");
+							//Comprobamos que no hayan usuarios inscritos a este centro
+							Usuario usuario = new Usuario();
+							usuario.setIdCentro(dtoCentroDocente.getCentroDocente().getIdCentro());
+							if(!remote.usuarioCentrosVinculados(usuario)){
+								remote.bajaCentroDocente(dtoCentroDocente);
+								cargaListadoCentroDocentes();
+								Utils.mostraMensajeInformacion(jPanel2,"Centro docente dado de baja correctamente", "Baja centro docente");
+							}else{
+								Utils.mostraMensajeInformacion(jPanel2,"El centro docente tiene usuarios vinculados y no puede darse de baja", "Baja centro docente");
+							}
 						} catch (Exception e1) {
 							try {
 								throw new OperationErrorDatosFormulario(e1.getMessage());
