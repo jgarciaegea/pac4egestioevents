@@ -82,6 +82,19 @@ public class Usuario implements BeanInterface,Serializable{
 	public String getApellidos() {
 		return apellidos;
 	}
+	public String getNombreCompleto() {
+		String nombreCompleto = new String("");
+		
+		if (getApellidos() != null) {
+			nombreCompleto = getApellidos();
+		}
+		if (getNombre() != null) {
+			if (nombreCompleto != "") nombreCompleto += " ,";
+			nombreCompleto = nombreCompleto + getNombre();
+		}
+		return nombreCompleto;
+	}
+		
 	public void setApellidos(String apellidos) {
 		this.apellidos = apellidos;
 	}

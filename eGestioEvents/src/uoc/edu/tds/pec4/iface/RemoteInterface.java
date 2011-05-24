@@ -21,6 +21,10 @@ import uoc.edu.tds.pec4.dtos.DTOUsuario;
 import uoc.edu.tds.pec4.excepciones.OperationErrorBD;
 import uoc.edu.tds.pec4.excepciones.OperationErrorLogin;
 
+/**
+ * @author jgarcia
+ *
+ */
 public interface RemoteInterface extends Remote{
 	
 	/**
@@ -278,4 +282,13 @@ public interface RemoteInterface extends Remote{
 	
 	public abstract List<DTOInscripcionConsulta> buscaInscripcionesUsuario(DTOInscripcionConsulta dtoInscripcionConsulta)  throws RemoteException, OperationErrorBD, Exception;
 
+	/**
+	 * Retorna las inscripciones segun un dtoInscripcion
+	 * @param dtoInscripcion
+	 * @return
+	 * @throws RemoteException
+	 * @throws OperationErrorBD
+	 */
+	public List<DTOInscripcion> getInscripciones(DTOInscripcion dtoInscripcion) throws RemoteException, OperationErrorBD;
+	
 }
