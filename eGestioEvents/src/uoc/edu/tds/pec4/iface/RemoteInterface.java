@@ -289,6 +289,14 @@ public interface RemoteInterface extends Remote{
 	 * @throws RemoteException
 	 * @throws OperationErrorBD
 	 */
-	public List<DTOInscripcion> getInscripciones(DTOInscripcion dtoInscripcion) throws RemoteException, OperationErrorBD;
+	public abstract List<DTOInscripcion> getInscripciones(DTOInscripcion dtoInscripcion) throws RemoteException, OperationErrorBD;
 	
+	/**
+	 * Retorna las inscripciones de un evento finalizado
+	 * @param dtoInscripcion
+	 * @return
+	 * @throws RemoteException
+	 * @throws OperationErrorBD
+	 */
+	public abstract List<DTOInscripcion> getInscripcionesByEventoFinalizado(DTOInscripcion dtoInscripcion) throws RemoteException, OperationErrorBD;
 }
