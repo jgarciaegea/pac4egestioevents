@@ -47,8 +47,8 @@ public class GestorInscripcion extends GestorEntidad<DTOInscripcion>{
 			if(lstInscripcion != null && lstInscripcion.size() > 0){
 				List<DTOInscripcion> lstDTOInscripcion = new ArrayList<DTOInscripcion>();
 				for(Inscripcion inscripcion : lstInscripcion){
-					
 					//A–adimos Inscripcion
+					
 					DTOInscripcion dtoInscripcion = new DTOInscripcion();
 					dtoInscripcion.setInscripcion(inscripcion);
 					
@@ -103,6 +103,61 @@ public class GestorInscripcion extends GestorEntidad<DTOInscripcion>{
 		}
 		return null;
 	}
+	
+	
+	public List<DTOInscripcion> consultaEntidadesByDatesV2(DTOInscripcion criteris) throws Exception {
+		try{
+			DaoInscripcion dao = new DaoInscripcion(connection);
+			List<Inscripcion> lstInscripcion = dao.select(criteris.getInscripcion());
+			if(lstInscripcion != null && lstInscripcion.size() > 0){
+				List<DTOInscripcion> lstDTOInscripcion = new ArrayList<DTOInscripcion>();
+				for(Inscripcion inscripcion : lstInscripcion){
+					//A–adimos Inscripcion
+					
+					DTOInscripcion dtoInscripcion = new DTOInscripcion();
+					dtoInscripcion.setInscripcion(inscripcion);
+					
+					//A–adimos el Evento
+					GestorEvento gestorEvento = new GestorEvento(connection);
+					DTOEvento dtoEvento = gestorEvento.consultaEntidadById(inscripcion.getIdEvento());
+					if(dtoEvento != null) dtoInscripcion.setDtoEvento(dtoEvento);
+					
+					//Añadimos el Usuario
+					GestorUsuario gestorUsuario = new GestorUsuario(connection);
+					DTOAsistente dtoAsistente = (DTOAsistente) gestorUsuario.consultaEntidadById(inscripcion.getCodigo());
+					if(dtoAsistente != null) dtoInscripcion.setDtoAsistente(dtoAsistente);
+					
+					if (
+							((dtoEvento.getEvento().getFechaInicioCelebracion().after(criteris.getDtoEvento().getEvento().getFechaInicioCelebracion())
+										|| dtoEvento.getEvento().getFechaInicioCelebracion().equals(criteris.getDtoEvento().getEvento().getFechaInicioCelebracion()))
+							
+									&& ((dtoEvento.getEvento().getFechaInicioCelebracion().before(criteris.getDtoEvento().getEvento().getFechaFinCelebracion()))
+											||(dtoEvento.getEvento().getFechaInicioCelebracion().equals(criteris.getDtoEvento().getEvento().getFechaFinCelebracion()))))
+											
+							 || ((dtoEvento.getEvento().getFechaFinCelebracion().after(criteris.getDtoEvento().getEvento().getFechaInicioCelebracion())
+										|| dtoEvento.getEvento().getFechaFinCelebracion().equals(criteris.getDtoEvento().getEvento().getFechaInicioCelebracion()))
+										
+										&& ((dtoEvento.getEvento().getFechaFinCelebracion().before(criteris.getDtoEvento().getEvento().getFechaFinCelebracion()))
+												||(dtoEvento.getEvento().getFechaFinCelebracion().equals(criteris.getDtoEvento().getEvento().getFechaFinCelebracion()))))		
+									
+							){
+							
+							//&& (dtoEvento.getEvento().getFechaFinCelebracion().before(criteris.getDtoEvento().getEvento().getFechaFinCelebracion()))
+							//|| dtoEvento.getEvento().getFechaFinCelebracion().equals(criteris.getDtoEvento().getEvento().getFechaFinCelebracion())){
+							System.out.println("Se encuentra entre las fechas......");
+						lstDTOInscripcion.add(dtoInscripcion);
+					}
+					
+				}
+				return lstDTOInscripcion;
+			}
+		}catch(Exception e){
+			throw new Exception();
+		}
+		return null;
+	}
+	
+	
 	
 	public List<DTOInscripcionConsulta> consultaEntidadesByDates(DTOInscripcionConsulta criteris) throws Exception {
 		try{
