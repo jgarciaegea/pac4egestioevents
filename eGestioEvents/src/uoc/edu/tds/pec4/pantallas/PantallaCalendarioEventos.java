@@ -659,7 +659,7 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 			jButtonViewInscripciones.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					if (jTableDatos.getSelectedRow() == -1) {
-						Utils.mostraMensajeInformacion(jPanelDatos, "No ha seleccionado ningœn registro de la tabla", "Consulta Usuarios");
+						Utils.mostraMensajeInformacion(jPanelDatos, "No ha seleccionado ningœn registro de la tabla", "Consulta Eventos");
 					}else{
 						try {
 							DTOEvento dtoEvento = getSelectedEvento();
@@ -686,7 +686,25 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 			jButtonViewAsistenciaAusencia.setText("Ver Asistencia/Ausencia");
 			jButtonViewAsistenciaAusencia.setBounds(568, 256, 160, 25);
 			jButtonViewAsistenciaAusencia.setFont(new java.awt.Font("Arial",0,10));
-			//TODO 1: Comprobar que nos podamos inscribir y llamar a la pantalla de isncripci—n (alta)
+			jButtonViewAsistenciaAusencia.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					if (jTableDatos.getSelectedRow() == -1) {
+						Utils.mostraMensajeInformacion(jPanelDatos, "No ha seleccionado ningœn registro de la tabla", "Consulta Eventos");
+					}else{
+						try {
+							DTOEvento dtoEvento = getSelectedEvento();
+					        //this.setVisible(false);
+							PantallaAsistenciaByEvento v4 = new PantallaAsistenciaByEvento(null, remote, dtoEvento);
+					        v4.setVisible(true);
+							//goPantallaUsuario(dtoUsuario);
+						} catch (OperationErrorDatosFormulario e1) {
+							e1.showDialogError();
+						}finally{
+							jButtonClearActionPerformed();
+						}
+					}
+				}
+			});
 		}
 		return jButtonViewAsistenciaAusencia;
 	}
