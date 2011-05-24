@@ -1,6 +1,5 @@
 package uoc.edu.tds.pec4.pantallas;
 
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -184,7 +183,7 @@ public class PantallaPrincipal extends JFrame {
 	        acercaDe.addActionListener(new ActionListener() { 
 	        	public void actionPerformed(ActionEvent evt) { 
 	        		PantallaAcercaDe p = new PantallaAcercaDe();
-	        		p.show();
+	        		p.setVisible(true);
 	        	} }); 
 	        
 	        // items eventos y inscripciones
