@@ -260,9 +260,6 @@ public class DaoUsuario extends DaoEntidad<Usuario>{
 		return usu;
 	}
 	
-	
-	
-	
 	public void updatePassword(Usuario objecte) throws Exception {
 		PreparedStatement ps = null;
 		try {
@@ -286,5 +283,30 @@ public class DaoUsuario extends DaoEntidad<Usuario>{
         }		
 	}
 	
+	public Boolean existeUsuariosVinculados(Usuario usuario) throws Exception {
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		try {
+			StringBuffer sql = new StringBuffer();
+			sql.append("select count(codigo) as num_usuarios from usuario where id_centro = ? and estado = ? ");
+			
+			ps = con.prepareStatement(sql.toString(), ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
+			
+			ps.setInt(1, usuario.getIdCentro());
+			ps.setInt(2, Constantes.REGISTRO_ACTIVO);
+			rs = ps.executeQuery();
+			
+			if (rs.next()) {
+				return rs.getInt("num_usuarios")>0?true:false;
+			}		
+			
+        } catch (SQLException e) {
+        	throw new Exception(e.getMessage());
+        } finally {
+        	close(ps);
+        }		
+        
+        return false;
+	}
 	
 }
