@@ -75,52 +75,33 @@ public class GestorInscripcion extends GestorEntidad<DTOInscripcion>{
 	
 	public List<DTOInscripcionConsulta> consultaEntidadesByDates(DTOInscripcionConsulta criteris) throws Exception {
 		try{
-			DaoInscripcion dao = new DaoInscripcion(connection);
-			System.out.println("DAO INSCRIPCION CREADO....");
-			
-			List<DTOInscripcionConsulta> lstDTOInscripcionConsulta = new ArrayList<DTOInscripcionConsulta>();
-			
-			lstDTOInscripcionConsulta = dao.selectByDates(criteris);
-			
+			DaoInscripcion dao = new DaoInscripcion(connection);			
+			List<DTOInscripcionConsulta> lstDTOInscripcionConsulta = new ArrayList<DTOInscripcionConsulta>();			
+			lstDTOInscripcionConsulta = dao.selectByDates(criteris);			
 			List<DTOInscripcionConsulta> lstDTOInscripcionConsulta1 = new ArrayList<DTOInscripcionConsulta>();
 			
 			if(lstDTOInscripcionConsulta != null && lstDTOInscripcionConsulta.size() > 0){
-				System.out.println("Se han encontrado resultados lstDTOInscripcionConsulta no es nulo ");		
 				
 				for(DTOInscripcionConsulta dtoInscripcionConsulta : lstDTOInscripcionConsulta){
-					
-					System.out.println("dentro del for.....");
 					//A–adimos el Evento					
-					GestorEvento gestorEvento = new GestorEvento(connection);
-					System.out.println("recogiendo el evento........." + dtoInscripcionConsulta.getInscripcion().getIdEvento());
-					
+					GestorEvento gestorEvento = new GestorEvento(connection);					
 					DTOEvento dtoEvento = gestorEvento.consultaEntidadById(dtoInscripcionConsulta.getInscripcion().getIdEvento());
 					if(dtoEvento != null) dtoInscripcionConsulta.setDtoEvento(dtoEvento);
 					else System.out.println(" ERROR recogiendo el dtoEvento.........id evento " );
 					
 					//Añadimos el Usuario
 					GestorUsuario gestorUsuario = new GestorUsuario(connection);
-					System.out.println("recogiendo el usuario....: "+ dtoInscripcionConsulta.getInscripcion().getCodigo());
 					DTOUsuario dtoUsuario = gestorUsuario.consultaEntidadById(dtoInscripcionConsulta.getInscripcion().getCodigo());
-					 System.out.println(" despues de encontrar el usuario....");
-					
-					if (dtoUsuario instanceof DTOAsistente)
-						 	System.out.println("SE TRATA DE UN ASISTENTE");
-					 else System.out.println("NO SE TRATA DE UN ASISTENTE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-					
-						 DTOAsistente dtoAsistente = (DTOAsistente)dtoUsuario;
-					if(dtoAsistente != null) dtoInscripcionConsulta.setDtoAsistente( dtoAsistente);
+					DTOAsistente dtoAsistente = (DTOAsistente)dtoUsuario;
+					if(dtoAsistente != null) dtoInscripcionConsulta.setDtoAsistente(dtoAsistente);
 					else System.out.println(" ERROR recogiendo el DTOAsistente.........");
-					
 					lstDTOInscripcionConsulta1.add(dtoInscripcionConsulta);
-					System.out.println("cargado el DTOInscripcionConsulta");
 					
 				}
 				
 				return lstDTOInscripcionConsulta1;
 			}
 		}catch(Exception e){
-			System.out.println("ERROR GRAVE....");
 			e.printStackTrace();
 			throw new Exception();
 			
