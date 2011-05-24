@@ -72,6 +72,37 @@ public class GestorInscripcion extends GestorEntidad<DTOInscripcion>{
 		return null;
 	}
 
+	public List<DTOInscripcion> consultaEntidadesByEventoFinalizado(DTOInscripcion criteris) throws Exception {
+		try{
+			DaoInscripcion dao = new DaoInscripcion(connection);
+			List<Inscripcion> lstInscripcion = dao.selectByEventoFinalizado(criteris.getInscripcion());
+			if(lstInscripcion != null && lstInscripcion.size() > 0){
+				List<DTOInscripcion> lstDTOInscripcion = new ArrayList<DTOInscripcion>();
+				for(Inscripcion inscripcion : lstInscripcion){
+					
+					//A–adimos Inscripcion
+					DTOInscripcion dtoInscripcion = new DTOInscripcion();
+					dtoInscripcion.setInscripcion(inscripcion);
+					
+					//A–adimos el Evento
+					GestorEvento gestorEvento = new GestorEvento(connection);
+					DTOEvento dtoEvento = gestorEvento.consultaEntidadById(inscripcion.getIdEvento());
+					if(dtoEvento != null) dtoInscripcion.setDtoEvento(dtoEvento);
+					
+					//Añadimos el Usuario
+					GestorUsuario gestorUsuario = new GestorUsuario(connection);
+					DTOAsistente dtoAsistente = (DTOAsistente) gestorUsuario.consultaEntidadById(inscripcion.getCodigo());
+					if(dtoAsistente != null) dtoInscripcion.setDtoAsistente(dtoAsistente);
+					
+					lstDTOInscripcion.add(dtoInscripcion);
+				}
+				return lstDTOInscripcion;
+			}
+		}catch(Exception e){
+			throw new Exception();
+		}
+		return null;
+	}
 	
 	public List<DTOInscripcionConsulta> consultaEntidadesByDates(DTOInscripcionConsulta criteris) throws Exception {
 		try{
