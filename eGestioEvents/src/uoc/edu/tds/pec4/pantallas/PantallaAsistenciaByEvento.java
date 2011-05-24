@@ -137,7 +137,7 @@ public class PantallaAsistenciaByEvento extends javax.swing.JDialog {
 					 aobj[k][0] = new String(dtoInscripcion.getInscripcion().getCodigoAsistencia());
 					 aobj[k][1] = new String(dtoInscripcion.getDtoAsistente().getUsuario().getNombreCompleto());
 					 aobj[k][2] = new String(dtoInscripcion.getInscripcion().getFechaInscripcion().toString());
-					 aobj[k][2] = new String(dtoInscripcion.getInscripcion().getAsistencia());
+					 aobj[k][3] = new String(dtoInscripcion.getInscripcion().getAsistencia());
 					 k++;
 	       	 	}
 				

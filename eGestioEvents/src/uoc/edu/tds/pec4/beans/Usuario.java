@@ -89,7 +89,7 @@ public class Usuario implements BeanInterface,Serializable{
 			nombreCompleto = getApellidos();
 		}
 		if (getNombre() != null) {
-			if (nombreCompleto != "") nombreCompleto += " ,";
+			if (nombreCompleto != "") nombreCompleto += ", ";
 			nombreCompleto = nombreCompleto + getNombre();
 		}
 		return nombreCompleto;
