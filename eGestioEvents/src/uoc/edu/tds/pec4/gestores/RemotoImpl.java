@@ -593,5 +593,17 @@ public class RemotoImpl extends UnicastRemoteObject implements RemoteInterface{
 			throw new OperationErrorBD("Error al recuperar la informaci—n de las inscripciones......");
 		}
 	}
+
+	@Override
+	public  List<DTOInscripcion> buscaEventosInscrito(DTOInscripcion dtoInscripcion)  throws RemoteException, OperationErrorBD, Exception{
+		try{
+			System.out.println("Recuperando Inscripciones dle usuario por fecha Evento");
+			GestorInscripcion gestorInscipcion = new GestorInscripcion(gestorDB.getConnection());
+			System.out.println("gestorInscripcion Creado......");
+			return gestorInscipcion.consultaEntidadesByDatesV2(dtoInscripcion);
+		}catch(Exception e){
+			throw new OperationErrorBD("Error al recuperar la información de las Inscripciones de usuario......");
+		}
+	}
 		
 }
