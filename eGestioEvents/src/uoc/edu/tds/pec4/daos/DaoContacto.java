@@ -20,7 +20,7 @@ public class DaoContacto extends DaoEntidad<Contacto>{
 	public void insert(Contacto objecte) throws Exception {
 		PreparedStatement ps = null;
 		try {
-			ps = con.prepareStatement("INSERT INTO contacto (domicilio, cp, localidad, provincia, id_pais, email, web, fecha_alta, estado, fecha_estado, motivo_estado) " +
+			ps = con.prepareStatement("INSERT INTO contacto (domicilio, cp, localidad, id_pais, email, web, fecha_alta, estado, fecha_estado, motivo_estado) " +
 			" VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 			ps.setString(1, objecte.getDomicilio());
 			ps.setInt(2, objecte.getCp());
