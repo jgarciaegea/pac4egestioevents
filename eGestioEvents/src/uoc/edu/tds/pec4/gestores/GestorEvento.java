@@ -65,6 +65,28 @@ public class GestorEvento extends GestorEntidad<DTOEvento>{
 		return null;
 	}
 
+	public List<DTOEvento> consultaEventosFinalizados(DTOEvento criteris) throws Exception {
+		try{
+			DaoEvento dao = new DaoEvento(connection);
+			List<Evento> lstEvento = dao.selectEventosFinalizados(criteris.getEvento());
+			if(lstEvento != null && lstEvento.size() > 0){
+				List<DTOEvento> lstDTOEvento = new ArrayList<DTOEvento>();
+				for(Evento evento : lstEvento){
+					//A–adimos Evento
+					DTOEvento dtoEvento = new DTOEvento();
+					dtoEvento.setEvento(evento);
+					rellenaObjeto(dtoEvento);
+
+					lstDTOEvento.add(dtoEvento);
+				}
+				return lstDTOEvento;
+			}
+		}catch(Exception e){
+			throw new Exception();
+		}
+		return null;
+	}
+	
 	/*
 	 * Rellenamos la información genérica para todos los tipos de objeto DTOUsario
 	 * en este caso es el centro Docente, el contacto y el documento de identificación

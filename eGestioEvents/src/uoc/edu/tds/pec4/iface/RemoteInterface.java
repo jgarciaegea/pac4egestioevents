@@ -279,6 +279,14 @@ public interface RemoteInterface extends Remote{
 	 */
 	public abstract List<DTOEvento> getEventos(DTOEvento dtoEvento)  throws RemoteException, OperationErrorBD;
 	
+	/**
+	 * @param dtoEvento
+	 * @return
+	 * @throws RemoteException
+	 * @throws OperationErrorBD
+	 */
+	public abstract List<DTOEvento> getEventosFinalizados(DTOEvento dtoEvento)  throws RemoteException, OperationErrorBD;
+
 	public abstract List<DTOInscripcionConsulta> buscaInscripcionesUsuario(DTOInscripcionConsulta dtoInscripcionConsulta)  throws RemoteException, OperationErrorBD, Exception;
 	
 	public abstract List<DTOInscripcion> buscaEventosInscrito(DTOInscripcion dtoInscripcion)  throws RemoteException, OperationErrorBD, Exception;
