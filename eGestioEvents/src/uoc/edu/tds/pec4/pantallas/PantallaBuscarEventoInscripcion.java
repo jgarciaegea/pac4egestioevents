@@ -17,14 +17,10 @@ import uoc.edu.tds.pec4.beans.Evento;
 import uoc.edu.tds.pec4.beans.Usuario;
 import uoc.edu.tds.pec4.dtos.DTOEvento;
 import uoc.edu.tds.pec4.dtos.DTOTipoEvento;
-import uoc.edu.tds.pec4.dtos.DTOUsuario;
 import uoc.edu.tds.pec4.excepciones.OperationErrorBD;
 import uoc.edu.tds.pec4.excepciones.OperationErrorDatosFormulario;
 import uoc.edu.tds.pec4.excepciones.OperationErrorLogin;
-import uoc.edu.tds.pec4.gestores.FactoriaUsuario;
 import uoc.edu.tds.pec4.iface.RemoteInterface;
-import uoc.edu.tds.pec4.resources.TDSLanguageUtils;
-import uoc.edu.tds.pec4.utils.EmailValidator;
 import uoc.edu.tds.pec4.utils.MostrarCombo;
 import uoc.edu.tds.pec4.utils.Utils;
 
@@ -131,10 +127,12 @@ public class PantallaBuscarEventoInscripcion  extends PanelComun implements Pant
 	public void buscarEventos() throws RemoteException, OperationErrorBD, Exception{
 		try {
 			validaFormulario();
+			DTOEvento dtoEvento = new DTOEvento();
 			Evento evento = new Evento();
 			evento.setFechaInicioCelebracion(Utils.transformFecha(this.findTextField("cajaFechaEvento").getText()));
 			evento.setIdTipoEvento(Integer.parseInt(((MostrarCombo) this.findCombo("comboTipoEvento").getSelectedItem()).getID().toString()));
-			remote.buscarEvento(evento);
+			dtoEvento.setEvento(evento);
+			remote.getEventos(dtoEvento);
 		} catch (OperationErrorDatosFormulario e) {
 			e.printStackTrace();
 			e.showDialogError();

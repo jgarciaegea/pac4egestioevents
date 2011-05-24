@@ -4,7 +4,6 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;
 
-import uoc.edu.tds.pec4.beans.Evento;
 import uoc.edu.tds.pec4.beans.Usuario;
 import uoc.edu.tds.pec4.dtos.DTOCentroDocente;
 import uoc.edu.tds.pec4.dtos.DTOEvento;
@@ -278,7 +277,7 @@ public interface RemoteInterface extends Remote{
 	 * @throws OperationErrorBD
 	 * @throws Exception 
 	 */
-	public abstract List<DTOEvento> buscarEvento(Evento evento)  throws RemoteException, OperationErrorBD, Exception;
+	public abstract List<DTOEvento> getEventos(DTOEvento dtoEvento)  throws RemoteException, OperationErrorBD;
 	
 	public abstract List<DTOInscripcionConsulta> buscaInscripcionesUsuario(DTOInscripcionConsulta dtoInscripcionConsulta)  throws RemoteException, OperationErrorBD, Exception;
 	

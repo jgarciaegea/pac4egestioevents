@@ -5,7 +5,6 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
 
 import uoc.edu.tds.pec4.beans.CentroDocente;
-import uoc.edu.tds.pec4.beans.Evento;
 import uoc.edu.tds.pec4.beans.Pais;
 import uoc.edu.tds.pec4.beans.TipoDocumento;
 import uoc.edu.tds.pec4.beans.TipoEvento;
@@ -475,11 +474,13 @@ public class RemotoImpl extends UnicastRemoteObject implements RemoteInterface{
 	}
 	
 	
-	public  List<DTOEvento> buscarEvento(Evento evento)  throws Exception, RemoteException, OperationErrorBD{
-		DTOEvento dtoEvento = new DTOEvento();
-		dtoEvento.setEvento(evento);
-		GestorEvento gestorEvento = new GestorEvento(gestorDB.getConnection());
-		return(gestorEvento.consultaEntidades(dtoEvento));
+	public List<DTOEvento> getEventos(DTOEvento dtoEvento) throws RemoteException, OperationErrorBD{
+		try{
+			GestorEvento gestorEvento = new GestorEvento(gestorDB.getConnection());
+			return (gestorEvento.consultaEntidades(dtoEvento));
+		}catch(Exception e){
+			throw new OperationErrorBD("Error al recuperar la informaci—n de los eventos......");
+		}
 	}
 
 	public List<DTOCentroDocente> consultaCentrosDocentes(DTOCentroDocente dtoCentroDocente) throws RemoteException, OperationErrorBD{
