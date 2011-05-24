@@ -18,6 +18,7 @@ import uoc.edu.tds.pec4.daos.DaoInscripcion;
 import uoc.edu.tds.pec4.dtos.DTOAsistente;
 import uoc.edu.tds.pec4.dtos.DTOEvento;
 import uoc.edu.tds.pec4.dtos.DTOInscripcion;
+import uoc.edu.tds.pec4.dtos.DTOInscripcionConsulta;
 
 public class GestorInscripcion extends GestorEntidad<DTOInscripcion>{
 
@@ -71,6 +72,41 @@ public class GestorInscripcion extends GestorEntidad<DTOInscripcion>{
 		return null;
 	}
 
+	
+	public List<DTOInscripcionConsulta> consultaEntidadesByDates(DTOInscripcionConsulta criteris) throws Exception {
+		try{
+			DaoInscripcion dao = new DaoInscripcion(connection);
+			List<DTOInscripcionConsulta> lstDTOInscripcionConsulta = dao.selectByDates(criteris);
+			
+			if(lstDTOInscripcionConsulta != null && lstDTOInscripcionConsulta.size() > 0){
+				
+				for(DTOInscripcionConsulta dtoInscripcionConsulta : lstDTOInscripcionConsulta){
+				
+					//A–adimos Inscripcion
+					// ya viene del dao
+					
+					//A–adimos el Evento					
+					GestorEvento gestorEvento = new GestorEvento(connection);
+					DTOEvento dtoEvento = gestorEvento.consultaEntidadById(dtoInscripcionConsulta.getInscripcion().getIdEvento());
+					if(dtoEvento != null) dtoInscripcionConsulta.setDtoEvento(dtoEvento);
+					
+					//Añadimos el Usuario
+					GestorUsuario gestorUsuario = new GestorUsuario(connection);
+					DTOAsistente dtoAsistente = (DTOAsistente) gestorUsuario.consultaEntidadById(dtoInscripcionConsulta.getInscripcion().getCodigo());
+					if(dtoAsistente != null) dtoInscripcionConsulta.setDtoAsistente(dtoAsistente);
+					
+					lstDTOInscripcionConsulta.add(dtoInscripcionConsulta);
+				}
+				return lstDTOInscripcionConsulta;
+			}
+		}catch(Exception e){
+			throw new Exception();
+		}
+		return null;
+	}
+
+	
+	
 	@Override
 	public void insertaEntidad(DTOInscripcion newobject) throws Exception{
 		try {
