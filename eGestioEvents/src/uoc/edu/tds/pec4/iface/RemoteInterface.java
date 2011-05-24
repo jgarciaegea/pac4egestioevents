@@ -300,4 +300,16 @@ public interface RemoteInterface extends Remote{
 	 * @throws OperationErrorBD
 	 */
 	public abstract List<DTOInscripcion> getInscripcionesByEventoFinalizado(DTOInscripcion dtoInscripcion) throws RemoteException, OperationErrorBD;
+	
+	/**
+	 * Comprobamos si un usuario tiene centros vinculados
+	 * En esta caso no se envía el DTOUsuario ya que no sabemos el tipo de usuario y tampoco no nos interesa
+	 * sólo queremos saber si un centro tiene usuarios asignados
+	 * @param usuario
+	 * @return
+	 * @throws RemoteException
+	 * @throws OperationErrorBD
+	 */
+	public abstract Boolean usuarioCentrosVinculados(Usuario usuario) throws RemoteException, OperationErrorBD;
+		
 }
