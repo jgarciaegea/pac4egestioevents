@@ -18,6 +18,7 @@ public class DTOInscripcionConsulta extends DTOInscripcion implements DTOInterfa
 	private static final long serialVersionUID = 1L;
 	private Date fechaInicioBusqueda;
 	private Date fechaFinBusqueda;
+	private String usuario;
 	/**
 	 * @return the fechaInicioBusqueda
 	 */
@@ -41,6 +42,18 @@ public class DTOInscripcionConsulta extends DTOInscripcion implements DTOInterfa
 	 */
 	public void setFechaFinBusqueda(Date fechaFinBusqueda) {
 		this.fechaFinBusqueda = fechaFinBusqueda;
+	}
+	/**
+	 * @return the usuario
+	 */
+	public String getUsuario() {
+		return usuario;
+	}
+	/**
+	 * @param usuario the usuario to set
+	 */
+	public void setUsuario(String usuario) {
+		this.usuario = usuario;
 	}
 
 }
