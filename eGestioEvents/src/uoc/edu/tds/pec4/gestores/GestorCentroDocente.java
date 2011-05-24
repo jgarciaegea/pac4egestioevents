@@ -151,5 +151,4 @@ public class GestorCentroDocente extends GestorEntidad<DTOCentroDocente>{
 			throw new Exception(e.getMessage());
 		}
 	}
-
 }

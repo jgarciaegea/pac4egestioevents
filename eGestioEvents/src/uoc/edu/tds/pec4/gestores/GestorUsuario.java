@@ -242,7 +242,6 @@ public class GestorUsuario  extends GestorEntidad<DTOUsuario>{
 	}
 	
 	
-	
 	public void updatePassword(Usuario usuario) throws Exception {
 		try {
 			DaoUsuario dao = new DaoUsuario(connection);
@@ -252,6 +251,14 @@ public class GestorUsuario  extends GestorEntidad<DTOUsuario>{
 		}
 	}
 	
+	public Boolean usuarioCentrosVinculados(Usuario usuario)throws Exception{
+		try{
+			DaoUsuario dao = new DaoUsuario(connection);
+			return dao.existeUsuariosVinculados(usuario);
+		}catch(Exception e){
+			throw new SQLException();
+		}
+	}
 	
 	
 
