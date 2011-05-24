@@ -607,5 +607,15 @@ public class RemotoImpl extends UnicastRemoteObject implements RemoteInterface{
 			throw new OperationErrorBD("Error al recuperar la información de las Inscripciones de usuario......");
 		}
 	}
+	
+	
+	public Boolean usuarioCentrosVinculados(Usuario usuario) throws RemoteException, OperationErrorBD{
+		try{
+			GestorUsuario gestorUsuario = new GestorUsuario(gestorDB.getConnection());
+			return gestorUsuario.usuarioCentrosVinculados(usuario);
+		}catch(Exception e){
+			throw new OperationErrorBD("Error al recuperar la información de las Inscripciones de usuario......");
+		}
+	}
 		
 }
