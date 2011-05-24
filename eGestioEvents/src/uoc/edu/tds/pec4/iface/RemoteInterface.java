@@ -10,6 +10,7 @@ import uoc.edu.tds.pec4.dtos.DTOCentroDocente;
 import uoc.edu.tds.pec4.dtos.DTOEvento;
 import uoc.edu.tds.pec4.dtos.DTOEventoCalendario;
 import uoc.edu.tds.pec4.dtos.DTOInscripcion;
+import uoc.edu.tds.pec4.dtos.DTOInscripcionConsulta;
 import uoc.edu.tds.pec4.dtos.DTOPais;
 import uoc.edu.tds.pec4.dtos.DTOTipoDocumento;
 import uoc.edu.tds.pec4.dtos.DTOTipoEvento;
@@ -274,5 +275,7 @@ public interface RemoteInterface extends Remote{
 	 * @throws Exception 
 	 */
 	public abstract List<DTOEvento> buscarEvento(Evento evento)  throws RemoteException, OperationErrorBD, Exception;
+	
+	public abstract List<DTOInscripcionConsulta> buscaInscripcionesUsuario(DTOInscripcionConsulta dtoInscripcionConsulta)  throws RemoteException, OperationErrorBD, Exception;
 
 }
