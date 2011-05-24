@@ -195,7 +195,7 @@ public class PantallaUsuarioConsulta extends javax.swing.JPanel implements Panta
 				{
 					jLabelTelf = new JLabel();
 					jPanel2.add(jLabelTelf, new GridBagConstraints(0, 7, 1, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-					jLabelTelf.setText(TDSLanguageUtils.getMessage("clientePEC4.altausuario.label12"));
+					jLabelTelf.setText(TDSLanguageUtils.getMessage("clientePEC4.altausuario.label24"));
 					jLabelTelf.setLayout(null);
 				}
 				{
@@ -217,11 +217,10 @@ public class PantallaUsuarioConsulta extends javax.swing.JPanel implements Panta
 
 				}
 				{
-					
 					jComboBoxCentroDocente = new JComboBox();
 					jPanel2.add(jComboBoxCentroDocente, new GridBagConstraints(1, 7, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 8, 0, 0), 0, 0));
 					jComboBoxCentroDocente.setPreferredSize(new java.awt.Dimension(200, 26));
-					
+					iniciaListaCentro();
 				}
 				{
 					jLabelActivos = new JLabel();
@@ -437,6 +436,12 @@ public class PantallaUsuarioConsulta extends javax.swing.JPanel implements Panta
 		}
 	}
 	
+	private void iniciaListaCentro(){
+		List<MostrarCombo> lstInicial = new ArrayList<MostrarCombo>();
+		lstInicial.add(new MostrarCombo(0, Constantes.LISTA_SELECCIONE));
+		ComboBoxModel jComboBoxCentroDocenteModel = new DefaultComboBoxModel(lstInicial.toArray());
+		jComboBoxCentroDocente.setModel(jComboBoxCentroDocenteModel);
+	}
 	/*
 	 * Vamos a la pantalla de usuario
 	 */
@@ -498,7 +503,6 @@ public class PantallaUsuarioConsulta extends javax.swing.JPanel implements Panta
 			List<DTOCentroDocente> lstDtoCentroDoc = remote.rellenaCentrosByIdUniversidad((Integer)obj);
 			List<MostrarCombo> lstComboCentroDoc = new ArrayList<MostrarCombo>();
 			if(lstDtoCentroDoc != null){
-				lstComboCentroDoc.add(new MostrarCombo(0, Constantes.NOMBRE_TODOS));
 				for(DTOCentroDocente dtoCentroDocRec : lstDtoCentroDoc){
 					lstComboCentroDoc.add(new MostrarCombo(dtoCentroDocRec.getCentroDocente().getIdCentro(),
 							dtoCentroDocRec.getCentroDocente().getNombre()));
@@ -593,16 +597,16 @@ public class PantallaUsuarioConsulta extends javax.swing.JPanel implements Panta
 			lstComboTipos.add(new MostrarCombo(3, String.valueOf(Constantes.NOMBRE_ASISTENTE)));
 			jComboBoxPerfil.setModel(new DefaultComboBoxModel(lstComboTipos.toArray()));
 			
-			
-			//Empezamos seleccionando el primer objeto cargado
-			if(jComboBoxUniver.getItemCount() > 0) rellenaCentrosDocentes(((MostrarCombo)jComboBoxUniver.getSelectedItem()).getID());
-			
 			jComboBoxUniver.addItemListener(new ItemListener(){
 				
 				public void itemStateChanged(ItemEvent e) {
 					try {
 						if(e.getStateChange() == ItemEvent.SELECTED) {
-							rellenaCentrosDocentes(((MostrarCombo)e.getItem()).getID());
+							if((Integer)(((MostrarCombo)e.getItem()).getID()) != 0){
+								rellenaCentrosDocentes(((MostrarCombo)e.getItem()).getID());
+							}else{
+								iniciaListaCentro();
+							}
 						}
 					} catch (Exception e1) {
 						e1.printStackTrace();

@@ -30,6 +30,7 @@ import uoc.edu.tds.pec4.dtos.DTOUsuarioConsulta;
 import uoc.edu.tds.pec4.excepciones.OperationErrorBD;
 import uoc.edu.tds.pec4.excepciones.OperationErrorLogin;
 import uoc.edu.tds.pec4.iface.RemoteInterface;
+import uoc.edu.tds.pec4.utils.Constantes;
 
 public class RemotoImpl extends UnicastRemoteObject implements RemoteInterface{
 	
@@ -218,6 +219,7 @@ public class RemotoImpl extends UnicastRemoteObject implements RemoteInterface{
 			DTOCentroDocente dtoCentroDocente = new DTOCentroDocente();
 			CentroDocente centroDocente = new CentroDocente();
 			centroDocente.setIdUniversidad(idUniversidad);
+			centroDocente.setEstado(Constantes.REGISTRO_ACTIVO); //Recogemos sólo los centros activos
 			dtoCentroDocente.setCentroDocente(centroDocente);
 			return gestorCentroDocente.consultaEntidades(dtoCentroDocente);
 		}catch(Exception e){
@@ -594,7 +596,6 @@ public class RemotoImpl extends UnicastRemoteObject implements RemoteInterface{
 		}
 	}
 
-	@Override
 	public  List<DTOInscripcion> buscaEventosInscrito(DTOInscripcion dtoInscripcion)  throws RemoteException, OperationErrorBD, Exception{
 		try{
 			System.out.println("Recuperando Inscripciones dle usuario por fecha Evento");

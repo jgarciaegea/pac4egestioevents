@@ -159,22 +159,22 @@ public class PantallaPrincipal extends JFrame {
 	        
 	        altaUsuario.addActionListener(new ActionListener() { 
 	        	public void actionPerformed(ActionEvent evt) { 
-	        		showPanel(new PantallaUsuario(remote)); 
+	        		showPanel(new PantallaUsuario(gestorRMI,remote)); 
 	        	} }); 
 	        
 	        consultaUsuario.addActionListener(new ActionListener() { 
 	        	public void actionPerformed(ActionEvent evt) { 
-	        		showPanel(new PantallaUsuarioConsulta(remote)); 
+	        		showPanel(new PantallaUsuarioConsulta(gestorRMI,remote)); 
 	        	} }); 
 	        
 	        altaCentroDocente.addActionListener(new ActionListener() { 
 	        	public void actionPerformed(ActionEvent evt) { 
-	        		showPanel(new PantallaCentroDocente(remote)); 
+	        		showPanel(new PantallaCentroDocente(gestorRMI,remote)); 
 	        	} }); 
 	        
 	        consultaCentroDocente.addActionListener(new ActionListener() { 
 	        	public void actionPerformed(ActionEvent evt) { 
-	        		showPanel(new PantallaCentroDocenteConsulta(remote)); 
+	        		showPanel(new PantallaCentroDocenteConsulta(gestorRMI,remote)); 
 	        	} }); 
 	        
 	        //Ayuda

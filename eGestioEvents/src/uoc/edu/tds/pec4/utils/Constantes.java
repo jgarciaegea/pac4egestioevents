@@ -19,5 +19,6 @@ public class Constantes {
 	
 	public static final String REGISTRO_ACTIVO_MOTIVO = TDSLanguageUtils.getMessage("constantes.registroactivo.motivo");
 	public static final String REGISTRO_INACTIVO_MOTIVO = TDSLanguageUtils.getMessage("constantes.registroinactivo.motivo");
+	public static final String LISTA_SELECCIONE = "Seleccione universidad";
 	
 }
