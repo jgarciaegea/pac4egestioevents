@@ -36,7 +36,6 @@ import uoc.edu.tds.pec4.dtos.DTOEventoCalendario;
 import uoc.edu.tds.pec4.dtos.DTOUniversidad;
 import uoc.edu.tds.pec4.excepciones.OperationErrorBD;
 import uoc.edu.tds.pec4.excepciones.OperationErrorDatosFormulario;
-import uoc.edu.tds.pec4.gestores.GestorRMI;
 import uoc.edu.tds.pec4.iface.RemoteInterface;
 import uoc.edu.tds.pec4.utils.ClearForm;
 import uoc.edu.tds.pec4.utils.Constantes;
@@ -88,16 +87,11 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 	private JButton jButtonInscripcion;
 
 	private RemoteInterface remote;
-	private GestorRMI gestorRMI;
 	private Usuario usuario;
 
-	// TODO 1: Revisar	
-	final static int interval = 1000;
-	
-	public PantallaCalendarioEventos(GestorRMI gestorRMI, RemoteInterface remote1, Usuario usuario1) {
+	public PantallaCalendarioEventos(RemoteInterface remote1, Usuario usuario1) {
 		super();
 		this.remote = remote1;
-		this.gestorRMI = gestorRMI;
 		this.usuario = usuario1;
 		try {
 			remote.testConexion();
@@ -112,8 +106,7 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 		try {
 			this.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder(null, "Calendario de Eventos", 0, 0, new Font("Dialog", 1, 12), new Color(51, 51, 51)), null), null));
 			this.setPreferredSize(new java.awt.Dimension(784, 501));
-			this.setLayout(null);
-
+			
 			this.add(getJPanelFiltro());
 			this.add(getJPanelDatos());
 
@@ -176,18 +169,19 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 		
 		Integer idUniversidad = Integer.parseInt(((MostrarCombo) jComboBoxUniveridad.getSelectedItem()).getID().toString());
 		eventoCalendario.setIdUniversidad(idUniversidad==0?null:idUniversidad);
+		
 		Integer idCentroDocente = Integer.parseInt(((MostrarCombo) jComboBoxCentroDocente.getSelectedItem()).getID().toString());
-		eventoCalendario.setIdCentroDocente(idCentroDocente==0?null:idCentroDocente);
-
+		eventoCalendario.setIdCentro(idCentroDocente==0?null:idCentroDocente);
+		
 		eventoCalendario.setFechaInicioCelebracion(Utils.transformFecha(jTextFieldFechaIni.getText()));
 		eventoCalendario.setFechaFinCelebracion(Utils.transformFecha(jTextFieldFechaFin.getText()));
 		
 		if(jCheckBoxShowAll.isSelected()){
 			eventoCalendario.setEstado(null);
-		}
-		else {
+		}else {
 			eventoCalendario.setEstado(Constantes.REGISTRO_ACTIVO);
 		}
+		
 		if(jCheckBoxShowEventoFinalizado.isSelected()){
 			eventoCalendario.setEventoFinalizado(null);
 		}
@@ -320,9 +314,8 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 					aobj[k][0] = new String(dtoEventoCalendario.getEvento().getIdEvento().toString());
 					aobj[k][1] = new String(Utils.convertFecha(dtoEventoCalendario.getEvento().getFechaInicioCelebracion().toString()));
 					aobj[k][2] = new String(dtoEventoCalendario.getEvento().getNombre());
-	                aobj[k][3] = new String(dtoEventoCalendario.getEventoCalendario().getUniversidad());
-//	                aobj[k][4] = new String(dtoEventoCalendario.getDtoCentroDocente().getCentroDocente().getNombre());
-	                aobj[k][4] = new String(dtoEventoCalendario.getEventoCalendario().getCentroDocente());
+	                aobj[k][3] = new String(dtoEventoCalendario.getDtoCentroDocente().getDtoUniversidad().getUniversidad().getNombre());
+	                aobj[k][4] = new String(dtoEventoCalendario.getDtoCentroDocente().getCentroDocente().getNombre());
 	                aobj[k][5] = new String(dtoEventoCalendario.getEvento().getUmbral().toString());
 	                aobj[k][6] = new String(dtoEventoCalendario.getEventoCalendario().getEventoCancelado().toString());
 	                aobj[k][7] = new String(dtoEventoCalendario.getEventoCalendario().getEventoFinalizado().toString());
@@ -349,6 +342,7 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 			jPanelFiltro.setLayout(null);
 			jPanelFiltro.setBounds(24, 32, 733, 155);
 			jPanelFiltro.setBorder(BorderFactory.createEtchedBorder(BevelBorder.LOWERED));
+			jPanelFiltro.setPreferredSize(new java.awt.Dimension(730, 148));
 			jPanelFiltro.add(getJLabelFiltro());
 			jPanelFiltro.add(getJLabelUniversidad());
 			jPanelFiltro.add(getJComboBoxUniveridad());
@@ -526,6 +520,7 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 			jPanelDatos.setLayout(null);
 			jPanelDatos.setBounds(24, 199, 733, 277);
 			jPanelDatos.setBorder(BorderFactory.createEtchedBorder(BevelBorder.LOWERED));
+			jPanelDatos.setPreferredSize(new java.awt.Dimension(723, 294));
 			jPanelDatos.add(getJButtonNew());
 			jPanelDatos.add(getJButtonUpdate());
 			jPanelDatos.add(getJButtonDelete());
@@ -555,7 +550,7 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 			jTableDatos.setBounds(30, 33, 675, 149);
 			jTableDatos.setVerifyInputWhenFocusTarget(false);
 			jTableDatos.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-			jTableDatos.setPreferredSize(new java.awt.Dimension(660, 209));
+			jTableDatos.setPreferredSize(new java.awt.Dimension(695, 209));
 		}
 		return jTableDatos;
 	}
@@ -595,8 +590,6 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 							goPantallaEvento(dtoEvento);
 						} catch (OperationErrorDatosFormulario e1) {
 							e1.showDialogError();
-						}finally{
-							//jButtonClearActionPerformed();
 						}
 					}
 				}
@@ -676,4 +669,5 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 		}
 		return jButtonInscripcion;
 	}
+	
 }

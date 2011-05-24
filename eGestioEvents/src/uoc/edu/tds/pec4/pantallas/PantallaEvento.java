@@ -107,8 +107,6 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 	private Boolean bEventoModificacion = false;
 
 	// TODO 1: Revisar	
-	final static int interval = 1000;
-
 
 	public PantallaEvento(RemoteInterface remote1, Usuario usuarioLogin, DTOEvento eventoAModificar){
 		super();
@@ -143,7 +141,6 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 		try {
 			this.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder(null, bEventoModificacion.booleanValue()?"Modificaci—n de evento":"Alta de evento", 0, 0, new Font("Dialog", 1, 12), new Color(51, 51, 51)), null), null));
 			this.setPreferredSize(new java.awt.Dimension(784, 538));
-			this.setLayout(null);
 			this.add(getJPanelDatos());
 			this.add(getJPanelCentro());
 
@@ -413,6 +410,7 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 			jPanelCentro.setBounds(17, 32, 744, 58);
 			jPanelCentro.setBorder(BorderFactory.createEtchedBorder(BevelBorder.LOWERED));
 			jPanelCentro.setFont(new java.awt.Font("Arial",0,10));
+			jPanelCentro.setPreferredSize(new java.awt.Dimension(702, 71));
 			jPanelCentro.add(getJLabelNombreCentroText());
 			jPanelCentro.add(getJLabelNombreCentro());
 			jPanelCentro.add(getJLabelCodigoText());
@@ -471,6 +469,7 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 			jPanelDatos.setBounds(17, 96, 744, 429);
 			jPanelDatos.setBorder(BorderFactory.createEtchedBorder(BevelBorder.LOWERED));
 			jPanelDatos.setFont(new java.awt.Font("Arial",0,10));
+			jPanelDatos.setPreferredSize(new java.awt.Dimension(712, 422));
 			jPanelDatos.add(getJLabelEventoText());
 			jPanelDatos.add(getJLabelNombreText());
 			jPanelDatos.add(getJTextFieldNombre());
