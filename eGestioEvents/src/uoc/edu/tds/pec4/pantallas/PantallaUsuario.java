@@ -841,7 +841,7 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 			jComboBoxTipo.setModel(jComboBoxTipoModel);
 			
 		}catch(Exception e){
-			throw new OperationErrorDatosFormulario(TDSLanguageUtils.getMessage("clientePEC4.error6"));
+			throw new OperationErrorDatosFormulario(TDSLanguageUtils.getMessage("clientePEC4.error6.utils"));
 		}
 		
 	}
