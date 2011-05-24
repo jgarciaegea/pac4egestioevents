@@ -17,10 +17,13 @@ import uoc.edu.tds.pec4.beans.Evento;
 import uoc.edu.tds.pec4.beans.Usuario;
 import uoc.edu.tds.pec4.dtos.DTOEvento;
 import uoc.edu.tds.pec4.dtos.DTOTipoEvento;
+import uoc.edu.tds.pec4.dtos.DTOUsuario;
 import uoc.edu.tds.pec4.excepciones.OperationErrorBD;
 import uoc.edu.tds.pec4.excepciones.OperationErrorDatosFormulario;
 import uoc.edu.tds.pec4.excepciones.OperationErrorLogin;
+import uoc.edu.tds.pec4.gestores.FactoriaUsuario;
 import uoc.edu.tds.pec4.iface.RemoteInterface;
+import uoc.edu.tds.pec4.resources.TDSLanguageUtils;
 import uoc.edu.tds.pec4.utils.EmailValidator;
 import uoc.edu.tds.pec4.utils.MostrarCombo;
 import uoc.edu.tds.pec4.utils.Utils;
@@ -140,6 +143,10 @@ public class PantallaBuscarEventoInscripcion  extends PanelComun implements Pant
 	}
 	
 	
+	
+	
+	
+	
 	/**
 	 * Método que valida los datos introducidos en el formulario
 	 * @throws OperationErrorDatosFormulario
@@ -157,7 +164,6 @@ public class PantallaBuscarEventoInscripcion  extends PanelComun implements Pant
 		}
 			
 	}
-	
 	
 	
 	public void goPantallaInscripcion() throws OperationErrorLogin, RemoteException, OperationErrorBD{
