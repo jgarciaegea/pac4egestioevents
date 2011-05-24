@@ -77,7 +77,7 @@ public class DaoInscripcion extends DaoEntidad<Inscripcion>{
 			if(criteris.getFechaInscripcion()!=null) {ps.setDate(i, criteris.getFechaInscripcion()); i++;}
 			if(criteris.getCheckIn()!=null) {ps.setBoolean(i, criteris.getCheckIn()); i++;}
 			if(criteris.getCodigoAsistencia()!=null) {ps.setString(i, criteris.getCodigoAsistencia()); i++;}
-			
+
 			rs = ps.executeQuery();
 			while (rs.next()) {
 				Inscripcion inscripcion = new Inscripcion();
@@ -107,10 +107,10 @@ public class DaoInscripcion extends DaoEntidad<Inscripcion>{
 		List<DTOInscripcionConsulta> lstDTOInscripcionConsultaInscripcion = new ArrayList<DTOInscripcionConsulta>();
 		try{
 			StringBuffer sb = new StringBuffer();
-			sb.append("SELECT codigo, id_evento, estado, fecha_estado, motivo_estado, fecha_inscripcion, check_in, codigo_asistencia");
+			sb.append("SELECT codigo,id_evento,estado,fecha_estado,motivo_estado,fecha_inscripcion,check_in,codigo_asistencia ");
 			sb.append("FROM INSCRIPCION ");
 			sb.append("WHERE (1=1) ");
-			if(criteris.getInscripcion().getCodigo()!=null) sb.append("AND codigo = ? ");			
+			if(criteris.getUsuario()!=null) sb.append("AND codigo = ? ");			
 			if(criteris.getFechaInicioBusqueda() != null && criteris.getFechaFinBusqueda()!=null){
 				sb.append("AND fecha_inscripcion BETWEEN ? AND ?");
 			}else if(criteris.getFechaInicioBusqueda() != null && criteris.getFechaFinBusqueda()==null){
@@ -119,18 +119,20 @@ public class DaoInscripcion extends DaoEntidad<Inscripcion>{
 			ps = con.prepareStatement(sb.toString(), ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
 			
 			int i=1;
-			if(criteris.getInscripcion().getCodigo()!=null) {ps.setString(i, criteris.getInscripcion().getCodigo()); i++;}
+			if(criteris.getUsuario()!=null) {ps.setString(i, criteris.getUsuario()); i++;}
 			if(criteris.getFechaInicioBusqueda() != null && criteris.getFechaFinBusqueda()!=null){
 				ps.setDate(i, criteris.getFechaInicioBusqueda()); i++;
 				ps.setDate(i, criteris.getFechaFinBusqueda()); i++;
 			}else if(criteris.getFechaInicioBusqueda() != null && criteris.getFechaFinBusqueda()==null){
 				ps.setDate(i, criteris.getFechaInicioBusqueda()); i++;
 			}
-			
+			System.out.println("Query ejecutada.... " +ps.toString() );
 			rs = ps.executeQuery();
 			while (rs.next()) {
 				DTOInscripcionConsulta dtoInscripcionConsulta = new DTOInscripcionConsulta();
-				dtoInscripcionConsulta.getInscripcion().setCodigo(rs.getString("Codigo"));
+				Inscripcion inscripcion = new Inscripcion();
+				dtoInscripcionConsulta.setInscripcion(inscripcion);
+				dtoInscripcionConsulta.getInscripcion().setCodigo(rs.getString("codigo"));
 				dtoInscripcionConsulta.getInscripcion().setIdEvento(rs.getInt("id_evento"));
 				dtoInscripcionConsulta.getInscripcion().setEstado(rs.getInt("estado"));
 				dtoInscripcionConsulta.getInscripcion().setFechaEstado(rs.getDate("fecha_estado"));
