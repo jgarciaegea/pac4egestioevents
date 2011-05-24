@@ -18,6 +18,7 @@ import uoc.edu.tds.pec4.dtos.DTOAsistente;
 import uoc.edu.tds.pec4.dtos.DTOEvento;
 import uoc.edu.tds.pec4.dtos.DTOInscripcion;
 import uoc.edu.tds.pec4.dtos.DTOInscripcionConsulta;
+import uoc.edu.tds.pec4.dtos.DTOUsuario;
 
 public class GestorInscripcion extends GestorEntidad<DTOInscripcion>{
 
@@ -99,9 +100,16 @@ public class GestorInscripcion extends GestorEntidad<DTOInscripcion>{
 					
 					//Añadimos el Usuario
 					GestorUsuario gestorUsuario = new GestorUsuario(connection);
-					System.out.println("recogiendo el DTOAsistente......... usuario: "+ dtoInscripcionConsulta.getInscripcion().getCodigo());
-					DTOAsistente dtoAsistente = (DTOAsistente) gestorUsuario.consultaEntidadById(dtoInscripcionConsulta.getInscripcion().getCodigo());
-					if(dtoAsistente != null) dtoInscripcionConsulta.setDtoAsistente(dtoAsistente);
+					System.out.println("recogiendo el usuario....: "+ dtoInscripcionConsulta.getInscripcion().getCodigo());
+					DTOUsuario dtoUsuario = gestorUsuario.consultaEntidadById(dtoInscripcionConsulta.getInscripcion().getCodigo());
+					 System.out.println(" despues de encontrar el usuario....");
+					
+					if (dtoUsuario instanceof DTOAsistente)
+						 	System.out.println("SE TRATA DE UN ASISTENTE");
+					 else System.out.println("NO SE TRATA DE UN ASISTENTE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+					
+						 DTOAsistente dtoAsistente = (DTOAsistente)dtoUsuario;
+					if(dtoAsistente != null) dtoInscripcionConsulta.setDtoAsistente( dtoAsistente);
 					else System.out.println(" ERROR recogiendo el DTOAsistente.........");
 					
 					lstDTOInscripcionConsulta1.add(dtoInscripcionConsulta);
