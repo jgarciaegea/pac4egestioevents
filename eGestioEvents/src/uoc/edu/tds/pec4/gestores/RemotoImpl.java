@@ -558,13 +558,37 @@ public class RemotoImpl extends UnicastRemoteObject implements RemoteInterface{
 		}
 	}
 
-	@Override
+	/**
+	 * Retorna las inscripciones segun un dtoInscripcion
+	 * @param dtoInscripcion
+	 * @return
+	 * @throws RemoteException
+	 * @throws OperationErrorBD
+	 */
 	public List<DTOInscripcion> getInscripciones(DTOInscripcion dtoInscripcion) throws RemoteException, OperationErrorBD {
 		try{
 			System.out.println("Recuperando inscripciones.....");
 			GestorInscripcion gestorInscripcion = new GestorInscripcion(gestorDB.getConnection());
 			System.out.println("gestorinscripcion Creado......");
 			return gestorInscripcion.consultaEntidades(dtoInscripcion);
+		}catch(Exception e){
+			throw new OperationErrorBD("Error al recuperar la informaci—n de las inscripciones......");
+		}
+	}
+
+	/**
+	 * Retorna las inscripciones de un evento finalizado
+	 * @param dtoInscripcion
+	 * @return
+	 * @throws RemoteException
+	 * @throws OperationErrorBD
+	 */
+	public List<DTOInscripcion> getInscripcionesByEventoFinalizado(DTOInscripcion dtoInscripcion) throws RemoteException, OperationErrorBD {
+		try{
+			System.out.println("Recuperando inscripciones.....");
+			GestorInscripcion gestorInscripcion = new GestorInscripcion(gestorDB.getConnection());
+			System.out.println("gestorinscripcion Creado......");
+			return gestorInscripcion.consultaEntidadesByEventoFinalizado(dtoInscripcion);
 		}catch(Exception e){
 			throw new OperationErrorBD("Error al recuperar la informaci—n de las inscripciones......");
 		}
