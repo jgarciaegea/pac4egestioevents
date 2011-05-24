@@ -656,8 +656,6 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 			jButtonViewInscripciones.setText("Ver Inscripciones");
 			jButtonViewInscripciones.setBounds(408, 256, 160, 25);
 			jButtonViewInscripciones.setFont(new java.awt.Font("Arial",0,10));
-			// TODO 1: Ver los asistentens del evento.
-			/*
 			jButtonViewInscripciones.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					if (jTableDatos.getSelectedRow() == -1) {
@@ -665,6 +663,9 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 					}else{
 						try {
 							DTOEvento dtoEvento = getSelectedEvento();
+					        //this.setVisible(false);
+					        PantallaInscripcionesByEvento v3 = new PantallaInscripcionesByEvento(null, remote, dtoEvento);
+					        v3.setVisible(true);
 							//goPantallaUsuario(dtoUsuario);
 						} catch (OperationErrorDatosFormulario e1) {
 							e1.showDialogError();
@@ -673,7 +674,7 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 						}
 					}
 				}
-			});*/
+			});
 		}
 		return jButtonViewInscripciones;
 	}
