@@ -21,11 +21,11 @@ public class DaoContacto extends DaoEntidad<Contacto>{
 		PreparedStatement ps = null;
 		try {
 			ps = con.prepareStatement("INSERT INTO contacto (domicilio, cp, localidad, id_pais, email, web, fecha_alta, estado, fecha_estado, motivo_estado) " +
-			" VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+			" VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 			ps.setString(1, objecte.getDomicilio());
 			ps.setInt(2, objecte.getCp());
 			ps.setString(3, objecte.getLocalidad());
-			ps.setDate(4, null);
+			//ps.setDate(4, null);
 			ps.setInt(5, objecte.getIdPais());
 			ps.setString(6, objecte.getEmail());
 			ps.setString(7, objecte.getWeb());
@@ -57,14 +57,14 @@ public class DaoContacto extends DaoEntidad<Contacto>{
 		List<Contacto> lstContacto = new ArrayList<Contacto>();
 		try{
 			StringBuffer sb = new StringBuffer();
-			sb.append("SELECT id_contacto, domicilio, cp, localidad, provincia, id_pais, email, web, fecha_alta, estado, fecha_estado, motivo_estado ");
+			sb.append("SELECT id_contacto, domicilio, cp, localidad, id_pais, email, web, fecha_alta, estado, fecha_estado, motivo_estado ");
 			sb.append("FROM CONTACTO ");
 			sb.append("WHERE (1=1) ");
 			if(criteris.getIdContacto()!=null) sb.append("AND id_contacto = ? ");
 			if(criteris.getDomicilio()!=null) sb.append("AND domicilio = ? ");
 			if(criteris.getCp()!=null) sb.append("AND cp = ? ");
 			if(criteris.getLocalidad()!=null) sb.append("AND localidad = ? ");
-			if(criteris.getProvincia()!=null) sb.append("AND provincia = ? ");
+			//if(criteris.getProvincia()!=null) sb.append("AND provincia = ? ");
 			if(criteris.getIdPais()!=null) sb.append("AND id_pais = ? ");
 			if(criteris.getEmail()!=null) sb.append("AND email = ? ");
 			if(criteris.getWeb()!=null) sb.append("AND web = ? ");
@@ -80,7 +80,7 @@ public class DaoContacto extends DaoEntidad<Contacto>{
 			if(criteris.getDomicilio()!=null) {ps.setString(i, criteris.getDomicilio()); i++;}
 			if(criteris.getCp()!=null) {ps.setInt(i, criteris.getCp()); i++;}
 			if(criteris.getLocalidad()!=null) {ps.setString(i, criteris.getLocalidad()); i++;}
-			if(criteris.getProvincia()!=null) {ps.setString(i, criteris.getProvincia()); i++;}
+			//if(criteris.getProvincia()!=null) {ps.setString(i, criteris.getProvincia()); i++;}
 			if(criteris.getIdPais()!=null) {ps.setInt(i, criteris.getIdPais()); i++;}
 			if(criteris.getEmail()!=null) {ps.setString(i, criteris.getEmail()); i++;}
 			if(criteris.getWeb()!=null) {ps.setString(i, criteris.getWeb()); i++;}
@@ -97,7 +97,7 @@ public class DaoContacto extends DaoEntidad<Contacto>{
 				contacto.setDomicilio(rs.getString("domicilio"));
 				contacto.setCp(rs.getInt("cp"));
 				contacto.setLocalidad(rs.getString("localidad"));
-				contacto.setProvincia(rs.getString("provincia"));
+				//contacto.setProvincia(rs.getString("provincia"));
 				contacto.setEmail(rs.getString("email"));
 				contacto.setWeb(rs.getString("web"));
 				contacto.setFechaAlta(rs.getDate("fecha_alta"));
