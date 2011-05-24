@@ -81,7 +81,7 @@ public class DaoInscripcion extends DaoEntidad<Inscripcion>{
 			rs = ps.executeQuery();
 			while (rs.next()) {
 				Inscripcion inscripcion = new Inscripcion();
-				inscripcion.setCodigo(rs.getString("Codigo"));
+				inscripcion.setCodigo(rs.getString("codigo"));
 				inscripcion.setIdEvento(rs.getInt("id_evento"));
 				inscripcion.setEstado(rs.getInt("estado"));
 				inscripcion.setFechaEstado(rs.getDate("fecha_estado"));
