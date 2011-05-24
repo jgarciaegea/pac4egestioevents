@@ -83,8 +83,8 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 	private JButton jButtonNew;
 	private JButton jButtonUpdate;
 	private JButton jButtonDelete;
-	private JButton jButtonViewAsistentesEvento;
-	private JButton jButtonInscripcion;
+	private JButton jButtonViewInscripciones;
+	private JButton jButtonViewAsistenciaAusencia;
 
 	private RemoteInterface remote;
 	private Usuario usuario;
@@ -342,7 +342,8 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 			jPanelFiltro.setLayout(null);
 			jPanelFiltro.setBounds(24, 32, 733, 155);
 			jPanelFiltro.setBorder(BorderFactory.createEtchedBorder(BevelBorder.LOWERED));
-			jPanelFiltro.setPreferredSize(new java.awt.Dimension(730, 148));
+			jPanelFiltro.setPreferredSize(new java.awt.Dimension(740, 148));
+			jPanelFiltro.setFont(new java.awt.Font("Arial",0,10));
 			jPanelFiltro.add(getJLabelFiltro());
 			jPanelFiltro.add(getJLabelUniversidad());
 			jPanelFiltro.add(getJComboBoxUniveridad());
@@ -366,7 +367,7 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 			jLabelFiltro.setText("Filtro");
 			jLabelFiltro.setLayout(null);
 			jLabelFiltro.setBounds(14, 9, 49, 15);
-			jLabelFiltro.setFont(new java.awt.Font("Dialog",1,12));
+			jLabelFiltro.setFont(new java.awt.Font("Arial",1,12));
 		}
 		return jLabelFiltro;
 	}
@@ -377,6 +378,7 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 			jLabelUniversidad.setText("Universidad");
 			jLabelUniversidad.setLayout(null);
 			jLabelUniversidad.setBounds(88, 20, 68, 15);
+			jLabelUniversidad.setFont(new java.awt.Font("Arial",0,10));
 		}
 		return jLabelUniversidad;
 	}
@@ -386,6 +388,7 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 			jComboBoxUniveridad = new JComboBox();
 			jComboBoxUniveridad.setOpaque(false);
 			jComboBoxUniveridad.setBounds(189, 14, 358, 26);
+			jComboBoxUniveridad.setFont(new java.awt.Font("Arial",0,10));
 			jComboBoxUniveridad.addItemListener(new ItemListener(){
 				public void itemStateChanged(ItemEvent e) {
 					try {
@@ -407,6 +410,7 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 			jLabelCentroDocente.setText("Centro Docente");
 			jLabelCentroDocente.setLayout(null);
 			jLabelCentroDocente.setBounds(88, 56, 89, 15);
+			jLabelCentroDocente.setFont(new java.awt.Font("Arial",0,10));
 		}
 		return jLabelCentroDocente;
 	}
@@ -416,6 +420,7 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 			jComboBoxCentroDocente = new JComboBox();
 			jComboBoxCentroDocente.setOpaque(false);
 			jComboBoxCentroDocente.setBounds(189, 50, 358, 26);
+			jComboBoxCentroDocente.setFont(new java.awt.Font("Arial",0,10));
 		}
 		return jComboBoxCentroDocente;
 	}
@@ -426,6 +431,7 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 			jLabelFechaIni.setText("Fecha Inicio");
 			jLabelFechaIni.setLayout(null);
 			jLabelFechaIni.setBounds(88, 90, 66, 15);
+			jLabelFechaIni.setFont(new java.awt.Font("Arial",0,10));
 		}
 		return jLabelFechaIni;
 	}
@@ -435,6 +441,7 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 			jTextFieldFechaIni = new JTextField();
 			jTextFieldFechaIni.setText("01/01/2010");
 			jTextFieldFechaIni.setBounds(189, 88, 113, 19);
+			jTextFieldFechaIni.setFont(new java.awt.Font("Arial",0,10));
 		}
 		return jTextFieldFechaIni;
 	}
@@ -445,6 +452,7 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 			jLabelFechaFin.setText("Fecha Final");
 			jLabelFechaFin.setLayout(null);
 			jLabelFechaFin.setBounds(332, 90, 72, 15);
+			jLabelFechaFin.setFont(new java.awt.Font("Arial",0,10));
 		}
 		return jLabelFechaFin;
 	}
@@ -454,6 +462,7 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 			jTextFieldFechaFin = new JTextField();
 			jTextFieldFechaFin.setText("01/01/2012");
 			jTextFieldFechaFin.setBounds(416, 88, 113, 19);
+			jTextFieldFechaFin.setFont(new java.awt.Font("Arial",0,10));
 		}
 		return jTextFieldFechaFin;
 	}
@@ -462,7 +471,8 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 		if(jCheckBoxShowAll == null) {
 			jCheckBoxShowAll = new JCheckBox();
 			jCheckBoxShowAll.setText("Mostrar eventos cancelados");
-			jCheckBoxShowAll.setBounds(88, 115, 185, 23);
+			jCheckBoxShowAll.setBounds(183, 115, 185, 23);
+			jCheckBoxShowAll.setFont(new java.awt.Font("Arial",0,10));
 		}
 		return jCheckBoxShowAll;
 	}
@@ -471,7 +481,8 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 		if(jCheckBoxShowEventoFinalizado == null) {
 			jCheckBoxShowEventoFinalizado = new JCheckBox();
 			jCheckBoxShowEventoFinalizado.setText("Mostrar eventos finalizados");
-			jCheckBoxShowEventoFinalizado.setBounds(332, 115, 183, 23);
+			jCheckBoxShowEventoFinalizado.setBounds(397, 115, 183, 23);
+			jCheckBoxShowEventoFinalizado.setFont(new java.awt.Font("Arial",0,10));
 		}
 		return jCheckBoxShowEventoFinalizado;
 	}
@@ -482,6 +493,7 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 			jButtonSearch.setLayout(null);
 			jButtonSearch.setText("Buscar");
 			jButtonSearch.setBounds(635, 26, 85, 25);
+			jButtonSearch.setFont(new java.awt.Font("Arial",0,10));
 			jButtonSearch.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					try {
@@ -502,6 +514,7 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 			jButtonClear.setLayout(null);
 			jButtonClear.setText("Limpiar");
 			jButtonClear.setBounds(635, 51, 85, 25);
+			jButtonClear.setFont(new java.awt.Font("Arial",0,10));
 			jButtonClear.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					jButtonClearActionPerformed();
@@ -520,12 +533,13 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 			jPanelDatos.setLayout(null);
 			jPanelDatos.setBounds(24, 199, 733, 277);
 			jPanelDatos.setBorder(BorderFactory.createEtchedBorder(BevelBorder.LOWERED));
-			jPanelDatos.setPreferredSize(new java.awt.Dimension(723, 294));
+			jPanelDatos.setPreferredSize(new java.awt.Dimension(741, 294));
+			jPanelDatos.setFont(new java.awt.Font("Arial",0,10));
 			jPanelDatos.add(getJButtonNew());
 			jPanelDatos.add(getJButtonUpdate());
 			jPanelDatos.add(getJButtonDelete());
-			jPanelDatos.add(getJButtonViewAsistentesEvento());
-			jPanelDatos.add(getJButtonInscripcion());
+			jPanelDatos.add(getJButtonViewInscripciones());
+			jPanelDatos.add(getJButtonViewAsistenciaAusencia());
 			jPanelDatos.add(getJScrollPane1());
 		}
 		return jPanelDatos;
@@ -534,7 +548,8 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 	private JScrollPane getJScrollPane1() {
 		if(jScrollPane1 == null) {
 			jScrollPane1 = new JScrollPane();
-			jScrollPane1.setBounds(22, 14, 691, 213);
+			jScrollPane1.setBounds(14, 14, 713, 230);
+			jScrollPane1.setFont(new java.awt.Font("Arial",0,10));
 			jScrollPane1.setViewportView(getJTableDatos());
 		}
 		return jScrollPane1;
@@ -550,7 +565,7 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 			jTableDatos.setBounds(30, 33, 675, 149);
 			jTableDatos.setVerifyInputWhenFocusTarget(false);
 			jTableDatos.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-			jTableDatos.setPreferredSize(new java.awt.Dimension(695, 209));
+			jTableDatos.setPreferredSize(new java.awt.Dimension(704, 225));
 		}
 		return jTableDatos;
 	}
@@ -562,7 +577,8 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 			jButtonNew.setIcon(icon);
 			jButtonNew.setLayout(null);
 			jButtonNew.setText("Nuevo Evento");
-			jButtonNew.setBounds(22, 244, 130, 25);
+			jButtonNew.setBounds(13, 256, 120, 25);
+			jButtonNew.setFont(new java.awt.Font("Arial",0,10));
 			jButtonNew.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					goPantallaEvento(null);
@@ -578,7 +594,8 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 			jButtonUpdate = new JButton();
 			jButtonUpdate.setLayout(null);
 			jButtonUpdate.setText("Modificar Evento");
-			jButtonUpdate.setBounds(157, 244, 130, 25);
+			jButtonUpdate.setBounds(136, 256, 120, 25);
+			jButtonUpdate.setFont(new java.awt.Font("Arial",0,10));
 			jButtonUpdate.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					if(jTableDatos.getSelectedRow() == -1){
@@ -603,7 +620,8 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 			jButtonDelete = new JButton();
 			jButtonDelete.setLayout(null);
 			jButtonDelete.setText("Cancelar Evento");
-			jButtonDelete.setBounds(292, 244, 130, 25);
+			jButtonDelete.setBounds(258, 256, 120, 25);
+			jButtonDelete.setFont(new java.awt.Font("Arial",0,10));
 			jButtonDelete.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					if(jTableDatos.getSelectedRow() == -1){
@@ -631,15 +649,16 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 		return jButtonDelete;
 	}
 	
-	private JButton getJButtonViewAsistentesEvento() {
-		if(jButtonViewAsistentesEvento == null) {
-			jButtonViewAsistentesEvento = new JButton();
-			jButtonViewAsistentesEvento.setLayout(null);
-			jButtonViewAsistentesEvento.setText("Ver Asistentes");
-			jButtonViewAsistentesEvento.setBounds(427, 244, 130, 25);
+	private JButton getJButtonViewInscripciones() {
+		if(jButtonViewInscripciones == null) {
+			jButtonViewInscripciones = new JButton();
+			jButtonViewInscripciones.setLayout(null);
+			jButtonViewInscripciones.setText("Ver Inscripciones");
+			jButtonViewInscripciones.setBounds(408, 256, 160, 25);
+			jButtonViewInscripciones.setFont(new java.awt.Font("Arial",0,10));
 			// TODO 1: Ver los asistentens del evento.
 			/*
-			jButtonViewAsistentesEvento.addActionListener(new ActionListener() {
+			jButtonViewInscripciones.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					if (jTableDatos.getSelectedRow() == -1) {
 						Utils.mostraMensajeInformacion(jPanelDatos, "No ha seleccionado ningœn registro de la tabla", "Consulta Usuarios");
@@ -656,18 +675,19 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 				}
 			});*/
 		}
-		return jButtonViewAsistentesEvento;
+		return jButtonViewInscripciones;
 	}
 	
-	private JButton getJButtonInscripcion() {
-		if(jButtonInscripcion == null) {
-			jButtonInscripcion = new JButton();
-			jButtonInscripcion.setLayout(null);
-			jButtonInscripcion.setText("Inscripci—n");
-			jButtonInscripcion.setBounds(583, 244, 130, 25);
+	private JButton getJButtonViewAsistenciaAusencia() {
+		if(jButtonViewAsistenciaAusencia == null) {
+			jButtonViewAsistenciaAusencia = new JButton();
+			jButtonViewAsistenciaAusencia.setLayout(null);
+			jButtonViewAsistenciaAusencia.setText("Ver Asistencia/Ausencia");
+			jButtonViewAsistenciaAusencia.setBounds(568, 256, 160, 25);
+			jButtonViewAsistenciaAusencia.setFont(new java.awt.Font("Arial",0,10));
 			//TODO 1: Comprobar que nos podamos inscribir y llamar a la pantalla de isncripci—n (alta)
 		}
-		return jButtonInscripcion;
+		return jButtonViewAsistenciaAusencia;
 	}
 	
 }

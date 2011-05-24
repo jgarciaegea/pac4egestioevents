@@ -23,6 +23,7 @@ import javax.swing.JTextField;
 import javax.swing.border.BevelBorder;
 import javax.swing.table.DefaultTableModel;
 
+import uoc.edu.tds.pec4.beans.CentroDocente;
 import uoc.edu.tds.pec4.beans.Evento;
 import uoc.edu.tds.pec4.beans.Usuario;
 import uoc.edu.tds.pec4.dtos.DTOCentroDocente;
@@ -112,15 +113,19 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 		super();
 		this.remote = remote1;
 		this.usuario = usuarioLogin;
-
-		System.out.print("Para quitar el warning que sale si no se utiliza es provisional " + remote.toString());	
 		initGUI();
 		if (eventoAModificar != null){ 
 			this.dtoEventoAModficar = eventoAModificar;
 			bEventoModificacion = true;
+		}
+		System.out.print("Para quitar el warning que sale si no se utiliza es provisional " + remote.toString());	
+		initGUI();
+		if (bEventoModificacion){ 
 			cargaEvento();
 			//Deshabilitamos que se pueda cambiar el centro docente
-			jComboBoxTipoEvento.setEditable(false);
+			jComboBoxTipoEvento.setEnabled(false);
+			jButtonRequisitos.setEnabled(false);
+			jButtonRolPlazas.setEnabled(false);
 		}
 		else {
 			cargaCentroUsuario();
@@ -140,9 +145,9 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 	private void initGUI() {
 		try {
 			this.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder(null, bEventoModificacion.booleanValue()?"Modificaci—n de evento":"Alta de evento", 0, 0, new Font("Dialog", 1, 12), new Color(51, 51, 51)), null), null));
-			this.setPreferredSize(new java.awt.Dimension(784, 538));
-			this.add(getJPanelDatos());
+			this.setPreferredSize(new java.awt.Dimension(775, 491));
 			this.add(getJPanelCentro());
+			this.add(getJPanelDatos());
 
 			//Rellenamos inforamci—n de los filtros
 			cargaCombos();
@@ -165,6 +170,26 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 	 * Carga los valores del Centro docente del usuario
 	 */
 	private void cargaCentroUsuario(){
+		dtoCentroDocente = new DTOCentroDocente();
+		CentroDocente cd = new CentroDocente();
+		cd.setIdCentro(1);
+		cd.setNombre("Sabadell");
+		cargaDatosCentroDocenteEnPantalla(dtoCentroDocente);
+		/*
+		DTOPersonalSecretaria dtoUsuario = new DTOPersonalSecretaria();
+		dtoUsuario.setUsuario(usuario);
+		try {
+			dtoUsuario = (DTOPersonalSecretaria) remote.getUsuario(dtoUsuario);
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (OperationErrorBD e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		dtoCentroDocente = dtoUsuario.getDtoCentroDocente();
+		cargaDatosCentroDocenteEnPantalla(dtoCentroDocente);
+		*/
 		/*
 		try {
 			dtoCentroDocente = remote.getCentoDocentebyId(usuario.getIdCentro());
@@ -410,7 +435,7 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 			jPanelCentro.setBounds(17, 32, 744, 58);
 			jPanelCentro.setBorder(BorderFactory.createEtchedBorder(BevelBorder.LOWERED));
 			jPanelCentro.setFont(new java.awt.Font("Arial",0,10));
-			jPanelCentro.setPreferredSize(new java.awt.Dimension(702, 71));
+			jPanelCentro.setPreferredSize(new java.awt.Dimension(733, 56));
 			jPanelCentro.add(getJLabelNombreCentroText());
 			jPanelCentro.add(getJLabelNombreCentro());
 			jPanelCentro.add(getJLabelCodigoText());
@@ -425,7 +450,7 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 			jLabelNombreCentroText.setText("Nombre del Centro");
 			jLabelNombreCentroText.setLayout(null);
 			jLabelNombreCentroText.setBounds(14, 9, 235, 15);
-			jLabelNombreCentroText.setFont(new java.awt.Font("Dialog",1,12));
+			jLabelNombreCentroText.setFont(new java.awt.Font("Arial",1,12));
 		}
 		return jLabelNombreCentroText;
 	}
@@ -434,7 +459,8 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 		if(jLabelNombreCentro == null) {
 			jLabelNombreCentro = new JLabel();
 			jLabelNombreCentro.setText("xxxxxx");
-			jLabelNombreCentro.setBounds(14, 31, 361, 15);
+			jLabelNombreCentro.setBounds(14, 31, 409, 15);
+			jLabelNombreCentro.setFont(new java.awt.Font("Arial",0,10));
 		}
 		return jLabelNombreCentro;
 	}
@@ -444,7 +470,7 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 			jLabelCodigoText = new JLabel();
 			jLabelCodigoText.setText("C—digo");
 			jLabelCodigoText.setBounds(453, 9, 75, 15);
-			jLabelCodigoText.setFont(new java.awt.Font("Dialog",1,12));
+			jLabelCodigoText.setFont(new java.awt.Font("Arial",1,12));
 		}
 		return jLabelCodigoText;
 	}
@@ -454,6 +480,7 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 			jLabelCodigo = new JLabel();
 			jLabelCodigo.setText("xxxxxx");
 			jLabelCodigo.setBounds(453, 31, 85, 15);
+			jLabelCodigo.setFont(new java.awt.Font("Arial",0,10));
 		}
 		return jLabelCodigo;
 	}
@@ -469,7 +496,7 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 			jPanelDatos.setBounds(17, 96, 744, 429);
 			jPanelDatos.setBorder(BorderFactory.createEtchedBorder(BevelBorder.LOWERED));
 			jPanelDatos.setFont(new java.awt.Font("Arial",0,10));
-			jPanelDatos.setPreferredSize(new java.awt.Dimension(712, 422));
+			jPanelDatos.setPreferredSize(new java.awt.Dimension(733, 394));
 			jPanelDatos.add(getJLabelEventoText());
 			jPanelDatos.add(getJLabelNombreText());
 			jPanelDatos.add(getJTextFieldNombre());
@@ -511,7 +538,8 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 			jLabelTipoEvento = new JLabel();
 			jLabelTipoEvento.setText("Tipo");
 			jLabelTipoEvento.setLayout(null);
-			jLabelTipoEvento.setBounds(14, 83, 68, 15);
+			jLabelTipoEvento.setBounds(14, 71, 61, 15);
+			jLabelTipoEvento.setFont(new java.awt.Font("Arial",0,10));
 		}
 		return jLabelTipoEvento;
 	}
@@ -520,7 +548,8 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 		if(jComboBoxTipoEvento == null) {
 			jComboBoxTipoEvento = new JComboBox();
 			jComboBoxTipoEvento.setOpaque(false);
-			jComboBoxTipoEvento.setBounds(82, 79, 328, 22);
+			jComboBoxTipoEvento.setBounds(75, 67, 328, 22);
+			jComboBoxTipoEvento.setFont(new java.awt.Font("Arial",0,10));
 		}
 		return jComboBoxTipoEvento;
 	}
@@ -530,7 +559,8 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 			jLabelFechaFinInscripcion = new JLabel();
 			jLabelFechaFinInscripcion.setText("hasta");
 			jLabelFechaFinInscripcion.setLayout(null);
-			jLabelFechaFinInscripcion.setBounds(198, 145, 66, 15);
+			jLabelFechaFinInscripcion.setBounds(198, 134, 66, 15);
+			jLabelFechaFinInscripcion.setFont(new java.awt.Font("Arial",0,10));
 		}
 		return jLabelFechaFinInscripcion;
 	}
@@ -539,7 +569,8 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 		if(jTextFieldFechaInicioCelebracion == null) {
 			jTextFieldFechaInicioCelebracion = new JTextField();
 			jTextFieldFechaInicioCelebracion.setText("01/01/2010");
-			jTextFieldFechaInicioCelebracion.setBounds(78, 111, 113, 19);
+			jTextFieldFechaInicioCelebracion.setBounds(75, 101, 113, 19);
+			jTextFieldFechaInicioCelebracion.setFont(new java.awt.Font("Arial",0,10));
 		}
 		return jTextFieldFechaInicioCelebracion;
 	}
@@ -549,7 +580,8 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 			jLabelFechaFinCelebracion = new JLabel();
 			jLabelFechaFinCelebracion.setText("Fecha Final");
 			jLabelFechaFinCelebracion.setLayout(null);
-			jLabelFechaFinCelebracion.setBounds(198, 113, 72, 15);
+			jLabelFechaFinCelebracion.setBounds(198, 105, 72, 15);
+			jLabelFechaFinCelebracion.setFont(new java.awt.Font("Arial",0,10));
 		}
 		return jLabelFechaFinCelebracion;
 	}
@@ -558,7 +590,8 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 		if(jTextFieldFechaFinCelebracion == null) {
 			jTextFieldFechaFinCelebracion = new JTextField();
 			jTextFieldFechaFinCelebracion.setText("01/01/2012");
-			jTextFieldFechaFinCelebracion.setBounds(270, 111, 113, 19);
+			jTextFieldFechaFinCelebracion.setBounds(270, 103, 113, 19);
+			jTextFieldFechaFinCelebracion.setFont(new java.awt.Font("Arial",0,10));
 		}
 		return jTextFieldFechaFinCelebracion;
 	}
@@ -567,6 +600,7 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 		if(jScrollPaneRequisitos == null) {
 			jScrollPaneRequisitos = new JScrollPane();
 			jScrollPaneRequisitos.setBounds(443, 62, 120, 128);
+			jScrollPaneRequisitos.setFont(new java.awt.Font("Arial",0,10));
 			jScrollPaneRequisitos.setViewportView(getJTableRequisitos());
 		}
 		return jScrollPaneRequisitos;
@@ -579,7 +613,8 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 			jButtonRequisitos.setIcon(icon);
 			jButtonRequisitos.setLayout(null);
 			jButtonRequisitos.setText("Requisitos");
-			jButtonRequisitos.setBounds(443, 199, 130, 25);
+			jButtonRequisitos.setBounds(443, 199, 120, 25);
+			jButtonRequisitos.setFont(new java.awt.Font("Arial",0,10));
 			// TODO 1: Gestion de los requisitos.
 		}
 		return jButtonRequisitos;
@@ -590,7 +625,8 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 			jButtonRolPlazas = new JButton();
 			jButtonRolPlazas.setLayout(null);
 			jButtonRolPlazas.setText("Rol/Plazas");
-			jButtonRolPlazas.setBounds(584, 199, 130, 25);
+			jButtonRolPlazas.setBounds(584, 199, 120, 25);
+			jButtonRolPlazas.setFont(new java.awt.Font("Arial",0,10));
 		}
 		return jButtonRolPlazas;
 	}
@@ -600,7 +636,7 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 			jLabelEventoText = new JLabel();
 			jLabelEventoText.setText("Datos del evento");
 			jLabelEventoText.setBounds(14, 12, 143, 15);
-			jLabelEventoText.setFont(new java.awt.Font("Dialog",1,12));
+			jLabelEventoText.setFont(new java.awt.Font("Arial",1,12));
 		}
 		return jLabelEventoText;
 	}
@@ -609,7 +645,8 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 		if(jLabelNombreText == null) {
 			jLabelNombreText = new JLabel();
 			jLabelNombreText.setText("Nombre");
-			jLabelNombreText.setBounds(14, 51, 47, 15);
+			jLabelNombreText.setBounds(14, 39, 57, 15);
+			jLabelNombreText.setFont(new java.awt.Font("Arial",0,10));
 		}
 		return jLabelNombreText;
 	}
@@ -618,7 +655,8 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 		if(jLabelFechaInicioCelebracion == null) {
 			jLabelFechaInicioCelebracion = new JLabel();
 			jLabelFechaInicioCelebracion.setText("Comienzo");
-			jLabelFechaInicioCelebracion.setBounds(14, 113, 57, 15);
+			jLabelFechaInicioCelebracion.setBounds(14, 103, 57, 15);
+			jLabelFechaInicioCelebracion.setFont(new java.awt.Font("Arial",0,10));
 		}
 		return jLabelFechaInicioCelebracion;
 	}
@@ -627,7 +665,8 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 		if(jLabelFechaInicioInscripcion == null) {
 			jLabelFechaInicioInscripcion = new JLabel();
 			jLabelFechaInicioInscripcion.setText("Inscripcion");
-			jLabelFechaInicioInscripcion.setBounds(14, 145, 71, 15);
+			jLabelFechaInicioInscripcion.setBounds(14, 134, 61, 15);
+			jLabelFechaInicioInscripcion.setFont(new java.awt.Font("Arial",0,10));
 		}
 		return jLabelFechaInicioInscripcion;
 	}
@@ -636,7 +675,8 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 		if(jTextFieldFechaInicioInscripcion == null) {
 			jTextFieldFechaInicioInscripcion = new JTextField();
 			jTextFieldFechaInicioInscripcion.setText("01/01/2010");
-			jTextFieldFechaInicioInscripcion.setBounds(79, 143, 109, 19);
+			jTextFieldFechaInicioInscripcion.setBounds(77, 132, 109, 19);
+			jTextFieldFechaInicioInscripcion.setFont(new java.awt.Font("Arial",0,10));
 		}
 		return jTextFieldFechaInicioInscripcion;
 	}
@@ -645,7 +685,8 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 		if(jTextFieldFechaFinInscripcion == null) {
 			jTextFieldFechaFinInscripcion = new JTextField();
 			jTextFieldFechaFinInscripcion.setText("01/01/2012");
-			jTextFieldFechaFinInscripcion.setBounds(270, 143, 113, 19);
+			jTextFieldFechaFinInscripcion.setBounds(270, 132, 113, 19);
+			jTextFieldFechaFinInscripcion.setFont(new java.awt.Font("Arial",0,10));
 		}
 		return jTextFieldFechaFinInscripcion;
 	}
@@ -654,7 +695,8 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 		if(jLabelUmbral == null) {
 			jLabelUmbral = new JLabel();
 			jLabelUmbral.setText("Umbral %");
-			jLabelUmbral.setBounds(14, 178, 65, 15);
+			jLabelUmbral.setBounds(14, 165, 53, 15);
+			jLabelUmbral.setFont(new java.awt.Font("Arial",0,10));
 		}
 		return jLabelUmbral;
 	}
@@ -662,7 +704,8 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 	private JTextField getJTextFieldUmbral() {
 		if(jTextFieldUmbral == null) {
 			jTextFieldUmbral = new JTextField();
-			jTextFieldUmbral.setBounds(79, 176, 49, 19);
+			jTextFieldUmbral.setBounds(77, 161, 49, 19);
+			jTextFieldUmbral.setFont(new java.awt.Font("Arial",0,10));
 		}
 		return jTextFieldUmbral;
 	}
@@ -670,8 +713,9 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 	private JLabel getJLabelPrecio() {
 		if(jLabelPrecio == null) {
 			jLabelPrecio = new JLabel();
-			jLabelPrecio.setBounds(198, 178, 65, 15);
+			jLabelPrecio.setBounds(198, 165, 65, 15);
 			jLabelPrecio.setText("Precio");
+			jLabelPrecio.setFont(new java.awt.Font("Arial",0,10));
 		}
 		return jLabelPrecio;
 	}
@@ -680,7 +724,8 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 		if(jTextFieldPrecio == null) {
 			jTextFieldPrecio = new JTextField();
 			jTextFieldPrecio.setText("0");
-			jTextFieldPrecio.setBounds(275, 175, 78, 19);
+			jTextFieldPrecio.setBounds(270, 163, 78, 19);
+			jTextFieldPrecio.setFont(new java.awt.Font("Arial",0,10));
 		}
 		return jTextFieldPrecio;
 	}
@@ -688,7 +733,8 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 	private JTextField getJTextFieldNombre() {
 		if(jTextFieldNombre == null) {
 			jTextFieldNombre = new JTextField();
-			jTextFieldNombre.setBounds(79, 46, 331, 19);
+			jTextFieldNombre.setBounds(75, 37, 331, 19);
+			jTextFieldNombre.setFont(new java.awt.Font("Arial",0,10));
 		}
 		return jTextFieldNombre;
 	}
@@ -697,6 +743,7 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 		if(jScrollPaneRolPlazas == null) {
 			jScrollPaneRolPlazas = new JScrollPane();
 			jScrollPaneRolPlazas.setBounds(584, 60, 120, 128);
+			jScrollPaneRolPlazas.setFont(new java.awt.Font("Arial",0,10));
 			jScrollPaneRolPlazas.setViewportView(getJTableRolPlazas());
 		}
 		return jScrollPaneRolPlazas;
@@ -707,9 +754,9 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 			dtmRolPlazas = new DefaultTableModel();
 			for(int i=0;i<columnNamesRolPlazas.length;i++){dtmRolPlazas.addColumn(columnNamesRolPlazas[i]);}
 			jTableRolPlazas = new JTable(dtmRolPlazas);
-			Utils.ocultaColumna(jTableRequisitos, 0);
+			Utils.ocultaColumna(jTableRolPlazas, 0);
 			jTableRolPlazas.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-			jTableRolPlazas.setPreferredSize(new java.awt.Dimension(117, 108));
+			jTableRolPlazas.setPreferredSize(new java.awt.Dimension(95, 97));
 			jTableRolPlazas.setVerifyInputWhenFocusTarget(false);
 			jTableRolPlazas.setBounds(23, 197, 117, 124);
 		}
@@ -721,6 +768,7 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 			jLabelRequisitos = new JLabel();
 			jLabelRequisitos.setText("Requisitos");
 			jLabelRequisitos.setBounds(447, 39, 119, 15);
+			jLabelRequisitos.setFont(new java.awt.Font("Arial",0,10));
 		}
 		return jLabelRequisitos;
 	}
@@ -730,6 +778,7 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 			jLabelRolPlazas = new JLabel();
 			jLabelRolPlazas.setText("Rol / Plazas");
 			jLabelRolPlazas.setBounds(587, 39, 120, 15);
+			jLabelRolPlazas.setFont(new java.awt.Font("Arial",0,10));
 		}
 		return jLabelRolPlazas;
 	}
@@ -738,7 +787,8 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 		if(jLabelDescripcion == null) {
 			jLabelDescripcion = new JLabel();
 			jLabelDescripcion.setText("Descripci—n");
-			jLabelDescripcion.setBounds(14, 248, 67, 15);
+			jLabelDescripcion.setBounds(14, 225, 90, 15);
+			jLabelDescripcion.setFont(new java.awt.Font("Arial",0,10));
 		}
 		return jLabelDescripcion;
 	}
@@ -746,7 +796,8 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 	private JTextArea getJTextAreaDescripcion() {
 		if(jTextAreaDescripcion == null) {
 			jTextAreaDescripcion = new JTextArea();
-			jTextAreaDescripcion.setBounds(18, 275, 679, 90);
+			jTextAreaDescripcion.setBounds(14, 246, 679, 101);
+			jTextAreaDescripcion.setFont(new java.awt.Font("Arial",0,10));
 		}
 		return jTextAreaDescripcion;
 	}
@@ -759,7 +810,7 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 			jTableRequisitos.setBounds(519, 60, 117, 126);
 			jTableRequisitos.setVerifyInputWhenFocusTarget(false);
 			jTableRequisitos.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-			jTableRequisitos.setPreferredSize(new java.awt.Dimension(115, 110));
+			jTableRequisitos.setPreferredSize(new java.awt.Dimension(102, 101));
 		}
 		return jTableRequisitos;
 	}
@@ -768,7 +819,8 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 		if(jLabelPlazas == null) {
 			jLabelPlazas = new JLabel();
 			jLabelPlazas.setText("Plazas");
-			jLabelPlazas.setBounds(14, 217, 37, 15);
+			jLabelPlazas.setBounds(14, 196, 47, 15);
+			jLabelPlazas.setFont(new java.awt.Font("Arial",0,10));
 		}
 		return jLabelPlazas;
 	}
@@ -777,7 +829,8 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 		if(jTextFieldPlazas == null) {
 			jTextFieldPlazas = new JTextField();
 			jTextFieldPlazas.setText("0");
-			jTextFieldPlazas.setBounds(81, 215, 42, 19);
+			jTextFieldPlazas.setBounds(79, 194, 42, 19);
+			jTextFieldPlazas.setFont(new java.awt.Font("Arial",0,10));
 		}
 		return jTextFieldPlazas;
 	}
@@ -787,8 +840,8 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 			jButtonAlta = new JButton();
 			jButtonAlta.setLayout(null);
 			jButtonAlta.setText("Alta");
-			jButtonAlta.setBounds(275, 387, 83, 25);
-			jButtonAlta.setSize(90, 25);
+			jButtonAlta.setBounds(275, 359, 90, 25);
+			jButtonAlta.setFont(new java.awt.Font("Arial",0,10));
 			jButtonAlta.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					try {
@@ -823,8 +876,8 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 			jButtonCancelar = new JButton();
 			jButtonCancelar.setLayout(null);
 			jButtonCancelar.setText("Cancelar");
-			jButtonCancelar.setBounds(369, 387, 77, 25);
-			jButtonCancelar.setSize(90, 25);
+			jButtonCancelar.setBounds(369, 359, 90, 25);
+			jButtonCancelar.setFont(new java.awt.Font("Arial",0,10));
 			//TODO 1: Comprobar que nos podamos inscribir y llamar a la pantalla de isncripci—n (alta)
 		}
 		return jButtonCancelar;
@@ -835,7 +888,8 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 			JButtonClear = new JButton();
 			JButtonClear.setLayout(null);
 			JButtonClear.setText("Limpiar");
-			JButtonClear.setBounds(464, 387, 90, 25);
+			JButtonClear.setBounds(464, 359, 90, 25);
+			JButtonClear.setFont(new java.awt.Font("Arial",0,10));
 			JButtonClear.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					limpiaFormulario();
@@ -849,7 +903,8 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 		if(jLabelDuracion == null) {
 			jLabelDuracion = new JLabel();
 			jLabelDuracion.setText("Duraci—n");
-			jLabelDuracion.setBounds(198, 218, 51, 15);
+			jLabelDuracion.setBounds(198, 197, 60, 15);
+			jLabelDuracion.setFont(new java.awt.Font("Arial",0,10));
 		}
 		return jLabelDuracion;
 	}
@@ -857,7 +912,8 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 	private JTextField getJTextFieldDuracion() {
 		if(jTextFieldDuracion == null) {
 			jTextFieldDuracion = new JTextField();
-			jTextFieldDuracion.setBounds(275, 216, 66, 19);
+			jTextFieldDuracion.setBounds(270, 195, 66, 19);
+			jTextFieldDuracion.setFont(new java.awt.Font("Arial",0,10));
 		}
 		return jTextFieldDuracion;
 	}
