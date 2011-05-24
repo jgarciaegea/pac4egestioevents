@@ -34,7 +34,7 @@ public class DaoEvento extends DaoEntidad<Evento>{
 		try {
 			ps = con.prepareStatement("INSERT INTO EVENTO (id_centro, nombre, descripcion, fecha_inicio_celebracion, fecha_alta," + 
                     "estado, fecha_estado, motivo_estado, id_tipo_evento, plazas, umbral, fecha_inicio_inscripcion," +
-                    "fecha_fin_inscripcion, duracion, precio, fecha_fin_celebracion)" + 
+                    "fecha_fin_inscripcion, duracion, precio, fecha_fin_celebracion) " + 
                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 			ps.setInt(1, objecte.getIdCentro());
 			ps.setString(2, objecte.getNombre());

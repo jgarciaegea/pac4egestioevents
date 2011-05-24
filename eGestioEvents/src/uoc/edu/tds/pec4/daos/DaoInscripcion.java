@@ -28,7 +28,7 @@ public class DaoInscripcion extends DaoEntidad<Inscripcion>{
 	public void insert(Inscripcion objecte) throws Exception {
 		PreparedStatement ps = null;
 		try {
-			ps = con.prepareStatement("INSERT INTO INSCRIPCION (codigo, id_evento, estado, fecha_estado, motivo_estado, fecha_inscripcion, check_in, codigo_asistencia)" + 
+			ps = con.prepareStatement("INSERT INTO INSCRIPCION (codigo, id_evento, estado, fecha_estado, motivo_estado, fecha_inscripcion, check_in, codigo_asistencia) " + 
                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
 			ps.setString(1, objecte.getCodigo());
 			ps.setInt(2, objecte.getIdEvento());
@@ -54,7 +54,7 @@ public class DaoInscripcion extends DaoEntidad<Inscripcion>{
 		List<Inscripcion> lstInscripcion = new ArrayList<Inscripcion>();
 		try{
 			StringBuffer sb = new StringBuffer();
-			sb.append("SELECT codigo, id_evento, estado, fecha_estado, motivo_estado, fecha_inscripcion, check_in, codigo_asistencia");
+			sb.append("SELECT codigo, id_evento, estado, fecha_estado, motivo_estado, fecha_inscripcion, check_in, codigo_asistencia ");
 			sb.append("FROM INSCRIPCION ");
 			sb.append("WHERE (1=1) ");
 			if(criteris.getCodigo()!=null) sb.append("AND codigo = ? ");
