@@ -22,7 +22,6 @@ import uoc.edu.tds.pec4.excepciones.OperationErrorLogin;
 
 public interface RemoteInterface extends Remote{
 	
-	
 	/**
 	 * Método que Testear la conexion
 	 * 
