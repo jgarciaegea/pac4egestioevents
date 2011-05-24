@@ -18,6 +18,7 @@ import uoc.edu.tds.pec4.dtos.DTOCentroDocenteConsulta;
 import uoc.edu.tds.pec4.dtos.DTOEvento;
 import uoc.edu.tds.pec4.dtos.DTOEventoCalendario;
 import uoc.edu.tds.pec4.dtos.DTOInscripcion;
+import uoc.edu.tds.pec4.dtos.DTOInscripcionConsulta;
 import uoc.edu.tds.pec4.dtos.DTOPais;
 import uoc.edu.tds.pec4.dtos.DTOTipoDocumento;
 import uoc.edu.tds.pec4.dtos.DTOTipoEvento;
@@ -544,6 +545,19 @@ public class RemotoImpl extends UnicastRemoteObject implements RemoteInterface{
 			throw new OperationErrorBD("Error al modificar el centro docente...");
 		}
 	}
+	
+	
+	public  List<DTOInscripcionConsulta> buscaInscripcionesUsuario(DTOInscripcionConsulta dtoInscripcionConsulta)  throws RemoteException, OperationErrorBD, Exception{
+		try{
+			System.out.println("Recuperando Inscripciones dle usuario.....");
+			GestorInscripcion gestorInscipcion = new GestorInscripcion(gestorDB.getConnection());
+			System.out.println("gestorInscripcion Creado......");
+			return gestorInscipcion.consultaEntidadesByDates(dtoInscripcionConsulta);
+		}catch(Exception e){
+			throw new OperationErrorBD("Error al recuperar la información de las Inscripciones de usuario......");
+		}
+	}
+	
 	
 	
 	
