@@ -71,6 +71,7 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 	private JTextField jTextFieldFechaIni;
 	private JCheckBox jCheckBoxShowEventoFinalizado;
 	private JCheckBox jCheckBoxShowAll;
+	private JButton jButtonInscripcion;
 	private JButton jButtonSearch;
 	private JButton jButtonClear;
 	
@@ -541,6 +542,7 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 			jPanelDatos.add(getJButtonViewInscripciones());
 			jPanelDatos.add(getJButtonViewAsistenciaAusencia());
 			jPanelDatos.add(getJScrollPane1());
+			jPanelDatos.add(getJButtonInscripcion());
 		}
 		return jPanelDatos;
 	}
@@ -577,7 +579,7 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 			jButtonNew.setIcon(icon);
 			jButtonNew.setLayout(null);
 			jButtonNew.setText("Nuevo Evento");
-			jButtonNew.setBounds(13, 256, 120, 25);
+			jButtonNew.setBounds(13, 256, 105, 25);
 			jButtonNew.setFont(new java.awt.Font("Arial",0,10));
 			jButtonNew.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
@@ -594,7 +596,7 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 			jButtonUpdate = new JButton();
 			jButtonUpdate.setLayout(null);
 			jButtonUpdate.setText("Modificar Evento");
-			jButtonUpdate.setBounds(136, 256, 120, 25);
+			jButtonUpdate.setBounds(118, 256, 111, 25);
 			jButtonUpdate.setFont(new java.awt.Font("Arial",0,10));
 			jButtonUpdate.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
@@ -620,7 +622,7 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 			jButtonDelete = new JButton();
 			jButtonDelete.setLayout(null);
 			jButtonDelete.setText("Cancelar Evento");
-			jButtonDelete.setBounds(258, 256, 120, 25);
+			jButtonDelete.setBounds(229, 256, 112, 25);
 			jButtonDelete.setFont(new java.awt.Font("Arial",0,10));
 			jButtonDelete.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
@@ -654,7 +656,7 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 			jButtonViewInscripciones = new JButton();
 			jButtonViewInscripciones.setLayout(null);
 			jButtonViewInscripciones.setText("Ver Inscripciones");
-			jButtonViewInscripciones.setBounds(408, 256, 160, 25);
+			jButtonViewInscripciones.setBounds(461, 256, 118, 25);
 			jButtonViewInscripciones.setFont(new java.awt.Font("Arial",0,10));
 			jButtonViewInscripciones.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
@@ -684,7 +686,7 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 			jButtonViewAsistenciaAusencia = new JButton();
 			jButtonViewAsistenciaAusencia.setLayout(null);
 			jButtonViewAsistenciaAusencia.setText("Ver Asistencia/Ausencia");
-			jButtonViewAsistenciaAusencia.setBounds(568, 256, 160, 25);
+			jButtonViewAsistenciaAusencia.setBounds(579, 256, 149, 25);
 			jButtonViewAsistenciaAusencia.setFont(new java.awt.Font("Arial",0,10));
 			jButtonViewAsistenciaAusencia.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
@@ -709,4 +711,38 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 		return jButtonViewAsistenciaAusencia;
 	}
 	
+	private JButton getJButtonInscripcion() {
+		if(jButtonInscripcion == null) {
+			jButtonInscripcion = new JButton();
+			jButtonInscripcion.setLayout(null);
+			jButtonInscripcion.setText("Inscripci—n");
+			jButtonInscripcion.setFont(new java.awt.Font("Arial",0,10));
+			jButtonInscripcion.setBounds(344, 256, 112, 25);
+			jButtonInscripcion.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					if(jTableDatos.getSelectedRow() == -1){
+						Utils.mostraMensajeInformacion(jPanelDatos, "No ha seleccionado ningœn registro de la tabla", "Calendario Eventos");
+					}else{
+						try {
+							//DTOEvento dtoEvento = getSelectedEvento();
+							//remote.bajaEvento(dtoEvento);
+							getEventosCalendario();
+							Utils.mostraMensajeInformacion(jPanelDatos, "Evento dado de baja correctamente", "Calendario Eventos");
+						} catch (Exception e1) {
+							try {
+								throw new OperationErrorDatosFormulario(e1.getMessage());
+							} catch (OperationErrorDatosFormulario e2) {
+								e2.showDialogError();
+							}
+						}finally{
+							jButtonClearActionPerformed();
+						}
+						
+					}
+				}
+			});
+		}
+		return jButtonInscripcion;
+	}
+
 }
