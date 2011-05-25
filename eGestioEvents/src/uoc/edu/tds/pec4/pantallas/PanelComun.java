@@ -64,7 +64,6 @@ public abstract class PanelComun extends JPanel  {
         titulos = new HashMap<String, JLabel>();
         combos = new HashMap<String, JComboBox>();
         areas = new  HashMap<String, JTextArea>();
-		System.out.println("Variables inicializadas");
 		this.setLayout(null);
 		this.setPreferredSize(new Dimension(x, y));
 		this.setSize(new Dimension(x, y));
@@ -103,7 +102,6 @@ public abstract class PanelComun extends JPanel  {
 	 **************************************************************/
 	
 	protected JButton crearBoton(Integer x,Integer y,Integer ancho, Integer alto,String clave,String nombre){
-		System.out.println("Creando Boton......");
 		 JButton boton = new JButton();
 		 boton.setBounds(new Rectangle(x, y, ancho, alto));
 		 boton.setText(TDSLanguageUtils.getMessage(clave));
@@ -116,12 +114,8 @@ public abstract class PanelComun extends JPanel  {
 	 **************************************************************/
 	
 	protected void addBoton(JButton boton,String name){
-
-		System.out.println("Anyadir Boton al Hahsmap......");
 		this.botones.put(name,boton);
-		System.out.println("Anyadir Boton al Panel......");
 		this.add(boton,null);
-		
 	}
 	
 	/**************************************************************
@@ -146,7 +140,6 @@ public abstract class PanelComun extends JPanel  {
 	 */	
 	
 	protected JComboBox crearCombo(Integer x,Integer y,Integer ancho, Integer alto,String nombre,List<?> lista){
-		System.out.println("Creando JComboBox......");
 		JComboBox combo = new JComboBox(lista.toArray());
 		combo.setBounds(new Rectangle(x, y, ancho, alto));
 		 this.addCombo(combo,nombre);
@@ -158,10 +151,7 @@ public abstract class PanelComun extends JPanel  {
 	 */
 	
 	protected void addCombo(JComboBox combo,String name){
-
-		System.out.println("Anyadir JComboBox al Hahsmap......");
 		this.combos.put(name,combo);
-		System.out.println("Anyadir JComboBox al Panel......");
 		this.add(combo,null);
 		
 	}
@@ -188,7 +178,6 @@ public abstract class PanelComun extends JPanel  {
 	 */	
 	
 	protected JTextField crearTextField(Integer x,Integer y,Integer ancho, Integer alto,/*String clave,*/String nombre){
-		System.out.println("Creando JTextField......");
 		JTextField caja = new JTextField();
 		 caja.setBounds(new Rectangle(x, y, ancho, alto));
 		// caja.setText(TDSLanguageUtils.getMessage(clave));
@@ -199,9 +188,7 @@ public abstract class PanelComun extends JPanel  {
 	
 	
 	protected void addTextField(JTextField caja,String name){
-
 		this.cajas.put(name,caja);
-		System.out.println("Anyadir JTextField al Panel......");
 		this.add(caja,null);
 		
 	}
@@ -222,10 +209,8 @@ public abstract class PanelComun extends JPanel  {
 	 */	
 	
 	protected JPasswordField crearJPasswordField(Integer x,Integer y,Integer ancho, Integer alto,/*String clave,*/String nombre){
-		System.out.println("Creando JPasswordField......");
 		JPasswordField caja = new JPasswordField();
 		 caja.setBounds(new Rectangle(x, y, ancho, alto));
-		// caja.setText(TDSLanguageUtils.getMessage(clave));
 		 this.addJPasswordField(caja,nombre);
 		 return caja;
 	}
@@ -233,9 +218,7 @@ public abstract class PanelComun extends JPanel  {
 	
 	
 	protected void addJPasswordField(JTextField caja,String name){
-
 		this.cajasPwd.put(name,caja);
-		System.out.println("Anyadir JPasswordField al Panel......");
 		this.add(caja,null);
 		
 	}
@@ -256,7 +239,6 @@ public abstract class PanelComun extends JPanel  {
 	 */	
 	
 	protected JLabel crearTitulo(Integer x,Integer y,Integer ancho, Integer alto,String clave,String nombre){
-		System.out.println("Creando JLabel......");
 		JLabel titulo = new JLabel();
 		titulo.setBounds(new Rectangle(x, y, ancho, alto));
 		titulo.setText(TDSLanguageUtils.getMessage(clave));
@@ -266,9 +248,7 @@ public abstract class PanelComun extends JPanel  {
 	
 	
 	protected void addJLabel(JLabel titulo,String name){
-
 		this.titulos.put(name,titulo);
-		System.out.println("Anyadir addJLabel al Panel......");
 		this.add(titulo,null);
 		
 	}
@@ -329,7 +309,6 @@ public abstract class PanelComun extends JPanel  {
 	}
 	
 	protected void crearJTextArea(Integer x,Integer y,Integer ancho, Integer alto,/*String clave,*/String nombre){
-		System.out.println("Creando  JTextArea......");
 		JTextArea area = new JTextArea();
 		area.setBounds(new Rectangle(x, y, ancho, alto));
 		this.addJTextArea(area, nombre);
@@ -337,7 +316,6 @@ public abstract class PanelComun extends JPanel  {
 	
 	protected void addJTextArea(JTextArea area,String name){
 		this.areas.put(name,area);
-		System.out.println("Anyadir JTextArea al Panel......");
 		this.add(area,null);
 		
 	}
