@@ -150,7 +150,8 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 	private Boolean canUpdateEvento() {
 		@SuppressWarnings("unchecked")
 		List<Object> lstRes = (Vector<Object>) dtm.getDataVector().get(jTableDatos.getSelectedRow());
-		return (Boolean.parseBoolean(lstRes.get(6).toString()) && Boolean.parseBoolean(lstRes.get(7).toString()));
+		
+		return (!Boolean.parseBoolean(lstRes.get(6).toString()) && !Boolean.parseBoolean(lstRes.get(7).toString()));
 	}
 	/**
 	 * Vamos a la pantalla de gesti—n del evento

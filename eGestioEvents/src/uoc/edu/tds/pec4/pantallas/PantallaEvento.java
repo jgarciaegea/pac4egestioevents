@@ -988,8 +988,6 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 	private JButton getJButtonCancelar() {
 		if(jButtonCancelar == null) {
 			jButtonCancelar = new JButton();
-			ImageIcon icon = new ImageIcon("imagen/dcib022t.gif");
-			jButtonCancelar.setIcon(icon);
 			jButtonCancelar.setLayout(null);
 			jButtonCancelar.setText("Cancelar");
 			jButtonCancelar.setBounds(369, 359, 90, 25);
