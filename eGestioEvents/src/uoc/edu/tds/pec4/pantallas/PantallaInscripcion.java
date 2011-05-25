@@ -11,8 +11,9 @@ import java.rmi.RemoteException;
 
 import javax.swing.BorderFactory;
 
-import uoc.edu.tds.pec4.beans.Evento;
-import uoc.edu.tds.pec4.beans.Usuario;
+
+import uoc.edu.tds.pec4.dtos.DTOAsistente;
+import uoc.edu.tds.pec4.dtos.DTOEvento;
 import uoc.edu.tds.pec4.dtos.DTOInscripcion;
 import uoc.edu.tds.pec4.dtos.DTOUsuario;
 import uoc.edu.tds.pec4.excepciones.OperationErrorBD;
@@ -32,15 +33,15 @@ public class PantallaInscripcion extends PanelComun implements Pantallas{
 	private static final long serialVersionUID = 1L;
 	private RemoteInterface remote;
 	private DTOUsuario dtousuario;
-	private Evento evento;
+	private DTOEvento dtoEvento;
 
 
-	public PantallaInscripcion(RemoteInterface remote1,DTOUsuario dtousuario1, Evento evento1) throws OperationErrorLogin, RemoteException, OperationErrorBD{
+	public PantallaInscripcion(RemoteInterface remote1,DTOUsuario dtousuario1, DTOEvento dtoEvento1) throws OperationErrorLogin, RemoteException, OperationErrorBD{
 		super("clientePEC4.panelInscripcion.titulo",750,600);
 		System.out.println("creando Pantalla inscripcion......");
 		remote = remote1;
 		dtousuario = dtousuario;
-		evento = evento1;
+		dtoEvento = dtoEvento1;
 
 		if (dtousuario == null) throw new OperationErrorLogin("La session es invalida.....");
 		try {
@@ -87,6 +88,8 @@ public class PantallaInscripcion extends PanelComun implements Pantallas{
 	
 	public void crearInscripcion(){
 		DTOInscripcion dtoInscripcion = new DTOInscripcion();
+		dtoInscripcion.setDtoEvento(dtoEvento);
+		dtoInscripcion.setDtoAsistente((DTOAsistente) dtousuario);
 	}
 	
 	
