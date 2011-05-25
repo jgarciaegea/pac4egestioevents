@@ -60,11 +60,11 @@ public class PantallaPrincipal extends JFrame {
 	private JPanel panelPrincipal;
 	private GestorRMI gestorRMI;
 	private RemoteInterface remote;
-	private Usuario usuario;
+	private DTOUsuario dtoUsuario;
 	
-	public PantallaPrincipal(GestorRMI gestorRMI,RemoteInterface remote,Usuario usuario1){
+	public PantallaPrincipal(GestorRMI gestorRMI,RemoteInterface remote,DTOUsuario dtoUsuario){
        try {
-		this.usuario = usuario1;
+		this.dtoUsuario = dtoUsuario;
 		this.gestorRMI = gestorRMI;
 		this.remote = remote;
 		setSize(784, 600);
@@ -85,7 +85,6 @@ public class PantallaPrincipal extends JFrame {
 	
 	private void gestionarPermisos() throws Exception{
 		try {
-		DTOUsuario dtoUsuario = FactoriaUsuario.getUsuario(usuario.getTipoUsuario());
 		if(dtoUsuario instanceof DTOAdministrador){
 	        menuMantenimiento.setEnabled(true);
 	        menuConexion.setEnabled(true); //test
@@ -190,7 +189,7 @@ public class PantallaPrincipal extends JFrame {
 	        calendarioEventos = new JMenuItem("Calendario de Eventos");
 	        calendarioEventos.addActionListener(new ActionListener() { 
 	        	public void actionPerformed(ActionEvent evt) { 
-	        		showPanel(new PantallaCalendarioEventos(remote, usuario)); 
+	        		showPanel(new PantallaCalendarioEventos(remote, dtoUsuario)); 
 	        	} }); 
 	        consultaInscripciones = new JMenuItem("Consulta de Inscripciones");
 	        
@@ -251,7 +250,7 @@ public class PantallaPrincipal extends JFrame {
     cambioPwd.addActionListener(new ActionListener() { 
     	public void actionPerformed(ActionEvent evt) { 
     		try {
-				showPanel(new PantallaCambioPassword(remote,usuario));
+				showPanel(new PantallaCambioPassword(gestorRMI,remote,dtoUsuario));
 			} catch (OperationErrorLogin e) {
 				e.showDialogError();
 				e.printStackTrace();
@@ -261,15 +260,24 @@ public class PantallaPrincipal extends JFrame {
 
     inscripcionEvento.addActionListener(new ActionListener() { 
     	public void actionPerformed(ActionEvent evt) { 
-    		//showPanel(new PantallaBuscarEventoInscripcion(remote,usuario));
-			showPanel(new PantallaCalendarioEventos(remote, usuario)); 
+    		try {
+				showPanel(new PantallaBuscarEventoInscripcion(remote,dtoUsuario));
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			} catch (OperationErrorBD e) {
+				e.showDialogError();
+				e.printStackTrace();
+			} catch (OperationErrorLogin e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} 
     	} }); 	
     
 
     historicoEventos.addActionListener(new ActionListener() { 
     	public void actionPerformed(ActionEvent evt) { 
     		try {
-				showPanel(new PantallaInformeEventosAsistente(remote,usuario));
+				showPanel(new PantallaInformeEventosAsistente(gestorRMI,remote,dtoUsuario));
 			} catch (RemoteException e) {
 				e.printStackTrace();
 			} catch (OperationErrorBD e) {
