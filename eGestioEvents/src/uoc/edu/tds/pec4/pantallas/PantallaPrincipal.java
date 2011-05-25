@@ -270,6 +270,9 @@ public class PantallaPrincipal extends JFrame {
 			} catch (OperationErrorBD e) {
 				e.showDialogError();
 				e.printStackTrace();
+			} catch (OperationErrorLogin e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			} 
     	} }); 	        
     
