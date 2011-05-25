@@ -608,7 +608,10 @@ public class RemotoImpl extends UnicastRemoteObject implements RemoteInterface{
 		}
 	}
 	
-	
+	/**
+	 * En este caso enviamos el usuario porque no hace falta enviar el DTO ya que lo único que queremos obtener
+	 * es si existe algún usuario
+	 */
 	public Boolean usuarioCentrosVinculados(Usuario usuario) throws RemoteException, OperationErrorBD{
 		try{
 			GestorUsuario gestorUsuario = new GestorUsuario(gestorDB.getConnection());
