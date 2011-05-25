@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
@@ -131,6 +133,7 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 			cargaEvento();
 			//Deshabilitamos que se pueda cambiar el centro docente
 			jComboBoxTipoEvento.setEnabled(false);
+			JButtonClear.setVisible(false);
 			//jButtonRequisitos.setEnabled(false);
 			//jButtonRolPlazas.setEnabled(false);
 		}
@@ -285,6 +288,7 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 	       	 		}
 	       	 	}
 			}
+			actualizaTablaRequisitos();
 		}catch(Exception e){
 			throw new OperationErrorDatosFormulario("Error en la carga de los eventos requisitos en la pantalla");
 		}
@@ -310,6 +314,7 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 	       	 		}
 	       	 	}
 			}
+			actualizaTablaRolPlazas();
 		}catch(Exception e){
 			throw new OperationErrorDatosFormulario("Error en la carga los evento Rol/Plazas en la pantalla");
 		}
@@ -322,29 +327,47 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 	private void validaFormulario(boolean modificacion) throws OperationErrorDatosFormulario{
 		try{
 			if(Utils.valorisNull(jTextFieldNombre.getText())) throw new Exception(Utils.MESSAGE_ERROR + " nombre" );
-			if(Utils.valorisNull(jTextFieldFechaInicioCelebracion.getText())) throw new Exception(Utils.MESSAGE_ERROR + " fecha inicio celebraci—n" );
-			if(Utils.valorisNull(jTextFieldFechaFinCelebracion.getText())) throw new Exception(Utils.MESSAGE_ERROR + " fecha fin celebraci—n" );
-			if(Utils.valorisNull(jTextFieldFechaInicioInscripcion.getText())) throw new Exception(Utils.MESSAGE_ERROR + " fecha inicio inscripci—n" );
-			if(Utils.valorisNull(jTextFieldFechaFinInscripcion.getText())) throw new Exception(Utils.MESSAGE_ERROR + " fecha fin inscripci—n" );
-			if(Utils.valorisNull(jTextFieldUmbral.getText())) throw new Exception(Utils.MESSAGE_ERROR + " umbral" );
-			if(Utils.valorisNull(jTextFieldPrecio.getText())) throw new Exception(Utils.MESSAGE_ERROR + " precio" );
-			if(Utils.valorisNull(jTextFieldPlazas.getText())) throw new Exception(Utils.MESSAGE_ERROR + " plazas" );
-			if(Utils.valorisNull(jTextFieldDuracion.getText())) throw new Exception(Utils.MESSAGE_ERROR + " duraci—n" );
-			
 			//Desde la pantalla de modificaci—n no se puede cambiar el tipo evento
 			if(!modificacion){
 				if(Utils.valorisNull(jComboBoxTipoEvento.getSelectedItem())) throw new Exception(Utils.MESSAGE_ERROR + " tipo evento" );
 			}
-			
+			if(Utils.valorisNull(jTextFieldFechaInicioCelebracion.getText())) throw new Exception(Utils.MESSAGE_ERROR + " fecha inicio celebraci—n" );
 			if(!Utils.parseaFecha(jTextFieldFechaInicioCelebracion.getText())) throw new Exception(Utils.MESSAGE_ERROR + " fecha inicio celebraci—n " + Utils.MESSAGE_FECHA );
+			if(Utils.valorisNull(jTextFieldFechaFinCelebracion.getText())) throw new Exception(Utils.MESSAGE_ERROR + " fecha fin celebraci—n" );
 			if(!Utils.parseaFecha(jTextFieldFechaFinCelebracion.getText())) throw new Exception(Utils.MESSAGE_ERROR + " fecha fin celebraci—n " + Utils.MESSAGE_FECHA );
+			if(!"".equalsIgnoreCase(jTextFieldFechaFinCelebracion.getText()) && "".equalsIgnoreCase(jTextFieldFechaInicioCelebracion.getText())){
+				 throw new Exception("No puede introducir la fecha final sin previamente informar la fecha de inicio celebracion");
+			}
+			if (Utils.transformFecha(jTextFieldFechaFinCelebracion.getText()).before(Utils.transformFecha(jTextFieldFechaInicioCelebracion.getText()))){
+				throw new Exception( "La fecha inicio es mayor que la fecha final de celebraci—n");
+			}
+			if(Utils.valorisNull(jTextFieldFechaInicioInscripcion.getText())) throw new Exception(Utils.MESSAGE_ERROR + " fecha inicio inscripci—n" );
 			if(!Utils.parseaFecha(jTextFieldFechaInicioInscripcion.getText())) throw new Exception(Utils.MESSAGE_ERROR + " fecha inicio inscripci—n " + Utils.MESSAGE_FECHA );
+			if(Utils.valorisNull(jTextFieldFechaFinInscripcion.getText())) throw new Exception(Utils.MESSAGE_ERROR + " fecha fin inscripci—n" );
 			if(!Utils.parseaFecha(jTextFieldFechaFinInscripcion.getText())) throw new Exception(Utils.MESSAGE_ERROR + " fecha fin inscripci—n " + Utils.MESSAGE_FECHA );
-			
+			if(!"".equalsIgnoreCase(jTextFieldFechaFinInscripcion.getText()) && "".equalsIgnoreCase(jTextFieldFechaInicioInscripcion.getText())){
+				 throw new Exception("No puede introducir la fecha final sin previamente informar la fecha de inicio celebracion");
+			}
+			if (Utils.transformFecha(jTextFieldFechaFinInscripcion.getText()).before(Utils.transformFecha(jTextFieldFechaInicioInscripcion.getText()))){
+				throw new Exception( "La fecha inicio es mayor que la fecha final de inscripci—n");
+			}
+			if (Utils.transformFecha(jTextFieldFechaInicioCelebracion.getText()).before(Utils.transformFecha(jTextFieldFechaInicioInscripcion.getText()))){
+				throw new Exception( "La fecha inicio de inscipcion es mayor que la fecha inicial de celebraci—n");
+			}
+			if (Utils.transformFecha(jTextFieldFechaFinInscripcion.getText()).before(Utils.transformFecha(jTextFieldFechaInicioInscripcion.getText()))){
+				throw new Exception( "La fecha fin de inscipcion es mayor que la fecha final de celebraci—n");
+			}
+			if(Utils.valorisNull(jTextFieldUmbral.getText())) throw new Exception(Utils.MESSAGE_ERROR + " umbral" );
 			if(!Utils.validaNumerico(jTextFieldUmbral.getText())) throw new Exception(Utils.MESSAGE_ERROR + " umbral " + Utils.MESSAGE_NUMERIC );
+			if(Integer.parseInt((jTextFieldUmbral.getText())) <= 0) throw new Exception(Utils.MESSAGE_ERROR + " umbral " + Utils.MESSAGE_NUMERIC_MAS0 );
+			if(Utils.valorisNull(jTextFieldPrecio.getText())) throw new Exception(Utils.MESSAGE_ERROR + " precio" );
 			if(!Utils.validaNumerico(jTextFieldPrecio.getText())) throw new Exception(Utils.MESSAGE_ERROR + " precio " + Utils.MESSAGE_NUMERIC );
+			if(Utils.valorisNull(jTextFieldPlazas.getText())) throw new Exception(Utils.MESSAGE_ERROR + " plazas" );
 			if(!Utils.validaNumerico(jTextFieldPlazas.getText())) throw new Exception(Utils.MESSAGE_ERROR + " plazas " + Utils.MESSAGE_NUMERIC );
+			if(Integer.parseInt((jTextFieldPlazas.getText())) <= 0) throw new Exception(Utils.MESSAGE_ERROR + " plazas " + Utils.MESSAGE_NUMERIC_MAS0 );
+			if(Utils.valorisNull(jTextFieldDuracion.getText())) throw new Exception(Utils.MESSAGE_ERROR + " duraci—n" );
 			if(!Utils.validaNumerico(jTextFieldDuracion.getText())) throw new Exception(Utils.MESSAGE_ERROR + " duraci—n " + Utils.MESSAGE_NUMERIC );
+			if(Integer.parseInt((jTextFieldDuracion.getText())) <= 0) throw new Exception(Utils.MESSAGE_ERROR + " duraci—n " + Utils.MESSAGE_NUMERIC_MAS0 );
 		}catch(Exception e){
 			throw new OperationErrorDatosFormulario(e.getMessage());
 		}
@@ -429,8 +452,8 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 		 ***********************************************/
 		DTOEvento dtoEvento = new DTOEvento();
 		dtoEvento.setEvento(evento);
-		dtoEvento.setDtoEventoRequisitos(dtoEventoAModficar.getDtoEventoRequisitos());
-		dtoEvento.setDtoEventoRolPlazas(dtoEventoAModficar.getDtoEventoRolPlazas());
+		if (jTableRequisitos.getRowCount() > 0) dtoEvento.setDtoEventoRequisitos(dtoEventoAModficar.getDtoEventoRequisitos());
+		if (jTableRolPlazas.getRowCount() > 0) dtoEvento.setDtoEventoRolPlazas(dtoEventoAModficar.getDtoEventoRolPlazas());
 		return dtoEvento;
 	}
 	
@@ -439,9 +462,23 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 	 */
 	private void limpiaFormulario(){
 		ClearForm.clearForm(jPanelDatos);
-		//ClearForm.clearForm(jPanelCentro);
+		dtmRequisitos.getDataVector().removeAllElements();
+		actualizaTablaRequisitos();
+		dtmRolPlazas.getDataVector().removeAllElements();
+		actualizaTablaRolPlazas();
 	}
 	
+	private void actualizaTablaRequisitos(){
+		jTableRequisitos.repaint();
+		jTableRequisitos.revalidate();
+		jTableRequisitos.updateUI();
+	}
+	
+	private void actualizaTablaRolPlazas(){
+		jTableRolPlazas.repaint();
+		jTableRolPlazas.revalidate();
+		jTableRolPlazas.updateUI();
+	}
 	/*
 	 ************************* PANEL FILTROS ****************************** 
 	 */
@@ -567,6 +604,14 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 			jComboBoxTipoEvento.setOpaque(false);
 			jComboBoxTipoEvento.setBounds(75, 67, 328, 22);
 			jComboBoxTipoEvento.setFont(new java.awt.Font("Arial",0,10));
+			jComboBoxTipoEvento.addItemListener(new ItemListener(){
+				public void itemStateChanged(ItemEvent e) {
+					dtmRequisitos.getDataVector().removeAllElements();
+					actualizaTablaRequisitos();
+					dtmRolPlazas.getDataVector().removeAllElements();
+					actualizaTablaRolPlazas();
+				}
+			});
 		}
 		return jComboBoxTipoEvento;
 	}
@@ -585,7 +630,6 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 	private JTextField getJTextFieldFechaInicioCelebracion() {
 		if(jTextFieldFechaInicioCelebracion == null) {
 			jTextFieldFechaInicioCelebracion = new JTextField();
-			jTextFieldFechaInicioCelebracion.setText("01/01/2010");
 			jTextFieldFechaInicioCelebracion.setBounds(75, 101, 113, 19);
 			jTextFieldFechaInicioCelebracion.setFont(new java.awt.Font("Arial",0,10));
 		}
@@ -606,7 +650,6 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 	private JTextField getJTextFieldFechaFinCelebracion() {
 		if(jTextFieldFechaFinCelebracion == null) {
 			jTextFieldFechaFinCelebracion = new JTextField();
-			jTextFieldFechaFinCelebracion.setText("01/01/2012");
 			jTextFieldFechaFinCelebracion.setBounds(270, 103, 113, 19);
 			jTextFieldFechaFinCelebracion.setFont(new java.awt.Font("Arial",0,10));
 		}
@@ -747,7 +790,6 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 	private JTextField getJTextFieldFechaInicioInscripcion() {
 		if(jTextFieldFechaInicioInscripcion == null) {
 			jTextFieldFechaInicioInscripcion = new JTextField();
-			jTextFieldFechaInicioInscripcion.setText("01/01/2010");
 			jTextFieldFechaInicioInscripcion.setBounds(77, 132, 109, 19);
 			jTextFieldFechaInicioInscripcion.setFont(new java.awt.Font("Arial",0,10));
 		}
@@ -757,7 +799,6 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 	private JTextField getJTextFieldFechaFinInscripcion() {
 		if(jTextFieldFechaFinInscripcion == null) {
 			jTextFieldFechaFinInscripcion = new JTextField();
-			jTextFieldFechaFinInscripcion.setText("01/01/2012");
 			jTextFieldFechaFinInscripcion.setBounds(270, 132, 113, 19);
 			jTextFieldFechaFinInscripcion.setFont(new java.awt.Font("Arial",0,10));
 		}
@@ -796,7 +837,6 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 	private JTextField getJTextFieldPrecio() {
 		if(jTextFieldPrecio == null) {
 			jTextFieldPrecio = new JTextField();
-			jTextFieldPrecio.setText("0");
 			jTextFieldPrecio.setBounds(270, 163, 78, 19);
 			jTextFieldPrecio.setFont(new java.awt.Font("Arial",0,10));
 		}
@@ -901,7 +941,6 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 	private JTextField getJTextFieldPlazas() {
 		if(jTextFieldPlazas == null) {
 			jTextFieldPlazas = new JTextField();
-			jTextFieldPlazas.setText("0");
 			jTextFieldPlazas.setBounds(79, 194, 42, 19);
 			jTextFieldPlazas.setFont(new java.awt.Font("Arial",0,10));
 		}

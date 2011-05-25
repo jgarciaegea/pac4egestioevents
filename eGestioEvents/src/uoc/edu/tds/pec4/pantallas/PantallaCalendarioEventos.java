@@ -33,6 +33,7 @@ import uoc.edu.tds.pec4.dtos.DTOAsistente;
 import uoc.edu.tds.pec4.dtos.DTOCentroDocente;
 import uoc.edu.tds.pec4.dtos.DTOEvento;
 import uoc.edu.tds.pec4.dtos.DTOEventoCalendario;
+import uoc.edu.tds.pec4.dtos.DTOPersonalSecretaria;
 import uoc.edu.tds.pec4.dtos.DTOUniversidad;
 import uoc.edu.tds.pec4.dtos.DTOUsuario;
 import uoc.edu.tds.pec4.excepciones.OperationErrorBD;
@@ -73,7 +74,6 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 	private JTextField jTextFieldFechaIni;
 	private JCheckBox jCheckBoxShowEventoFinalizado;
 	private JCheckBox jCheckBoxShowAll;
-	private JButton jButtonInscripcion;
 	private JButton jButtonSearch;
 	private JButton jButtonClear;
 	
@@ -86,6 +86,7 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 	private JButton jButtonNew;
 	private JButton jButtonUpdate;
 	private JButton jButtonDelete;
+	private JButton jButtonInscripcion;
 	private JButton jButtonViewInscripciones;
 	private JButton jButtonViewAsistenciaAusencia;
 
@@ -197,7 +198,7 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 	}
 	
 	/**
-	 * Carga el listado de usuarios
+	 * Carga el listado de eventos
 	 */
 	private void getEventosCalendario() throws OperationErrorDatosFormulario{
 		try{
@@ -208,7 +209,7 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 				return;
 			}
 			muestraResultado(lstDtoEventoCalendario);
-			jTableDatos.repaint();
+			actualizaTabla();
 		}catch(Exception e){
 			throw new OperationErrorDatosFormulario(e.getMessage());
 		}
@@ -246,19 +247,16 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 	 */
 	private void validaFormulario() throws OperationErrorDatosFormulario{
 		try{
-			
+			if(Utils.valorisNull(jTextFieldFechaIni.getText())) throw new Exception(Utils.MESSAGE_ERROR + " fecha inicio celebraci—n" );
+			if(!Utils.parseaFecha(jTextFieldFechaIni.getText())) throw new Exception(Utils.MESSAGE_ERROR + " fecha inicio celebraci—n " + Utils.MESSAGE_FECHA );
+			if(Utils.valorisNull(jTextFieldFechaFin.getText())) throw new Exception(Utils.MESSAGE_ERROR + " fecha fin celebraci—n" );
+			if(!Utils.parseaFecha(jTextFieldFechaFin.getText())) throw new Exception(Utils.MESSAGE_ERROR + " fecha fin celebraci—n " + Utils.MESSAGE_FECHA );
 			if(!"".equalsIgnoreCase(jTextFieldFechaFin.getText()) && "".equalsIgnoreCase(jTextFieldFechaIni.getText())){
-				 throw new Exception("No puede introducir la fecha final sin previamente informar la fecha de inicio");
+				throw new Exception("No puede introducir la fecha final sin previamente informar la fecha de inicio celebracion");
 			}
-			
-			if(!"".equalsIgnoreCase(jTextFieldFechaIni.getText())){
-				if(!Utils.parseaFecha(jTextFieldFechaIni.getText())) throw new Exception(Utils.MESSAGE_ERROR + " fecha inicio" + Utils.MESSAGE_FECHA );
+			if (Utils.transformFecha(jTextFieldFechaFin.getText()).before(Utils.transformFecha(jTextFieldFechaIni.getText()))){
+				throw new Exception( "La fecha inicio es mayor que la fecha final");
 			}
-			
-			if(!"".equalsIgnoreCase(jTextFieldFechaFin.getText())){
-				if(!Utils.parseaFecha(jTextFieldFechaFin.getText())) throw new Exception(Utils.MESSAGE_ERROR + " fecha fin" + Utils.MESSAGE_FECHA );
-			}
-			
 		}catch(Exception e){
 			throw new OperationErrorDatosFormulario(e.getMessage());
 		}
@@ -301,6 +299,14 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 	private void jButtonClearActionPerformed(){
 		ClearForm.clearForm(jPanelFiltro);
 		ClearForm.clearForm(jPanelDatos);
+		dtm.getDataVector().removeAllElements();
+		actualizaTabla();
+	}
+	
+	private void actualizaTabla(){
+		jTableDatos.repaint();
+		jTableDatos.revalidate();
+		jTableDatos.updateUI();
 	}
 	
 	/*
@@ -332,6 +338,7 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 	       	 		}
 	       	 	}
 			}
+			actualizaTabla();
 		}catch(Exception e){
 			throw new OperationErrorDatosFormulario(e.getMessage());
 		}
@@ -443,7 +450,6 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 	private JTextField getJTextFieldFechaIni() {
 		if(jTextFieldFechaIni == null) {
 			jTextFieldFechaIni = new JTextField();
-			jTextFieldFechaIni.setText("01/01/2010");
 			jTextFieldFechaIni.setBounds(189, 88, 113, 19);
 			jTextFieldFechaIni.setFont(new java.awt.Font("Arial",0,10));
 		}
@@ -464,7 +470,6 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 	private JTextField getJTextFieldFechaFin() {
 		if(jTextFieldFechaFin == null) {
 			jTextFieldFechaFin = new JTextField();
-			jTextFieldFechaFin.setText("01/01/2012");
 			jTextFieldFechaFin.setBounds(416, 88, 113, 19);
 			jTextFieldFechaFin.setFont(new java.awt.Font("Arial",0,10));
 		}
@@ -751,17 +756,14 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 		return jButtonInscripcion;
 	}
 	
-	
 	public void gestionarPermisos(){
-		if (dtoUsuario  instanceof DTOAsistente){
-			jButtonNew.setVisible(false);
-			jButtonUpdate.setVisible(false);
-			jButtonDelete.setVisible(false);
-			jButtonViewInscripciones.setVisible(false);
-			jButtonViewAsistenciaAusencia.setVisible(false);
-		}
+		jButtonNew.setVisible((dtoUsuario instanceof DTOPersonalSecretaria));
+		jButtonUpdate.setVisible((dtoUsuario instanceof DTOPersonalSecretaria));
+		jButtonDelete.setVisible((dtoUsuario instanceof DTOPersonalSecretaria));
+		jButtonInscripcion.setVisible((dtoUsuario instanceof DTOAsistente));
+		jButtonViewInscripciones.setVisible((dtoUsuario instanceof DTOPersonalSecretaria));
+		jButtonViewAsistenciaAusencia.setVisible((dtoUsuario instanceof DTOPersonalSecretaria));
 	}
-	
 	
 	public void goPantallaInscripcion( DTOEvento dtoEvento) throws OperationErrorLogin, RemoteException, OperationErrorBD,OperationErrorDatosFormulario{
 		System.out.println("Repintando Pantalla inscripcion");
@@ -774,6 +776,4 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 		this.revalidate();
 		this.updateUI();
 	}
-	
-
 }
