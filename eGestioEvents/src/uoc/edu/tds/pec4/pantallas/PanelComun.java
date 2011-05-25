@@ -28,11 +28,16 @@ import uoc.edu.tds.pec4.utils.ClearForm;
  * @author ML019882
  *
  */
+/**************************************************************
+ * Método abstracto pra la creacion de paneles facilmente*
+ * se crean los componentes segun los parametros indicados******
+ **************************************************************/	
+
 public abstract class PanelComun extends JPanel  {
 
-	/**
-	 * Lista de Componentes
-	 */
+	/**************************************************************
+	 * Listas de componetes y atributos****************************
+	 **************************************************************/	
 	
 	private static final long serialVersionUID = 1L; 
 	private Map<String,JButton> botones;
@@ -45,9 +50,9 @@ public abstract class PanelComun extends JPanel  {
 	private JScrollPane panelScroll = null;
 	private DefaultTableModel dtm;
 	
-	/**
-	 * Constructor
-	 */
+	/**************************************************************
+	 * Constructor****************************
+	 **************************************************************/
 	
 	
 	public PanelComun(String titulo,Integer x, Integer y ) {
@@ -71,15 +76,20 @@ public abstract class PanelComun extends JPanel  {
 	
 	
 	
-	/*
-	 * Limpia el formulario
-	 */
+	/**************************************************************
+	 * Limpliar DTM****************************
+	 **************************************************************/
 	public void limpiaFormulario(){
 		ClearForm.clearForm(this);
 		dtm.getDataVector().removeAllElements();
 		actualizaTabla();
 		
 	}	
+	
+	/**************************************************************
+	 * Actualizar TAbla****************************
+	 **************************************************************/
+	
 	private void actualizaTabla(){
 		tablaResultados.repaint();
 		tablaResultados.revalidate();
@@ -88,10 +98,9 @@ public abstract class PanelComun extends JPanel  {
 	
 	
 	
-	
-	/**
-	 * Constructor Boton
-	 */	
+	/**************************************************************
+	 * Constructor Botones****************************
+	 **************************************************************/
 	
 	protected JButton crearBoton(Integer x,Integer y,Integer ancho, Integer alto,String clave,String nombre){
 		System.out.println("Creando Boton......");
@@ -102,9 +111,9 @@ public abstract class PanelComun extends JPanel  {
 		 return boton;
 	}
 
-	/**
-	 * Anadir Boton a la lista y al Panel
-	 */
+	/**************************************************************
+	 * Anyadir boton a la lista y el panel****************************
+	 **************************************************************/
 	
 	protected void addBoton(JButton boton,String name){
 
@@ -115,18 +124,18 @@ public abstract class PanelComun extends JPanel  {
 		
 	}
 	
-	/**
-	 * Devuelve un Boton de la lista buscando por la clave (nombre del boton)
-	 */
+	/**************************************************************
+	 * Devuelve un boton buscando en la lista por la clave*********
+	 **************************************************************/
 	
 	public JButton findBoton(String name){
 		return(this.botones.get(name));
 		
 	}
 	
-	/**
-	 * Borra un Boton de la lista buscando por la clave (nombre del boton)
-	 */
+	/**************************************************************
+	 * Borra un boton buscando en la lista por la clave*********
+	 **************************************************************/
 	
 	protected void removeBoton(String name){
 		this.botones.remove(name);
