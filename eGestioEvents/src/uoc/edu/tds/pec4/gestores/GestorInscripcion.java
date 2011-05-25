@@ -254,4 +254,8 @@ public class GestorInscripcion extends GestorEntidad<DTOInscripcion>{
 		}
 	}
 
+
+	
+	
+	
 }
