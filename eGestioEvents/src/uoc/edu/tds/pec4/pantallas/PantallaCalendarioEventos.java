@@ -147,6 +147,11 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 		}
 	}
 	
+	private Boolean canUpdateEvento() {
+		@SuppressWarnings("unchecked")
+		List<Object> lstRes = (Vector<Object>) dtm.getDataVector().get(jTableDatos.getSelectedRow());
+		return (Boolean.parseBoolean(lstRes.get(6).toString()) && Boolean.parseBoolean(lstRes.get(7).toString()));
+	}
 	/**
 	 * Vamos a la pantalla de gesti—n del evento
 	*/
@@ -613,12 +618,16 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 					if(jTableDatos.getSelectedRow() == -1){
 						Utils.mostraMensajeInformacion(jPanelDatos, "No ha seleccionado ningœn registro de la tabla", "Calendario Eventos");
 					}else{
-						try {
-							DTOEvento dtoEvento = getSelectedEvento();
-							// TODO 1: Modificar el evento siempre que podamos, llamamos a la pantalla de eventos.
-							goPantallaEvento(dtoEvento);
-						} catch (OperationErrorDatosFormulario e1) {
-							e1.showDialogError();
+						if (canUpdateEvento()){
+							try {
+								DTOEvento dtoEvento = getSelectedEvento();
+								// TODO 1: Modificar el evento siempre que podamos, llamamos a la pantalla de eventos.
+								goPantallaEvento(dtoEvento);
+							} catch (OperationErrorDatosFormulario e1) {
+								e1.showDialogError();
+							}
+						}else{
+							Utils.mostraMensajeInformacion(jPanelDatos, "Evento cancelado o finalizado", "Calendario Eventos");
 						}
 					}
 				}
