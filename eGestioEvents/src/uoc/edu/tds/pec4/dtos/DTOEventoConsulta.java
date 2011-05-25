@@ -16,7 +16,6 @@ public class DTOEventoConsulta  extends DTOEvento implements DTOInterface, Seria
 
 	private static final long serialVersionUID = 1L;
 	private EventoViewConsulta eventoViewConsulta;
-	
 	/**
 	 * @return the eventoViewConsulta
 	 */
