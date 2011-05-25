@@ -142,7 +142,8 @@ public abstract class PanelComun extends JPanel  {
 	protected JComboBox crearCombo(Integer x,Integer y,Integer ancho, Integer alto,String nombre,List<?> lista){
 		JComboBox combo = new JComboBox(lista.toArray());
 		combo.setBounds(new Rectangle(x, y, ancho, alto));
-		 this.addCombo(combo,nombre);
+		combo.setOpaque(false);
+		this.addCombo(combo,nombre);
 		 return combo;
 	}
 
