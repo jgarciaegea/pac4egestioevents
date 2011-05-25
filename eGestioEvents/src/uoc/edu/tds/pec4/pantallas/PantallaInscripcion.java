@@ -8,11 +8,14 @@ import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.rmi.RemoteException;
+import java.util.List;
+
 import javax.swing.BorderFactory;
 
 import uoc.edu.tds.pec4.beans.Inscripcion;
 import uoc.edu.tds.pec4.dtos.DTOAsistente;
 import uoc.edu.tds.pec4.dtos.DTOEvento;
+import uoc.edu.tds.pec4.dtos.DTOEventoRequisitos;
 import uoc.edu.tds.pec4.dtos.DTOInscripcion;
 import uoc.edu.tds.pec4.dtos.DTOUsuario;
 import uoc.edu.tds.pec4.excepciones.OperationErrorBD;
@@ -61,6 +64,7 @@ public class PantallaInscripcion extends PanelComun implements Pantallas{
 		System.out.println("evento...."+dtoEvento.getEvento().getDescripcion());
 		this.findJTextAreaString("informacionEventoInscripcion").setText(mostrarInfoEvento());
 		this.findJTextAreaString("informacionEventoInscripcion").setEditable(false);
+		this.findJTextAreaString("informacionEventoInscripcion");
 		this.crearTitulo(20, 300, 140, 20, "clientePEC4.panelInscripcion.titulo1.nombreAsistente", "nombreAsistente");
 		this.crearTextField(160, 300, 250, 20,"cajaAsistente");
 		this.findTextField("cajaAsistente").setText(dtousuario.getUsuario().getNombre()+ ", " + dtousuario.getUsuario().getApellidos());
@@ -111,14 +115,15 @@ public class PantallaInscripcion extends PanelComun implements Pantallas{
 		if (dtoEvento.getEvento().getFechaInicioCelebracion() != null)
 		info = info + "Dia  " + Utils.convertFecha(dtoEvento.getEvento().getFechaInicioCelebracion().toString()) + Constantes.SALTO_LINEA;
 		
+		if (dtoEvento.getEvento().getNombre() != null)
+		info = info + "Evento: " + dtoEvento.getEvento().getNombre() + Constantes.SALTO_LINEA;
 		if (dtoEvento.getEvento().getDescripcion() != null)
-		info = info + "Evento: " + dtoEvento.getEvento().getDescripcion() + Constantes.SALTO_LINEA;
-		
+		info = info + "        " + dtoEvento.getEvento().getDescripcion() + Constantes.SALTO_LINEA;
 		if (dtoEvento.getDtoCentroDocente().getDtoUniversidad().getUniversidad() != null)	
-			info = info + "          Universidad: " + dtoEvento.getDtoCentroDocente().getDtoUniversidad().getUniversidad().getNombre() + Constantes.SALTO_LINEA;
+			info = info + "Universidad: " + dtoEvento.getDtoCentroDocente().getDtoUniversidad().getUniversidad().getNombre() + Constantes.SALTO_LINEA;
 		
 		if (dtoEvento.getDtoCentroDocente().getCentroDocente().getNombre() != null)
-		info = info + "                     Centro Docente: " + dtoEvento.getDtoCentroDocente().getCentroDocente().getNombre()+ Constantes.SALTO_LINEA;
+		info = info + "               Centro Docente: " + dtoEvento.getDtoCentroDocente().getCentroDocente().getNombre()+ Constantes.SALTO_LINEA;
 		
 		if (dtoEvento.getDtoCentroDocente().getDtoContacto().getContacto()!= null)
 		info = info + "                     Direccion : " + dtoEvento.getDtoCentroDocente().getDtoContacto().getContacto().getDomicilio()+ Constantes.SALTO_LINEA;
@@ -130,6 +135,17 @@ public class PantallaInscripcion extends PanelComun implements Pantallas{
 		
 		info = info + Constantes.SALTO_LINEA;
 		info = info + "Prerequisitos: " +Constantes.SALTO_LINEA;
+		try {
+			List<DTOEventoRequisitos> listDTOEventoREquisitos = remote.getRequisitosEvento(dtoEvento);
+			for(DTOEventoRequisitos dtoEventoREquisito : listDTOEventoREquisitos){
+				info = info + "     "+dtoEventoREquisito.getDtoEventoReq().getEvento().getNombre() +Constantes.SALTO_LINEA;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		
+		
 		info = info + Constantes.SALTO_LINEA;
 		//TODO RECOGER LAS PLZAZAS LIBRES
 		info = info + "Quedan: " + remote.getPlazasEvento(dtoEvento).getEventoPlus().getPlazasLibres() + Constantes.SALTO_LINEA;
