@@ -29,14 +29,15 @@ public class DaoInscripcion extends DaoEntidad<Inscripcion>{
 	public void insert(Inscripcion objecte) throws Exception {
 		PreparedStatement ps = null;
 		try {
-			ps = con.prepareStatement("INSERT INTO INSCRIPCION (codigo, id_evento, estado, fecha_estado, motivo_estado, fecha_inscripcion, check_in, codigo_asistencia) " + 
+			ps = con.prepareStatement("INSERT INTO INSCRIPCION (codigo, id_evento, estado, fecha_estado, motivo_estado, fecha_inscripcion, check_in, codigo_asistencia ) " + 
                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
 			ps.setString(1, objecte.getCodigo());
 			ps.setInt(2, objecte.getIdEvento());
 			ps.setInt(3, Constantes.REGISTRO_ACTIVO);
 			ps.setDate(4, new java.sql.Date(System.currentTimeMillis()));
 			ps.setString(5, Constantes.REGISTRO_ACTIVO_MOTIVO);
-			ps.setDate(6, objecte.getFechaInscripcion());
+			//ps.setDate(6, objecte.getFechaInscripcion());
+			ps.setDate(6, new java.sql.Date(System.currentTimeMillis()));
 			ps.setBoolean(7, objecte.getCheckIn());
 			ps.setString(8, objecte.getCodigoAsistencia());			
 			ps.executeUpdate();
