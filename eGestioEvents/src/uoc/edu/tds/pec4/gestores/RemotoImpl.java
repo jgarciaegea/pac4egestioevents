@@ -260,7 +260,7 @@ public class RemotoImpl extends UnicastRemoteObject implements RemoteInterface{
 		}
 	}
 	
-	public Usuario loginUsuario(Usuario userLogin) throws RemoteException,OperationErrorLogin{
+	public DTOUsuario loginUsuario(Usuario userLogin) throws RemoteException,OperationErrorLogin{
 		try{
 			GestorUsuario gestorUsuario = new GestorUsuario(gestorDB.getConnection());
 			return gestorUsuario.loginUsuario(userLogin.getCodigo(), userLogin.getContrasena());
@@ -270,11 +270,11 @@ public class RemotoImpl extends UnicastRemoteObject implements RemoteInterface{
 	}
 	
 	
-	public void updatePassword(Usuario user) throws RemoteException,OperationErrorLogin{
+	public void updatePassword(DTOUsuario user) throws RemoteException,OperationErrorLogin{
 		try{
 			gestorDB.getConnection().setAutoCommit(false);
 			GestorUsuario gestorUsuario = new GestorUsuario(gestorDB.getConnection());
-			gestorUsuario.updatePassword(user);
+			gestorUsuario.updatePassword(user.getUsuario());
 			gestorDB.getConnection().commit();
 		}catch(Exception e){
 			try {
