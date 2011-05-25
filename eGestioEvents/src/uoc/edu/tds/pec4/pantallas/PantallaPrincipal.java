@@ -88,11 +88,11 @@ public class PantallaPrincipal extends JFrame {
 		DTOUsuario dtoUsuario = FactoriaUsuario.getUsuario(usuario.getTipoUsuario());
 		if(dtoUsuario instanceof DTOAdministrador){
 	        menuMantenimiento.setEnabled(true);
-	        menuConexion.setEnabled(true); //test
-	        menuProgramacionEvento.setEnabled(true); //test
+	        //menuConexion.setEnabled(true); //test
+	        //menuProgramacionEvento.setEnabled(true); //test
 		}else if(dtoUsuario instanceof DTOPersonalSecretaria){
 	        menuEstadisticas.setEnabled(true);
-	        menuConexion.setEnabled(true);
+	        //menuConexion.setEnabled(true);
 	        menuProgramacionEvento.setEnabled(true);
 		}else if(dtoUsuario instanceof DTOAsistente){
 	        menuConexion.setEnabled(true);
