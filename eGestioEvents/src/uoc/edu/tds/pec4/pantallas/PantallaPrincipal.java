@@ -88,8 +88,8 @@ public class PantallaPrincipal extends JFrame {
 		DTOUsuario dtoUsuario = FactoriaUsuario.getUsuario(usuario.getTipoUsuario());
 		if(dtoUsuario instanceof DTOAdministrador){
 	        menuMantenimiento.setEnabled(true);
-	        //menuConexion.setEnabled(true); //test
-	        //menuProgramacionEvento.setEnabled(true); //test
+	        menuConexion.setEnabled(true); //test
+	        menuProgramacionEvento.setEnabled(true); //test
 		}else if(dtoUsuario instanceof DTOPersonalSecretaria){
 	        menuEstadisticas.setEnabled(true);
 	        //menuConexion.setEnabled(true);
@@ -261,17 +261,8 @@ public class PantallaPrincipal extends JFrame {
 
     inscripcionEvento.addActionListener(new ActionListener() { 
     	public void actionPerformed(ActionEvent evt) { 
-    		try {
-				showPanel(new PantallaBuscarEventoInscripcion(remote,usuario));
-			} catch (RemoteException e) {
-				e.printStackTrace();
-			} catch (OperationErrorBD e) {
-				e.showDialogError();
-				e.printStackTrace();
-			} catch (OperationErrorLogin e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} 
+    		//showPanel(new PantallaBuscarEventoInscripcion(remote,usuario));
+			showPanel(new PantallaCalendarioEventos(remote, usuario)); 
     	} }); 	
     
 
