@@ -135,7 +135,8 @@ public class PantallaInscripcion extends PanelComun implements Pantallas{
 		info = info + Constantes.SALTO_LINEA;
 		info = info + "Prerequisitos: " +Constantes.SALTO_LINEA;
 		info = info + Constantes.SALTO_LINEA;
-		info = info + "Quedan: " +Constantes.SALTO_LINEA;
+		//TODO RECOGER LAS PLZAZAS LIBRES
+		info = info + "Quedan: " + dtoEvento.getEvento().getPlazas() + Constantes.SALTO_LINEA;
 		return info;
 	}
 	
