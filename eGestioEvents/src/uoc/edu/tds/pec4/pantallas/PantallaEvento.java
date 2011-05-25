@@ -27,6 +27,7 @@ import uoc.edu.tds.pec4.beans.Evento;
 import uoc.edu.tds.pec4.dtos.DTOCentroDocente;
 import uoc.edu.tds.pec4.dtos.DTOEvento;
 import uoc.edu.tds.pec4.dtos.DTOEventoRequisitos;
+import uoc.edu.tds.pec4.dtos.DTOEventoRolPlazas;
 import uoc.edu.tds.pec4.dtos.DTOTipoEvento;
 import uoc.edu.tds.pec4.dtos.DTOUsuario;
 import uoc.edu.tds.pec4.excepciones.OperationErrorBD;
@@ -179,29 +180,7 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 	 */
 	private void cargaCentroUsuario(){
 		dtoCentroDocente = new DTOCentroDocente();
-/*		CentroDocente cd = new CentroDocente();
-		cd.setIdCentro(1);
-		cd.setNombre("Sabadell");
-		dtoCentroDocente.setCentroDocente(cd);
-		cargaDatosCentroDocenteEnPantalla(dtoCentroDocente);
-
-		DTOPersonalSecretaria dtoUsuario = new DTOPersonalSecretaria();
-		dtoUsuario.setUsuario(usuario);
-		try {
-			dtoUsuario = (DTOPersonalSecretaria) remote.getUsuario(dtoUsuario);
-		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (OperationErrorBD e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		dtoCentroDocente = dtoUsuario.getDtoCentroDocente();
-		cargaDatosCentroDocenteEnPantalla(dtoCentroDocente);
-		*/
-
-		dtoCentroDocente = dtoUsuario.getDtoCentroDocente(); //dtoUsuarioLoginremote.getCentoDocentebyId(usuario.getIdCentro());
-		
 		cargaDatosCentroDocenteEnPantalla(dtoCentroDocente);
 	}
 		
@@ -292,7 +271,6 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 			e.printStackTrace();
 		}
 	}
-		
 	
 	private void muestraRequisitos(List<DTOEventoRequisitos> lstDtoEventoRequisitos) throws OperationErrorDatosFormulario{
 		try{
@@ -314,7 +292,32 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 	       	 	}
 			}
 		}catch(Exception e){
-			throw new OperationErrorDatosFormulario("Error en la carga de la asistencia/ausencia en la pantalla");
+			throw new OperationErrorDatosFormulario("Error en la carga de los eventos requisitos en la pantalla");
+		}
+	}
+	
+	private void muestraRolPlazas(List<DTOEventoRolPlazas> lstDtoEventoRolPlazas) throws OperationErrorDatosFormulario{
+		try{
+			dtmRolPlazas.getDataVector().removeAllElements();
+			if(lstDtoEventoRolPlazas != null){
+				Object[][] aobj = new Object[lstDtoEventoRolPlazas.size()][columnNamesRolPlazas.length];
+				int k = 0;
+			
+				for(DTOEventoRolPlazas dtEventoRolPlazas : lstDtoEventoRolPlazas){
+					 aobj[k][0] = new String(dtEventoRolPlazas.getDtoTipoRol().getTipoRol().getIdRol().toString());
+					 aobj[k][1] = new String(dtEventoRolPlazas.getDtoTipoRol().getTipoRol().getDescripcion());
+					 aobj[k][2] = new String(dtEventoRolPlazas.getEventoRolPlazas().getPlazas().toString());
+					 k++;
+	       	 	}
+				
+				if (aobj != null && aobj.length > 0){
+	       	 		for(int row = 0; row < aobj.length; row++){
+	       	 		dtmRolPlazas.addRow(aobj[row]);
+	       	 		}
+	       	 	}
+			}
+		}catch(Exception e){
+			throw new OperationErrorDatosFormulario("Error en la carga los evento Rol/Plazas en la pantalla");
 		}
 	}
 	
@@ -677,19 +680,31 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 			jButtonRolPlazas.setFont(new java.awt.Font("Arial",0,10));
 			jButtonRolPlazas.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-						/*
+					if(Utils.valorisNull(jComboBoxTipoEvento.getSelectedItem())) {
+						Utils.mostraMensajeInformacion(jPanelDatos, Utils.MESSAGE_ERROR + " tipo evento", "Evento");
+					}
+					else {
 						try {
-							
-							DTOEvento dtoEvento = getSelectedEvento();
-					        //this.setVisible(false);
-							PantallaAsistenciaByEvento v4 = new PantallaEventoRolPlazas(null, remote, dtoEvento);
-					        v4.setVisible(true);
-							
-						} catch (OperationErrorDatosFormulario e1) {
-							e1.showDialogError();
+							if (!bEventoModificacion){
+								dtoEventoAModficar.getEvento().setIdTipoEvento(Integer.parseInt(((MostrarCombo) jComboBoxTipoEvento.getSelectedItem()).getID().toString()));
+							}
+							dtoEventoAModficar.getEvento().setPlazas(Integer.parseInt(jTextFieldPlazas.getText()));
+							PantallaEventoRolPlazas v2 = new PantallaEventoRolPlazas(null, remote, dtoEventoAModficar);
+							v2.setModal(true);
+							v2.setVisible(true);
+				             if (v2.getAceptar()) {
+				            	 dtoEventoAModficar.setDtoEventoRolPlazas(v2.getDTOEventoRolPlazas());
+				            	 try {
+									muestraRolPlazas(dtoEventoAModficar.getDtoEventoRolPlazas());
+								} catch (OperationErrorDatosFormulario e1) {
+									// TODO Auto-generated catch block
+									e1.printStackTrace();
+								}
+				             }
 						}finally{
-							//jButtonClearActionPerformed();
-						}*/
+						//jButtonClearActionPerformed();
+						}
+					}
 				}
 			});
 		}

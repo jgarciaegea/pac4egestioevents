@@ -59,7 +59,7 @@ javac -d bin -cp bin src/uoc/edu/tds/pec4/cliente/*.java
 echo "....OK"
 echo "Generar STUBs y Skeletons...."
 cd bin
-rmic uoc.edu.tds.pec4.iface.RemotoImpl
+rmic uoc.edu.tds.pec4.gestores.RemotoImpl
 #cp uoc/edu/tds/pec4/iface/RemotoImpl_Stub.* uoc/edu/tds/pec4/comun
 echo "....OK"
 echo

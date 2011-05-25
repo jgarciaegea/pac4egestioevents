@@ -61,7 +61,6 @@ public class PantallaEventoRequisitos extends javax.swing.JDialog {
 		if (dtoEvento != null && dtoEvento.getEvento() != null){
 			try {
 				cargaEventosByEventoCentro();
-				// TODO 2: a partir del dtoevento (lista dtoeventoreq) checkear los q esten dentro.
 				checkEventos();
 			} catch (OperationErrorDatosFormulario e) {
 				e.showDialogError(jPanelBase);

@@ -14,9 +14,14 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import uoc.edu.tds.pec4.beans.Evento;
+import uoc.edu.tds.pec4.beans.EventoRolPlazas;
+import uoc.edu.tds.pec4.beans.TipoRol;
+import uoc.edu.tds.pec4.dtos.DTOEvento;
 import uoc.edu.tds.pec4.dtos.DTOEventoRolPlazas;
 import uoc.edu.tds.pec4.dtos.DTOInscripcion;
 import uoc.edu.tds.pec4.dtos.DTOTipoEvento;
+import uoc.edu.tds.pec4.dtos.DTOTipoRol;
 import uoc.edu.tds.pec4.excepciones.OperationErrorDatosFormulario;
 import uoc.edu.tds.pec4.iface.RemoteInterface;
 
@@ -44,18 +49,15 @@ public class PantallaEventoRolPlazas extends javax.swing.JDialog {
 	private DefaultTableModel dtm;
 	
 	private RemoteInterface remote;
-	private DTOTipoEvento dtoTipoEvento;
-	private List<DTOEventoRolPlazas> lstDtoEventoRolPlazas = new ArrayList<DTOEventoRolPlazas>();
-	private Integer plazas;
+	private DTOEvento dtoEvento;
+	private Boolean bExit = false;
 
-	public PantallaEventoRolPlazas(JFrame frame, RemoteInterface remote1, DTOTipoEvento dtoTipoEvento1, List<DTOEventoRolPlazas> lstDtoEventoRolPlazas1, Integer plazas1) {
+	public PantallaEventoRolPlazas(JFrame frame, RemoteInterface remote1, DTOEvento dtoEvento1) {
 		super(frame);
 		initGUI(frame);
 		this.remote = remote1;
-		this.dtoTipoEvento = dtoTipoEvento1;
-		this.lstDtoEventoRolPlazas = lstDtoEventoRolPlazas1;
-		this.plazas = plazas1;
-		
+		this.dtoEvento = dtoEvento1;
+		/*
 		if (dtoTipoEvento != null && dtoTipoEvento.getTipoEvento() != null){
 			try
 			{
@@ -65,9 +67,35 @@ public class PantallaEventoRolPlazas extends javax.swing.JDialog {
 			} catch (OperationErrorDatosFormulario e3) {
 				e3.showDialogError(jPanelBase);
 			}
-		}
+		}*/
 	}
 
+	public List<DTOEventoRolPlazas> getDTOEventoRolPlazas() {
+		List<DTOEventoRolPlazas> lstDtoEventoRolPlazas = new ArrayList<DTOEventoRolPlazas>();
+		Boolean bDatos = false;
+		for (int a=0; a<jTableDatos.getRowCount(); a++){
+			if (Boolean.parseBoolean((jTableDatos.getValueAt(a,2).toString()))){
+				bDatos = true;
+				DTOEventoRolPlazas dtoEventoRolPlazas = new DTOEventoRolPlazas();
+				DTOTipoRol dtoTipoRol = new DTOTipoRol();
+				
+				TipoRol tipoRol = new TipoRol();
+				tipoRol.setIdRol(Integer.parseInt((jTableDatos.getValueAt(a,0).toString())));
+				tipoRol.setDescripcion(jTableDatos.getValueAt(a,1).toString());
+				dtoTipoRol.setTipoRol(tipoRol);
+				dtoEventoRolPlazas.setDtoTipoRol(dtoTipoRol);
+				
+				EventoRolPlazas eventoRolPlazas = new EventoRolPlazas();
+				eventoRolPlazas.setIdRol(tipoRol.getIdRol());
+				eventoRolPlazas.setPlazas(Integer.parseInt((jTableDatos.getValueAt(a,2).toString())));
+				dtoEventoRolPlazas.setEventoRolPlazas(eventoRolPlazas);
+				
+				lstDtoEventoRolPlazas.add(dtoEventoRolPlazas);
+			}
+		}
+		return (bDatos?lstDtoEventoRolPlazas:null);
+	}
+	
 	private void cargaDatosRoles() throws OperationErrorDatosFormulario{
 		/*	try{
 			
@@ -234,14 +262,7 @@ public class PantallaEventoRolPlazas extends javax.swing.JDialog {
 		}
 	}
 	
-	private void jButtonCancelarActionPerformed(ActionEvent evt) {
-		System.out.println("jButtonCancelar.actionPerformed, event="+evt);
-		//TODO add your code for jButtonCancelar.actionPerformed
+	public Boolean getAceptar() {
+		return bExit;
 	}
-	
-	private void jButtonLimpiarActionPerformed(ActionEvent evt) {
-		System.out.println("jButtonLimpiar.actionPerformed, event="+evt);
-		//TODO add your code for jButtonLimpiar.actionPerformed
-	}
-
 }
