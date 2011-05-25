@@ -66,8 +66,11 @@ public class PantallaInscripcion extends PanelComun implements Pantallas{
 		
 		this.crearTitulo(20, 330, 140, 20, "clientePEC4.panelInscripcion.titulo1.nombreDatosBancarios", "nombreDatosBancarios");
 		this.crearTextField(160, 330, 250, 20,"cajaDatosBancarios");
-		this.findTextField("cajaDatosBancarios").setText("PENDIENTE DE RELLENAR");
+		
+		this.findTextField("cajaDatosBancarios").setText( dtousuario.getDtoDatosBancarios().getCCCompleta());
+		
 		this.findTextField("cajaDatosBancarios").setEditable(false);
+		
 		
 		this.crearBoton(20, 360, 100, 30,"clientePEC4.panelInscripcion.boton1.botonConfirmar","botonConfirmar");
 		this.crearBoton(150, 360, 100, 30, "clientePEC4.panelInscripcion.boton1.botonVolver", "botonVolver");
