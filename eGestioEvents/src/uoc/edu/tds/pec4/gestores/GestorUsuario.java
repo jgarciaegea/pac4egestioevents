@@ -224,21 +224,20 @@ public class GestorUsuario  extends GestorEntidad<DTOUsuario>{
 	 * @return
 	 * @throws Exception
 	 */
-	public Usuario loginUsuario(String codigo, String password) throws Exception{
+	public DTOUsuario loginUsuario(String codigo, String password) throws Exception{
 		try{
 			Usuario usuario = new Usuario();
 			usuario.setCodigo(codigo);
 			usuario.setContrasena(Base64Coder.encodeString(password));
-			DaoUsuario dao = new DaoUsuario(connection);
-			List<Usuario> lstUsuarios = dao.select(usuario);
-			if (lstUsuarios.size() > 0)
-				return(lstUsuarios.get(0));
-			else 
-				return null;
-			//return lstUsuarios != null && lstUsuarios.size() > 0? true:false;
+			DaoUsuario daoUsuario = new DaoUsuario(connection);
+			List<Usuario> lstUsuarios = daoUsuario.select(usuario);
+			if (lstUsuarios.size() > 0){
+				 return getTypeDTO(lstUsuarios.get(0));
+			}
 		}catch(Exception e){
 			throw new SQLException();
 		}
+		return null;
 	}
 	
 	
