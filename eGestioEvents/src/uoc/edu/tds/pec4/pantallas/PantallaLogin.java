@@ -64,6 +64,9 @@ public class PantallaLogin extends JFrame {
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 	}
 	
+	/**************************************************************
+	 * Inicializar UI**********************************************
+	 **************************************************************/
 	
 	private JPanel inicializar(){
 		
@@ -117,7 +120,10 @@ public class PantallaLogin extends JFrame {
         return panelPrincipal;
     }
 	
-
+	/**************************************************************
+	 * Método para generar los eventos de la pantalla**
+	 **************************************************************/
+	
 	public void generaEventosPantallaLogin()  {
 		
 		
@@ -142,7 +148,6 @@ public class PantallaLogin extends JFrame {
 				connectRMI();
 				inicializarAplicacion();
 			} catch (MalformedURLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (RemoteException e) {
 				e.printStackTrace();
@@ -154,7 +159,6 @@ public class PantallaLogin extends JFrame {
 			} catch (OperationErrorDatosFormulario e) {
 					e.showDialogError();
 			} catch (OperationErrorLogin e) {
-				System.out.println("error...sup");
 				e.showDialogError();
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -162,11 +166,11 @@ public class PantallaLogin extends JFrame {
 		
 	}
 	
-	/**
-	 * Inicializar Aplicacion
-	 * @throws RemoteException 
-	 * @throws OperationErrorLogin 
-	 */
+	
+	/**************************************************************
+	 * Método para incializar la aplicacion**
+	 **************************************************************/
+	
 	public void inicializarAplicacion() throws Exception,RemoteException,MalformedURLException,NotBoundException,OperationErrorBD {
 		try{
 			authenticate(); 	
@@ -189,18 +193,15 @@ public class PantallaLogin extends JFrame {
 	}
 	
 	
-	/**
-	 * Comprobar Datos
-	 * @throws RemoteException 
-	 * @throws OperationErrorLogin OperationErrorRMI
-	 * @throws OperationErrorRMI 
-	 */
+	/**************************************************************
+	 * Método para autenticar el usuario**
+	 **************************************************************/
 	
 	public void authenticate() throws OperationErrorLogin, OperationErrorRMI  {
     	try {
 		
 			usuario = new Usuario();
-    		usuario.setCodigo(textoLogin.getText().toUpperCase());
+    		usuario.setCodigo(textoLogin.getText().toUpperCase().trim());
     		usuario.setContrasena(textoPwd.getText());
     		dtoUsuarioEncontrado = remote.loginUsuario(usuario);
 		} catch (RemoteException e) {
@@ -211,19 +212,16 @@ public class PantallaLogin extends JFrame {
     }
 	
 	
-	/**
-	 * Conexion RMI
-	 */
+	/**************************************************************
+	 * Método para conectar al servidor RMI**
+	 **************************************************************/
 	
 	private void connectRMI() throws RemoteException{
 		try {
 			gestorRMI = new GestorRMI("CLIENT");
 			remote = gestorRMI.lookup();
 			remote.testConexion();
-	    	System.out.println("conectar BBDD");
-	    	remote.conectarBBDD();
-	    	System.out.println("Conectado a BBDD!");
-			
+	    	remote.conectarBBDD();			
 		} catch (OperationErrorRMI e) {
 			e.showDialogError();
 		} catch (OperationErrorBD e) {
@@ -232,10 +230,9 @@ public class PantallaLogin extends JFrame {
 	}
 	
 	
-	/**
-	 * Método que valida los datos introducidos en el formulario
-	 * @throws OperationErrorDatosFormulario
-	 */
+	/**************************************************************
+	 * Método valida los campos del formulario**
+	 **************************************************************/
 	private void validaFormulario() throws OperationErrorDatosFormulario{
 		try{
 			if(Utils.valorisNull(textoLogin.getText())) throw new OperationErrorDatosFormulario(Utils.MESSAGE_ERROR + " Login " );
@@ -244,6 +241,11 @@ public class PantallaLogin extends JFrame {
 			ex.showDialogError();
 		}
 	}
+	
+	/**************************************************************
+	 * Getters y Setters*******************************************
+	 **************************************************************/
+	
 	
 	/**
 	 * @return the panelPrincipal
