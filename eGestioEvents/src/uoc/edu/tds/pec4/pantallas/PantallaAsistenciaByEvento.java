@@ -127,7 +127,7 @@ public class PantallaAsistenciaByEvento extends javax.swing.JDialog {
 	 * Mostramos el resultado obtenido
 	 */
 	private void muestraResultado(List<DTOInscripcion> lstDtoInscripcion) throws OperationErrorDatosFormulario{
-		try{
+		try{ 
 			dtm.getDataVector().removeAllElements();
 		     
 			Object[][] aobj = new Object[lstDtoInscripcion.size()][columnNames.length];
