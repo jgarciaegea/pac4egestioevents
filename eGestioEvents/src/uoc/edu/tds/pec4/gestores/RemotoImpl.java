@@ -715,7 +715,19 @@ public class RemotoImpl extends UnicastRemoteObject implements RemoteInterface{
 			
 	}
 	
+	public List<DTOEventoRequisitos>  getRequisitosEvento(DTOEvento dtoEvento) throws Exception{
+		try {
+			GestorEventoRequisitos gestorEventoRequisitos = new GestorEventoRequisitos(gestorDB.getConnection());
+			List<DTOEventoRequisitos> listDTOEventoREquisitos = gestorEventoRequisitos.consultaEntidadById(dtoEvento.getEvento().getIdEvento());
+			return (listDTOEventoREquisitos);
+		} catch (Exception e) {
+			gestorDB.rollback();
+			throw new OperationErrorBD("Error al recuperar los requisitos del evento....: " + e.getMessage());
+		}
+	}
 	
+	
+	// loggica de comprobacion de inscripcion
 	public boolean validarInscripcion(DTOEvento dtoEvento, DTOUsuario dtoUsuario,DTOInscripcion dtoInscripcion ) throws Exception{
 		
 		DTOEventoPlus dtoEventoPlus = getPlazasEvento(dtoEvento);
@@ -754,7 +766,6 @@ public class RemotoImpl extends UnicastRemoteObject implements RemoteInterface{
 											equals(dtoEventoREquisito.getDtoEventoReq().getEvento().getIdEvento())){
 										valido= true;
 									}
-										
 									
 								}
 
