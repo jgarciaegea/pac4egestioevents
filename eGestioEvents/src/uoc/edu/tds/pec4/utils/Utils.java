@@ -18,6 +18,7 @@ public class Utils {
 	public static final String MESSAGE_EMAIL = "El formato del campo mail es incorrecto ";
 	public static final String MESSAGE_NUMERIC = ". El formato ha de ser numérico";
 	public static final String MESSAGE_FECHA = ". El formato del campo ha de ser una fecha dd/mm/yyyy";
+	public static final String MESSAGE_NUMERIC_MAS0 = ". ha de ser mayor que 0";
 	
     /**
      * Muestra un mensaje de error al usuario
