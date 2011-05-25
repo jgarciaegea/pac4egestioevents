@@ -24,7 +24,7 @@ public class PantallaCambioPassword extends PanelComun implements Pantallas{
 	private DTOUsuario dtoUsuario;
 	
 	/**
-	 * 
+	 *  modificacion de la password de un usuario.
 	 */
 	public PantallaCambioPassword(RemoteInterface remote1,DTOUsuario dtoUsuario1)throws OperationErrorLogin {
 		super("clientePEC4.panelCambioPassword.titulo",400,210);
@@ -58,6 +58,10 @@ public class PantallaCambioPassword extends PanelComun implements Pantallas{
 		
 	}
 	
+	/**
+	 * metodo encargado de llamar al remote y modificar la pwd
+	 */
+	
 	public void acutalizaPassword() throws OperationErrorLogin, RemoteException, OperationErrorDatosFormulario{
 		validaFormulario();
 		
@@ -77,7 +81,7 @@ public class PantallaCambioPassword extends PanelComun implements Pantallas{
 	
 	
 	/**
-	 * Método que genera los Eventos
+	 * Método que genera los Eventos del panel
 	 * 
 	 */
 	
@@ -87,6 +91,7 @@ public class PantallaCambioPassword extends PanelComun implements Pantallas{
 			public void actionPerformed(ActionEvent e) {
 				try {
 					acutalizaPassword();
+					Utils.mostraMensajeInformacion("Registro Modificado Correctamente", "Cambio Password");
 				} catch (OperationErrorLogin e1) {
 					// TODO Auto-generated catch block
 					e1.showDialogError();
@@ -129,6 +134,10 @@ public class PantallaCambioPassword extends PanelComun implements Pantallas{
 		}
 			
 	}
+	
+	/**
+	 * limpiar PANEL
+	 */
 	
 	public void borrarPanel(){
 		this.setBorder(null);
