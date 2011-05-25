@@ -12,6 +12,7 @@ import java.rmi.RemoteException;
 import javax.swing.BorderFactory;
 
 
+import uoc.edu.tds.pec4.beans.Inscripcion;
 import uoc.edu.tds.pec4.dtos.DTOAsistente;
 import uoc.edu.tds.pec4.dtos.DTOEvento;
 import uoc.edu.tds.pec4.dtos.DTOInscripcion;
@@ -40,7 +41,7 @@ public class PantallaInscripcion extends PanelComun implements Pantallas{
 		super("clientePEC4.panelInscripcion.titulo",750,600);
 		System.out.println("creando Pantalla inscripcion......");
 		remote = remote1;
-		dtousuario = dtousuario;
+		dtousuario = dtousuario1;
 		dtoEvento = dtoEvento1;
 
 		if (dtousuario == null) throw new OperationErrorLogin("La session es invalida.....");
@@ -55,7 +56,8 @@ public class PantallaInscripcion extends PanelComun implements Pantallas{
 		this.crearJTextArea(30, 60, 600, 200, "informacionEventoInscripcion");
 		this.findJTextAreaString("informacionEventoInscripcion").setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		this.findJTextAreaString("informacionEventoInscripcion").setEditable(false);
-		
+		// TODO HAY QUE METER MAS DATOS EN LA INFOM DEL EVENTO
+		this.findJTextAreaString("informacionEventoInscripcion").setText(dtoEvento.getEvento().getDescripcion());
 		this.crearTitulo(20, 300, 140, 20, "clientePEC4.panelInscripcion.titulo1.nombreAsistente", "nombreAsistente");
 		this.crearTextField(160, 300, 250, 20,"cajaAsistente");
 		this.findTextField("cajaAsistente").setText(dtousuario.getUsuario().getNombre()+ ", " + dtousuario.getUsuario().getApellidos());
@@ -64,7 +66,7 @@ public class PantallaInscripcion extends PanelComun implements Pantallas{
 		
 		this.crearTitulo(20, 330, 140, 20, "clientePEC4.panelInscripcion.titulo1.nombreDatosBancarios", "nombreDatosBancarios");
 		this.crearTextField(160, 330, 250, 20,"cajaDatosBancarios");
-		this.findTextField("cajaDatosBancarios").setText("PENDIENTE DE RELLENAR CON DATOS BANCARIOS");
+		this.findTextField("cajaDatosBancarios").setText("PENDIENTE DE RELLENAR");
 		this.findTextField("cajaDatosBancarios").setEditable(false);
 		
 		this.crearBoton(20, 360, 100, 30,"clientePEC4.panelInscripcion.boton1.botonConfirmar","botonConfirmar");
@@ -90,6 +92,23 @@ public class PantallaInscripcion extends PanelComun implements Pantallas{
 		DTOInscripcion dtoInscripcion = new DTOInscripcion();
 		dtoInscripcion.setDtoEvento(dtoEvento);
 		dtoInscripcion.setDtoAsistente((DTOAsistente) dtousuario);
+		Inscripcion ins = new Inscripcion();
+		ins.setCodigo(dtousuario.getUsuario().getCodigo());
+		ins.setEstado(1);
+		ins.setIdEvento(dtoEvento.getEvento().getIdEvento());
+		ins.setMotivoEstado("ALTA INSCRIPCION");
+		//ins.setFechaInscripcion(fechaInscripcion);
+		//ins.setFechaEstado(fechaEstado);
+		dtoInscripcion.setInscripcion(ins);
+		try {
+			remote.insertaInscripcion(dtoInscripcion);
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (OperationErrorBD e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	
@@ -102,6 +121,7 @@ public class PantallaInscripcion extends PanelComun implements Pantallas{
 		
 		this.findBoton("botonConfirmar").addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				crearInscripcion();
 				System.out.println("EVENTO PARA CONFIRMAR LA INSCRIPCION.....");
 			}
 		});
