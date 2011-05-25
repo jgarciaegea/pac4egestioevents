@@ -250,7 +250,7 @@ public class PantallaPrincipal extends JFrame {
     cambioPwd.addActionListener(new ActionListener() { 
     	public void actionPerformed(ActionEvent evt) { 
     		try {
-				showPanel(new PantallaCambioPassword(gestorRMI,remote,dtoUsuario));
+				showPanel(new PantallaCambioPassword(remote,dtoUsuario));
 			} catch (OperationErrorLogin e) {
 				e.showDialogError();
 				e.printStackTrace();
@@ -260,29 +260,22 @@ public class PantallaPrincipal extends JFrame {
 
     inscripcionEvento.addActionListener(new ActionListener() { 
     	public void actionPerformed(ActionEvent evt) { 
-    		try {
-				showPanel(new PantallaBuscarEventoInscripcion(remote,dtoUsuario));
-			} catch (RemoteException e) {
-				e.printStackTrace();
-			} catch (OperationErrorBD e) {
-				e.showDialogError();
-				e.printStackTrace();
-			} catch (OperationErrorLogin e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} 
+    		showPanel(new PantallaCalendarioEventos(remote, dtoUsuario)); 
     	} }); 	
     
 
     historicoEventos.addActionListener(new ActionListener() { 
     	public void actionPerformed(ActionEvent evt) { 
     		try {
-				showPanel(new PantallaInformeEventosAsistente(gestorRMI,remote,dtoUsuario));
+				showPanel(new PantallaInformeEventosAsistente(remote,dtoUsuario));
 			} catch (RemoteException e) {
 				e.printStackTrace();
 			} catch (OperationErrorBD e) {
 				e.showDialogError();
 				e.printStackTrace();
+			} catch (OperationErrorLogin e) {
+				e.printStackTrace();
+				e.showDialogError();
 			} 
     	} }); 	        
     
