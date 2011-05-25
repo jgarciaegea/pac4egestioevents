@@ -34,6 +34,7 @@ import uoc.edu.tds.pec4.dtos.DTOCentroDocente;
 import uoc.edu.tds.pec4.dtos.DTOEvento;
 import uoc.edu.tds.pec4.dtos.DTOEventoCalendario;
 import uoc.edu.tds.pec4.dtos.DTOUniversidad;
+import uoc.edu.tds.pec4.dtos.DTOUsuario;
 import uoc.edu.tds.pec4.excepciones.OperationErrorBD;
 import uoc.edu.tds.pec4.excepciones.OperationErrorDatosFormulario;
 import uoc.edu.tds.pec4.iface.RemoteInterface;
@@ -88,12 +89,12 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 	private JButton jButtonViewAsistenciaAusencia;
 
 	private RemoteInterface remote;
-	private Usuario usuario;
+	private DTOUsuario dtoUsuario;
 
-	public PantallaCalendarioEventos(RemoteInterface remote1, Usuario usuario1) {
+	public PantallaCalendarioEventos(RemoteInterface remote1, DTOUsuario dtoUsuario1) {
 		super();
 		this.remote = remote1;
-		this.usuario = usuario1;
+		this.dtoUsuario = dtoUsuario1;
 		try {
 			remote.testConexion();
 		} catch (RemoteException e) {
@@ -150,7 +151,7 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 		this.removeAll();
 		this.setAlignmentX(LEFT_ALIGNMENT);
 		this.setAlignmentY(TOP_ALIGNMENT);
-		this.add((Component)new PantallaEvento(remote, usuario, dtoEvento));
+		this.add((Component)new PantallaEvento(remote, dtoUsuario, dtoEvento));
 		this.repaint();
 		this.revalidate();
 		this.updateUI();

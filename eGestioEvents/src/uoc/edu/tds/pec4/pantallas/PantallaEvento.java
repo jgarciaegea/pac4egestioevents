@@ -29,6 +29,7 @@ import uoc.edu.tds.pec4.beans.Usuario;
 import uoc.edu.tds.pec4.dtos.DTOCentroDocente;
 import uoc.edu.tds.pec4.dtos.DTOEvento;
 import uoc.edu.tds.pec4.dtos.DTOTipoEvento;
+import uoc.edu.tds.pec4.dtos.DTOUsuario;
 import uoc.edu.tds.pec4.excepciones.OperationErrorBD;
 import uoc.edu.tds.pec4.excepciones.OperationErrorDatosFormulario;
 import uoc.edu.tds.pec4.excepciones.OperationErrorRMI;
@@ -102,17 +103,17 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 	private JButton JButtonClear;
 
 	private RemoteInterface remote;
-	private Usuario usuario;
+	private DTOUsuario dtoUsuario;
 	private DTOEvento dtoEventoAModficar;
 	private DTOCentroDocente dtoCentroDocente;
 	private Boolean bEventoModificacion = false;
 
 	// TODO 1: Revisar	
 
-	public PantallaEvento(RemoteInterface remote1, Usuario usuarioLogin, DTOEvento eventoAModificar){
+	public PantallaEvento(RemoteInterface remote1, DTOUsuario dtoUsuarioLogin, DTOEvento eventoAModificar){
 		super();
 		this.remote = remote1;
-		this.usuario = usuarioLogin;
+		this.dtoUsuario = dtoUsuarioLogin;
 		initGUI();
 		if (eventoAModificar != null){ 
 			this.dtoEventoAModficar = eventoAModificar;
@@ -138,8 +139,8 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 		}
 	}
 	
-	public PantallaEvento(RemoteInterface remote1, Usuario usuarioLogin){
-		this(remote1, usuarioLogin, null);
+	public PantallaEvento(RemoteInterface remote1, DTOUsuario dtoUsuarioLogin){
+		this(remote1, dtoUsuarioLogin, null);
 	}
 
 	private void initGUI() {
@@ -171,11 +172,12 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 	 */
 	private void cargaCentroUsuario(){
 		dtoCentroDocente = new DTOCentroDocente();
-		CentroDocente cd = new CentroDocente();
+/*		CentroDocente cd = new CentroDocente();
 		cd.setIdCentro(1);
 		cd.setNombre("Sabadell");
+		dtoCentroDocente.setCentroDocente(cd);
 		cargaDatosCentroDocenteEnPantalla(dtoCentroDocente);
-		/*
+
 		DTOPersonalSecretaria dtoUsuario = new DTOPersonalSecretaria();
 		dtoUsuario.setUsuario(usuario);
 		try {
@@ -190,25 +192,10 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 		dtoCentroDocente = dtoUsuario.getDtoCentroDocente();
 		cargaDatosCentroDocenteEnPantalla(dtoCentroDocente);
 		*/
-		/*
-		try {
-			dtoCentroDocente = remote.getCentoDocentebyId(usuario.getIdCentro());
-			
-			cargaDatosCentroDocenteEnPantalla(dtoCentroDocente);
-			}	
-		} catch (RemoteException e) {
-			try {
-				throw new OperationErrorRMI(e.getMessage());
-			} catch (OperationErrorRMI e1) {
-				e1.showDialogError();
-			}
-		} catch (OperationErrorBD e) {
-			try {
-				throw new OperationErrorBD(e.getMessage());
-			} catch (OperationErrorBD e1) {
-				e1.showDialogError();
-			}
-		}*/
+
+		dtoCentroDocente = dtoUsuario.getDtoCentroDocente(); //dtoUsuarioLoginremote.getCentoDocentebyId(usuario.getIdCentro());
+		
+		cargaDatosCentroDocenteEnPantalla(dtoCentroDocente);
 	}
 		
 	/**
@@ -403,7 +390,7 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 		}
 		else {
 			// El Centro docente si es alta ha de ser el del usuario
-			evento.setIdCentro(usuario.getIdCentro());
+			evento.setIdCentro(dtoUsuario.getUsuario().getIdCentro());
 		}
 		
 		// TODO 1: Requisitos
@@ -615,7 +602,16 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 			jButtonRequisitos.setText("Requisitos");
 			jButtonRequisitos.setBounds(443, 199, 120, 25);
 			jButtonRequisitos.setFont(new java.awt.Font("Arial",0,10));
-			// TODO 1: Gestion de los requisitos.
+			jButtonRequisitos.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					try {
+						PantallaEventoRequisitos v1 = new PantallaEventoRequisitos(null, remote, dtoEventoAModficar);
+					       v1.setVisible(true);
+					}finally{
+						//jButtonClearActionPerformed();
+					}
+				}
+			});
 		}
 		return jButtonRequisitos;
 	}
@@ -627,6 +623,23 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 			jButtonRolPlazas.setText("Rol/Plazas");
 			jButtonRolPlazas.setBounds(584, 199, 120, 25);
 			jButtonRolPlazas.setFont(new java.awt.Font("Arial",0,10));
+			jButtonRolPlazas.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+						/*
+						try {
+							
+							DTOEvento dtoEvento = getSelectedEvento();
+					        //this.setVisible(false);
+							PantallaAsistenciaByEvento v4 = new PantallaEventoRolPlazas(null, remote, dtoEvento);
+					        v4.setVisible(true);
+							
+						} catch (OperationErrorDatosFormulario e1) {
+							e1.showDialogError();
+						}finally{
+							//jButtonClearActionPerformed();
+						}*/
+				}
+			});
 		}
 		return jButtonRolPlazas;
 	}
