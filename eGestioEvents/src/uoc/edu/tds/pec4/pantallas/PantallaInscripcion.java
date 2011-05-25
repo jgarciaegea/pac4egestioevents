@@ -8,10 +8,7 @@ import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.rmi.RemoteException;
-
 import javax.swing.BorderFactory;
-
-
 
 import uoc.edu.tds.pec4.beans.Inscripcion;
 import uoc.edu.tds.pec4.dtos.DTOAsistente;
@@ -47,8 +44,7 @@ public class PantallaInscripcion extends PanelComun implements Pantallas{
 		remote = remote1;
 		dtousuario = dtousuario1;
 		dtoEvento = dtoEvento1;
-		cargarEvento();
-		
+		cargarEvento();		
 		if (dtousuario == null) throw new OperationErrorLogin("La session es invalida.....");
 		try {
 			remote.testConexion();
@@ -147,7 +143,8 @@ public class PantallaInscripcion extends PanelComun implements Pantallas{
 		dtoInscripcion.setDtoAsistente((DTOAsistente) dtousuario);
 		Inscripcion ins = new Inscripcion();
 		ins.setCodigo(dtousuario.getUsuario().getCodigo());
-		ins.setEstado(1);
+		ins.setCheckIn(false);
+		ins.setEstado(Constantes.REGISTRO_ACTIVO);
 		ins.setIdEvento(dtoEvento.getEvento().getIdEvento());
 		ins.setMotivoEstado("ALTA INSCRIPCION");
 		//ins.setFechaInscripcion(fechaInscripcion);
