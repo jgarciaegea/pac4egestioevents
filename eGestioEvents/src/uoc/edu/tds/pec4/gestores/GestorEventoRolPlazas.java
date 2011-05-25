@@ -11,8 +11,10 @@ package uoc.edu.tds.pec4.gestores;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
+
 import uoc.edu.tds.pec4.beans.EventoRolPlazas;
 import uoc.edu.tds.pec4.daos.DaoEventoRolPlazas;
+import uoc.edu.tds.pec4.dtos.DTOEvento;
 import uoc.edu.tds.pec4.dtos.DTOEventoRolPlazas;
 
 public class GestorEventoRolPlazas extends GestorEntidad<DTOEventoRolPlazas>{
@@ -103,6 +105,17 @@ public class GestorEventoRolPlazas extends GestorEntidad<DTOEventoRolPlazas>{
 		try {
 			DaoEventoRolPlazas dao = new DaoEventoRolPlazas(connection);
 			dao.delete(criteris.getEventoRolPlazas());
+		} catch (Exception e) {
+			throw e;
+		}
+	}
+	
+	public void eliminaEntidadById(DTOEvento dtoEvento) throws Exception {
+		try {
+			DaoEventoRolPlazas dao = new DaoEventoRolPlazas(connection);
+			EventoRolPlazas eventoRolPlazas = new EventoRolPlazas();
+			eventoRolPlazas.setIdEvento(dtoEvento.getEvento().getIdEvento());
+			dao.delete(eventoRolPlazas);
 		} catch (Exception e) {
 			throw e;
 		}

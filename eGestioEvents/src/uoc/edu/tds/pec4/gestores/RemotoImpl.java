@@ -6,6 +6,7 @@ import java.util.List;
 
 import uoc.edu.tds.pec4.beans.CentroDocente;
 import uoc.edu.tds.pec4.beans.EventoRequisitos;
+import uoc.edu.tds.pec4.beans.EventoRolPlazas;
 import uoc.edu.tds.pec4.beans.Pais;
 import uoc.edu.tds.pec4.beans.TipoDocumento;
 import uoc.edu.tds.pec4.beans.TipoEvento;
@@ -18,6 +19,7 @@ import uoc.edu.tds.pec4.dtos.DTOCentroDocenteConsulta;
 import uoc.edu.tds.pec4.dtos.DTOEvento;
 import uoc.edu.tds.pec4.dtos.DTOEventoCalendario;
 import uoc.edu.tds.pec4.dtos.DTOEventoRequisitos;
+import uoc.edu.tds.pec4.dtos.DTOEventoRolPlazas;
 import uoc.edu.tds.pec4.dtos.DTOInscripcion;
 import uoc.edu.tds.pec4.dtos.DTOInscripcionConsulta;
 import uoc.edu.tds.pec4.dtos.DTOPais;
@@ -430,9 +432,6 @@ public class RemotoImpl extends UnicastRemoteObject implements RemoteInterface{
 			
 			gestorDB.getConnection().setAutoCommit(false);
 			
-			
-			// TODO 2: Insertamos en rol/plazas
-			
 			//Insertamos el evento
 			GestorEvento gestorEvento = new GestorEvento(gestorDB.getConnection());
 			Integer idEvento = gestorEvento.insertaEntidadRetId(dtoEvento);
@@ -452,7 +451,22 @@ public class RemotoImpl extends UnicastRemoteObject implements RemoteInterface{
 					gestorEventoRequisitos.insertaEntidad(dtoEventoRequisitos);
 				}
 			}
-			
+			// Insertamos en rol/plazas
+			GestorEventoRolPlazas gestorEventoRolPlazas = new GestorEventoRolPlazas(gestorDB.getConnection());
+			List<DTOEventoRolPlazas> lstDtoEventoRolPlazas = dtoEvento.getDtoEventoRolPlazas();
+			if(lstDtoEventoRolPlazas != null && lstDtoEventoRolPlazas.size() > 0){
+				for(DTOEventoRolPlazas dtoEventoRP : lstDtoEventoRolPlazas){
+					DTOEventoRolPlazas dtoEventoRolPlazas = new DTOEventoRolPlazas();
+					EventoRolPlazas eventoRolPlazas = new EventoRolPlazas();
+					
+					eventoRolPlazas.setIdEvento(idEvento);
+					eventoRolPlazas.setIdRol(dtoEventoRP.getDtoTipoRol().getTipoRol().getIdRol());
+					eventoRolPlazas.setPlazas(dtoEventoRP.getEventoRolPlazas().getPlazas());
+					dtoEventoRolPlazas.setEventoRolPlazas(eventoRolPlazas);
+					
+					gestorEventoRolPlazas.insertaEntidad(dtoEventoRolPlazas);
+				}
+			}
 			gestorDB.getConnection().commit();			
 			System.out.println("Evento insertado correctamente: ");
 		} catch (Exception e) {
@@ -471,19 +485,13 @@ public class RemotoImpl extends UnicastRemoteObject implements RemoteInterface{
 		try{
 			
 			gestorDB.getConnection().setAutoCommit(false);
-			
-			
-			// TODO 2: Modificamos en rol/plazas
-			//GestorEventoRolPlazas gestorEventoRolPlazas = new GestorEventoRolPlazas(gestorDB.getConnection());
-			//update
-			
+
 			//Modificamos el evento
 			GestorEvento gestorEvento = new GestorEvento(gestorDB.getConnection());
 			gestorEvento.modificaEntidad(dtoEvento);
 			
-			// TODO 1: Modificamos en requisitos
-			GestorEventoRequisitos gestorEventoRequisitos = new GestorEventoRequisitos(gestorDB.getConnection());
 			// Insertamos en requisitos
+			GestorEventoRequisitos gestorEventoRequisitos = new GestorEventoRequisitos(gestorDB.getConnection());
 			List<DTOEventoRequisitos> lstDtoEventoReq = dtoEvento.getDtoEventoRequisitos();
 			if(lstDtoEventoReq != null && lstDtoEventoReq.size() > 0){
 				for(DTOEventoRequisitos dtoEventoReq : lstDtoEventoReq){
@@ -498,6 +506,22 @@ public class RemotoImpl extends UnicastRemoteObject implements RemoteInterface{
 				}
 			}
 			
+			// Insertamos en rol/plazas
+			GestorEventoRolPlazas gestorEventoRolPlazas = new GestorEventoRolPlazas(gestorDB.getConnection());
+			List<DTOEventoRolPlazas> lstDtoEventoRolPlazas = dtoEvento.getDtoEventoRolPlazas();
+			if(lstDtoEventoRolPlazas != null && lstDtoEventoRolPlazas.size() > 0){
+				for(DTOEventoRolPlazas dtoEventoRP : lstDtoEventoRolPlazas){
+					DTOEventoRolPlazas dtoEventoRolPlazas = new DTOEventoRolPlazas();
+					EventoRolPlazas eventoRolPlazas = new EventoRolPlazas();
+					
+					eventoRolPlazas.setIdEvento(dtoEvento.getEvento().getIdEvento());
+					eventoRolPlazas.setIdRol(dtoEventoRP.getDtoTipoRol().getTipoRol().getIdRol());
+					eventoRolPlazas.setPlazas(dtoEventoRP.getEventoRolPlazas().getPlazas());
+					dtoEventoRolPlazas.setEventoRolPlazas(eventoRolPlazas);
+					
+					gestorEventoRolPlazas.insertaEntidad(dtoEventoRolPlazas);
+				}
+			}			
 			gestorDB.getConnection().commit();
 		}catch(Exception e){
 			gestorDB.rollback();

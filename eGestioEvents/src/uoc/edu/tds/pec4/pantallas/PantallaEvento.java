@@ -245,15 +245,11 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 				 * CARGAMOS LOS REQUISITOS
 				 *****************************************/
 				muestraRequisitos(dtoEventoAModficar.getDtoEventoRequisitos());
-				
-				
 				/*****************************************
 				 * CARGAMOS LOS ROL  /PLAZAS
 				 ****************************************/
-				
-
+				muestraRolPlazas(dtoEventoAModficar.getDtoEventoRolPlazas());
 			}
-			
 		} catch (RemoteException e) {
 			try {
 				throw new OperationErrorRMI(e.getMessage());
