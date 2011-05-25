@@ -29,7 +29,7 @@ import javax.swing.table.DefaultTableModel;
 
 import uoc.edu.tds.pec4.beans.Evento;
 import uoc.edu.tds.pec4.beans.EventoCalendario;
-import uoc.edu.tds.pec4.beans.Usuario;
+import uoc.edu.tds.pec4.dtos.DTOAsistente;
 import uoc.edu.tds.pec4.dtos.DTOCentroDocente;
 import uoc.edu.tds.pec4.dtos.DTOEvento;
 import uoc.edu.tds.pec4.dtos.DTOEventoCalendario;
@@ -81,7 +81,7 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 	private JPanel jPanelDatos;
 	private JScrollPane jScrollPane1;
 	private DefaultTableModel dtm;
-	private String[] columnNames = {"idEvento", "Fecha", "Evento", "Universidad", "Centro docente", "Duraci—n", "Cancelado", "Celebrado"};
+	private String[] columnNames = {"idEvento", "Fecha", "Evento", "Universidad", "Centro docente", "Duracion", "Cancelado", "Celebrado"};
 	private JTable jTableDatos;
 	private JButton jButtonNew;
 	private JButton jButtonUpdate;
@@ -115,6 +115,7 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 
 			//Rellenamos inforamci—n de los filtros
 			cargaCombos();
+			gestionarPermisos();
 		} catch (Exception e) {
 			try{
 				throw new OperationErrorDatosFormulario(e.getMessage());
@@ -746,6 +747,17 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 			});
 		}
 		return jButtonInscripcion;
+	}
+	
+	
+	public void gestionarPermisos(){
+		if (dtoUsuario  instanceof DTOAsistente){
+			jButtonNew.setVisible(false);
+			jButtonUpdate.setVisible(false);
+			jButtonDelete.setVisible(false);
+			jButtonViewInscripciones.setVisible(false);
+			jButtonViewAsistenciaAusencia.setVisible(false);
+		}
 	}
 	
 	
