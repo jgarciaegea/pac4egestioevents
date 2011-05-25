@@ -247,7 +247,7 @@ public class PantallaPrincipal extends JFrame {
     cambioPwd.addActionListener(new ActionListener() { 
     	public void actionPerformed(ActionEvent evt) { 
     		try {
-				showPanel(new PantallaCambioPassword(remote,dtoUsuario));
+				showPanel(new PantallaCambioPassword(gestorRMI,remote,dtoUsuario));
 			} catch (OperationErrorLogin e) {
 				e.showDialogError();
 				e.printStackTrace();
@@ -270,9 +270,6 @@ public class PantallaPrincipal extends JFrame {
 			} catch (OperationErrorBD e) {
 				e.showDialogError();
 				e.printStackTrace();
-			} catch (OperationErrorLogin e) {
-				e.printStackTrace();
-				e.showDialogError();
 			} 
     	} }); 	        
     
