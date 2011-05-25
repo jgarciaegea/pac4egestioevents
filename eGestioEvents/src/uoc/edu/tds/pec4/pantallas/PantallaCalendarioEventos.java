@@ -37,6 +37,7 @@ import uoc.edu.tds.pec4.dtos.DTOUniversidad;
 import uoc.edu.tds.pec4.dtos.DTOUsuario;
 import uoc.edu.tds.pec4.excepciones.OperationErrorBD;
 import uoc.edu.tds.pec4.excepciones.OperationErrorDatosFormulario;
+import uoc.edu.tds.pec4.excepciones.OperationErrorLogin;
 import uoc.edu.tds.pec4.iface.RemoteInterface;
 import uoc.edu.tds.pec4.utils.ClearForm;
 import uoc.edu.tds.pec4.utils.Constantes;
@@ -728,7 +729,7 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 							//DTOEvento dtoEvento = getSelectedEvento();
 							//remote.bajaEvento(dtoEvento);
 							getEventosCalendario();
-							Utils.mostraMensajeInformacion(jPanelDatos, "Evento dado de baja correctamente", "Calendario Eventos");
+							//Utils.mostraMensajeInformacion(jPanelDatos, "Evento dado de baja correctamente", "Calendario Eventos");
 						} catch (Exception e1) {
 							try {
 								throw new OperationErrorDatosFormulario(e1.getMessage());
@@ -745,5 +746,19 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 		}
 		return jButtonInscripcion;
 	}
+	
+	
+	public void goPantallaInscripcion( DTOEvento dtoEvento) throws OperationErrorLogin, RemoteException, OperationErrorBD{
+		System.out.println("Repintando Pantalla inscripcion");
+		this.setBorder(null);
+		this.removeAll();
+		this.setAlignmentX(LEFT_ALIGNMENT);
+		this.setAlignmentY(TOP_ALIGNMENT);
+		this.add((Component)new PantallaInscripcion(remote,dtoUsuario,dtoEvento));
+		this.repaint();
+		this.revalidate();
+		this.updateUI();
+	}
+	
 
 }
