@@ -623,6 +623,8 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 	private JButton getJButtonDelete() {
 		if(jButtonDelete == null) {
 			jButtonDelete = new JButton();
+			ImageIcon icon = new ImageIcon("imagen/dcib022t.gif");
+			jButtonDelete.setIcon(icon);
 			jButtonDelete.setLayout(null);
 			jButtonDelete.setText("Cancelar Evento");
 			jButtonDelete.setBounds(229, 256, 112, 25);

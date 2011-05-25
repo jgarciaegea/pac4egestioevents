@@ -108,8 +108,6 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 	private DTOCentroDocente dtoCentroDocente;
 	private Boolean bEventoModificacion = false;
 
-	// TODO 1: Revisar	
-
 	public PantallaEvento(RemoteInterface remote1, DTOUsuario dtoUsuarioLogin, DTOEvento eventoAModificar){
 		super();
 		this.remote = remote1;
@@ -227,7 +225,7 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 						e.printStackTrace();
 					}
 				}
-				// TODO 1: Realmente todos son obligatorios por lo que no hay que mirar si son null.
+				
 				if (dtoEventoAModficar.getEvento().getUmbral() != null) jTextFieldUmbral.setText(dtoEventoAModficar.getEvento().getUmbral().toString());
 				if (dtoEventoAModficar.getEvento().getPrecio() != null) jTextFieldPrecio.setText(dtoEventoAModficar.getEvento().getPrecio().toString());
 				if (dtoEventoAModficar.getEvento().getPlazas() != null) jTextFieldPlazas.setText(dtoEventoAModficar.getEvento().getPlazas().toString());
@@ -913,8 +911,10 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 	private JButton getJButtonAlta() {
 		if(jButtonAlta == null) {
 			jButtonAlta = new JButton();
+			ImageIcon icon = new ImageIcon("imagen/dcib023t.gif");
+			jButtonAlta.setIcon(icon);
 			jButtonAlta.setLayout(null);
-			jButtonAlta.setText("Alta");
+			jButtonAlta.setText("Grabar");
 			jButtonAlta.setBounds(275, 359, 90, 25);
 			jButtonAlta.setFont(new java.awt.Font("Arial",0,10));
 			jButtonAlta.addActionListener(new ActionListener() {
@@ -949,11 +949,18 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 	private JButton getJButtonCancelar() {
 		if(jButtonCancelar == null) {
 			jButtonCancelar = new JButton();
+			ImageIcon icon = new ImageIcon("imagen/dcib022t.gif");
+			jButtonCancelar.setIcon(icon);
 			jButtonCancelar.setLayout(null);
 			jButtonCancelar.setText("Cancelar");
 			jButtonCancelar.setBounds(369, 359, 90, 25);
 			jButtonCancelar.setFont(new java.awt.Font("Arial",0,10));
-			//TODO 1: Comprobar que nos podamos inscribir y llamar a la pantalla de isncripci—n (alta)
+			jButtonCancelar.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					setVisible(false);
+					removeAll();
+				}
+	    	});
 		}
 		return jButtonCancelar;
 	}
