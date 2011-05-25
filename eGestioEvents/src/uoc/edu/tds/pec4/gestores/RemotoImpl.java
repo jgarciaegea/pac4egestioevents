@@ -629,5 +629,26 @@ public class RemotoImpl extends UnicastRemoteObject implements RemoteInterface{
 			throw new OperationErrorBD("Error al recuperar la informaci—n de los eventos......");
 		}
 	}
+	
+	public void insertaInscripcion(DTOInscripcion dtoinscripcion) throws RemoteException, OperationErrorBD {
+		try {
+			
+			gestorDB.getConnection().setAutoCommit(false);
+			
+
+			//Insertamos el usuario
+			GestorInscripcion gestorInscripcion = new GestorInscripcion(gestorDB.getConnection());
+			gestorInscripcion.insertaEntidad(dtoinscripcion);
+			System.out.println("Inscripcion insertada correctamente: ");			
+			gestorDB.getConnection().commit();
+			
+		} catch (Exception e) {
+			gestorDB.rollback();
+			throw new OperationErrorBD("Error al insertar la Inscripcion....: " + e.getMessage());
+		}
+		
+	}
+	
+	
 		
 }
