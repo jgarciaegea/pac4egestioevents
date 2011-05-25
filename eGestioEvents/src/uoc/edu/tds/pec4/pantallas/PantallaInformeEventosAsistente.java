@@ -14,10 +14,12 @@ import uoc.edu.tds.pec4.beans.Inscripcion;
 import uoc.edu.tds.pec4.beans.Usuario;
 import uoc.edu.tds.pec4.dtos.DTOEvento;
 import uoc.edu.tds.pec4.dtos.DTOInscripcion;
+import uoc.edu.tds.pec4.dtos.DTOUsuario;
 //import uoc.edu.tds.pec4.dtos.DTOInscripcionConsulta;
 import uoc.edu.tds.pec4.dtos.DTOTipoEvento;
 import uoc.edu.tds.pec4.excepciones.OperationErrorBD;
 import uoc.edu.tds.pec4.excepciones.OperationErrorDatosFormulario;
+import uoc.edu.tds.pec4.excepciones.OperationErrorLogin;
 import uoc.edu.tds.pec4.iface.RemoteInterface;
 import uoc.edu.tds.pec4.resources.TDSLanguageUtils;
 import uoc.edu.tds.pec4.utils.MostrarCombo;
@@ -32,22 +34,24 @@ public class PantallaInformeEventosAsistente extends PanelComun implements Panta
 	private static final long serialVersionUID = 1L; 
 	private RemoteInterface remote;
 	private String[] columnNames = {"Universidad ","Centro ","Evento", "Tipo Evento", "Fecha inicio", "Fecha fin", "Cerrado" , "Estado "};
-	private Usuario usuario;
+	private DTOUsuario dtoUsuario;
 
 	/**
 	 * @throws OperationErrorBD 
 	 * @throws RemoteException 
+	 * @throws OperationErrorLogin 
 	 * 
 	 */
-	public PantallaInformeEventosAsistente(RemoteInterface remote1,Usuario usu) throws RemoteException, OperationErrorBD {
+	public PantallaInformeEventosAsistente(RemoteInterface remote1,DTOUsuario dtoUsuario) throws RemoteException, OperationErrorBD, OperationErrorLogin {
 		
 		super("clientePEC4.panelInformeEventosAsistencia.titulo",800,520);
 		remote = remote1;
-		usuario = usu;
+		this.dtoUsuario = dtoUsuario;
+		if (dtoUsuario == null) throw new OperationErrorLogin("La session es invalida.....");
 		
 		this.crearTitulo(20, 30, 140, 20, "clientePEC4.panelInformeEventosAsistencia.titulo1.Asistente", "tAsistente");
 		this.crearTextField(100, 30, 200, 20,"cajaAsistente");
-		this.findTextField("cajaAsistente").setText(usuario.getApellidos() + ", "+ usuario.getNombre());
+		this.findTextField("cajaAsistente").setText(dtoUsuario.getUsuario().getApellidos() + ", "+ dtoUsuario.getUsuario().getNombre());
 		this.findTextField("cajaAsistente").setEditable(false);
 		this.crearTitulo(20, 60, 140, 20, "clientePEC4.panelInformeEventosAsistencia.titulo1.TipoEvento", "tTipoEvento");
 		this.crearCombo(100, 60, 200, 20, "comboTipoEvento", recuperarTiposEvento());
@@ -142,7 +146,7 @@ public class PantallaInformeEventosAsistente extends PanelComun implements Panta
 		
 		DTOInscripcion dtoinscrp = new DTOInscripcion();
 		Inscripcion inscripcion = new Inscripcion();
-		inscripcion.setCodigo(usuario.getCodigo());
+		inscripcion.setCodigo(dtoUsuario.getUsuario().getCodigo());
 		
 		DTOEvento dtoevento = new DTOEvento();
 		Evento evento = new Evento();
