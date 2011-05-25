@@ -147,10 +147,15 @@ public interface RemoteInterface extends Remote{
 	 * @throws RemoteException
 	 * @throws OperationErrorLogin
 	 */
-	public abstract Usuario loginUsuario(Usuario userLogin) throws RemoteException,OperationErrorLogin;
+	public abstract DTOUsuario loginUsuario(Usuario userLogin) throws RemoteException,OperationErrorLogin;
 	
-	
-	public abstract void updatePassword(Usuario user) throws RemoteException,OperationErrorLogin;
+	/**
+	 * Actualiza el password del usuario
+	 * @param user
+	 * @throws RemoteException
+	 * @throws OperationErrorLogin
+	 */
+	public abstract void updatePassword(DTOUsuario user) throws RemoteException,OperationErrorLogin;
 	
 	
 	/*
