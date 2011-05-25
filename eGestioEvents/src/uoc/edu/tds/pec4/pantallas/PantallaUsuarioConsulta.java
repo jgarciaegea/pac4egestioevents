@@ -46,7 +46,6 @@ import uoc.edu.tds.pec4.dtos.DTOUsuarioConsulta;
 import uoc.edu.tds.pec4.excepciones.OperationErrorBD;
 import uoc.edu.tds.pec4.excepciones.OperationErrorDatosFormulario;
 import uoc.edu.tds.pec4.gestores.FactoriaUsuario;
-import uoc.edu.tds.pec4.gestores.GestorRMI;
 import uoc.edu.tds.pec4.iface.RemoteInterface;
 import uoc.edu.tds.pec4.resources.TDSLanguageUtils;
 import uoc.edu.tds.pec4.utils.ClearForm;
@@ -109,12 +108,10 @@ public class PantallaUsuarioConsulta extends javax.swing.JPanel implements Panta
 	private JLabel jLabelDesde;
 	private JTextField jTextFieldFechaIni;
 	private JLabel jLabelFechaAlta;
-	private GestorRMI gestorRMI;
 	
-	public PantallaUsuarioConsulta(GestorRMI gestorRMI,RemoteInterface remote1) {
+	public PantallaUsuarioConsulta(RemoteInterface remote1) {
 		super();
 		this.remote = remote1;
-		this.gestorRMI = gestorRMI;
 		try {
 			remote.testConexion();
 		} catch (RemoteException e) {
@@ -127,7 +124,7 @@ public class PantallaUsuarioConsulta extends javax.swing.JPanel implements Panta
 	private void initGUI() {
 		try {
 			this.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder(null, "Consulta de usuarios", 0, 0, new Font("Dialog", 1, 12), new Color(51, 51, 51)), null), null));
-			this.setPreferredSize(new java.awt.Dimension(784, 600));
+			this.setPreferredSize(new java.awt.Dimension(784, 650));
 			{
 				jPanel2 = new JPanel();
 				this.add(jPanel2);
@@ -424,7 +421,7 @@ public class PantallaUsuarioConsulta extends javax.swing.JPanel implements Panta
 		this.removeAll();
 		this.setAlignmentX(LEFT_ALIGNMENT);
 		this.setAlignmentY(TOP_ALIGNMENT);
-		this.add((Component)new PantallaUsuario(gestorRMI, remote, dtoUsuario));
+		this.add((Component)new PantallaUsuario(remote, dtoUsuario));
 		this.repaint();
 		this.revalidate();
 		this.updateUI();
@@ -456,10 +453,10 @@ public class PantallaUsuarioConsulta extends javax.swing.JPanel implements Panta
 			if(lstDtoUsuario == null || lstDtoUsuario.isEmpty()){
 				actualizaTabla();
 				Utils.mostraMensajeInformacion(jPanel2,TDSLanguageUtils.getMessage("clientePEC4.consultausuario.INFO.MSG3"),TDSLanguageUtils.getMessage("clientePEC4.consultausuario.title"));
-				return;
+			}else{
+				muestraResultado(lstDtoUsuario);
+				actualizaTabla();
 			}
-			muestraResultado(lstDtoUsuario);
-			actualizaTabla();
 		}catch(Exception e){
 			throw new OperationErrorDatosFormulario(TDSLanguageUtils.getMessage("clientePEC4.error13"));
 		}
@@ -659,7 +656,11 @@ public class PantallaUsuarioConsulta extends javax.swing.JPanel implements Panta
 					 aobj[k][1] = new String(dtoUsuario.getUsuario().getTipoUsuario().toString());
 					 aobj[k][2] = new String(dtoUsuario.getUsuario().getNombre());
 	                 aobj[k][3] = new String(dtoUsuario.getUsuario().getApellidos());
-	                 aobj[k][4] = new String(Utils.convertFecha(dtoUsuario.getUsuario().getFechaAlta().toString()));
+	                 String fecha = "";
+	                 if (dtoUsuario.getUsuario().getFechaAlta() != null){
+	                	 fecha = Utils.convertFecha(dtoUsuario.getUsuario().getFechaAlta().toString()); 
+	                 }
+	                 aobj[k][4] = new String(fecha);
 	                 aobj[k][5] = new String(FactoriaUsuario.getDescripcion(dtoUsuario.getUsuario().getTipoUsuario()));
 	                 if(dtoUsuario.getDtoCentroDocente() != null){
 	                	 aobj[k][6] = new String(dtoUsuario.getDtoCentroDocente().getDtoContacto().getDtoPais().getPais().getNombrePais());

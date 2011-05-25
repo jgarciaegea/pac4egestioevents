@@ -87,13 +87,11 @@ public class PantallaCentroDocenteConsulta extends javax.swing.JPanel implements
 	private JLabel jLabelDesde;
 	private JTextField jTextFieldFechaIni;
 	private JLabel jLabelFechaAlta;
-	private GestorRMI gestorRMI;
 	private ButtonGroup grupoBu;
 	
 	public PantallaCentroDocenteConsulta(GestorRMI gestorRMI,RemoteInterface remote1) {
 		super();
 		this.remote = remote1;
-		this.gestorRMI = gestorRMI;
 		try {
 			remote.testConexion();
 		} catch (RemoteException e) {
@@ -358,7 +356,7 @@ public class PantallaCentroDocenteConsulta extends javax.swing.JPanel implements
 		this.removeAll();
 		this.setAlignmentX(LEFT_ALIGNMENT);
 		this.setAlignmentY(TOP_ALIGNMENT);
-		this.add((Component)new PantallaCentroDocente(gestorRMI, remote, dtoCentroDocente));
+		this.add((Component)new PantallaCentroDocente(remote, dtoCentroDocente));
 		this.repaint();
 		this.revalidate();
 		this.updateUI();
@@ -388,11 +386,12 @@ public class PantallaCentroDocenteConsulta extends javax.swing.JPanel implements
 			dtm.getDataVector().removeAllElements();
 			List<DTOCentroDocente> lstDtoCentroDoc = remote.consultaCentrosDocentes(consultaCentroDocente());
 			if(lstDtoCentroDoc == null || lstDtoCentroDoc.isEmpty()){
+				actualizaTabla();
 				Utils.mostraMensajeInformacion(jPanel2,"No hay resultados","Búsqueda centro docentes");
-				return;
+			}else{
+				muestraResultado(lstDtoCentroDoc);
+				actualizaTabla();
 			}
-			muestraResultado(lstDtoCentroDoc);
-			actualizaTabla();
 		}catch(Exception e){
 			throw new OperationErrorDatosFormulario("Error al cargar la lista de centros docentes");
 		}

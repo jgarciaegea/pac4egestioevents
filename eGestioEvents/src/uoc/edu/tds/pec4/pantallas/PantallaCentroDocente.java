@@ -32,7 +32,6 @@ import uoc.edu.tds.pec4.dtos.DTOUniversidad;
 import uoc.edu.tds.pec4.excepciones.OperationErrorBD;
 import uoc.edu.tds.pec4.excepciones.OperationErrorDatosFormulario;
 import uoc.edu.tds.pec4.excepciones.OperationErrorRMI;
-import uoc.edu.tds.pec4.gestores.GestorRMI;
 import uoc.edu.tds.pec4.iface.RemoteInterface;
 import uoc.edu.tds.pec4.utils.ClearForm;
 import uoc.edu.tds.pec4.utils.EmailValidator;
@@ -90,7 +89,7 @@ public class PantallaCentroDocente extends javax.swing.JPanel implements Pantall
 	/*
 	 * Constructor que recibe un idUsuario y lo calculamos
 	 */
-	public PantallaCentroDocente(GestorRMI gestorRMI,RemoteInterface remote1, DTOCentroDocente dtoCentroDocente) {
+	public PantallaCentroDocente(RemoteInterface remote1, DTOCentroDocente dtoCentroDocente) {
 		super();
 		remote = remote1;
 		try {
@@ -109,8 +108,8 @@ public class PantallaCentroDocente extends javax.swing.JPanel implements Pantall
 		
 	}
 	
-	public PantallaCentroDocente(GestorRMI gestorRMI,RemoteInterface remote1) {
-		this(gestorRMI,remote1,null);
+	public PantallaCentroDocente(RemoteInterface remote1) {
+		this(remote1,null);
 	}
 	
 	private void initGUI() {

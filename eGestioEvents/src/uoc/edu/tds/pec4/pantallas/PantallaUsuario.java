@@ -50,7 +50,6 @@ import uoc.edu.tds.pec4.excepciones.OperationErrorBD;
 import uoc.edu.tds.pec4.excepciones.OperationErrorDatosFormulario;
 import uoc.edu.tds.pec4.excepciones.OperationErrorRMI;
 import uoc.edu.tds.pec4.gestores.FactoriaUsuario;
-import uoc.edu.tds.pec4.gestores.GestorRMI;
 import uoc.edu.tds.pec4.iface.RemoteInterface;
 import uoc.edu.tds.pec4.resources.TDSLanguageUtils;
 import uoc.edu.tds.pec4.utils.ClearForm;
@@ -143,7 +142,7 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 	/*
 	 * Constructor que recibe un idUsuario y lo calculamos
 	 */
-	public PantallaUsuario(GestorRMI gestorRMI,RemoteInterface remote1, DTOUsuario dtoUsuarioaModificar) {
+	public PantallaUsuario(RemoteInterface remote1, DTOUsuario dtoUsuarioaModificar) {
 		super();
 		remote = remote1;
 		try {
@@ -174,14 +173,14 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 		
 	}
 	
-	public PantallaUsuario(GestorRMI gestorRMI,RemoteInterface remote1) {
-		this(gestorRMI,remote1,null);
+	public PantallaUsuario(RemoteInterface remote1) {
+		this(remote1,null);
 	}
 	
 	private void initGUI() {
 		try {
 			this.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder(null, bUserModificacion.booleanValue()?"Modificación de usuarios":"Alta de usuarios", 0, 0, new Font("Dialog", 1, 12), new Color(51, 51, 51)), null), null));
-			this.setPreferredSize(new java.awt.Dimension(784, 634));
+			this.setPreferredSize(new java.awt.Dimension(784, 650));
 			{
 				jPanel1 = new JPanel();
 				this.add(jPanel1);
@@ -587,6 +586,7 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 						if(e.getStateChange() == ItemEvent.SELECTED) {
 							showHideDatosUsuario(false);
 							showHideDatosUni(true);
+							muestraMensajeNoCentros();
 						}
 					} catch (Exception e1) {
 						e1.printStackTrace();
@@ -600,6 +600,7 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 						if(e.getStateChange() == ItemEvent.SELECTED) {
 							showHideDatosUsuario(true);
 							showHideDatosUni(true);
+							muestraMensajeNoCentros();
 						}
 					} catch (Exception e1) {
 						e1.printStackTrace();
@@ -769,7 +770,10 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 				
 				
 				//Empezamos seleccionando el primer objeto cargado
-				if(jComboBoxUniver.getItemCount() > 0) rellenaCentrosDocentes(((MostrarCombo)jComboBoxUniver.getSelectedItem()).getID());
+				if(jComboBoxUniver.getItemCount() > 0){
+					rellenaCentrosDocentes(((MostrarCombo)jComboBoxUniver.getSelectedItem()).getID());
+					muestraMensajeNoCentros();
+				}
 			}
 			
 			jComboBoxUniver.addItemListener(new ItemListener(){
@@ -846,6 +850,12 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 		
 	}
 	
+	private void muestraMensajeNoCentros(){
+		if(jComboBoxCentroDocente.getItemCount() < 1 && (jRadioButtonSecr.isSelected() || jRadioButtonAsis.isSelected())){
+			Utils.mostraMensajeInformacion(jPanel2, "La universidad no tiene centros docentes al que poder asignar el usuario.\nPor favor registre un centro docente para la universidad elegida","Alta usuario");
+		}
+	}
+	
 	/**
 	 * Método donde seteamos el usuario que se va a insertar o eliminar
 	 * @param modificacion
@@ -862,7 +872,6 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 		contacto.setDomicilio(jTextFieldDirec.getText());
 		contacto.setCp(Integer.parseInt(jTextFieldCP.getText()));
 		contacto.setLocalidad(jTextFieldLocalidad.getText());
-		contacto.setProvincia(null);
 		contacto.setIdPais(Integer.parseInt(((MostrarCombo) jComboBoxpais.getSelectedItem()).getID().toString()));
 		contacto.setEmail(jTextFieldEmail.getText());
 		contacto.setWeb(jTextFieldWebBlog.getText());
