@@ -287,7 +287,7 @@ public class DaoEvento extends DaoEntidad<Evento>{
 		List<EventoCalendario> lstEventoCalendario = new ArrayList<EventoCalendario>();
 		try{
 			StringBuffer sb = new StringBuffer();
-			sb.append("SELECT id_centro, id_evento, evento, fecha_inicio_celebracion, umbral, estado, eventoCancelado, eventoFinalizado ");
+			sb.append("SELECT id_centro, id_tipo_evento, id_evento, evento, fecha_inicio_celebracion, umbral, estado, eventoCancelado, eventoFinalizado ");
 			sb.append("FROM v_consulta_eventos_calendario ");
 			sb.append("WHERE (1=1) ");
 			if(criteris.getIdCentro() !=null) sb.append("AND id_centro = ? ");
@@ -295,6 +295,7 @@ public class DaoEvento extends DaoEntidad<Evento>{
 			if(criteris.getFechaInicioCelebracion() != null) sb.append("AND fecha_inicio_celebracion >=  ? ");
 			if(criteris.getFechaFinCelebracion() != null) sb.append("AND fecha_fin_celebracion <=  ? ");
 			if(criteris.getEstado() != null) sb.append("AND estado =  ? ");
+			if(criteris.getIdTipoEvento() != null) sb.append("AND id_tipo_evento =  ? ");
 			if(criteris.getEventoFinalizado() != null) sb.append("AND eventoFinalizado =  ? ");
 					
 			sb.append(" order by fecha_inicio_celebracion, evento");
@@ -307,6 +308,7 @@ public class DaoEvento extends DaoEntidad<Evento>{
 			if(criteris.getFechaInicioCelebracion() != null){ps.setDate(i, criteris.getFechaInicioCelebracion()); i++;}			
 			if(criteris.getFechaFinCelebracion() != null){ps.setDate(i, criteris.getFechaFinCelebracion()); i++;}
 			if(criteris.getEstado()!=null) {ps.setInt(i, criteris.getEstado()); i++;}
+			if(criteris.getIdTipoEvento()!=null) {ps.setInt(i, criteris.getIdTipoEvento()); i++;}
 			if(criteris.getEventoFinalizado()!=null) {ps.setBoolean(i, criteris.getEventoFinalizado()); i++;}
 			
 			System.out.println(ps.toString());
@@ -314,6 +316,7 @@ public class DaoEvento extends DaoEntidad<Evento>{
 			while (rs.next()) {
 				EventoCalendario eventoCalendario = new EventoCalendario();
 				eventoCalendario.setIdEvento(rs.getInt("id_evento"));
+				eventoCalendario.setIdTipoEvento(rs.getInt("id_tipo_evento"));
 				eventoCalendario.setNombre(rs.getString("evento"));
 				eventoCalendario.setFechaInicioCelebracion(rs.getDate("fecha_inicio_celebracion"));
 				eventoCalendario.setUmbral(rs.getInt("umbral"));

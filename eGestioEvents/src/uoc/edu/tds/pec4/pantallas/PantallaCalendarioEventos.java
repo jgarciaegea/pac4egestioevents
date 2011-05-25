@@ -34,6 +34,7 @@ import uoc.edu.tds.pec4.dtos.DTOCentroDocente;
 import uoc.edu.tds.pec4.dtos.DTOEvento;
 import uoc.edu.tds.pec4.dtos.DTOEventoCalendario;
 import uoc.edu.tds.pec4.dtos.DTOPersonalSecretaria;
+import uoc.edu.tds.pec4.dtos.DTOTipoEvento;
 import uoc.edu.tds.pec4.dtos.DTOUniversidad;
 import uoc.edu.tds.pec4.dtos.DTOUsuario;
 import uoc.edu.tds.pec4.excepciones.OperationErrorBD;
@@ -60,6 +61,8 @@ import uoc.edu.tds.pec4.utils.Utils;
 */
 public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pantallas {
 	private static final long serialVersionUID = 1L;
+	private static final Integer COL_CANCELADO = 7;
+	private static final Integer COL_CELEBRADO = 8;
 
 	// Controles del apartado de filtros
 	private JPanel jPanelFiltro;
@@ -70,10 +73,12 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 	private JComboBox jComboBoxCentroDocente;
 	private JLabel jLabelFechaIni;
 	private JTextField jTextFieldFechaFin;
-	private JLabel jLabelFechaFin;
 	private JTextField jTextFieldFechaIni;
 	private JCheckBox jCheckBoxShowEventoFinalizado;
 	private JCheckBox jCheckBoxShowAll;
+	private JComboBox jComboBoxTipoEvento;
+	private JLabel jLabelTipoEvento;
+	private JLabel jLabelFechaFinCelebracion;
 	private JButton jButtonCancelar;
 	private JButton jButtonSearch;
 	private JButton jButtonClear;
@@ -82,7 +87,7 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 	private JPanel jPanelDatos;
 	private JScrollPane jScrollPane1;
 	private DefaultTableModel dtm;
-	private String[] columnNames = {"idEvento", "Fecha", "Evento", "Universidad", "Centro docente", "Duracion", "Cancelado", "Celebrado"};
+	private String[] columnNames = {"idEvento", "Fecha", "Evento", "Universidad", "Centro docente", "Tipo Evento", "Duracion", "Cancelado", "Celebrado"};
 	private JTable jTableDatos;
 	private JButton jButtonNew;
 	private JButton jButtonUpdate;
@@ -151,8 +156,16 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 		@SuppressWarnings("unchecked")
 		List<Object> lstRes = (Vector<Object>) dtm.getDataVector().get(jTableDatos.getSelectedRow());
 		
-		return (!Boolean.parseBoolean(lstRes.get(6).toString()) && !Boolean.parseBoolean(lstRes.get(7).toString()));
+		return (!Boolean.parseBoolean(lstRes.get(COL_CANCELADO).toString()) && !Boolean.parseBoolean(lstRes.get(COL_CELEBRADO).toString()));
 	}
+	
+	private Boolean isCancelledEvento() {
+		@SuppressWarnings("unchecked")
+		List<Object> lstRes = (Vector<Object>) dtm.getDataVector().get(jTableDatos.getSelectedRow());
+		
+		return (!Boolean.parseBoolean(lstRes.get(COL_CANCELADO).toString()));
+	}
+
 	/**
 	 * Vamos a la pantalla de gesti—n del evento
 	*/
@@ -182,9 +195,13 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 		Integer idUniversidad = Integer.parseInt(((MostrarCombo) jComboBoxUniveridad.getSelectedItem()).getID().toString());
 		eventoCalendario.setIdUniversidad(idUniversidad==0?null:idUniversidad);
 		
-		Integer idCentroDocente = Integer.parseInt(((MostrarCombo) jComboBoxCentroDocente.getSelectedItem()).getID().toString());
-		eventoCalendario.setIdCentro(idCentroDocente==0?null:idCentroDocente);
-		
+		if (jComboBoxCentroDocente.getSelectedIndex() > -1){
+			Integer idCentroDocente = Integer.parseInt(((MostrarCombo) jComboBoxCentroDocente.getSelectedItem()).getID().toString());
+			eventoCalendario.setIdCentro(idCentroDocente==0?null:idCentroDocente);
+		}
+		Integer idTipoEvento = Integer.parseInt(((MostrarCombo) jComboBoxTipoEvento.getSelectedItem()).getID().toString());
+		eventoCalendario.setIdTipoEvento(idTipoEvento==0?null:idTipoEvento);
+
 		eventoCalendario.setFechaInicioCelebracion(Utils.transformFecha(jTextFieldFechaIni.getText()));
 		eventoCalendario.setFechaFinCelebracion(Utils.transformFecha(jTextFieldFechaFin.getText()));
 		
@@ -241,6 +258,7 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 			}
 			ComboBoxModel jComboBoxCentroDocenteModel = new DefaultComboBoxModel(lstComboCentroDoc.toArray());
 			jComboBoxCentroDocente.setModel(jComboBoxCentroDocenteModel);
+			
 		} catch (OperationErrorBD e1) {
 			e1.showDialogError();
 		} catch (Exception e1) {
@@ -290,10 +308,24 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 			jComboBoxUniveridad.setModel(jComboBoxUniverModel);
 						
 			//Empezamos seleccionando el primer objeto cargado
+			/*
 			if (jComboBoxUniveridad.getItemCount() > 0) {
 				jComboBoxUniveridad.setSelectedIndex(0);
 				rellenaCentrosDocentes(((MostrarCombo)jComboBoxUniveridad.getSelectedItem()).getID());
+			}*/
+
+			//Cargamos los Tipos de eventos
+			List<DTOTipoEvento> lstDtoTipoEvento = remote.getTiposEventos();
+			List<MostrarCombo> lstComboTipoEvento = new ArrayList<MostrarCombo>();
+			if(lstDtoTipoEvento != null){
+				lstComboTipoEvento.add(new MostrarCombo(0, Constantes.NOMBRE_TODOS));
+				for(DTOTipoEvento dtoTipoEvento : lstDtoTipoEvento){
+					lstComboTipoEvento.add(new MostrarCombo(dtoTipoEvento.getTipoEvento().getIdTipoEvento(),
+							dtoTipoEvento.getTipoEvento().getDescripcion()));
+				}
 			}
+			ComboBoxModel jComboBoxTipoEventoEventoModel = new DefaultComboBoxModel(lstComboTipoEvento.toArray());
+			jComboBoxTipoEvento.setModel(jComboBoxTipoEventoEventoModel);
 		}catch(Exception e){
 			throw new OperationErrorDatosFormulario("Error al cargar las listas seleccionables");
 		}
@@ -333,9 +365,10 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 					aobj[k][2] = new String(dtoEventoCalendario.getEvento().getNombre());
 	                aobj[k][3] = new String(dtoEventoCalendario.getDtoCentroDocente().getDtoUniversidad().getUniversidad().getNombre());
 	                aobj[k][4] = new String(dtoEventoCalendario.getDtoCentroDocente().getCentroDocente().getNombre());
-	                aobj[k][5] = new String(dtoEventoCalendario.getEvento().getUmbral().toString());
-	                aobj[k][6] = new String(dtoEventoCalendario.getEventoCalendario().getEventoCancelado().toString());
-	                aobj[k][7] = new String(dtoEventoCalendario.getEventoCalendario().getEventoFinalizado().toString());
+	                aobj[k][5] = new String(dtoEventoCalendario.getDtoTipoEvento().getTipoEvento().getDescripcion());
+	                aobj[k][6] = new String(dtoEventoCalendario.getEvento().getUmbral().toString());
+	                aobj[k][7] = new String(dtoEventoCalendario.getEventoCalendario().getEventoCancelado().toString());
+	                aobj[k][8] = new String(dtoEventoCalendario.getEventoCalendario().getEventoFinalizado().toString());
 	                k++;
 	       	 	}
 	       	 
@@ -369,13 +402,15 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 			jPanelFiltro.add(getJComboBoxCentroDocente());
 			jPanelFiltro.add(getJLabelFechaIni());
 			jPanelFiltro.add(getJTextFieldFechaIni());
-			jPanelFiltro.add(getJLabelFechaFin());
 			jPanelFiltro.add(getJTextFieldFechaFin());
 			jPanelFiltro.add(getJButtonSearch());
 			jPanelFiltro.add(getJButtonClear());
 			jPanelFiltro.add(getJCheckBoxShowAll());
 			jPanelFiltro.add(getJCheckBoxShowEventoFinalizado());
 			jPanelFiltro.add(getJButtonCancelar());
+			jPanelFiltro.add(getJLabelFechaFinCelebracion());
+			jPanelFiltro.add(getJLabelTipoEvento());
+			jPanelFiltro.add(getJComboBoxTipoEvento());
 		}
 		return jPanelFiltro;
 	}
@@ -396,7 +431,7 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 			jLabelUniversidad = new JLabel();
 			jLabelUniversidad.setText("Universidad");
 			jLabelUniversidad.setLayout(null);
-			jLabelUniversidad.setBounds(88, 20, 68, 15);
+			jLabelUniversidad.setBounds(76, 17, 68, 15);
 			jLabelUniversidad.setFont(new java.awt.Font("Arial",0,10));
 		}
 		return jLabelUniversidad;
@@ -406,7 +441,7 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 		if(jComboBoxUniveridad == null) {
 			jComboBoxUniveridad = new JComboBox();
 			jComboBoxUniveridad.setOpaque(false);
-			jComboBoxUniveridad.setBounds(189, 14, 358, 26);
+			jComboBoxUniveridad.setBounds(193, 12, 358, 26);
 			jComboBoxUniveridad.setFont(new java.awt.Font("Arial",0,10));
 			jComboBoxUniveridad.addItemListener(new ItemListener(){
 				public void itemStateChanged(ItemEvent e) {
@@ -428,7 +463,7 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 			jLabelCentroDocente = new JLabel();
 			jLabelCentroDocente.setText("Centro Docente");
 			jLabelCentroDocente.setLayout(null);
-			jLabelCentroDocente.setBounds(88, 56, 89, 15);
+			jLabelCentroDocente.setBounds(76, 43, 89, 15);
 			jLabelCentroDocente.setFont(new java.awt.Font("Arial",0,10));
 		}
 		return jLabelCentroDocente;
@@ -438,7 +473,7 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 		if(jComboBoxCentroDocente == null) {
 			jComboBoxCentroDocente = new JComboBox();
 			jComboBoxCentroDocente.setOpaque(false);
-			jComboBoxCentroDocente.setBounds(189, 50, 358, 26);
+			jComboBoxCentroDocente.setBounds(193, 38, 358, 26);
 			jComboBoxCentroDocente.setFont(new java.awt.Font("Arial",0,10));
 		}
 		return jComboBoxCentroDocente;
@@ -447,9 +482,9 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 	private JLabel getJLabelFechaIni() {
 		if(jLabelFechaIni == null) {
 			jLabelFechaIni = new JLabel();
-			jLabelFechaIni.setText("Fecha Inicio");
+			jLabelFechaIni.setText("Fecha Celebraci—n desde");
 			jLabelFechaIni.setLayout(null);
-			jLabelFechaIni.setBounds(88, 90, 66, 15);
+			jLabelFechaIni.setBounds(76, 71, 119, 15);
 			jLabelFechaIni.setFont(new java.awt.Font("Arial",0,10));
 		}
 		return jLabelFechaIni;
@@ -458,27 +493,16 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 	private JTextField getJTextFieldFechaIni() {
 		if(jTextFieldFechaIni == null) {
 			jTextFieldFechaIni = new JTextField();
-			jTextFieldFechaIni.setBounds(189, 88, 113, 19);
+			jTextFieldFechaIni.setBounds(195, 70, 113, 19);
 			jTextFieldFechaIni.setFont(new java.awt.Font("Arial",0,10));
 		}
 		return jTextFieldFechaIni;
 	}
-	
-	private JLabel getJLabelFechaFin() {
-		if(jLabelFechaFin == null) {
-			jLabelFechaFin = new JLabel();
-			jLabelFechaFin.setText("Fecha Final");
-			jLabelFechaFin.setLayout(null);
-			jLabelFechaFin.setBounds(332, 90, 72, 15);
-			jLabelFechaFin.setFont(new java.awt.Font("Arial",0,10));
-		}
-		return jLabelFechaFin;
-	}
-	
+
 	private JTextField getJTextFieldFechaFin() {
 		if(jTextFieldFechaFin == null) {
 			jTextFieldFechaFin = new JTextField();
-			jTextFieldFechaFin.setBounds(416, 88, 113, 19);
+			jTextFieldFechaFin.setBounds(368, 69, 113, 19);
 			jTextFieldFechaFin.setFont(new java.awt.Font("Arial",0,10));
 		}
 		return jTextFieldFechaFin;
@@ -651,21 +675,24 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 					if(jTableDatos.getSelectedRow() == -1){
 						Utils.mostraMensajeInformacion(jPanelDatos, "No ha seleccionado ningœn registro de la tabla", "Calendario Eventos");
 					}else{
-						try {
-							DTOEvento dtoEvento = getSelectedEvento();
-							remote.bajaEvento(dtoEvento);
-							getEventosCalendario();
-							Utils.mostraMensajeInformacion(jPanelDatos, "Evento dado de baja correctamente", "Calendario Eventos");
-						} catch (Exception e1) {
+						if (isCancelledEvento()){
 							try {
-								throw new OperationErrorDatosFormulario(e1.getMessage());
-							} catch (OperationErrorDatosFormulario e2) {
-								e2.showDialogError();
+								DTOEvento dtoEvento = getSelectedEvento();
+								remote.bajaEvento(dtoEvento);
+								getEventosCalendario();
+								Utils.mostraMensajeInformacion(jPanelDatos, "Evento dado de baja correctamente", "Calendario Eventos");
+							} catch (Exception e1) {
+								try {
+									throw new OperationErrorDatosFormulario(e1.getMessage());
+								} catch (OperationErrorDatosFormulario e2) {
+									e2.showDialogError();
+								}
+							}finally{
+								jButtonClearActionPerformed();
 							}
-						}finally{
-							jButtonClearActionPerformed();
+						}else{
+							Utils.mostraMensajeInformacion(jPanelDatos, "El evento ya est‡ cancelado", "Calendario Eventos");
 						}
-						
 					}
 				}
 			});
@@ -806,4 +833,37 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 		}
 		return jButtonCancelar;
 	}
+	
+	private JLabel getJLabelFechaFinCelebracion() {
+		if(jLabelFechaFinCelebracion == null) {
+			jLabelFechaFinCelebracion = new JLabel();
+			jLabelFechaFinCelebracion.setText("hasta");
+			jLabelFechaFinCelebracion.setFont(new java.awt.Font("Arial",0,10));
+			jLabelFechaFinCelebracion.setLayout(null);
+			jLabelFechaFinCelebracion.setBounds(326, 71, 42, 15);
+		}
+		return jLabelFechaFinCelebracion;
+	}
+	
+	private JLabel getJLabelTipoEvento() {
+		if(jLabelTipoEvento == null) {
+			jLabelTipoEvento = new JLabel();
+			jLabelTipoEvento.setText("Tipo Evento");
+			jLabelTipoEvento.setFont(new java.awt.Font("Arial",0,10));
+			jLabelTipoEvento.setLayout(null);
+			jLabelTipoEvento.setBounds(76, 95, 89, 15);
+		}
+		return jLabelTipoEvento;
+	}
+	
+	private JComboBox getJComboBoxTipoEvento() {
+		if(jComboBoxTipoEvento == null) {
+			jComboBoxTipoEvento = new JComboBox();
+			jComboBoxTipoEvento.setOpaque(false);
+			jComboBoxTipoEvento.setFont(new java.awt.Font("Arial",0,10));
+			jComboBoxTipoEvento.setBounds(200, 94, 358, 22);
+		}
+		return jComboBoxTipoEvento;
+	}
+
 }
