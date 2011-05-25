@@ -26,6 +26,7 @@ import javax.swing.table.DefaultTableModel;
 import uoc.edu.tds.pec4.beans.Evento;
 import uoc.edu.tds.pec4.dtos.DTOCentroDocente;
 import uoc.edu.tds.pec4.dtos.DTOEvento;
+import uoc.edu.tds.pec4.dtos.DTOEventoRequisitos;
 import uoc.edu.tds.pec4.dtos.DTOTipoEvento;
 import uoc.edu.tds.pec4.dtos.DTOUsuario;
 import uoc.edu.tds.pec4.excepciones.OperationErrorBD;
@@ -116,6 +117,14 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 		if (eventoAModificar != null){ 
 			this.dtoEventoAModficar = eventoAModificar;
 			bEventoModificacion = true;
+		}
+		else {
+			this.dtoEventoAModficar = new DTOEvento();
+			Evento evento = new Evento();
+			evento.setIdTipoEvento(Integer.parseInt(((MostrarCombo) jComboBoxTipoEvento.getSelectedItem()).getID().toString()));
+			evento.setIdCentro(dtoUsuario.getDtoCentroDocente().getCentroDocente().getIdCentro());
+			dtoEventoAModficar.setEvento(evento);			
+			dtoEventoAModficar.setDtoCentroDocente(dtoUsuario.getDtoCentroDocente());
 		}
 		System.out.print("Para quitar el warning que sale si no se utiliza es provisional " + remote.toString());	
 		initGUI();
@@ -256,7 +265,7 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 				/*****************************************
 				 * CARGAMOS LOS REQUISITOS
 				 *****************************************/
-				
+				muestraRequisitos(dtoEventoAModficar.getDtoEventoRequisitos());
 				
 				
 				/*****************************************
@@ -278,9 +287,36 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 			} catch (OperationErrorBD e1) {
 				e1.showDialogError();
 			}
+		} catch (OperationErrorDatosFormulario e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 		
+	
+	private void muestraRequisitos(List<DTOEventoRequisitos> lstDtoEventoRequisitos) throws OperationErrorDatosFormulario{
+		try{
+			dtmRequisitos.getDataVector().removeAllElements();
+			if(lstDtoEventoRequisitos != null){
+				Object[][] aobj = new Object[lstDtoEventoRequisitos.size()][columnNamesRequisitos.length];
+				int k = 0;
+			
+				for(DTOEventoRequisitos dtoEventoRequisitos : lstDtoEventoRequisitos){
+					 aobj[k][0] = new String(dtoEventoRequisitos.getDtoEventoReq().getEvento().getIdEvento().toString());
+					 aobj[k][1] = new String(dtoEventoRequisitos.getDtoEventoReq().getEvento().getNombre());
+					 k++;
+	       	 	}
+				
+				if (aobj != null && aobj.length > 0){
+	       	 		for(int row = 0; row < aobj.length; row++){
+	       	 			dtmRequisitos.addRow(aobj[row]);
+	       	 		}
+	       	 	}
+			}
+		}catch(Exception e){
+			throw new OperationErrorDatosFormulario("Error en la carga de la asistencia/ausencia en la pantalla");
+		}
+	}
 	
 	/**
 	 * MŽtodo que valida los datos introducidos en el formulario
@@ -352,7 +388,7 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 		/*****************************************
 		 * DATOS ESPECêFICOS DEL EVENTO
 		 *****************************************/
-		Evento evento = new Evento();
+		Evento evento = dtoEventoAModficar.getEvento();
 		evento.setNombre(jTextFieldNombre.getText());
 		evento.setIdTipoEvento(Integer.parseInt(((MostrarCombo) jComboBoxTipoEvento.getSelectedItem()).getID().toString()));
 		try {
@@ -391,7 +427,6 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 			evento.setIdCentro(dtoUsuario.getUsuario().getIdCentro());
 		}
 		
-		// TODO 1: Requisitos
 		// TODO 1: Rol / Plazas
 		
 		/***********************************************
@@ -399,6 +434,7 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 		 ***********************************************/
 		DTOEvento dtoEvento = new DTOEvento();
 		dtoEvento.setEvento(evento);
+		dtoEvento.setDtoEventoRequisitos(dtoEventoAModficar.getDtoEventoRequisitos());
 		return dtoEvento;
 	}
 	
@@ -602,11 +638,29 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 			jButtonRequisitos.setFont(new java.awt.Font("Arial",0,10));
 			jButtonRequisitos.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					try {
-						PantallaEventoRequisitos v1 = new PantallaEventoRequisitos(null, remote, dtoEventoAModficar);
-					       v1.setVisible(true);
-					}finally{
+					if(Utils.valorisNull(jComboBoxTipoEvento.getSelectedItem())) {
+						Utils.mostraMensajeInformacion(jPanelDatos, Utils.MESSAGE_ERROR + " tipo evento", "Evento");
+					}
+					else {
+						try {
+							if (!bEventoModificacion){
+								dtoEventoAModficar.getEvento().setIdTipoEvento(Integer.parseInt(((MostrarCombo) jComboBoxTipoEvento.getSelectedItem()).getID().toString()));
+							}
+							PantallaEventoRequisitos v1 = new PantallaEventoRequisitos(null, remote, dtoEventoAModficar);
+							v1.setModal(true);
+							v1.setVisible(true);
+				             if (v1.getAceptar()) {
+				            	 dtoEventoAModficar.setDtoEventoRequisitos(v1.getDTOEventoRequisitos());
+				            	 try {
+									muestraRequisitos(dtoEventoAModficar.getDtoEventoRequisitos());
+								} catch (OperationErrorDatosFormulario e1) {
+									// TODO Auto-generated catch block
+									e1.printStackTrace();
+								}
+				             }
+						}finally{
 						//jButtonClearActionPerformed();
+						}
 					}
 				}
 			});

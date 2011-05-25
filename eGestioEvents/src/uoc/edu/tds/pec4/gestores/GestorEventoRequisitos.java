@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import uoc.edu.tds.pec4.beans.EventoRequisitos;
 import uoc.edu.tds.pec4.daos.DaoEventoRequisitos;
+import uoc.edu.tds.pec4.dtos.DTOEvento;
 import uoc.edu.tds.pec4.dtos.DTOEventoRequisitos;
 
 public class GestorEventoRequisitos extends GestorEntidad<DTOEventoRequisitos>{
@@ -38,9 +39,15 @@ public class GestorEventoRequisitos extends GestorEntidad<DTOEventoRequisitos>{
 			List<EventoRequisitos> lstEventoRequisitos = dao.select(criteris.getEventoRequisitos());
 			if(lstEventoRequisitos != null && lstEventoRequisitos.size() > 0){
 				List<DTOEventoRequisitos> lstDTOEventoRequisitos = new ArrayList<DTOEventoRequisitos>();
+				GestorEvento gestorEvento = new GestorEvento(connection);
 				for(EventoRequisitos eventoRequisitos : lstEventoRequisitos){
 					DTOEventoRequisitos dtoEventoRequisitos = new DTOEventoRequisitos();
 					dtoEventoRequisitos.setEventoRequisitos(eventoRequisitos);
+					//DTOEvento dtoEvento = gestorEvento.consultaEntidadById(eventoRequisitos.getIdEvento())
+					DTOEvento dtoEventoReq = gestorEvento.consultaEntidadById(eventoRequisitos.getIdEventoReq());
+					//if(dtoEvento != null) dtoEventoRequisitos.setDtoEvento(dtoEvento);
+					if(dtoEventoReq != null) dtoEventoRequisitos.setDtoEventoReq(dtoEventoReq);
+					
 					lstDTOEventoRequisitos.add(dtoEventoRequisitos);
 				}
 				return lstDTOEventoRequisitos;

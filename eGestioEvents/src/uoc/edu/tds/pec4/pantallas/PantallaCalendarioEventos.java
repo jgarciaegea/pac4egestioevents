@@ -266,7 +266,7 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 	}
 	
 	/**
-	 * Método para cargar los combos de la pantalla Usuario
+	 * Método para cargar los combos
 	 * @throws OperationErrorDatosFormulario
 	 */
 	private void cargaCombos() throws OperationErrorDatosFormulario{

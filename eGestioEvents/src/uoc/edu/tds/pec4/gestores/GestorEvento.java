@@ -141,6 +141,15 @@ public class GestorEvento extends GestorEntidad<DTOEvento>{
 			throw e;
 		}
 	}
+	
+	public Integer insertaEntidadRetId(DTOEvento newobject) throws Exception {
+		DaoEvento dao = new DaoEvento(connection);
+		try {
+			return dao.insertReturnId(newobject.getEvento());
+		} catch (Exception e) {
+			throw e;
+		}
+	}
 
 	@Override
 	public void modificaEntidad(DTOEvento criteris) throws Exception {

@@ -3,6 +3,7 @@ package uoc.edu.tds.pec4.pantallas;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -14,8 +15,10 @@ import javax.swing.table.DefaultTableModel;
 
 import uoc.edu.tds.pec4.beans.Evento;
 import uoc.edu.tds.pec4.dtos.DTOEvento;
+import uoc.edu.tds.pec4.dtos.DTOEventoRequisitos;
 import uoc.edu.tds.pec4.excepciones.OperationErrorDatosFormulario;
 import uoc.edu.tds.pec4.iface.RemoteInterface;
+import uoc.edu.tds.pec4.utils.ClearForm;
 import uoc.edu.tds.pec4.utils.Utils;
 
 /**
@@ -31,6 +34,7 @@ import uoc.edu.tds.pec4.utils.Utils;
 * LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
 */
 public class PantallaEventoRequisitos extends javax.swing.JDialog {
+	private static final long serialVersionUID = 939787444345394843L;
 	private JPanel jPanelBase;
 	private JScrollPane jScrollPane1;
 	private JButton jButtonAceptar;
@@ -42,6 +46,7 @@ public class PantallaEventoRequisitos extends javax.swing.JDialog {
 	
 	private RemoteInterface remote;
 	private DTOEvento dtoEvento;
+	private Boolean bExit = false;
 
 	/**
 	* Auto-generated main method to display this JDialog
@@ -54,20 +59,63 @@ public class PantallaEventoRequisitos extends javax.swing.JDialog {
 		this.dtoEvento = dtoEvento1;
 		
 		if (dtoEvento != null && dtoEvento.getEvento() != null){
-			// TODO 1: cargar todos los eventos ya celebrados de ese centro
 			try {
 				cargaEventosByEventoCentro();
+				// TODO 2: a partir del dtoevento (lista dtoeventoreq) checkear los q esten dentro.
+				checkEventos();
 			} catch (OperationErrorDatosFormulario e) {
 				e.showDialogError(jPanelBase);
 			}
-			// TODO 2: a partir del dtoevento (lista dtoeventoreq) checkear los q esten dentro.
+			
 		}
+	}
+
+	private void limpiaFormulario(){
+		ClearForm.clearForm(jPanelBase);
+	    for (int a=0; a<jTableDatos.getRowCount(); a++){
+	    	jTableDatos.setValueAt(new Boolean(false), a, 2);
+	    }
+	}
+	
+	public List<DTOEventoRequisitos> getDTOEventoRequisitos() {
+		List<DTOEventoRequisitos> dtoEventoReList = new ArrayList<DTOEventoRequisitos>();
+		Boolean bDatos = false;
+		for (int a=0; a<jTableDatos.getRowCount(); a++){
+			if (Boolean.parseBoolean((jTableDatos.getValueAt(a,2).toString()))){
+				bDatos = true;
+				DTOEventoRequisitos dtoEventoRequisitos = new DTOEventoRequisitos();
+				DTOEvento dtoEventoReq = new DTOEvento();
+				Evento eventoReq = new Evento();
+				eventoReq.setIdEvento(Integer.parseInt((jTableDatos.getValueAt(a,0).toString())));
+				eventoReq.setNombre((jTableDatos.getValueAt(a,1).toString()));
+				dtoEventoReq.setEvento(eventoReq);
+				dtoEventoRequisitos.setDtoEventoReq(dtoEventoReq);
+				
+				dtoEventoReList.add(dtoEventoRequisitos);
+			}
+		}
+		return (bDatos?dtoEventoReList:null);
+	}
+	
+	private void checkEventos() {
+	      for (int a=0; a<jTableDatos.getRowCount(); a++){
+	    	  int valor = Integer.parseInt((jTableDatos.getValueAt(a,0).toString()));
+	    	  List<DTOEventoRequisitos> lstDTO = dtoEvento.getDtoEventoRequisitos();
+	    	  if(lstDTO != null && lstDTO.size() > 0){
+	    		  for(DTOEventoRequisitos dtoER : lstDTO){
+	    			  if (valor == dtoER.getDtoEventoReq().getEvento().getIdEvento()){
+	    				  jTableDatos.setValueAt(new Boolean(true), a, 2);
+	    			  }
+	    		  }
+	          }
+	      }
 	}
 
 	private DTOEvento consultaEvento() {
 		DTOEvento dtoEventroCentro = new DTOEvento();
 		Evento eventoCentro = new Evento();
 		eventoCentro.setIdCentro(dtoEvento.getEvento().getIdCentro());
+		eventoCentro.setIdTipoEvento(dtoEvento.getEvento().getIdTipoEvento());
 		dtoEventroCentro.setEvento(eventoCentro);
 
 		return dtoEventroCentro;
@@ -106,7 +154,7 @@ public class PantallaEventoRequisitos extends javax.swing.JDialog {
 			if(lstDtoEvento != null){
 				for(DTOEvento dtoEvento : lstDtoEvento){
 					 aobj[k][0] = new String(dtoEvento.getEvento().getIdEvento().toString());
-					 aobj[k][1] = new String(dtoEvento.getEvento().getDescripcion());
+					 aobj[k][1] = new String(dtoEvento.getEvento().getNombre());
 					 aobj[k][2] = new Boolean(false);
 					 k++;
 	       	 	}
@@ -121,6 +169,7 @@ public class PantallaEventoRequisitos extends javax.swing.JDialog {
 			throw new OperationErrorDatosFormulario("Error en la carga de la asistencia/ausencia en la pantalla");
 		}
 	}
+	
 	private void initGUI(JFrame frame) {
 		this.setTitle("Eventos requisitos");
 		this.setModal(true);
@@ -169,7 +218,7 @@ public class PantallaEventoRequisitos extends javax.swing.JDialog {
 			jButtonLimpiar.setSize(90, 40);
 			jButtonLimpiar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent evt) {
-					// TODO 1: poner todos a checked false
+					limpiaFormulario();
 				}
 			});
 		}
@@ -187,6 +236,7 @@ public class PantallaEventoRequisitos extends javax.swing.JDialog {
 			jButtonCancelar.setSize(90, 40);
 			jButtonCancelar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent evt) {
+					bExit = false;
 					dispose();
 				}
 			});
@@ -205,11 +255,16 @@ public class PantallaEventoRequisitos extends javax.swing.JDialog {
 			jButtonAceptar.setSize(90, 40);
 			jButtonAceptar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					// TODO 1: recorrer la tabla y pasar un dtoeventorequisitos
+					bExit = true;
+					dispose();
 				}
 			});
 		}
 		return jButtonAceptar;
+	}
+
+	public Boolean getAceptar() {
+		return bExit;
 	}
 
 }

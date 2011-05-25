@@ -13,6 +13,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
 import uoc.edu.tds.pec4.beans.Evento;
 import uoc.edu.tds.pec4.beans.EventoCalendario;
 import uoc.edu.tds.pec4.beans.EventoViewConsulta;
@@ -60,6 +61,15 @@ public class DaoEvento extends DaoEntidad<Evento>{
 		} finally {
 			close(ps);
 		}
+	}
+	
+	public Integer insertReturnId(Evento objecte) throws Exception {
+		try {
+			 this.insert(objecte);
+			 return retornaIdGenerado("seq_evento");
+        } catch (SQLException e) {
+        	throw new Exception(e.getMessage());
+        } 
 	}
 
 	@Override

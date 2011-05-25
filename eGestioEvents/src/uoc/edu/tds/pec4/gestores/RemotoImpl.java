@@ -5,6 +5,7 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
 
 import uoc.edu.tds.pec4.beans.CentroDocente;
+import uoc.edu.tds.pec4.beans.EventoRequisitos;
 import uoc.edu.tds.pec4.beans.Pais;
 import uoc.edu.tds.pec4.beans.TipoDocumento;
 import uoc.edu.tds.pec4.beans.TipoEvento;
@@ -16,6 +17,7 @@ import uoc.edu.tds.pec4.dtos.DTOCentroDocente;
 import uoc.edu.tds.pec4.dtos.DTOCentroDocenteConsulta;
 import uoc.edu.tds.pec4.dtos.DTOEvento;
 import uoc.edu.tds.pec4.dtos.DTOEventoCalendario;
+import uoc.edu.tds.pec4.dtos.DTOEventoRequisitos;
 import uoc.edu.tds.pec4.dtos.DTOInscripcion;
 import uoc.edu.tds.pec4.dtos.DTOInscripcionConsulta;
 import uoc.edu.tds.pec4.dtos.DTOPais;
@@ -428,14 +430,31 @@ public class RemotoImpl extends UnicastRemoteObject implements RemoteInterface{
 			
 			gestorDB.getConnection().setAutoCommit(false);
 			
-			// TODO 1: Insertamos en requisitos
+			
 			// TODO 2: Insertamos en rol/plazas
 			
 			//Insertamos el evento
 			GestorEvento gestorEvento = new GestorEvento(gestorDB.getConnection());
-			gestorEvento.insertaEntidad(dtoEvento);
-			System.out.println("Evento insertado correctamente: ");
+			Integer idEvento = gestorEvento.insertaEntidadRetId(dtoEvento);
+			
+			// Insertamos en requisitos
+			GestorEventoRequisitos gestorEventoRequisitos = new GestorEventoRequisitos(gestorDB.getConnection());
+			List<DTOEventoRequisitos> lstDtoEventoReq = dtoEvento.getDtoEventoRequisitos();
+			if(lstDtoEventoReq != null && lstDtoEventoReq.size() > 0){
+				for(DTOEventoRequisitos dtoEventoReq : lstDtoEventoReq){
+					DTOEventoRequisitos dtoEventoRequisitos = new DTOEventoRequisitos();
+					EventoRequisitos eventoRequisitos = new EventoRequisitos();
+					
+					eventoRequisitos.setIdEvento(idEvento);
+					eventoRequisitos.setIdEventoReq(dtoEventoReq.getDtoEventoReq().getEvento().getIdEvento());
+					dtoEventoRequisitos.setEventoRequisitos(eventoRequisitos);
+					
+					gestorEventoRequisitos.insertaEntidad(dtoEventoRequisitos);
+				}
+			}
+			
 			gestorDB.getConnection().commit();			
+			System.out.println("Evento insertado correctamente: ");
 		} catch (Exception e) {
 			gestorDB.rollback();
 			throw new OperationErrorBD("Error al insertar el evento: " + e.getMessage());
