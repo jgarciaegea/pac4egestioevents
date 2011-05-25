@@ -726,9 +726,10 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 						Utils.mostraMensajeInformacion(jPanelDatos, "No ha seleccionado ningœn registro de la tabla", "Calendario Eventos");
 					}else{
 						try {
-							//DTOEvento dtoEvento = getSelectedEvento();
+							DTOEvento dtoEvento = getSelectedEvento();
+							goPantallaInscripcion(dtoEvento);
 							//remote.bajaEvento(dtoEvento);
-							getEventosCalendario();
+							//getEventosCalendario();
 							//Utils.mostraMensajeInformacion(jPanelDatos, "Evento dado de baja correctamente", "Calendario Eventos");
 						} catch (Exception e1) {
 							try {
