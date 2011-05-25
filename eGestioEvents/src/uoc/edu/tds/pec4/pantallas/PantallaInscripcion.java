@@ -11,7 +11,7 @@ import java.rmi.RemoteException;
 
 import javax.swing.BorderFactory;
 
-import uoc.edu.tds.pec4.beans.Usuario;
+import uoc.edu.tds.pec4.dtos.DTOUsuario;
 import uoc.edu.tds.pec4.excepciones.OperationErrorBD;
 import uoc.edu.tds.pec4.excepciones.OperationErrorLogin;
 import uoc.edu.tds.pec4.iface.RemoteInterface;
@@ -28,16 +28,16 @@ public class PantallaInscripcion extends PanelComun implements Pantallas{
 	 */
 	private static final long serialVersionUID = 1L;
 	private RemoteInterface remote;
-	private Usuario usuario;
+	private DTOUsuario dtoUsuario;
 
 
-	public PantallaInscripcion(RemoteInterface remote1,Usuario usuario1) throws OperationErrorLogin, RemoteException, OperationErrorBD{
+	public PantallaInscripcion(RemoteInterface remote1,DTOUsuario dtoUsuario) throws OperationErrorLogin, RemoteException, OperationErrorBD{
 		super("clientePEC4.panelInscripcion.titulo",750,600);
 		System.out.println("creando Pantalla inscripcion......");
 		remote = remote1;
-		usuario = usuario1;
+		this.dtoUsuario = dtoUsuario;
 
-		if (usuario1 == null) throw new OperationErrorLogin("La session es invalida.....");
+		if (dtoUsuario == null) throw new OperationErrorLogin("La session es invalida.....");
 		try {
 			remote.testConexion();
 		} catch (RemoteException e1) {			
@@ -52,7 +52,7 @@ public class PantallaInscripcion extends PanelComun implements Pantallas{
 		
 		this.crearTitulo(20, 300, 140, 20, "clientePEC4.panelInscripcion.titulo1.nombreAsistente", "nombreAsistente");
 		this.crearTextField(160, 300, 250, 20,"cajaAsistente");
-		this.findTextField("cajaAsistente").setText(usuario.getNombre()+ ", " + usuario.getApellidos());
+		this.findTextField("cajaAsistente").setText(dtoUsuario.getUsuario().getNombre()+ ", " + dtoUsuario.getUsuario().getApellidos());
 		this.findTextField("cajaAsistente").setEditable(false);
 		
 		
@@ -73,7 +73,7 @@ public class PantallaInscripcion extends PanelComun implements Pantallas{
 		this.removeAll();
 		this.setAlignmentX(LEFT_ALIGNMENT);
 		this.setAlignmentY(TOP_ALIGNMENT);
-		this.add((Component)new PantallaBuscarEventoInscripcion(remote,usuario));
+		this.add((Component)new PantallaBuscarEventoInscripcion(remote,dtoUsuario));
 		this.repaint();
 		this.revalidate();
 		this.updateUI();

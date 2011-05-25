@@ -14,9 +14,9 @@ import java.util.List;
 import javax.swing.BorderFactory;
 
 import uoc.edu.tds.pec4.beans.Evento;
-import uoc.edu.tds.pec4.beans.Usuario;
 import uoc.edu.tds.pec4.dtos.DTOEvento;
 import uoc.edu.tds.pec4.dtos.DTOTipoEvento;
+import uoc.edu.tds.pec4.dtos.DTOUsuario;
 import uoc.edu.tds.pec4.excepciones.OperationErrorBD;
 import uoc.edu.tds.pec4.excepciones.OperationErrorDatosFormulario;
 import uoc.edu.tds.pec4.excepciones.OperationErrorLogin;
@@ -35,14 +35,14 @@ public class PantallaBuscarEventoInscripcion  extends PanelComun implements Pant
 	 */
 	private static final long serialVersionUID = 1L;
 	private RemoteInterface remote;
-	private Usuario usuario;
+	private DTOUsuario dtoUsuario;
 	private String[] columnNames = {"Evento","Universidad ","Centro ","Tipo Evento"};
 	
-	public PantallaBuscarEventoInscripcion(RemoteInterface remote1,Usuario usuario1) throws OperationErrorLogin, RemoteException, OperationErrorBD{
+	public PantallaBuscarEventoInscripcion(RemoteInterface remote1,DTOUsuario dtoUsuario) throws OperationErrorLogin, RemoteException, OperationErrorBD{
 		super("clientePEC4.panelBuscarEventoInscripcion.titulo",750,600);
 		remote = remote1;
-		usuario = usuario1;
-		if (usuario1 == null) throw new OperationErrorLogin("La session es invalida.....");
+		this.dtoUsuario = dtoUsuario;
+		if (dtoUsuario == null) throw new OperationErrorLogin("La session es invalida.....");
 		try {
 			remote.testConexion();
 		} catch (RemoteException e1) {			
@@ -170,7 +170,7 @@ public class PantallaBuscarEventoInscripcion  extends PanelComun implements Pant
 		this.removeAll();
 		this.setAlignmentX(LEFT_ALIGNMENT);
 		this.setAlignmentY(TOP_ALIGNMENT);
-		this.add((Component)new PantallaInscripcion(remote,usuario));
+		this.add((Component)new PantallaInscripcion(remote,dtoUsuario));
 		this.repaint();
 		this.revalidate();
 		this.updateUI();
