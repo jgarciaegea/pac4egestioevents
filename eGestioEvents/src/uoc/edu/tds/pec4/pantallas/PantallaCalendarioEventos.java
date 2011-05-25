@@ -761,7 +761,7 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 	}
 	
 	
-	public void goPantallaInscripcion( DTOEvento dtoEvento) throws OperationErrorLogin, RemoteException, OperationErrorBD{
+	public void goPantallaInscripcion( DTOEvento dtoEvento) throws OperationErrorLogin, RemoteException, OperationErrorBD,OperationErrorDatosFormulario{
 		System.out.println("Repintando Pantalla inscripcion");
 		this.setBorder(null);
 		this.removeAll();
