@@ -472,9 +472,6 @@ public class RemotoImpl extends UnicastRemoteObject implements RemoteInterface{
 			
 			gestorDB.getConnection().setAutoCommit(false);
 			
-			// TODO 1: Modificamos en requisitos
-			//GestorEventoRequisitos gestorEventoRequisitos = new GestorEventoRequisitos(gestorDB.getConnection());
-			//gestorEventoRequisitos.modificaEntidad(dtoEvento.getDtoEventoRequisitos());
 			
 			// TODO 2: Modificamos en rol/plazas
 			//GestorEventoRolPlazas gestorEventoRolPlazas = new GestorEventoRolPlazas(gestorDB.getConnection());
@@ -483,6 +480,23 @@ public class RemotoImpl extends UnicastRemoteObject implements RemoteInterface{
 			//Modificamos el evento
 			GestorEvento gestorEvento = new GestorEvento(gestorDB.getConnection());
 			gestorEvento.modificaEntidad(dtoEvento);
+			
+			// TODO 1: Modificamos en requisitos
+			GestorEventoRequisitos gestorEventoRequisitos = new GestorEventoRequisitos(gestorDB.getConnection());
+			// Insertamos en requisitos
+			List<DTOEventoRequisitos> lstDtoEventoReq = dtoEvento.getDtoEventoRequisitos();
+			if(lstDtoEventoReq != null && lstDtoEventoReq.size() > 0){
+				for(DTOEventoRequisitos dtoEventoReq : lstDtoEventoReq){
+					DTOEventoRequisitos dtoEventoRequisitos = new DTOEventoRequisitos();
+					EventoRequisitos eventoRequisitos = new EventoRequisitos();
+					
+					eventoRequisitos.setIdEvento(dtoEvento.getEvento().getIdEvento());
+					eventoRequisitos.setIdEventoReq(dtoEventoReq.getDtoEventoReq().getEvento().getIdEvento());
+					dtoEventoRequisitos.setEventoRequisitos(eventoRequisitos);
+					
+					gestorEventoRequisitos.insertaEntidad(dtoEventoRequisitos);
+				}
+			}
 			
 			gestorDB.getConnection().commit();
 		}catch(Exception e){

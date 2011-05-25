@@ -156,6 +156,8 @@ public class GestorEvento extends GestorEntidad<DTOEvento>{
 		try {
 			DaoEvento dao = new DaoEvento(connection);
 			dao.update(criteris.getEvento());
+			GestorEventoRequisitos gestorEventoRequisitos = new GestorEventoRequisitos(connection);
+			gestorEventoRequisitos.eliminaEntidadById(criteris);
 		} catch (Exception e) {
 			throw e;
 		}

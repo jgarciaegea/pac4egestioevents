@@ -132,8 +132,8 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 			cargaEvento();
 			//Deshabilitamos que se pueda cambiar el centro docente
 			jComboBoxTipoEvento.setEnabled(false);
-			jButtonRequisitos.setEnabled(false);
-			jButtonRolPlazas.setEnabled(false);
+			//jButtonRequisitos.setEnabled(false);
+			//jButtonRolPlazas.setEnabled(false);
 		}
 		else {
 			cargaCentroUsuario();
