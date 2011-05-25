@@ -14,11 +14,10 @@ import uoc.edu.tds.pec4.beans.Inscripcion;
 import uoc.edu.tds.pec4.beans.Usuario;
 import uoc.edu.tds.pec4.dtos.DTOEvento;
 import uoc.edu.tds.pec4.dtos.DTOInscripcion;
-import uoc.edu.tds.pec4.dtos.DTOInscripcionConsulta;
+//import uoc.edu.tds.pec4.dtos.DTOInscripcionConsulta;
 import uoc.edu.tds.pec4.dtos.DTOTipoEvento;
 import uoc.edu.tds.pec4.excepciones.OperationErrorBD;
 import uoc.edu.tds.pec4.excepciones.OperationErrorDatosFormulario;
-import uoc.edu.tds.pec4.gestores.GestorRMI;
 import uoc.edu.tds.pec4.iface.RemoteInterface;
 import uoc.edu.tds.pec4.resources.TDSLanguageUtils;
 import uoc.edu.tds.pec4.utils.MostrarCombo;
@@ -40,26 +39,27 @@ public class PantallaInformeEventosAsistente extends PanelComun implements Panta
 	 * @throws RemoteException 
 	 * 
 	 */
-	public PantallaInformeEventosAsistente(GestorRMI gestorRMI,RemoteInterface remote1,Usuario usu) throws RemoteException, OperationErrorBD {
+	public PantallaInformeEventosAsistente(RemoteInterface remote1,Usuario usu) throws RemoteException, OperationErrorBD {
 		
-		super("clientePEC4.panelInformeEventosAsistencia.titulo",800,600);
+		super("clientePEC4.panelInformeEventosAsistencia.titulo",800,520);
 		remote = remote1;
 		usuario = usu;
 		
 		this.crearTitulo(20, 30, 140, 20, "clientePEC4.panelInformeEventosAsistencia.titulo1.Asistente", "tAsistente");
-		this.crearTextField(160, 30, 200, 20,"cajaAsistente");
+		this.crearTextField(100, 30, 200, 20,"cajaAsistente");
 		this.findTextField("cajaAsistente").setText(usuario.getApellidos() + ", "+ usuario.getNombre());
 		this.findTextField("cajaAsistente").setEditable(false);
 		this.crearTitulo(20, 60, 140, 20, "clientePEC4.panelInformeEventosAsistencia.titulo1.TipoEvento", "tTipoEvento");
-		this.crearCombo(160, 60, 200, 20, "comboTipoEvento", recuperarTiposEvento());
+		this.crearCombo(100, 60, 200, 20, "comboTipoEvento", recuperarTiposEvento());
 		this.crearTitulo(20, 90, 80, 20, "clientePEC4.panelInformeEventosAsistencia.titulo1.FechaDesde", "tFechaDesde");
 		this.crearTextField(100, 90, 90, 20,"cajaFechaDeste");
 		this.crearTitulo(220, 90, 80, 20, "clientePEC4.panelInformeEventosAsistencia.titulo1.FechaHasta", "tFechaHasta");
 		this.crearTextField(300, 90, 90, 20,"cajaFechaHasta");
 		this.crearTabla(20, 150, 700, 300,columnNames);
 	
-		this.crearBoton(50, 500, 120, 30, "clientePEC4.panelInformeEventosAsistencia.boton.bBuscar","bBuscar");		
-		this.crearBoton(200, 500, 120, 30, "clientePEC4.panelInformeEventosAsistencia.boton.bCancel", "bCancel");
+		this.crearBoton(20, 470, 120, 30, "clientePEC4.panelInformeEventosAsistencia.boton.bBuscar","bBuscar");		
+		this.crearBoton(200, 470, 120, 30, "clientePEC4.panelInformeEventosAsistencia.boton.bLimpliar", "bLimpliar");
+		this.crearBoton(380, 470, 120, 30, "clientePEC4.panelInformeEventosAsistencia.boton.bCancel", "bCancel");
 		generaEventos();
 	}
 	
@@ -84,10 +84,24 @@ public class PantallaInformeEventosAsistente extends PanelComun implements Panta
 	
 	private void generaEventos(){
 		
+		
+		this.findBoton("bLimpliar").addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				limpiaFormulario();
+			}});
+		
+		
+		this.findBoton("bCancel").addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				setVisible(false);
+				removeAll();
+			}});
+		
 		this.findBoton("bBuscar").addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					validaFormulario();
+					buscarEventosOK();
 					try {
 						//buscarEventos();
 						buscarEventosOK();
@@ -101,13 +115,19 @@ public class PantallaInformeEventosAsistente extends PanelComun implements Panta
 				} catch (OperationErrorDatosFormulario ef) {
 					ef.printStackTrace();
 					ef.showDialogError();
+				} catch (RemoteException e1) {
+					e1.printStackTrace();
+				} catch (OperationErrorBD e1) {
+					e1.printStackTrace();
+				} catch (Exception e1) {
+					e1.printStackTrace();
 				}
 			}
 		});
 
 	}
 	
-	
+	/*
 	private void buscarEventos() throws RemoteException, OperationErrorBD, Exception{
 		DTOInscripcionConsulta DTOinscrp = new DTOInscripcionConsulta();
 		DTOinscrp.setUsuario(usuario.getCodigo());
@@ -115,7 +135,7 @@ public class PantallaInformeEventosAsistente extends PanelComun implements Panta
 		DTOinscrp.setFechaFinBusqueda(Utils.transformFecha(this.findTextField("cajaFechaHasta").getText()));
 		muestraResultado(remote.buscaInscripcionesUsuario(DTOinscrp));
 		
-	}
+	}*/
 	
 	
 	private void buscarEventosOK() throws RemoteException, OperationErrorBD, Exception{
@@ -128,11 +148,12 @@ public class PantallaInformeEventosAsistente extends PanelComun implements Panta
 		Evento evento = new Evento();
 		evento.setFechaInicioCelebracion(Utils.transformFecha(this.findTextField("cajaFechaDeste").getText()));
 		evento.setFechaFinCelebracion(Utils.transformFecha(this.findTextField("cajaFechaHasta").getText()));
+		evento.setIdTipoEvento(Integer.parseInt(((MostrarCombo) this.findCombo("comboTipoEvento").getSelectedItem()).getID().toString()));
 		dtoevento.setEvento(evento);
 		
 		dtoinscrp.setInscripcion(inscripcion);
 		dtoinscrp.setDtoEvento(dtoevento);
-		remote.buscaEventosInscrito(dtoinscrp);
+		muestraResultado(remote.buscaEventosInscrito(dtoinscrp));
 		
 	}
 	
@@ -140,7 +161,7 @@ public class PantallaInformeEventosAsistente extends PanelComun implements Panta
 	/*
 	 * Mostramos el resultado obtenido
 	 */
-	
+	/*
 	private void muestraResultado(List<DTOInscripcionConsulta> lstDtoInscripcionConsult) throws OperationErrorDatosFormulario{
 		
 		try{
@@ -171,7 +192,41 @@ public class PantallaInformeEventosAsistente extends PanelComun implements Panta
 		}
 	}
 	
+	*/
 	
+	private void muestraResultado(List<DTOInscripcion> lstDtoInscripcion) throws OperationErrorDatosFormulario{
+		
+		try{
+			this.getDtm().getDataVector().removeAllElements();
+
+			Object[][] aobj = new Object[lstDtoInscripcion.size()][8];
+			int k = 0;			
+			if(lstDtoInscripcion != null){
+				for(DTOInscripcion dtoInscripcion : lstDtoInscripcion){
+					 aobj[k][0] = new String(dtoInscripcion.getDtoEvento().getDtoCentroDocente().getDtoUniversidad().getUniversidad().getNombre());
+					 aobj[k][1] = new String(dtoInscripcion.getDtoEvento().getDtoCentroDocente().getCentroDocente().getNombre());
+					 aobj[k][2] = new String(dtoInscripcion.getDtoEvento().getEvento().getNombre());
+	                 aobj[k][3] = new String(dtoInscripcion.getDtoEvento().getDtoTipoEvento().getTipoEvento().getDescripcion());
+	                 aobj[k][4] = new String(Utils.convertFecha(dtoInscripcion.getDtoEvento().getEvento().getFechaInicioCelebracion().toString()));
+	                 aobj[k][5] = new String(Utils.convertFecha(dtoInscripcion.getDtoEvento().getEvento().getFechaFinCelebracion().toString()));
+	                 aobj[k][6] = new String("Si"); // TODO comprobar si aun te puedes inscribir en el evento
+	                 if (dtoInscripcion.getInscripcion().getCheckIn())
+	                	 aobj[k][7] = new String("Asistio");
+	                 else 
+	                	 aobj[k][7] = new String("NO Asistio");
+	                 k++;
+	       	 	}				
+				if(aobj != null && aobj.length > 0){
+	       	 		for(int row = 0; row < aobj.length; row++){
+	       	 		this.getDtm().addRow(aobj[row]);
+	       	 		}
+	       	 	}
+	       	 	this.getTablaResultados().setEnabled(false);
+			}
+		}catch(Exception e){
+			throw new OperationErrorDatosFormulario(TDSLanguageUtils.getMessage("clientePEC4.error15"));
+		}
+	}
 	
 	
 	
