@@ -153,10 +153,7 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 	}
 	
 	private Boolean canUpdateEvento() {
-		@SuppressWarnings("unchecked")
-		List<Object> lstRes = (Vector<Object>) dtm.getDataVector().get(jTableDatos.getSelectedRow());
-		
-		return (!Boolean.parseBoolean(lstRes.get(COL_CANCELADO).toString()) && !Boolean.parseBoolean(lstRes.get(COL_CELEBRADO).toString()));
+		return (isCancelledEvento() && !isCelebradoEvento());
 	}
 	
 	private Boolean isCancelledEvento() {
@@ -164,6 +161,13 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 		List<Object> lstRes = (Vector<Object>) dtm.getDataVector().get(jTableDatos.getSelectedRow());
 		
 		return (!Boolean.parseBoolean(lstRes.get(COL_CANCELADO).toString()));
+	}
+
+	private Boolean isCelebradoEvento() {
+		@SuppressWarnings("unchecked")
+		List<Object> lstRes = (Vector<Object>) dtm.getDataVector().get(jTableDatos.getSelectedRow());
+		
+		return (Boolean.parseBoolean(lstRes.get(COL_CELEBRADO).toString()));
 	}
 
 	/**
@@ -742,16 +746,20 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 					if (jTableDatos.getSelectedRow() == -1) {
 						Utils.mostraMensajeInformacion(jPanelDatos, "No ha seleccionado ningœn registro de la tabla", "Consulta Eventos");
 					}else{
-						try {
-							DTOEvento dtoEvento = getSelectedEvento();
-					        //this.setVisible(false);
-							PantallaAsistenciaByEvento v4 = new PantallaAsistenciaByEvento(null, remote, dtoEvento);
-					        v4.setVisible(true);
-							//goPantallaUsuario(dtoUsuario);
-						} catch (OperationErrorDatosFormulario e1) {
-							e1.showDialogError();
-						}finally{
-							//jButtonClearActionPerformed();
+						if (isCelebradoEvento()){
+							try {
+								DTOEvento dtoEvento = getSelectedEvento();
+						        //this.setVisible(false);
+								PantallaAsistenciaByEvento v4 = new PantallaAsistenciaByEvento(null, remote, dtoEvento);
+						        v4.setVisible(true);
+								//goPantallaUsuario(dtoUsuario);
+							} catch (OperationErrorDatosFormulario e1) {
+								e1.showDialogError();
+							}finally{
+								//jButtonClearActionPerformed();
+							}
+						}else{
+							Utils.mostraMensajeInformacion(jPanelDatos, "El evento aœn no ha finalizado", "Calendario Eventos");
 						}
 					}
 				}
@@ -861,7 +869,7 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 			jComboBoxTipoEvento = new JComboBox();
 			jComboBoxTipoEvento.setOpaque(false);
 			jComboBoxTipoEvento.setFont(new java.awt.Font("Arial",0,10));
-			jComboBoxTipoEvento.setBounds(200, 94, 358, 22);
+			jComboBoxTipoEvento.setBounds(193, 94, 358, 22);
 		}
 		return jComboBoxTipoEvento;
 	}
