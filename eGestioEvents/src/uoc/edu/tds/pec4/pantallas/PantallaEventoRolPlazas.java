@@ -6,27 +6,19 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.BorderFactory;
 import javax.swing.JButton;
 
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.border.BevelBorder;
 import javax.swing.table.DefaultTableModel;
 
-import uoc.edu.tds.pec4.beans.Inscripcion;
-import uoc.edu.tds.pec4.dtos.DTOEvento;
-import uoc.edu.tds.pec4.dtos.DTOEventoRequisitos;
 import uoc.edu.tds.pec4.dtos.DTOEventoRolPlazas;
 import uoc.edu.tds.pec4.dtos.DTOInscripcion;
 import uoc.edu.tds.pec4.dtos.DTOTipoEvento;
-import uoc.edu.tds.pec4.dtos.DTOTipoEventoRol;
 import uoc.edu.tds.pec4.excepciones.OperationErrorDatosFormulario;
 import uoc.edu.tds.pec4.iface.RemoteInterface;
-import uoc.edu.tds.pec4.utils.Utils;
 
 /**
 * This code was edited or generated using CloudGarden's Jigloo
@@ -41,6 +33,7 @@ import uoc.edu.tds.pec4.utils.Utils;
 * LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
 */
 public class PantallaEventoRolPlazas extends javax.swing.JDialog {
+	private static final long serialVersionUID = -5673875541686515197L;
 	private JPanel jPanelBase;
 	private JScrollPane jScrollPane1;
 	private JButton jButtonLimpiar;
