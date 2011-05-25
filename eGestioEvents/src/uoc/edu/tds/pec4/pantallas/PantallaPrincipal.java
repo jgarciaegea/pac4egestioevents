@@ -140,7 +140,7 @@ public class PantallaPrincipal extends JFrame {
 	        cambioPwd = new JMenuItem(TDSLanguageUtils.getMessage("clientePEC4.framePrincipal.titulo.menu4.item1"));
 	        inscripcionEvento = new JMenuItem(TDSLanguageUtils.getMessage("clientePEC4.framePrincipal.titulo.menu4.item2"));
 	        historicoEventos = new JMenuItem(TDSLanguageUtils.getMessage("clientePEC4.framePrincipal.titulo.menu4.item3"));	
-	        validarAsistenciaEvento = new JMenuItem(TDSLanguageUtils.getMessage("clientePEC4.framePrincipal.titulo.menu4.item4"));
+	       // validarAsistenciaEvento = new JMenuItem(TDSLanguageUtils.getMessage("clientePEC4.framePrincipal.titulo.menu4.item4"));
 	        salirAplicacion = new JMenuItem(TDSLanguageUtils.getMessage("clientePEC4.framePrincipal.titulo.menu5.item5"));
 
 // items estadisticas
@@ -197,7 +197,7 @@ public class PantallaPrincipal extends JFrame {
 	        menuConexion.add(cambioPwd);
 	        menuConexion.add(inscripcionEvento);
 	        menuConexion.add(historicoEventos);
-	        menuConexion.add(validarAsistenciaEvento);
+	        //menuConexion.add(validarAsistenciaEvento);
 	               
 	        menuEstadisticas.add(informePorcentajes);
 	        menuEstadisticas.add(informeIngresos);
@@ -251,7 +251,7 @@ public class PantallaPrincipal extends JFrame {
     cambioPwd.addActionListener(new ActionListener() { 
     	public void actionPerformed(ActionEvent evt) { 
     		try {
-				showPanel(new PantallaCambioPassword(gestorRMI,remote,usuario));
+				showPanel(new PantallaCambioPassword(remote,usuario));
 			} catch (OperationErrorLogin e) {
 				e.showDialogError();
 				e.printStackTrace();
@@ -278,7 +278,7 @@ public class PantallaPrincipal extends JFrame {
     historicoEventos.addActionListener(new ActionListener() { 
     	public void actionPerformed(ActionEvent evt) { 
     		try {
-				showPanel(new PantallaInformeEventosAsistente(gestorRMI,remote,usuario));
+				showPanel(new PantallaInformeEventosAsistente(remote,usuario));
 			} catch (RemoteException e) {
 				e.printStackTrace();
 			} catch (OperationErrorBD e) {
@@ -288,10 +288,10 @@ public class PantallaPrincipal extends JFrame {
     	} }); 	        
     
 
-    validarAsistenciaEvento.addActionListener(new ActionListener() { 
+   /* validarAsistenciaEvento.addActionListener(new ActionListener() { 
     	public void actionPerformed(ActionEvent evt) { 
     		//showPanel(new PantallaAsistencia(gestorRMI,remote,usuario)); 
-    	} }); 
+    	} });*/ 
     
     
 
