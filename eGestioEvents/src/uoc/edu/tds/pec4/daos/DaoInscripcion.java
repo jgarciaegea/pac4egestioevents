@@ -80,6 +80,7 @@ public class DaoInscripcion extends DaoEntidad<Inscripcion>{
 			if(criteris.getCodigoAsistencia()!=null) {ps.setString(i, criteris.getCodigoAsistencia()); i++;}
 
 			rs = ps.executeQuery();
+			System.out.println(ps.toString());
 			while (rs.next()) {
 				Inscripcion inscripcion = retornaInscripcion(rs);
 				lstInscripcion.add(inscripcion);
