@@ -19,8 +19,11 @@ import uoc.edu.tds.pec4.dtos.DTOEvento;
 import uoc.edu.tds.pec4.dtos.DTOInscripcion;
 import uoc.edu.tds.pec4.dtos.DTOUsuario;
 import uoc.edu.tds.pec4.excepciones.OperationErrorBD;
+import uoc.edu.tds.pec4.excepciones.OperationErrorDatosFormulario;
 import uoc.edu.tds.pec4.excepciones.OperationErrorLogin;
 import uoc.edu.tds.pec4.iface.RemoteInterface;
+import uoc.edu.tds.pec4.utils.Constantes;
+import uoc.edu.tds.pec4.utils.Utils;
 
 
 /**
@@ -38,7 +41,7 @@ public class PantallaInscripcion extends PanelComun implements Pantallas{
 	private DTOEvento dtoEvento;
 
 
-	public PantallaInscripcion(RemoteInterface remote1,DTOUsuario dtousuario1, DTOEvento dtoEvento1) throws OperationErrorLogin, RemoteException, OperationErrorBD{
+	public PantallaInscripcion(RemoteInterface remote1,DTOUsuario dtousuario1, DTOEvento dtoEvento1) throws OperationErrorLogin, RemoteException, OperationErrorBD, OperationErrorDatosFormulario{
 		super("clientePEC4.panelInscripcion.titulo",750,500);
 		System.out.println("creando Pantalla inscripcion......");
 		remote = remote1;
@@ -60,7 +63,7 @@ public class PantallaInscripcion extends PanelComun implements Pantallas{
 
 		// TODO HAY QUE METER MAS DATOS EN LA INFOM DEL EVENTO
 		System.out.println("evento...."+dtoEvento.getEvento().getDescripcion());
-		this.findJTextAreaString("informacionEventoInscripcion").setText(dtoEvento.getEvento().getDescripcion());
+		this.findJTextAreaString("informacionEventoInscripcion").setText(mostrarInfoEvento());
 		this.findJTextAreaString("informacionEventoInscripcion").setEditable(false);
 		this.crearTitulo(20, 300, 140, 20, "clientePEC4.panelInscripcion.titulo1.nombreAsistente", "nombreAsistente");
 		this.crearTextField(160, 300, 250, 20,"cajaAsistente");
@@ -103,17 +106,36 @@ public class PantallaInscripcion extends PanelComun implements Pantallas{
 		}
 	}
 	
-	/*
-	public void mostrarInfoEvento(){
-		JPanel principal = new JPanel(new BorderLayout());
-		JLabel descEvento = new JLabel(dtoEvento.getEvento().getDescripcion(), JLabel.CENTER);
-		principal.add(descEvento);
-		this.findJTextAreaString("informacionEventoInscripcion").getContentPane().add(principal);
-		pack();
 
-		//INDICAMOS QUE NO PUEDAN CAMBIAR EL TAMA¥O DEL DIALOGO CON EL MOUSE
-		setResizable(false);
-	}*/
+
+	public String mostrarInfoEvento() throws OperationErrorDatosFormulario{
+		String info = new String();
+		info = Constantes.SALTO_LINEA;
+		
+		if (dtoEvento.getEvento().getFechaInicioCelebracion() != null)
+		info = info + "Dia  " + Utils.convertFecha(dtoEvento.getEvento().getFechaInicioCelebracion().toString()) + Constantes.SALTO_LINEA;
+		
+		if (dtoEvento.getEvento().getDescripcion() != null)
+		info = info + "Evento: " + dtoEvento.getEvento().getDescripcion() + Constantes.SALTO_LINEA;
+		
+		if (dtoEvento.getDtoCentroDocente().getDtoUniversidad().getUniversidad().getNombre() != null)	
+			info = info + "          Universidad: " + dtoEvento.getDtoCentroDocente().getDtoUniversidad().getUniversidad().getNombre() + Constantes.SALTO_LINEA;
+		
+		if (dtoEvento.getDtoCentroDocente().getCentroDocente().getNombre() != null)
+		info = info + "                     Centro Docente: " + dtoEvento.getDtoCentroDocente().getCentroDocente().getNombre()+ Constantes.SALTO_LINEA;
+		
+		if (dtoEvento.getDtoCentroDocente().getDtoContacto().getContacto().getDomicilio() != null)
+		info = info + "                     Direccion : " + dtoEvento.getDtoCentroDocente().getDtoContacto().getContacto().getDomicilio()+ Constantes.SALTO_LINEA;
+		
+		info = info + Constantes.SALTO_LINEA;
+		
+		if (dtoEvento.getEvento().getPrecio() != null)
+		info = info + "Precio: " + dtoEvento.getEvento().getPrecio() + Constantes.SALTO_LINEA;
+		
+		info = info + Constantes.SALTO_LINEA;
+		info = info + "Prerequisitos: " +Constantes.SALTO_LINEA;
+		return info;
+	}
 	
 	
 	public void crearInscripcion(){
