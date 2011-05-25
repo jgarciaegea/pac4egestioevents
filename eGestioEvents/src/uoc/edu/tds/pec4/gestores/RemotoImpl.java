@@ -7,6 +7,7 @@ import java.util.List;
 import uoc.edu.tds.pec4.beans.CentroDocente;
 import uoc.edu.tds.pec4.beans.EventoRequisitos;
 import uoc.edu.tds.pec4.beans.EventoRolPlazas;
+import uoc.edu.tds.pec4.beans.Inscripcion;
 import uoc.edu.tds.pec4.beans.Pais;
 import uoc.edu.tds.pec4.beans.TipoDocumento;
 import uoc.edu.tds.pec4.beans.TipoEvento;
@@ -714,6 +715,63 @@ public class RemotoImpl extends UnicastRemoteObject implements RemoteInterface{
 			
 	}
 	
+	
+	public boolean validarInscripcion(DTOEvento dtoEvento, DTOUsuario dtoUsuario,DTOInscripcion dtoInscripcion ) throws Exception{
+		
+		DTOEventoPlus dtoEventoPlus = getPlazasEvento(dtoEvento);
+		// miramos que el evento disponga de plazas
+		if (dtoEventoPlus.getEventoPlus().getPlazasLibres() > 0 ){		
+			
+			dtoInscripcion.getInscripcion().setFechaInscripcion(null);
+			GestorInscripcion gestorInscripcion = new GestorInscripcion(gestorDB.getConnection());
+			List<DTOInscripcion> dtoInscripcionEncontrado = gestorInscripcion.consultaEntidades(dtoInscripcion);	
+			
+			if (dtoInscripcionEncontrado == null){
+				// el usuario no esta inscrito al mismo evento
+				GestorEventoRequisitos gestorEventoRequisitos = new GestorEventoRequisitos(gestorDB.getConnection());
+				List<DTOEventoRequisitos> listDTOEventoREquisitos = gestorEventoRequisitos.consultaEntidadById(dtoEvento.getEvento().getIdEvento());
+				
+				// miramos los requisitos del eventos
+				if (listDTOEventoREquisitos != null){
+					
+					Inscripcion  insc = new Inscripcion(); 
+					insc.setCodigo(dtoUsuario.getUsuario().getCodigo());
+					DTOInscripcion dtoinsc	 = new DTOInscripcion();
+					dtoinsc.setInscripcion(insc);
+					// recogemos todas las inscripcones del usuario
+					List<DTOInscripcion> lstdtoInscripcionUsuario = gestorInscripcion.consultaEntidades(dtoinsc);					
+					if (lstdtoInscripcionUsuario == null){
+						return false; // el usuario no cumple los requisitos
+					}else{
+						
+						// comprobamos que el usuario tenga inscripciones para todos los requisitos.
+							boolean valido = false;
+							for(DTOEventoRequisitos dtoEventoREquisito : listDTOEventoREquisitos){
+								valido = false;
+								for(DTOInscripcion dtoInscripcionUsuario : lstdtoInscripcionUsuario){
+									
+									if (dtoInscripcionUsuario.getDtoEvento().getEvento().getIdEvento().
+											equals(dtoEventoREquisito.getDtoEventoReq().getEvento().getIdEvento())){
+										valido= true;
+									}
+										
+									
+								}
+
+							}
+							if (valido == false) // el usuario no cumple los requisitos 
+								return false;				
+					}	
+					return true;
+			}else return true; /// no hay requistos para el evento
+					
+		}else 
+			return false; // el usuario ya esta inscrito en el mismo evento
+		
+	}else 
+		return false; // ya no hay plazas disponibles
+	
+}
 	
 		
 }
