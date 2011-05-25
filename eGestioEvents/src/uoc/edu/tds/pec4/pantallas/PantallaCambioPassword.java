@@ -3,15 +3,15 @@
  */
 package uoc.edu.tds.pec4.pantallas;
 
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.rmi.RemoteException;
 
 
-import uoc.edu.tds.pec4.beans.Usuario;
+import uoc.edu.tds.pec4.dtos.DTOUsuario;
 import uoc.edu.tds.pec4.excepciones.OperationErrorDatosFormulario;
 import uoc.edu.tds.pec4.excepciones.OperationErrorLogin;
+import uoc.edu.tds.pec4.gestores.GestorRMI;
 import uoc.edu.tds.pec4.iface.RemoteInterface;
 import uoc.edu.tds.pec4.utils.Base64Coder;
 import uoc.edu.tds.pec4.utils.Utils;
@@ -24,37 +24,39 @@ public class PantallaCambioPassword extends PanelComun implements Pantallas{
 
 	private static final long serialVersionUID = 1L; 
 	private RemoteInterface remote;
-	private Usuario usuario;
+	private DTOUsuario dtoUsuario;
 	
 	/**
 	 * 
 	 */
-	public PantallaCambioPassword(RemoteInterface remote1,Usuario usuario1)throws OperationErrorLogin {
-		super("clientePEC4.panelCambioPassword.titulo",400,210);
+	public PantallaCambioPassword(GestorRMI gestorRMI,RemoteInterface remote1,DTOUsuario dtoUsuario)throws OperationErrorLogin {
+		// TODO Auto-generated constructor stub
+		super("clientePEC4.panelCambioPassword.titulo",450,260);
 		remote = remote1;
-		usuario = usuario1;
-		if (usuario1 == null) throw new OperationErrorLogin("La session es invalida.....");
+		this.dtoUsuario = dtoUsuario;
+		if (dtoUsuario == null) throw new OperationErrorLogin("La session es invalida.....");
 		try {
 			remote.testConexion();
 		} catch (RemoteException e1) {
+			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		this.crearTitulo(20, 30, 160, 20, "clientePEC4.panelCamioPassword.titulo1.Usuario", "tUsuario");
-		this.crearTextField(200, 30, 140, 20,"cajaUsuario");
-		this.findTextField("cajaUsuario").setText(usuario.getCodigo());
+		this.crearTitulo(20, 30, 140, 20, "clientePEC4.panelCamioPassword.titulo1.Usuario", "tUsuario");
+		this.crearTextField(160, 30, 140, 20,"cajaUsuario");
+		this.findTextField("cajaUsuario").setText(dtoUsuario.getUsuario().getCodigo());
 		this.findTextField("cajaUsuario").setEditable(false);
 		
-		this.crearTitulo(20, 60, 160, 20, "clientePEC4.panelCamioPassword.titulo2.Pwd", "tPwd");
-		this.crearJPasswordField(200, 60, 140, 20,"cajaPwd");
+		this.crearTitulo(20, 60, 140, 20, "clientePEC4.panelCamioPassword.titulo2.Pwd", "tPwd");
+		this.crearJPasswordField(160, 60, 140, 20,"cajaPwd");
 		
-		this.crearTitulo(20, 90, 160, 20, "clientePEC4.panelCamioPassword.titulo3.PwdNew", "tPwdNew");
-		this.crearJPasswordField(200, 90, 140, 20,"cajaPwdNew");
+		this.crearTitulo(20, 90, 140, 20, "clientePEC4.panelCamioPassword.titulo3.PwdNew", "tPwdNew");
+		this.crearJPasswordField(160, 90, 140, 20,"cajaPwdNew");
 		
-		this.crearTitulo(20, 120, 160, 20, "clientePEC4.panelCamioPassword.titulo4.RPwdNew", "RPwdNew");
-		this.crearJPasswordField(200, 120, 140, 20,"cajaRPwdNew");
+		this.crearTitulo(20, 120, 140, 20, "clientePEC4.panelCamioPassword.titulo4.RPwdNew", "RPwdNew");
+		this.crearJPasswordField(160, 120, 140, 20,"cajaRPwdNew");
 		
-		this.crearBoton(20, 160, 120, 30, "clientePEC4.panelCambioPassword.boton.bOK","bOK");
-		this.crearBoton(200, 160, 120, 30, "clientePEC4.panelCambioPassword.boton.bCancel", "bCancel");
+		this.crearBoton(50, 160, 80, 40, "clientePEC4.panelCambioPassword.boton.bOK","bOK");
+		this.crearBoton(160, 160, 80, 40, "clientePEC4.panelCambioPassword.boton.bCancel", "bCancel");
 		this.setAlignmentX(RIGHT_ALIGNMENT);
 		generaEventos();
 		
@@ -70,11 +72,11 @@ public class PantallaCambioPassword extends PanelComun implements Pantallas{
 		String passActual = this.findJPasswordField("cajaPwd").getText();
 		passActual =  Base64Coder.encodeString(passActual);
 		
-		if (!passActual.equals(usuario.getContrasena())){
+		if (!passActual.equals(dtoUsuario.getUsuario().getContrasena())){
 			throw new OperationErrorLogin("Contrasenya Actual incorrecta");
 		}  
-		usuario.setContrasena(passNueva);
-		remote.updatePassword(usuario);
+		dtoUsuario.getUsuario().setContrasena(passNueva);
+		remote.updatePassword(dtoUsuario);
 	}
 	
 	
@@ -85,7 +87,8 @@ public class PantallaCambioPassword extends PanelComun implements Pantallas{
 	 */
 	
 
-	public void generaEventos(){		
+	public void generaEventos(){
+		
 		this.findBoton("bOK").addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -101,11 +104,12 @@ public class PantallaCambioPassword extends PanelComun implements Pantallas{
 						e3.showDialogError();
 				}
 			}
-		});		
+		});
+		
 		this.findBoton("bCancel").addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
-				removeAll();
+				System.out.println("EVENTO PARA EL Cancel");
 			}
 		});
 	}
