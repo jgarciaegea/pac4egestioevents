@@ -14,7 +14,6 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import uoc.edu.tds.pec4.beans.Usuario;
 import uoc.edu.tds.pec4.dtos.DTOAdministrador;
 import uoc.edu.tds.pec4.dtos.DTOAsistente;
 import uoc.edu.tds.pec4.dtos.DTOPersonalSecretaria;
@@ -23,7 +22,6 @@ import uoc.edu.tds.pec4.excepciones.OperationErrorBD;
 import uoc.edu.tds.pec4.excepciones.OperationErrorDatosFormulario;
 import uoc.edu.tds.pec4.excepciones.OperationErrorLogin;
 import uoc.edu.tds.pec4.excepciones.OperationErrorRMI;
-import uoc.edu.tds.pec4.gestores.FactoriaUsuario;
 import uoc.edu.tds.pec4.gestores.GestorRMI;
 import uoc.edu.tds.pec4.iface.RemoteInterface;
 import uoc.edu.tds.pec4.resources.TDSLanguageUtils;
@@ -42,7 +40,6 @@ public class PantallaPrincipal extends JFrame {
 	private JMenuItem cambioPwd;
 	private JMenuItem inscripcionEvento;
 	private JMenuItem historicoEventos;
-	private JMenuItem validarAsistenciaEvento;
 	private JMenuItem salirAplicacion;	
 	
 	private JMenuItem informePorcentajes;
