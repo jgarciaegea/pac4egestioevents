@@ -120,13 +120,14 @@ public class GestorInscripcion extends GestorEntidad<DTOInscripcion>{
 					GestorEvento gestorEvento = new GestorEvento(connection);
 					DTOEvento dtoEvento = gestorEvento.consultaEntidadById(inscripcion.getIdEvento());
 					if(dtoEvento != null) dtoInscripcion.setDtoEvento(dtoEvento);
-					
+					System.out.println("Dto evento recibido...."+criteris.getDtoEvento().getEvento().getIdTipoEvento());
+					System.out.println("Dto evento encontrado...."+dtoEvento.getEvento().getIdTipoEvento());
 					//Añadimos el Usuario
 					GestorUsuario gestorUsuario = new GestorUsuario(connection);
 					DTOAsistente dtoAsistente = (DTOAsistente) gestorUsuario.consultaEntidadById(inscripcion.getCodigo());
 					if(dtoAsistente != null) dtoInscripcion.setDtoAsistente(dtoAsistente);
 					
-					if (
+					if ((
 							((dtoEvento.getEvento().getFechaInicioCelebracion().after(criteris.getDtoEvento().getEvento().getFechaInicioCelebracion())
 										|| dtoEvento.getEvento().getFechaInicioCelebracion().equals(criteris.getDtoEvento().getEvento().getFechaInicioCelebracion()))
 							
@@ -139,12 +140,11 @@ public class GestorInscripcion extends GestorEntidad<DTOInscripcion>{
 										&& ((dtoEvento.getEvento().getFechaFinCelebracion().before(criteris.getDtoEvento().getEvento().getFechaFinCelebracion()))
 												||(dtoEvento.getEvento().getFechaFinCelebracion().equals(criteris.getDtoEvento().getEvento().getFechaFinCelebracion()))))		
 									
-							){
+							))  {
 							
-							//&& (dtoEvento.getEvento().getFechaFinCelebracion().before(criteris.getDtoEvento().getEvento().getFechaFinCelebracion()))
-							//|| dtoEvento.getEvento().getFechaFinCelebracion().equals(criteris.getDtoEvento().getEvento().getFechaFinCelebracion())){
 							System.out.println("Se encuentra entre las fechas......");
-						lstDTOInscripcion.add(dtoInscripcion);
+							if (criteris.getDtoEvento().getEvento().getIdTipoEvento().equals(dtoEvento.getEvento().getIdTipoEvento()))
+									lstDTOInscripcion.add(dtoInscripcion);
 					}
 					
 				}
