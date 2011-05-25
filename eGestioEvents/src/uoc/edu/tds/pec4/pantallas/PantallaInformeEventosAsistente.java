@@ -20,7 +20,6 @@ import uoc.edu.tds.pec4.excepciones.OperationErrorBD;
 import uoc.edu.tds.pec4.excepciones.OperationErrorDatosFormulario;
 import uoc.edu.tds.pec4.excepciones.OperationErrorLogin;
 import uoc.edu.tds.pec4.iface.RemoteInterface;
-import uoc.edu.tds.pec4.resources.TDSLanguageUtils;
 import uoc.edu.tds.pec4.utils.MostrarCombo;
 import uoc.edu.tds.pec4.utils.Utils;
 
@@ -41,6 +40,8 @@ public class PantallaInformeEventosAsistente extends PanelComun implements Panta
 	 * @throws OperationErrorLogin 
 	 * 
 	 */
+	
+	
 	public PantallaInformeEventosAsistente(RemoteInterface remote1,DTOUsuario dtoUsuario) throws RemoteException, OperationErrorBD, OperationErrorLogin {
 		
 		super("clientePEC4.panelInformeEventosAsistencia.titulo",800,520);
@@ -66,6 +67,12 @@ public class PantallaInformeEventosAsistente extends PanelComun implements Panta
 		generaEventos();
 	}
 	
+	
+	
+	/**************************************************************
+	 * Método para mostrar/rellenar el combo de tipos de evento**
+	 **************************************************************/
+	
 	private  List<MostrarCombo> recuperarTiposEvento() throws RemoteException, OperationErrorBD{
 		
 		List<DTOTipoEvento> lstdtoTipoEvento = remote.getTiposEventos();
@@ -80,10 +87,9 @@ public class PantallaInformeEventosAsistente extends PanelComun implements Panta
 	}
 	
 	
-	/**
-	 * Método que genera los Eventos
-	 * 
-	 */
+	/**************************************************************
+	 * Método para generar los eventos de la pantalla**
+	 **************************************************************/
 	
 	private void generaEventos(){
 		
@@ -104,44 +110,28 @@ public class PantallaInformeEventosAsistente extends PanelComun implements Panta
 			public void actionPerformed(ActionEvent e) {
 				try {
 					validaFormulario();
-					buscarEventosOK();
-					try {
-						//buscarEventos();
-						buscarEventosOK();
-					} catch (RemoteException e1) {
-						e1.printStackTrace();
-					} catch (OperationErrorBD e1) {
-						e1.printStackTrace();
-					} catch (Exception e1) {
-						e1.printStackTrace();
-					}
+					limpiaFormulario();
+					buscarEventos();
 				} catch (OperationErrorDatosFormulario ef) {
-					ef.printStackTrace();
 					ef.showDialogError();
 				} catch (RemoteException e1) {
-					e1.printStackTrace();
+					e1.printStackTrace();					
 				} catch (OperationErrorBD e1) {
 					e1.printStackTrace();
+					e1.showDialogError();
 				} catch (Exception e1) {
 					e1.printStackTrace();
 				}
 			}
 		});
 
-	}
+	}	
+
+	/**************************************************************
+	 * Método para lanzar la consulta de eventos*************
+	 **************************************************************/	
 	
-	/*
 	private void buscarEventos() throws RemoteException, OperationErrorBD, Exception{
-		DTOInscripcionConsulta DTOinscrp = new DTOInscripcionConsulta();
-		DTOinscrp.setUsuario(usuario.getCodigo());
-		DTOinscrp.setFechaInicioBusqueda(Utils.transformFecha(this.findTextField("cajaFechaDeste").getText()));
-		DTOinscrp.setFechaFinBusqueda(Utils.transformFecha(this.findTextField("cajaFechaHasta").getText()));
-		muestraResultado(remote.buscaInscripcionesUsuario(DTOinscrp));
-		
-	}*/
-	
-	
-	private void buscarEventosOK() throws RemoteException, OperationErrorBD, Exception{
 		
 		DTOInscripcion dtoinscrp = new DTOInscripcion();
 		Inscripcion inscripcion = new Inscripcion();
@@ -160,42 +150,9 @@ public class PantallaInformeEventosAsistente extends PanelComun implements Panta
 		
 	}
 	
-	
-	/*
-	 * Mostramos el resultado obtenido
-	 */
-	/*
-	private void muestraResultado(List<DTOInscripcionConsulta> lstDtoInscripcionConsult) throws OperationErrorDatosFormulario{
-		
-		try{
-			this.getDtm().getDataVector().removeAllElements();
-			Object[][] aobj = new Object[lstDtoInscripcionConsult.size()][7];
-			int k = 0;			
-			if(lstDtoInscripcionConsult != null){
-				for(DTOInscripcionConsulta dtoInscripcionConsulta : lstDtoInscripcionConsult){
-					 aobj[k][0] = new String(dtoInscripcionConsulta.getDtoEvento().getDtoCentroDocente().getDtoUniversidad().getUniversidad().getNombre());
-					 aobj[k][1] = new String(dtoInscripcionConsulta.getDtoEvento().getDtoCentroDocente().getCentroDocente().getNombre());
-					 aobj[k][2] = new String(dtoInscripcionConsulta.getDtoEvento().getEvento().getNombre());
-	                 aobj[k][3] = new String(dtoInscripcionConsulta.getDtoEvento().getDtoTipoEvento().toString());
-	                 aobj[k][4] = new String(Utils.convertFecha(dtoInscripcionConsulta.getDtoEvento().getEvento().getFechaInicioCelebracion().toString()));
-	                 aobj[k][4] = new String(Utils.convertFecha(dtoInscripcionConsulta.getDtoEvento().getEvento().getFechaFinCelebracion().toString()));
-	                 aobj[k][5] = new String("");
-	                 aobj[k][6] = new String(dtoInscripcionConsulta.getInscripcion().getEstado().toString());
-	                 k++;
-	       	 	}				
-				if(aobj != null && aobj.length > 0){
-	       	 		for(int row = 0; row < aobj.length; row++){
-	       	 		this.getDtm().addRow(aobj[row]);
-	       	 		}
-	       	 	}
-	       	 	
-			}
-		}catch(Exception e){
-			throw new OperationErrorDatosFormulario(TDSLanguageUtils.getMessage("clientePEC4.error15"));
-		}
-	}
-	
-	*/
+	/**************************************************************
+	 * Método para mostrar el resultado de la consulta*************
+	 **************************************************************/	
 	
 	private void muestraResultado(List<DTOInscripcion> lstDtoInscripcion) throws OperationErrorDatosFormulario{
 		
@@ -204,6 +161,10 @@ public class PantallaInformeEventosAsistente extends PanelComun implements Panta
 
 			Object[][] aobj = new Object[lstDtoInscripcion.size()][8];
 			int k = 0;			
+			if(lstDtoInscripcion == null || lstDtoInscripcion.size() == 0 ){
+				throw new Exception("NO SE HAN ENCONTRADO RESULTADOS PARA LOS CRITERIOS INTRODUCIDOS");
+			}
+			
 			if(lstDtoInscripcion != null){
 				for(DTOInscripcion dtoInscripcion : lstDtoInscripcion){
 					 aobj[k][0] = new String(dtoInscripcion.getDtoEvento().getDtoCentroDocente().getDtoUniversidad().getUniversidad().getNombre());
@@ -218,29 +179,33 @@ public class PantallaInformeEventosAsistente extends PanelComun implements Panta
 	                 else 
 	                	 aobj[k][7] = new String("NO Asistio");
 	                 k++;
-	       	 	}				
+	       	 	}
 				if(aobj != null && aobj.length > 0){
 	       	 		for(int row = 0; row < aobj.length; row++){
 	       	 		this.getDtm().addRow(aobj[row]);
 	       	 		}
 	       	 	}
 	       	 	this.getTablaResultados().setEnabled(false);
-			}
+			} 
+
 		}catch(Exception e){
-			throw new OperationErrorDatosFormulario(TDSLanguageUtils.getMessage("clientePEC4.error15"));
+			throw new OperationErrorDatosFormulario(e.getMessage());
 		}
 	}
 	
 	
 	
-	/**
-	 * Método que valida los datos introducidos en el formulario
-	 * @throws OperationErrorDatosFormulario
-	 */
+	/**************************************************************
+	 * Método para validar el formulario**
+	 **************************************************************/
+	
 	private void validaFormulario() throws OperationErrorDatosFormulario{
 		try{
 			
-
+			if(Utils.valorisNull(this.findTextField("cajaFechaHasta").getText())) throw new Exception(Utils.MESSAGE_ERROR + " Fecha Hasta " );
+			
+			if(Utils.valorisNull(this.findTextField("cajaFechaDeste").getText())) throw new Exception(Utils.MESSAGE_ERROR + " Fecha Desde " );
+			
 			if(Utils.valorisNull(this.findCombo("comboTipoEvento").getSelectedItem())) throw new Exception(Utils.MESSAGE_ERROR + " Tipo de Evento" );
 			if(!"".equalsIgnoreCase(this.findTextField("cajaFechaHasta").getText()) && "".equalsIgnoreCase(this.findTextField("cajaFechaDeste").getText())){
 				 throw new Exception("No puede introducir la fecha final sin previamente informar la fecha de inicio");
@@ -252,6 +217,14 @@ public class PantallaInformeEventosAsistente extends PanelComun implements Panta
 				if(!Utils.parseaFecha(this.findTextField("cajaFechaHasta").getText())) throw new Exception(Utils.MESSAGE_ERROR + " fecha fin" + Utils.MESSAGE_FECHA );
 			}
 		
+			if (Utils.transformFecha(this.findTextField("cajaFechaDeste").getText()).after(Utils.transformFecha(this.findTextField("cajaFechaHasta").getText()))){
+				throw new Exception( " La fecha Desde es mayor que la Fecha Hasta" );
+			}
+			
+			if (Utils.transformFecha(this.findTextField("cajaFechaHasta").getText()).before(Utils.transformFecha(this.findTextField("cajaFechaDeste").getText()))){
+				throw new Exception( " La fecha Hasta es Menor que la Fecha Desde");
+			}
+			
 		}catch(Exception e){
 			throw new OperationErrorDatosFormulario(e.getMessage());
 		}
