@@ -29,7 +29,7 @@ public class PantallaCambioPassword extends PanelComun implements Pantallas{
 	/**
 	 * 
 	 */
-	public PantallaCambioPassword(GestorRMI gestorRMI,RemoteInterface remote1,DTOUsuario dtoUsuario)throws OperationErrorLogin {
+	public PantallaCambioPassword(RemoteInterface remote1,DTOUsuario dtoUsuario)throws OperationErrorLogin {
 		// TODO Auto-generated constructor stub
 		super("clientePEC4.panelCambioPassword.titulo",450,260);
 		remote = remote1;
