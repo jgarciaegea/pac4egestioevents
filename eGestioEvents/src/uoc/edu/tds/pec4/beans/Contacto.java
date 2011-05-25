@@ -10,7 +10,6 @@ public class Contacto  implements BeanInterface, Serializable{
 	private String domicilio;
 	private Integer cp;
 	private String localidad;
-	private String provincia;
 	private Integer idPais;
 	private String email;
 	private String web;
@@ -44,12 +43,7 @@ public class Contacto  implements BeanInterface, Serializable{
 	public void setLocalidad(String localidad) {
 		this.localidad = localidad;
 	}
-	public String getProvincia() {
-		return provincia;
-	}
-	public void setProvincia(String provincia) {
-		this.provincia = provincia;
-	}
+	
 	public Integer getIdPais() {
 		return idPais;
 	}
