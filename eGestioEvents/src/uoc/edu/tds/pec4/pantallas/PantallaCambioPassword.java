@@ -19,7 +19,6 @@ import uoc.edu.tds.pec4.utils.Utils;
  *
  */
 public class PantallaCambioPassword extends PanelComun implements Pantallas{
-
 	private static final long serialVersionUID = 1L; 
 	private RemoteInterface remote;
 	private DTOUsuario dtoUsuario;
