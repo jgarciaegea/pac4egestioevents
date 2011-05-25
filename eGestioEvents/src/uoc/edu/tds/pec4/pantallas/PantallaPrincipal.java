@@ -290,12 +290,7 @@ public class PantallaPrincipal extends JFrame {
     	} }); 	        
     
 
-   /* validarAsistenciaEvento.addActionListener(new ActionListener() { 
-    	public void actionPerformed(ActionEvent evt) { 
-    		//showPanel(new PantallaAsistencia(gestorRMI,remote,usuario)); 
-    	} });*/ 
-    
-    
+  
 
     salirAplicacion.addActionListener(new ActionListener() { 
     	public void actionPerformed(ActionEvent evt) { 
@@ -327,9 +322,6 @@ public class PantallaPrincipal extends JFrame {
 				e1.showDialogError();
 			}
 		}
-		
-
-		
 		
 		
 	}
