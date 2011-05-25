@@ -754,7 +754,7 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 		this.removeAll();
 		this.setAlignmentX(LEFT_ALIGNMENT);
 		this.setAlignmentY(TOP_ALIGNMENT);
-		this.add((Component)new PantallaInscripcion(remote,dtoUsuario,dtoEvento));
+		this.add((Component)new PantallaInscripcion(remote,dtoUsuario,dtoEvento ));
 		this.repaint();
 		this.revalidate();
 		this.updateUI();
