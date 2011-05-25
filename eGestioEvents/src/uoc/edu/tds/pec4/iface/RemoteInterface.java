@@ -324,5 +324,7 @@ public interface RemoteInterface extends Remote{
 	 * @throws OperationErrorBD
 	 */
 	public abstract Boolean usuarioCentrosVinculados(Usuario usuario) throws RemoteException, OperationErrorBD;
+	
+	public abstract void insertaInscripcion(DTOInscripcion dtoinscripcion) throws RemoteException, OperationErrorBD ;
 		
 }
