@@ -62,12 +62,18 @@ public class PantallaPrincipal extends JFrame {
 	public PantallaPrincipal(GestorRMI gestorRMI,RemoteInterface remote,DTOUsuario dtoUsuario){
        try {
 		this.dtoUsuario = dtoUsuario;
+		if (dtoUsuario == null) throw new OperationErrorLogin("La session es invalida.....");
+		try {
+			remote.testConexion();
+		} catch (RemoteException e1) {
+			e1.printStackTrace();
+		}
 		this.gestorRMI = gestorRMI;
 		this.remote = remote;
 		setSize(784, 600);
 	    setResizable(false);
 	    setLocationRelativeTo(null);
-	    setTitle(TDSLanguageUtils.getMessage("clientePEC4.framePrincipal.titulo"));
+	    setTitle(TDSLanguageUtils.getMessage("clientePEC4.framePrincipal.titulo") + " - " + dtoUsuario.getUsuario().getNombreCompleto());
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         crearMenuBar();
         gestionarPermisos();
@@ -84,14 +90,15 @@ public class PantallaPrincipal extends JFrame {
 		try {
 		if(dtoUsuario instanceof DTOAdministrador){
 	        menuMantenimiento.setEnabled(true);
-	        menuConexion.setEnabled(true); //test
-	        //menuProgramacionEvento.setEnabled(true); //test
+	        menuMantenimiento.setVisible(true);
 		}else if(dtoUsuario instanceof DTOPersonalSecretaria){
 	        menuEstadisticas.setEnabled(true);
-	        //menuConexion.setEnabled(true);
 	        menuProgramacionEvento.setEnabled(true);
+	        menuEstadisticas.setVisible(true);
+	        menuProgramacionEvento.setVisible(true);
 		}else if(dtoUsuario instanceof DTOAsistente){
 	        menuConexion.setEnabled(true);
+	        menuConexion.setVisible(true);
 		}
         menuSalir.setEnabled(true);
         menuAyuda.setEnabled(true);
@@ -130,6 +137,12 @@ public class PantallaPrincipal extends JFrame {
 	        menuSalir.setEnabled(true);
 	        menuAyuda = new JMenu(TDSLanguageUtils.getMessage("clientePEC4.framePrincipal.titulo.menu6"));
 	        menuAyuda.setEnabled(false);
+	        
+	        
+	        menuEstadisticas.setVisible(false);
+	        menuConexion.setVisible(false);
+	        menuProgramacionEvento.setVisible(false);
+	        menuMantenimiento.setVisible(false);
 	        
  // items menu Conexion y reserva
 	        
