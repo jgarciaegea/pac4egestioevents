@@ -85,7 +85,7 @@ public class PantallaPrincipal extends JFrame {
 		if(dtoUsuario instanceof DTOAdministrador){
 	        menuMantenimiento.setEnabled(true);
 	        menuConexion.setEnabled(true); //test
-	        menuProgramacionEvento.setEnabled(true); //test
+	        //menuProgramacionEvento.setEnabled(true); //test
 		}else if(dtoUsuario instanceof DTOPersonalSecretaria){
 	        menuEstadisticas.setEnabled(true);
 	        //menuConexion.setEnabled(true);
