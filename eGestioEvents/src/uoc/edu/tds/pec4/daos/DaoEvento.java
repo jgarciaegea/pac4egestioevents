@@ -328,7 +328,7 @@ public class DaoEvento extends DaoEntidad<Evento>{
 			sb.append("SELECT id_evento, id_centro, nombre, descripcion, fecha_inicio_celebracion, fecha_alta, ");
 			sb.append("  estado, fecha_estado, motivo_estado, id_tipo_evento, plazas, umbral, fecha_inicio_inscripcion, ");
 			sb.append("  fecha_fin_inscripcion, duracion, precio, fecha_fin_celebracion ");
-			sb.append("FROM EVENTOS ");
+			sb.append("FROM EVENTO ");
 			sb.append("WHERE (1=1) ");
 			if(criteris.getIdEvento()!=null) sb.append("AND id_evento = ? ");
 			if(criteris.getIdCentro()!=null) sb.append("AND id_centro = ? ");
@@ -346,7 +346,7 @@ public class DaoEvento extends DaoEntidad<Evento>{
 			if(criteris.getFechaFinInscripcion()!=null) sb.append("AND fecha_fin_inscripcion = ? ");
 			if(criteris.getDuracion()!=null) sb.append("AND duracion = ? ");
 			if(criteris.getPrecio()!=null) sb.append("AND precio = ? ");
-			if(criteris.getFechaFinCelebracion()!=null) sb.append("AND fecha_fin_celebracion < ? ");
+			sb.append("AND fecha_fin_celebracion < ? ");
 					
 			sb.append(" order by evento");
 			
@@ -369,7 +369,7 @@ public class DaoEvento extends DaoEntidad<Evento>{
 			if(criteris.getFechaFinInscripcion()!=null) {ps.setDate(i, criteris.getFechaFinInscripcion()); i++;}
 			if(criteris.getDuracion()!=null) {ps.setInt(i, criteris.getDuracion()); i++;}
 			if(criteris.getPrecio()!=null) {ps.setInt(i, criteris.getPrecio()); i++;}
-			if(criteris.getFechaFinCelebracion()!=null) {ps.setDate(i, criteris.getFechaFinCelebracion()); i++;}
+			ps.setDate(i, new java.sql.Date(System.currentTimeMillis())); i++;
 			
 			System.out.println(ps.toString());
 			rs = ps.executeQuery();
