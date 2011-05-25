@@ -130,7 +130,7 @@ public class DaoUsuario extends DaoEntidad<Usuario>{
 			sb.append(CONSULTA_USUARIO);
 			sb.append("FROM USUARIO ");
 			sb.append("WHERE (1=1) ");
-			if(criteris.getCodigo() !=null) sb.append("AND codigo = ?");
+			if(criteris.getCodigo() !=null) sb.append("AND codigo = ? ");
 			if(criteris.getNombre() !=null) sb.append("AND nombre = ? ");
 			if(criteris.getApellidos() !=null) sb.append("AND apellidos = ? ");
 			if(criteris.getSexo() !=null) sb.append("AND sexo = ? ");
@@ -172,7 +172,7 @@ public class DaoUsuario extends DaoEntidad<Usuario>{
 			if(criteris.getEstado()!=null) {ps.setInt(i, criteris.getEstado()); i++;}
 			if(criteris.getIdDatosBancarios()!=null) {ps.setInt(i, criteris.getIdDatosBancarios()); i++;}
 			if(criteris.getIdRol()!=null) {ps.setInt(i, criteris.getIdRol()); i++;}
-			
+			System.out.println(ps.toString());
 			rs = ps.executeQuery();
 			while (rs.next()) {
 				Usuario usu = retornaUsuario(rs);
