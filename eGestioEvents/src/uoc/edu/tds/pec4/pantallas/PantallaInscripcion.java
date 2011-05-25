@@ -104,7 +104,7 @@ public class PantallaInscripcion extends PanelComun implements Pantallas{
 	
 
 
-	public String mostrarInfoEvento() throws OperationErrorDatosFormulario{
+	public String mostrarInfoEvento() throws OperationErrorDatosFormulario, RemoteException, OperationErrorBD{
 		String info = new String();
 		info = Constantes.SALTO_LINEA;
 		
@@ -132,34 +132,47 @@ public class PantallaInscripcion extends PanelComun implements Pantallas{
 		info = info + "Prerequisitos: " +Constantes.SALTO_LINEA;
 		info = info + Constantes.SALTO_LINEA;
 		//TODO RECOGER LAS PLZAZAS LIBRES
-		info = info + "Quedan: " + dtoEvento.getEvento().getPlazas() + Constantes.SALTO_LINEA;
+		info = info + "Quedan: " + remote.getPlazasEvento(dtoEvento).getEventoPlus().getPlazasLibres() + Constantes.SALTO_LINEA;
 		return info;
 	}
 	
 	
-	public void crearInscripcion(){
+	public void crearInscripcion() throws RemoteException, OperationErrorBD{
 		DTOInscripcion dtoInscripcion = new DTOInscripcion();
 		dtoInscripcion.setDtoEvento(dtoEvento);
 		dtoInscripcion.setDtoAsistente((DTOAsistente) dtousuario);
 		Inscripcion ins = new Inscripcion();
 		ins.setCodigo(dtousuario.getUsuario().getCodigo());
-		ins.setCheckIn(false);
-		ins.setEstado(Constantes.REGISTRO_ACTIVO);
 		ins.setIdEvento(dtoEvento.getEvento().getIdEvento());
-		ins.setMotivoEstado("ALTA INSCRIPCION");
-		//ins.setFechaInscripcion(fechaInscripcion);
-		//ins.setFechaEstado(fechaEstado);
 		dtoInscripcion.setInscripcion(ins);
-		Utils.mostraMensajeInformacion("Registro Insertado Correctamente", "Crear Inscripcion");
+		
 		try {
-			remote.insertaInscripcion(dtoInscripcion);
-		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (OperationErrorBD e) {
+			if (remote.validarInscripcion(dtoEvento,dtousuario,dtoInscripcion)){
+				
+				try {
+					// terminamos de rellenar el dtoInscripcion					
+					ins.setCheckIn(false);
+					ins.setEstado(Constantes.REGISTRO_ACTIVO);
+					ins.setMotivoEstado("ALTA INSCRIPCION");
+					remote.insertaInscripcion(dtoInscripcion);
+					Utils.mostraMensajeInformacion("Registro Insertado Correctamente", "Crear Inscripcion");
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (OperationErrorBD e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}else 
+				
+				Utils.mostraMensajeInformacion("NO CUMPLE LOS REQUISITOS.....", "Crear Inscripcion");
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		
+
 	}
 	
 	
@@ -172,7 +185,15 @@ public class PantallaInscripcion extends PanelComun implements Pantallas{
 		
 		this.findBoton("botonConfirmar").addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				crearInscripcion();
+				try {
+					crearInscripcion();
+				} catch (RemoteException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (OperationErrorBD e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				System.out.println("EVENTO PARA CONFIRMAR LA INSCRIPCION.....");
 			}
 		});
