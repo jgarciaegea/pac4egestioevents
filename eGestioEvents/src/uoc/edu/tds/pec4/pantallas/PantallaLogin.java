@@ -23,6 +23,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import uoc.edu.tds.pec4.beans.Usuario;
+import uoc.edu.tds.pec4.dtos.DTOUsuario;
 import uoc.edu.tds.pec4.excepciones.OperationErrorBD;
 import uoc.edu.tds.pec4.excepciones.OperationErrorDatosFormulario;
 import uoc.edu.tds.pec4.excepciones.OperationErrorLogin;
@@ -30,9 +31,9 @@ import uoc.edu.tds.pec4.excepciones.OperationErrorRMI;
 import uoc.edu.tds.pec4.gestores.GestorRMI;
 import uoc.edu.tds.pec4.iface.RemoteInterface;
 import uoc.edu.tds.pec4.resources.TDSLanguageUtils;
+import uoc.edu.tds.pec4.utils.Base64Coder;
 import uoc.edu.tds.pec4.utils.JTextFieldLimit;
 import uoc.edu.tds.pec4.utils.Utils;
-
 /**
  * @author ML019882
  *
@@ -50,7 +51,7 @@ public class PantallaLogin extends JFrame {
 	private GestorRMI gestorRMI;
 	private RemoteInterface remote;
 	private Usuario usuario;
-	private Usuario usuarioEncontrado;
+	private DTOUsuario dtoUsuarioEncontrado;
 	public static final String CLIENT = "CLIENT";
 
 	
@@ -61,12 +62,6 @@ public class PantallaLogin extends JFrame {
 	    setTitle(TDSLanguageUtils.getMessage("clientePEC4.frameLogin.titulo"));
 	    setContentPane(inicializar());
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-       /* try{
-        	UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
-        }catch(Exception e){
-        	System.err.println("No se ha podido cargar el estilo");
-        }*/
-        
 	}
 	
 	
@@ -175,11 +170,13 @@ public class PantallaLogin extends JFrame {
 	public void inicializarAplicacion() throws Exception,RemoteException,MalformedURLException,NotBoundException,OperationErrorBD {
 		try{
 			authenticate(); 	
-    		if( usuarioEncontrado == null ){
+    		if(dtoUsuarioEncontrado == null){
+    			throw new OperationErrorLogin(TDSLanguageUtils.getMessage("clientePEC4.error.login2"));
+			} 	
+    		if (!dtoUsuarioEncontrado.getUsuario().getContrasena().equals(Base64Coder.encodeString(usuario.getContrasena()))){
     			throw new OperationErrorLogin(TDSLanguageUtils.getMessage("clientePEC4.error.login1"));
 			} 	
-    		usuario = usuarioEncontrado;  
-			PantallaPrincipal aplicacion = new PantallaPrincipal(gestorRMI,remote,usuario);
+			PantallaPrincipal aplicacion = new PantallaPrincipal(gestorRMI,remote,dtoUsuarioEncontrado);
 			this.setVisible(false);
 			this.removeAll();
 			aplicacion.setVisible(true);
@@ -203,10 +200,9 @@ public class PantallaLogin extends JFrame {
     	try {
 		
 			usuario = new Usuario();
-    		usuarioEncontrado = null;
     		usuario.setCodigo(textoLogin.getText().toUpperCase());
     		usuario.setContrasena(textoPwd.getText());
-    		usuarioEncontrado = remote.loginUsuario(usuario);
+    		dtoUsuarioEncontrado = remote.loginUsuario(usuario);
 		} catch (RemoteException e) {
 			throw new OperationErrorRMI(e.getMessage());
 		} catch(OperationErrorLogin oL){
@@ -351,7 +347,6 @@ public class PantallaLogin extends JFrame {
 	public JTextField getTextoPwd() {
 		return textoPwd;
 	}
-
 
 	/**
 	 * @param textoPwd the textoPwd to set
