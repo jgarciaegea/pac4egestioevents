@@ -118,13 +118,13 @@ public class PantallaInscripcion extends PanelComun implements Pantallas{
 		if (dtoEvento.getEvento().getDescripcion() != null)
 		info = info + "Evento: " + dtoEvento.getEvento().getDescripcion() + Constantes.SALTO_LINEA;
 		
-		if (dtoEvento.getDtoCentroDocente().getDtoUniversidad().getUniversidad().getNombre() != null)	
+		if (dtoEvento.getDtoCentroDocente().getDtoUniversidad().getUniversidad() != null)	
 			info = info + "          Universidad: " + dtoEvento.getDtoCentroDocente().getDtoUniversidad().getUniversidad().getNombre() + Constantes.SALTO_LINEA;
 		
 		if (dtoEvento.getDtoCentroDocente().getCentroDocente().getNombre() != null)
 		info = info + "                     Centro Docente: " + dtoEvento.getDtoCentroDocente().getCentroDocente().getNombre()+ Constantes.SALTO_LINEA;
 		
-		if (dtoEvento.getDtoCentroDocente().getDtoContacto().getContacto().getDomicilio() != null)
+		if (dtoEvento.getDtoCentroDocente().getDtoContacto().getContacto()!= null)
 		info = info + "                     Direccion : " + dtoEvento.getDtoCentroDocente().getDtoContacto().getContacto().getDomicilio()+ Constantes.SALTO_LINEA;
 		
 		info = info + Constantes.SALTO_LINEA;
@@ -134,6 +134,8 @@ public class PantallaInscripcion extends PanelComun implements Pantallas{
 		
 		info = info + Constantes.SALTO_LINEA;
 		info = info + "Prerequisitos: " +Constantes.SALTO_LINEA;
+		info = info + Constantes.SALTO_LINEA;
+		info = info + "Quedan: " +Constantes.SALTO_LINEA;
 		return info;
 	}
 	
