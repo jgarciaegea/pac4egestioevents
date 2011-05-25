@@ -22,6 +22,7 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 import uoc.edu.tds.pec4.resources.TDSLanguageUtils;
+import uoc.edu.tds.pec4.utils.ClearForm;
 
 /**
  * @author ML019882
@@ -65,8 +66,28 @@ public abstract class PanelComun extends JPanel  {
 		this.setBorder(BorderFactory.createCompoundBorder(
 		        BorderFactory.createTitledBorder(TDSLanguageUtils.getMessage(titulo)), 
 		        BorderFactory.createEmptyBorder(10, 10, 5, 5)));
-
 	}
+	
+	
+	
+	
+	/*
+	 * Limpia el formulario
+	 */
+	public void limpiaFormulario(){
+		ClearForm.clearForm(this);
+		dtm.getDataVector().removeAllElements();
+		actualizaTabla();
+		
+	}	
+	private void actualizaTabla(){
+		tablaResultados.repaint();
+		tablaResultados.revalidate();
+		tablaResultados.updateUI();
+	}
+	
+	
+	
 	
 	/**
 	 * Constructor Boton
@@ -261,11 +282,12 @@ public abstract class PanelComun extends JPanel  {
 			
 		}
 		this.tablaResultados = new JTable(dtm);
-		tablaResultados.setBounds(new Rectangle(x+10, y+10, ancho-30, alto-30));
+		tablaResultados.setBounds(new Rectangle(x-10, y-10, ancho-50, alto-50));
 		this.panelScroll = new JScrollPane(tablaResultados);
-		panelScroll.setBounds(new Rectangle(x, y, ancho, alto));		
-		
-		//this.add(tablaResultados,null);
+		panelScroll.setBounds(new Rectangle(x, y, ancho, alto));	
+		panelScroll.setAutoscrolls(true);
+		panelScroll.getVerticalScrollBar().setMaximum(8);
+		panelScroll.setVisible(true);
 		this.add(panelScroll,null);
 	}
 
