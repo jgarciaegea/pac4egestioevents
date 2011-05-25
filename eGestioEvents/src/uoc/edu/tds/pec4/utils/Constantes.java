@@ -17,6 +17,8 @@ public class Constantes {
 	public static final Integer REGISTRO_ACTIVO = 1;
 	public static final Integer REGISTRO_INACTIVO = 3;
 	
+	public static final String SALTO_LINEA="\r\n";
+	
 	public static final String REGISTRO_ACTIVO_MOTIVO = TDSLanguageUtils.getMessage("constantes.registroactivo.motivo");
 	public static final String REGISTRO_INACTIVO_MOTIVO = TDSLanguageUtils.getMessage("constantes.registroinactivo.motivo");
 	public static final String LISTA_SELECCIONE = "Seleccione universidad";
