@@ -150,6 +150,7 @@ public class PantallaInscripcion extends PanelComun implements Pantallas{
 		//ins.setFechaInscripcion(fechaInscripcion);
 		//ins.setFechaEstado(fechaEstado);
 		dtoInscripcion.setInscripcion(ins);
+		Utils.mostraMensajeInformacion("Registro Insertado Correctamente", "Crear Inscripcion");
 		try {
 			remote.insertaInscripcion(dtoInscripcion);
 		} catch (RemoteException e) {
@@ -163,7 +164,7 @@ public class PantallaInscripcion extends PanelComun implements Pantallas{
 	
 	
 	/**
-	 * Método que genera los Eventos
+	 * Método que genera los Eventos DEL PANEL
 	 * 
 	 */
 	
