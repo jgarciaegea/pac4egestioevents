@@ -84,7 +84,11 @@ public class ClearForm {
 		} else if (nombre_clase.equals("javax.swing.JScrollPane")) {
 			// Es un JScrollPane asi que llamamos a clearScrollPane
 			clearScrollPane((javax.swing.JScrollPane) comp);
-		}
+		} else if (nombre_clase.equals("javax.swing.JCheckBox")) {
+			// Es un JCheckBox así que deseleccionamos
+			((javax.swing.JCheckBox) comp).setSelected(false);
+	    }
+		
 	}
 	
 	
