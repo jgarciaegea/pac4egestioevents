@@ -12,6 +12,7 @@ import java.rmi.RemoteException;
 import javax.swing.BorderFactory;
 
 
+
 import uoc.edu.tds.pec4.beans.Inscripcion;
 import uoc.edu.tds.pec4.dtos.DTOAsistente;
 import uoc.edu.tds.pec4.dtos.DTOEvento;
@@ -43,7 +44,8 @@ public class PantallaInscripcion extends PanelComun implements Pantallas{
 		remote = remote1;
 		dtousuario = dtousuario1;
 		dtoEvento = dtoEvento1;
-
+		cargarEvento();
+		
 		if (dtousuario == null) throw new OperationErrorLogin("La session es invalida.....");
 		try {
 			remote.testConexion();
@@ -55,9 +57,11 @@ public class PantallaInscripcion extends PanelComun implements Pantallas{
 		
 		this.crearJTextArea(30, 60, 600, 200, "informacionEventoInscripcion");
 		this.findJTextAreaString("informacionEventoInscripcion").setBorder(BorderFactory.createLineBorder(Color.BLACK));
-		this.findJTextAreaString("informacionEventoInscripcion").setEditable(false);
+
 		// TODO HAY QUE METER MAS DATOS EN LA INFOM DEL EVENTO
+		System.out.println("evento...."+dtoEvento.getEvento().getDescripcion());
 		this.findJTextAreaString("informacionEventoInscripcion").setText(dtoEvento.getEvento().getDescripcion());
+		this.findJTextAreaString("informacionEventoInscripcion").setEditable(false);
 		this.crearTitulo(20, 300, 140, 20, "clientePEC4.panelInscripcion.titulo1.nombreAsistente", "nombreAsistente");
 		this.crearTextField(160, 300, 250, 20,"cajaAsistente");
 		this.findTextField("cajaAsistente").setText(dtousuario.getUsuario().getNombre()+ ", " + dtousuario.getUsuario().getApellidos());
@@ -88,6 +92,28 @@ public class PantallaInscripcion extends PanelComun implements Pantallas{
 		this.revalidate();
 		this.updateUI();
 	}
+	
+	public void cargarEvento(){
+		try {
+			dtoEvento = remote.getEvento(dtoEvento);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		} catch (OperationErrorBD e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/*
+	public void mostrarInfoEvento(){
+		JPanel principal = new JPanel(new BorderLayout());
+		JLabel descEvento = new JLabel(dtoEvento.getEvento().getDescripcion(), JLabel.CENTER);
+		principal.add(descEvento);
+		this.findJTextAreaString("informacionEventoInscripcion").getContentPane().add(principal);
+		pack();
+
+		//INDICAMOS QUE NO PUEDAN CAMBIAR EL TAMA¥O DEL DIALOGO CON EL MOUSE
+		setResizable(false);
+	}*/
 	
 	
 	public void crearInscripcion(){
