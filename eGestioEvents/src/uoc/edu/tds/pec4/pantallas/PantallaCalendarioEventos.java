@@ -74,6 +74,7 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 	private JTextField jTextFieldFechaIni;
 	private JCheckBox jCheckBoxShowEventoFinalizado;
 	private JCheckBox jCheckBoxShowAll;
+	private JButton jButtonCancelar;
 	private JButton jButtonSearch;
 	private JButton jButtonClear;
 	
@@ -368,6 +369,7 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 			jPanelFiltro.add(getJButtonClear());
 			jPanelFiltro.add(getJCheckBoxShowAll());
 			jPanelFiltro.add(getJCheckBoxShowEventoFinalizado());
+			jPanelFiltro.add(getJButtonCancelar());
 		}
 		return jPanelFiltro;
 	}
@@ -775,5 +777,23 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 		this.repaint();
 		this.revalidate();
 		this.updateUI();
+	}
+	
+	private JButton getJButtonCancelar() {
+		if(jButtonCancelar == null) {
+			jButtonCancelar = new JButton();
+			jButtonCancelar.setLayout(null);
+			jButtonCancelar.setText("Cancelar");
+			jButtonCancelar.setFont(new java.awt.Font("Arial",0,10));
+			jButtonCancelar.setBounds(635, 105, 60, 22);
+			jButtonCancelar.setSize(85, 25);
+			jButtonCancelar.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent evt) {
+					setVisible(false);
+					removeAll();
+				}
+			});
+		}
+		return jButtonCancelar;
 	}
 }

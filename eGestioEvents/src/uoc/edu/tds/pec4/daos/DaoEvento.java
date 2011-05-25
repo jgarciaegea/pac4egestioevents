@@ -16,6 +16,7 @@ import java.util.List;
 
 import uoc.edu.tds.pec4.beans.Evento;
 import uoc.edu.tds.pec4.beans.EventoCalendario;
+import uoc.edu.tds.pec4.beans.EventoPlus;
 import uoc.edu.tds.pec4.beans.EventoViewConsulta;
 import uoc.edu.tds.pec4.utils.Constantes;
 
@@ -388,6 +389,39 @@ public class DaoEvento extends DaoEntidad<Evento>{
 				lstEvento.add(evento);
 			}		
 			return (lstEvento.isEmpty() || lstEvento.size() == 0) ? null:lstEvento;
+		}catch(Exception e){
+			throw new Exception(e.getMessage());
+		} finally {
+			close(ps,rs);
+		}
+	}
+	
+	public EventoPlus selectPlazasEvento(Evento criteris) throws Exception {
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		EventoPlus eventoPlus = null;
+		try{
+			StringBuffer sb = new StringBuffer();
+			sb.append("SELECT id_evento, plazas, inscritos, plazas_libres ");
+			sb.append("FROM v_consulta_eventos_plazas ");
+			sb.append("WHERE (1=1) ");
+			if(criteris.getIdEvento()!=null) sb.append("AND id_evento = ? ");
+						
+			ps = con.prepareStatement(sb.toString(), ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
+			
+			int i=1;
+			if(criteris.getIdEvento()!=null) {ps.setInt(i, criteris.getIdEvento()); i++;}
+			
+			rs = ps.executeQuery();
+			
+			if (rs.next()) {
+				eventoPlus = new EventoPlus();
+				eventoPlus.setIdEvento(rs.getInt("id_evento"));
+				eventoPlus.setPlazas(rs.getInt("plazas"));
+				eventoPlus.setInscritos(rs.getInt("inscritos"));
+				eventoPlus.setPlazasLibres(rs.getInt("plazas_libres"));
+			}		
+			return (eventoPlus);
 		}catch(Exception e){
 			throw new Exception(e.getMessage());
 		} finally {

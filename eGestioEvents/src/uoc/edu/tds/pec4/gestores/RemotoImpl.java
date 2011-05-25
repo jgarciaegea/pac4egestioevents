@@ -18,6 +18,7 @@ import uoc.edu.tds.pec4.dtos.DTOCentroDocente;
 import uoc.edu.tds.pec4.dtos.DTOCentroDocenteConsulta;
 import uoc.edu.tds.pec4.dtos.DTOEvento;
 import uoc.edu.tds.pec4.dtos.DTOEventoCalendario;
+import uoc.edu.tds.pec4.dtos.DTOEventoPlus;
 import uoc.edu.tds.pec4.dtos.DTOEventoRequisitos;
 import uoc.edu.tds.pec4.dtos.DTOEventoRolPlazas;
 import uoc.edu.tds.pec4.dtos.DTOInscripcion;
@@ -694,6 +695,23 @@ public class RemotoImpl extends UnicastRemoteObject implements RemoteInterface{
 			throw new OperationErrorBD("Error al insertar la Inscripcion....: " + e.getMessage());
 		}
 		
+	}
+
+	@Override
+	public DTOEventoPlus getPlazasEvento(DTOEvento criteris) throws RemoteException, OperationErrorBD {
+		try {
+			gestorDB.getConnection().setAutoCommit(false);
+			
+			GestorEvento gestorEvento = new GestorEvento(gestorDB.getConnection());
+			DTOEventoPlus dtoEventoPlus = gestorEvento.getPlazasEvento(criteris);
+			System.out.println("Recuperadas las plazas correctamente: ");			
+			gestorDB.getConnection().commit();
+			return dtoEventoPlus;
+		} catch (Exception e) {
+			gestorDB.rollback();
+			throw new OperationErrorBD("Error al insertar la Inscripcion....: " + e.getMessage());
+		}
+			
 	}
 	
 	

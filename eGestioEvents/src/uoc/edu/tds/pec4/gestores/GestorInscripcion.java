@@ -16,6 +16,7 @@ import uoc.edu.tds.pec4.beans.Inscripcion;
 import uoc.edu.tds.pec4.daos.DaoInscripcion;
 import uoc.edu.tds.pec4.dtos.DTOAsistente;
 import uoc.edu.tds.pec4.dtos.DTOEvento;
+import uoc.edu.tds.pec4.dtos.DTOEventoPlus;
 import uoc.edu.tds.pec4.dtos.DTOInscripcion;
 
 public class GestorInscripcion extends GestorEntidad<DTOInscripcion>{
@@ -159,6 +160,11 @@ public class GestorInscripcion extends GestorEntidad<DTOInscripcion>{
 	@Override
 	public void insertaEntidad(DTOInscripcion newobject) throws Exception{
 		try {
+			GestorEvento gestorEvento = new GestorEvento(connection);
+			DTOEventoPlus dtoEventoPlus = gestorEvento.getPlazasEvento(newobject.getDtoEvento());
+			if(dtoEventoPlus == null || dtoEventoPlus.getEventoPlus().getEventoCerrado()) {
+				throw new Exception("No quedan plazas libres.");
+			}	
 			DaoInscripcion dao = new DaoInscripcion(connection);
 			dao.insert(newobject.getInscripcion());
 		} catch (Exception e) {

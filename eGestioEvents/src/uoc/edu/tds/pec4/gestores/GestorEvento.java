@@ -14,10 +14,12 @@ import java.util.ArrayList;
 import java.util.List;
 import uoc.edu.tds.pec4.beans.Evento;
 import uoc.edu.tds.pec4.beans.EventoCalendario;
+import uoc.edu.tds.pec4.beans.EventoPlus;
 import uoc.edu.tds.pec4.beans.EventoViewConsulta;
 import uoc.edu.tds.pec4.daos.DaoEvento;
 import uoc.edu.tds.pec4.dtos.DTOCentroDocente;
 import uoc.edu.tds.pec4.dtos.DTOEventoCalendario;
+import uoc.edu.tds.pec4.dtos.DTOEventoPlus;
 import uoc.edu.tds.pec4.dtos.DTOEventoRequisitos;
 import uoc.edu.tds.pec4.dtos.DTOEventoRolPlazas;
 import uoc.edu.tds.pec4.dtos.DTOEvento;
@@ -151,6 +153,18 @@ public class GestorEvento extends GestorEntidad<DTOEvento>{
 		}
 	}
 
+	public DTOEventoPlus getPlazasEvento(DTOEvento criteris) throws Exception {
+		DaoEvento dao = new DaoEvento(connection);
+		try {
+			DTOEventoPlus dtoEventoPlus = new DTOEventoPlus();
+			EventoPlus eventoPlus = dao.selectPlazasEvento(criteris.getEvento());
+			dtoEventoPlus.setEventoPlus(eventoPlus);
+			return dtoEventoPlus;
+		} catch (Exception e) {
+			throw e;
+		}
+	}
+	
 	@Override
 	public void modificaEntidad(DTOEvento criteris) throws Exception {
 		try {

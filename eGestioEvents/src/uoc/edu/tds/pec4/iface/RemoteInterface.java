@@ -8,6 +8,7 @@ import uoc.edu.tds.pec4.beans.Usuario;
 import uoc.edu.tds.pec4.dtos.DTOCentroDocente;
 import uoc.edu.tds.pec4.dtos.DTOEvento;
 import uoc.edu.tds.pec4.dtos.DTOEventoCalendario;
+import uoc.edu.tds.pec4.dtos.DTOEventoPlus;
 import uoc.edu.tds.pec4.dtos.DTOInscripcion;
 import uoc.edu.tds.pec4.dtos.DTOPais;
 import uoc.edu.tds.pec4.dtos.DTOTipoDocumento;
@@ -323,5 +324,7 @@ public interface RemoteInterface extends Remote{
 	public abstract Boolean usuarioCentrosVinculados(Usuario usuario) throws RemoteException, OperationErrorBD;
 	
 	public abstract void insertaInscripcion(DTOInscripcion dtoinscripcion) throws RemoteException, OperationErrorBD ;
+	
+	public abstract DTOEventoPlus getPlazasEvento(DTOEvento criteris) throws RemoteException, OperationErrorBD;
 		
 }
