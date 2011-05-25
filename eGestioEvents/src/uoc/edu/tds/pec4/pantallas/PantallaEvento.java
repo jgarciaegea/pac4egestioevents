@@ -426,14 +426,13 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 			evento.setIdCentro(dtoUsuario.getUsuario().getIdCentro());
 		}
 		
-		// TODO 1: Rol / Plazas
-		
 		/***********************************************
 		 * RELLENAMOS EL DTOEvento CON TODOS LOS VALORES
 		 ***********************************************/
 		DTOEvento dtoEvento = new DTOEvento();
 		dtoEvento.setEvento(evento);
 		dtoEvento.setDtoEventoRequisitos(dtoEventoAModficar.getDtoEventoRequisitos());
+		dtoEvento.setDtoEventoRolPlazas(dtoEventoAModficar.getDtoEventoRolPlazas());
 		return dtoEvento;
 	}
 	
