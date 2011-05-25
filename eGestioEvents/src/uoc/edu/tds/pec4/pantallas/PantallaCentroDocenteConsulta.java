@@ -106,16 +106,16 @@ public class PantallaCentroDocenteConsulta extends javax.swing.JPanel implements
 	private void initGUI() {
 		try {
 			this.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder(null, "Consulta de centros docentes", 0, 0, new Font("Dialog", 1, 12), new Color(51, 51, 51)), null), null));
-			this.setPreferredSize(new java.awt.Dimension(784, 634));
+			this.setPreferredSize(new java.awt.Dimension(784, 624));
 			{
 				jPanel2 = new JPanel();
 				this.add(jPanel2);
 				GridBagLayout jPanel2Layout = new GridBagLayout();
 				jPanel2Layout.columnWidths = new int[] {142, 222, 7};
-				jPanel2Layout.rowHeights = new int[] {28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 25, 43};
+				jPanel2Layout.rowHeights = new int[] {28, 28, 28, 28, 28, 28, 28, 28, 0, 0, 107, 0, 0};
 				jPanel2Layout.columnWeights = new double[] {0.0, 0.0, 0.1};
 				jPanel2Layout.rowWeights = new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
-				jPanel2.setPreferredSize(new java.awt.Dimension(649, 524));
+				jPanel2.setPreferredSize(new java.awt.Dimension(649, 350));
 				jPanel2.setLayout(jPanel2Layout);
 				{
 					jTextFieldNombre = new JTextField();
@@ -164,26 +164,33 @@ public class PantallaCentroDocenteConsulta extends javax.swing.JPanel implements
 					jPanel2.add(jTextFieldCP, new GridBagConstraints(1, 3, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 8, 0, 0), 0, 0));
 					jTextFieldCP.setPreferredSize(new java.awt.Dimension(200, 21));
 				}
+			}
+			{
+				jPanelButtom = new JPanel();
+				this.add(jPanelButtom);
+				jPanelButtom.setPreferredSize(new java.awt.Dimension(625, 188));
+				jPanelButtom.setBounds(238, 280, 10, 10);
 				{
 					dtm=new DefaultTableModel();
 					{
 						for(int i=0;i<columnNames.length;i++){
-				        	dtm.addColumn(columnNames[i]);
-				        }
+							dtm.addColumn(columnNames[i]);
+						}
 						
 					}
 					
 					jTableRes = new JTable(dtm);
-					
+					jPanelButtom.add(jTableRes);
+
 					//Ocultamos la columna del id
 					Utils.ocultaColumna(jTableRes,0);
 					
 					jTableRes.setSize(297, 130);
-					jTableRes.setPreferredSize(new java.awt.Dimension(597, 146));
+					jTableRes.setPreferredSize(new java.awt.Dimension(582, 193));
 					scrollPane=new JScrollPane(jTableRes);
+					jPanelButtom.add(scrollPane);
 					scrollPane.setVisible(true);
-					jPanel2.add(scrollPane, new GridBagConstraints(0, 9, 3, 10, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-					
+
 					jLabelFechaAlta = new JLabel();
 					jLabelFechaAlta.setText("Fecha Alta");
 					jPanel2.add(jLabelFechaAlta, new GridBagConstraints(0, 6, 1, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
@@ -202,19 +209,13 @@ public class PantallaCentroDocenteConsulta extends javax.swing.JPanel implements
 					jTextFieldHasta = new JTextField();
 					jTextFieldHasta.setPreferredSize(new java.awt.Dimension(100, 21));
 					jPanel2.add(jTextFieldHasta, new GridBagConstraints(2, 7, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 7, 0, 0), 0, 0));
-					jPanel2.add(getJLabelElimina(), new GridBagConstraints(2, 8, 1, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 45), 0, 0));
-					jPanel2.add(getJLabelModifica(), new GridBagConstraints(2, 8, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 60), 0, 0));
+					jPanel2.add(getJLabelElimina(), new GridBagConstraints(2, 10, 1, 1, 0.0, 0.0, GridBagConstraints.SOUTHEAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 45), 0, 0));
+					jPanel2.add(getJLabelModifica(), new GridBagConstraints(2, 10, 1, 1, 0.0, 0.0, GridBagConstraints.SOUTH, GridBagConstraints.NONE, new Insets(0, 0, 0, 60), 0, 0));
 					jPanel2.add(getJLabelActivos(), new GridBagConstraints(0, 4, 1, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 					jPanel2.add(getJRadioButtonDesSi(), new GridBagConstraints(1, 4, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 8, 0, 0), 0, 0));
 					jPanel2.add(getJRadioButtonDesaNo(), new GridBagConstraints(1, 4, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.VERTICAL, new Insets(0, 0, 0, 80), 0, 0));
 					scrollPane.setPreferredSize(new java.awt.Dimension(600, 150));
 				}
-			}
-			{
-				jPanelButtom = new JPanel();
-				this.add(jPanelButtom);
-				jPanelButtom.setPreferredSize(new java.awt.Dimension(247, 35));
-				jPanelButtom.setBounds(238, 280, 10, 10);
 				{
 					jButtonAcceptar = new JButton();
 					jPanelButtom.add(jButtonAcceptar);
@@ -223,16 +224,16 @@ public class PantallaCentroDocenteConsulta extends javax.swing.JPanel implements
 					jButtonAcceptar.setBounds(277, -16, 64, 21);
 					
 					jButtonAcceptar.addActionListener(new ActionListener() {
-							public void actionPerformed(ActionEvent e) {
-								try {
-									validaFormulario();
-									cargaListadoCentroDocentes();
-								} catch (OperationErrorDatosFormulario e3) {
-									e3.showDialogError(jPanel2);
-								}
+						public void actionPerformed(ActionEvent e) {
+							try {
+								validaFormulario();
+								cargaListadoCentroDocentes();
+							} catch (OperationErrorDatosFormulario e3) {
+								e3.showDialogError(jPanel2);
 							}
-				    	});
-					 
+						}
+					});
+					
 				}
 				{
 					jButtonCancelar = new JButton();
@@ -242,9 +243,10 @@ public class PantallaCentroDocenteConsulta extends javax.swing.JPanel implements
 					
 					jButtonCancelar.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent e) {
+							
 							limpiaFormulario();
 						}
-			    	});
+					});
 				}
 			}
 			
@@ -482,6 +484,7 @@ public class PantallaCentroDocenteConsulta extends javax.swing.JPanel implements
 	 */
 	private void limpiaFormulario(){
 		ClearForm.clearForm(jPanel2);
+		dtm.getDataVector().removeAllElements();
 		actualizaTabla();
 	}
 	

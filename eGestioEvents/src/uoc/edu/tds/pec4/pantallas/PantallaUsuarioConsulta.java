@@ -3,6 +3,7 @@ package uoc.edu.tds.pec4.pantallas;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -19,6 +20,7 @@ import java.util.List;
 import java.util.Vector;
 
 import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
@@ -83,9 +85,9 @@ public class PantallaUsuarioConsulta extends javax.swing.JPanel implements Panta
 	private JTextField jTextFieldProvincia;
 	private JLabel jLabelLocalidad;
 	private JLabel jLabelDocIden;
+	private JPanel jPanel1;
 	private JLabel jLabelModifica;
 	private JLabel jLabelElimina;
-	private JTable jTableRes;
 	private JComboBox jComboBoxPerfil;
 	private JComboBox jComboBoxTipoRol;
 	private JLabel jLabelTipoPerfil;
@@ -93,9 +95,9 @@ public class PantallaUsuarioConsulta extends javax.swing.JPanel implements Panta
 	private JRadioButton jRadioButtonDesaNo;
 	private JRadioButton jRadioButtonDesSi;
 	private JLabel jLabelActivos;
-	private JScrollPane scrollPane;
 	private JLabel jLabelTipoDoc;
 	private JLabel jLabelApe;
+	private JTable jTableDatos;
 	private JTextField jTextFieldApe;
 	private JLabel jLabelNombre;
 	private JTextField jTextFieldNombre;
@@ -125,16 +127,16 @@ public class PantallaUsuarioConsulta extends javax.swing.JPanel implements Panta
 	private void initGUI() {
 		try {
 			this.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder(null, "Consulta de usuarios", 0, 0, new Font("Dialog", 1, 12), new Color(51, 51, 51)), null), null));
-			this.setPreferredSize(new java.awt.Dimension(784, 675));
+			this.setPreferredSize(new java.awt.Dimension(784, 600));
 			{
 				jPanel2 = new JPanel();
 				this.add(jPanel2);
 				GridBagLayout jPanel2Layout = new GridBagLayout();
 				jPanel2Layout.columnWidths = new int[] {142, 222, 7};
-				jPanel2Layout.rowHeights = new int[] {28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 25, 128, 0, 0, 0, 0, 0, 0, 0, 57};
+				jPanel2Layout.rowHeights = new int[] {28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 25, 0, 0, 0, 0, 0, 0, 0};
 				jPanel2Layout.columnWeights = new double[] {0.0, 0.0, 0.1};
-				jPanel2Layout.rowWeights = new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
-				jPanel2.setPreferredSize(new java.awt.Dimension(649, 559));
+				jPanel2Layout.rowWeights = new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+				jPanel2.setPreferredSize(new java.awt.Dimension(633, 344));
 				jPanel2.setLayout(jPanel2Layout);
 				{
 					jTextFieldNombre = new JTextField();
@@ -263,87 +265,58 @@ public class PantallaUsuarioConsulta extends javax.swing.JPanel implements Panta
 			{
 				jPanelButtom = new JPanel();
 				this.add(jPanelButtom);
-				jPanelButtom.setPreferredSize(new java.awt.Dimension(247, 35));
+				jPanelButtom.setPreferredSize(new java.awt.Dimension(645, 200));
 				jPanelButtom.setBounds(238, 280, 10, 10);
 				{
-					jButtonAcceptar = new JButton();
-					jPanelButtom.add(jButtonAcceptar);
-					jButtonAcceptar.setText(TDSLanguageUtils.getMessage("clientePEC4.altausuario.boton1"));
-					jButtonAcceptar.setLayout(null);
-					jButtonAcceptar.setBounds(277, -16, 64, 21);
-					
-					jButtonAcceptar.addActionListener(new ActionListener() {
-							public void actionPerformed(ActionEvent e) {
-								try {
-									validaFormulario();
-									cargaListadoUsuarios();
-								} catch (OperationErrorDatosFormulario e3) {
-									e3.showDialogError(jPanel2);
-								}
-							}
-				    	});
-					 
-				}
-				{
-					jButtonCancelar = new JButton();
-					jPanelButtom.add(jButtonCancelar);
-					jButtonCancelar.setText(TDSLanguageUtils.getMessage("clientePEC4.consultausuario.boton"));
-					jButtonCancelar.setLayout(null);
-					
-					jButtonCancelar.addActionListener(new ActionListener() {
-						public void actionPerformed(ActionEvent e) {
-							limpiaFormulario();
+					JScrollPane scrollPane=new JScrollPane();
+					jPanelButtom.add(scrollPane);
+					jPanelButtom.add(getJPanel1());
+					scrollPane.setPreferredSize(new java.awt.Dimension(587, 149));
+					dtm=new DefaultTableModel();
+					{
+						for(int i=0;i<columnNames.length;i++){
+							dtm.addColumn(columnNames[i]);
 						}
-			    	});
-				}
-			}
-			{
-				
-				dtm=new DefaultTableModel();
-				{
-					for(int i=0;i<columnNames.length;i++){
-			        	dtm.addColumn(columnNames[i]);
-			        }
+						
+					}
 					
+					jTableDatos = new JTable(dtm);
+					
+					//Ocultamos la columna del id
+					Utils.ocultaColumna(jTableDatos,0);
+					Utils.ocultaColumna(jTableDatos,1);
+					scrollPane.setViewportView(jTableDatos);
+					
+				    jTableDatos.setPreferredSize(new java.awt.Dimension(538, 278));
+
+					jLabelFechaAlta = new JLabel();
+					jLabelFechaAlta.setText(TDSLanguageUtils.getMessage("clientePEC4.consultausuario.label1"));
+					jPanel2.add(jLabelFechaAlta, new GridBagConstraints(0, 9, 1, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
+					
+					jTextFieldFechaIni = new JTextField();
+					jTextFieldFechaIni.setPreferredSize(new java.awt.Dimension(100, 21));
+					jPanel2.add(jTextFieldFechaIni, new GridBagConstraints(1, 9, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 20), 0, 0));
+					
+					jLabelDesde = new JLabel();
+					jLabelDesde.setText(TDSLanguageUtils.getMessage("clientePEC4.consultausuario.label2"));
+					jPanel2.add(jLabelDesde, new GridBagConstraints(1, 9, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 10, 0, 0), 0, 0));
+					
+					jLabelHasta = new JLabel();
+					jLabelHasta.setText(TDSLanguageUtils.getMessage("clientePEC4.consultausuario.label3"));
+					jPanel2.add(jLabelHasta, new GridBagConstraints(1, 9, 1, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
+					jTextFieldHasta = new JTextField();
+					jTextFieldHasta.setPreferredSize(new java.awt.Dimension(100, 21));
+					jPanel2.add(jTextFieldHasta, new GridBagConstraints(2, 9, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 7, 0, 0), 0, 0));
+					jPanel2.add(getJLabelElimina(), new GridBagConstraints(2, 11, 1, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 60), 0, 0));
+					jPanel2.add(getJLabelModifica(), new GridBagConstraints(2, 11, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 60), 0, 0));
+					{
+						scrollPane.setViewportView(jTableDatos);
+						jTableDatos.setPreferredSize(new java.awt.Dimension(569, 176));
+						
+					}
 				}
-				
-				jTableRes = new JTable(dtm);
-				
-				//Ocultamos la columna del id
-				Utils.ocultaColumna(jTableRes,0);
-				Utils.ocultaColumna(jTableRes,1);
-				
-				jTableRes.setSize(297, 130);
-				jTableRes.setPreferredSize(new java.awt.Dimension(582, 148));
-				scrollPane=new JScrollPane(jTableRes);
-				scrollPane.setVisible(true);
-				jPanel2.add(scrollPane, new GridBagConstraints(0, 12, 3, 9, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-				
-				jLabelFechaAlta = new JLabel();
-				jLabelFechaAlta.setText(TDSLanguageUtils.getMessage("clientePEC4.consultausuario.label1"));
-				jPanel2.add(jLabelFechaAlta, new GridBagConstraints(0, 9, 1, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-				
-				jTextFieldFechaIni = new JTextField();
-				jTextFieldFechaIni.setPreferredSize(new java.awt.Dimension(100, 21));
-				jPanel2.add(jTextFieldFechaIni, new GridBagConstraints(1, 9, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 20), 0, 0));
-				
-				jLabelDesde = new JLabel();
-				jLabelDesde.setText(TDSLanguageUtils.getMessage("clientePEC4.consultausuario.label2"));
-				jPanel2.add(jLabelDesde, new GridBagConstraints(1, 9, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 10, 0, 0), 0, 0));
-				
-				jLabelHasta = new JLabel();
-				jLabelHasta.setText(TDSLanguageUtils.getMessage("clientePEC4.consultausuario.label3"));
-				jPanel2.add(jLabelHasta, new GridBagConstraints(1, 9, 1, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-				jTextFieldHasta = new JTextField();
-				jTextFieldHasta.setPreferredSize(new java.awt.Dimension(100, 21));
-				jPanel2.add(jTextFieldHasta, new GridBagConstraints(2, 9, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 7, 0, 0), 0, 0));
-				jPanel2.add(getJLabelElimina(), new GridBagConstraints(2, 11, 1, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 60), 0, 0));
-				jPanel2.add(getJLabelModifica(), new GridBagConstraints(2, 11, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 60), 0, 0));
-				scrollPane.setPreferredSize(new java.awt.Dimension(600, 150));
-				scrollPane.setAutoscrolls(true);
-				scrollPane.getVerticalScrollBar().setMaximum(8);
 			}
-			
+
 			//Group the radio buttons.
 			grupoBu = new ButtonGroup();
 			grupoBu.add(jRadioButtonDesaNo);
@@ -359,7 +332,7 @@ public class PantallaUsuarioConsulta extends javax.swing.JPanel implements Panta
 			 */
 			jLabelElimina.addMouseListener(new MouseListener(){
 				public void mouseClicked(MouseEvent e) {
-					if(jTableRes.getSelectedRow() == -1){
+					if(jTableDatos.getSelectedRow() == -1){
 						Utils.mostraMensajeInformacion(jPanel2, TDSLanguageUtils.getMessage("clientePEC4.consultausuario.INFO.MSG1"), TDSLanguageUtils.getMessage("clientePEC4.consultausuario.title"));
 					}else{
 						try {
@@ -391,7 +364,7 @@ public class PantallaUsuarioConsulta extends javax.swing.JPanel implements Panta
 			 */
 			jLabelModifica.addMouseListener(new MouseListener(){
 				public void mouseClicked(MouseEvent e) {
-					if(jTableRes.getSelectedRow() == -1){
+					if(jTableDatos.getSelectedRow() == -1){
 						Utils.mostraMensajeInformacion(jPanel2, TDSLanguageUtils.getMessage("clientePEC4.consultausuario.INFO.MSG1"), TDSLanguageUtils.getMessage("clientePEC4.consultausuario.title"));
 					}else{
 						try {
@@ -426,7 +399,7 @@ public class PantallaUsuarioConsulta extends javax.swing.JPanel implements Panta
 	private DTOUsuario getRecuperaUsuarioSeleccionado() throws OperationErrorDatosFormulario{
 		try {
 			@SuppressWarnings("unchecked")
-			List<Object> lstRes = (Vector<Object>) dtm.getDataVector().get(jTableRes.getSelectedRow());
+			List<Object> lstRes = (Vector<Object>) dtm.getDataVector().get(jTableDatos.getSelectedRow());
 			DTOUsuario dtoUsuario = obtenUsuario(lstRes.get(0).toString(),Integer.parseInt(lstRes.get(1).toString()));
 			return dtoUsuario;
 		} catch (NumberFormatException e1) {
@@ -481,6 +454,7 @@ public class PantallaUsuarioConsulta extends javax.swing.JPanel implements Panta
 			dtm.getDataVector().removeAllElements();
 			List<DTOUsuario> lstDtoUsuario = remote.getUsuarios(consultaUsuarios());
 			if(lstDtoUsuario == null || lstDtoUsuario.isEmpty()){
+				actualizaTabla();
 				Utils.mostraMensajeInformacion(jPanel2,TDSLanguageUtils.getMessage("clientePEC4.consultausuario.INFO.MSG3"),TDSLanguageUtils.getMessage("clientePEC4.consultausuario.title"));
 				return;
 			}
@@ -661,9 +635,9 @@ public class PantallaUsuarioConsulta extends javax.swing.JPanel implements Panta
 	}
 	
 	private void actualizaTabla(){
-		jTableRes.repaint();
-		jTableRes.revalidate();
-		jTableRes.updateUI();
+		jTableDatos.repaint();
+		jTableDatos.revalidate();
+		jTableDatos.updateUI();
 	}
 	
 	/*
@@ -726,6 +700,51 @@ public class PantallaUsuarioConsulta extends javax.swing.JPanel implements Panta
 			jLabelModifica.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		}
 		return jLabelModifica;
+	}
+	
+	private JPanel getJPanel1() {
+		if(jPanel1 == null) {
+			jPanel1 = new JPanel();
+			FlowLayout jPanel1Layout = new FlowLayout();
+			jPanel1.setLayout(jPanel1Layout);
+			jPanel1.setPreferredSize(new java.awt.Dimension(371, 32));
+			{
+				jButtonAcceptar = new JButton();
+				BoxLayout jButtonAcceptarLayout = new BoxLayout(jButtonAcceptar, javax.swing.BoxLayout.Y_AXIS);
+				jPanel1.add(jButtonAcceptar);
+				jButtonAcceptar.setText(TDSLanguageUtils.getMessage("clientePEC4.altausuario.boton1"));
+				jButtonAcceptar.setLayout(jButtonAcceptarLayout);
+				jButtonAcceptar.setBounds(277, -16, 64, 21);
+				jButtonAcceptar.setPreferredSize(new java.awt.Dimension(124, 24));
+
+				jButtonAcceptar.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						try {
+							validaFormulario();
+							cargaListadoUsuarios();
+						} catch (OperationErrorDatosFormulario e3) {
+							e3.showDialogError(jPanel2);
+						}
+					}
+				});
+				
+			}
+			{
+				jButtonCancelar = new JButton();
+				BoxLayout jButtonCancelarLayout = new BoxLayout(jButtonCancelar, javax.swing.BoxLayout.Y_AXIS);
+				jPanel1.add(jButtonCancelar);
+				jButtonCancelar.setText(TDSLanguageUtils.getMessage("clientePEC4.consultausuario.boton"));
+				jButtonCancelar.setLayout(jButtonCancelarLayout);
+				jButtonCancelar.setPreferredSize(new java.awt.Dimension(119, 24));
+
+				jButtonCancelar.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						limpiaFormulario();
+					}
+				});
+			}
+		}
+		return jPanel1;
 	}
 
 }
