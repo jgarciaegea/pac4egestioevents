@@ -51,6 +51,7 @@ public class PantallaInscripcionesByEvento extends javax.swing.JDialog {
 	
 	private RemoteInterface remote;
 	private DTOEvento dtoEvento;
+	private Boolean bIsEmpty = false;
 
 	/**
 	* Auto-generated main method to display this JDialog
@@ -67,10 +68,15 @@ public class PantallaInscripcionesByEvento extends javax.swing.JDialog {
 			{
 				cargaDatosEvento();
 				cargaInscripcionesByEvento();
+				bIsEmpty = (jTableDatos.getRowCount() == 0);
 			} catch (OperationErrorDatosFormulario e3) {
 				e3.showDialogError(jPanelBase);
 			}
 		}
+	}
+	
+	public Boolean isEmpty(){
+		return bIsEmpty;
 	}
 
 	private void cargaDatosEvento() throws OperationErrorDatosFormulario{

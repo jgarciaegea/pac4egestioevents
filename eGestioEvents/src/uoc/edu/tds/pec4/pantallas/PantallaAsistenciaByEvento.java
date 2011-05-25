@@ -51,6 +51,7 @@ public class PantallaAsistenciaByEvento extends javax.swing.JDialog {
 	
 	private RemoteInterface remote;
 	private DTOEvento dtoEvento;
+	private Boolean bIsEmpty = false;
 
 	/**
 	* Auto-generated main method to display this JDialog
@@ -67,17 +68,22 @@ public class PantallaAsistenciaByEvento extends javax.swing.JDialog {
 			{
 				cargaDatosEvento();
 				cargaInscripcionesByEvento();
+				bIsEmpty = (jTableDatos.getRowCount() == 0);
 			} catch (OperationErrorDatosFormulario e3) {
 				e3.showDialogError(jPanelBase);
 			}
 		}
 	}
 
+	public Boolean isEmpty(){
+		return bIsEmpty;
+	}
+	
 	private void cargaDatosEvento() throws OperationErrorDatosFormulario{
 		try{
 			dtoEvento = remote.getEvento(dtoEvento);
 			if(dtoEvento == null){
-				Utils.mostraMensajeInformacion(jPanelBase, "El Evento no se puede consultar", "Asistencia/Ausencia del evento");
+				Utils.mostraMensajeInformacion(jPanelBase, "El Evento no se puede consultar/No existen inscripciones.", "Asistencia/Ausencia del evento");
 				return;
 			}
 			jLabelEvento.setText(dtoEvento.getEvento().getNombre());
@@ -107,7 +113,7 @@ public class PantallaAsistenciaByEvento extends javax.swing.JDialog {
 			dtm.getDataVector().removeAllElements();
 			List<DTOInscripcion> lstDtoInscripcion = remote.getInscripcionesByEventoFinalizado(consultaInscripcion());
 			if(lstDtoInscripcion == null || lstDtoInscripcion.isEmpty()){
-				Utils.mostraMensajeInformacion(jPanelBase, "Evento no finalizado", "Asistencia/Ausencia del evento");
+				Utils.mostraMensajeInformacion(jPanelBase, "Evento sin inscripciones", "Asistencia/Ausencia del evento");
 				return;
 			}
 			muestraResultado(lstDtoInscripcion);
