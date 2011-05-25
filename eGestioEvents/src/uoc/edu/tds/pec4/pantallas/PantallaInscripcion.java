@@ -38,7 +38,7 @@ public class PantallaInscripcion extends PanelComun implements Pantallas{
 
 
 	public PantallaInscripcion(RemoteInterface remote1,DTOUsuario dtousuario1, DTOEvento dtoEvento1) throws OperationErrorLogin, RemoteException, OperationErrorBD{
-		super("clientePEC4.panelInscripcion.titulo",750,600);
+		super("clientePEC4.panelInscripcion.titulo",750,500);
 		System.out.println("creando Pantalla inscripcion......");
 		remote = remote1;
 		dtousuario = dtousuario1;
@@ -66,9 +66,8 @@ public class PantallaInscripcion extends PanelComun implements Pantallas{
 		
 		this.crearTitulo(20, 330, 140, 20, "clientePEC4.panelInscripcion.titulo1.nombreDatosBancarios", "nombreDatosBancarios");
 		this.crearTextField(160, 330, 250, 20,"cajaDatosBancarios");
-		
-		this.findTextField("cajaDatosBancarios").setText( dtousuario.getDtoDatosBancarios().getCCCompleta());
-		
+		if (dtousuario.getDtoDatosBancarios().getCCCompleta()!=null)
+			this.findTextField("cajaDatosBancarios").setText(dtousuario.getDtoDatosBancarios().getCCCompleta());
 		this.findTextField("cajaDatosBancarios").setEditable(false);
 		
 		
