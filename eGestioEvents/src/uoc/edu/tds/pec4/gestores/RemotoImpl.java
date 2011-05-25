@@ -709,7 +709,7 @@ public class RemotoImpl extends UnicastRemoteObject implements RemoteInterface{
 			return dtoEventoPlus;
 		} catch (Exception e) {
 			gestorDB.rollback();
-			throw new OperationErrorBD("Error al insertar la Inscripcion....: " + e.getMessage());
+			throw new OperationErrorBD("Error al recuperar las plazas del Evento....: " + e.getMessage());
 		}
 			
 	}
