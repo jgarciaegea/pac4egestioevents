@@ -17,8 +17,6 @@ import uoc.edu.tds.pec4.daos.DaoInscripcion;
 import uoc.edu.tds.pec4.dtos.DTOAsistente;
 import uoc.edu.tds.pec4.dtos.DTOEvento;
 import uoc.edu.tds.pec4.dtos.DTOInscripcion;
-import uoc.edu.tds.pec4.dtos.DTOInscripcionConsulta;
-import uoc.edu.tds.pec4.dtos.DTOUsuario;
 
 public class GestorInscripcion extends GestorEntidad<DTOInscripcion>{
 
@@ -157,47 +155,7 @@ public class GestorInscripcion extends GestorEntidad<DTOInscripcion>{
 		return null;
 	}
 	
-	
-	
-	public List<DTOInscripcionConsulta> consultaEntidadesByDates(DTOInscripcionConsulta criteris) throws Exception {
-		try{
-			DaoInscripcion dao = new DaoInscripcion(connection);			
-			List<DTOInscripcionConsulta> lstDTOInscripcionConsulta = new ArrayList<DTOInscripcionConsulta>();			
-			lstDTOInscripcionConsulta = dao.selectByDates(criteris);			
-			List<DTOInscripcionConsulta> lstDTOInscripcionConsulta1 = new ArrayList<DTOInscripcionConsulta>();
-			
-			if(lstDTOInscripcionConsulta != null && lstDTOInscripcionConsulta.size() > 0){
-				
-				for(DTOInscripcionConsulta dtoInscripcionConsulta : lstDTOInscripcionConsulta){
-					//A–adimos el Evento					
-					GestorEvento gestorEvento = new GestorEvento(connection);					
-					DTOEvento dtoEvento = gestorEvento.consultaEntidadById(dtoInscripcionConsulta.getInscripcion().getIdEvento());
-					if(dtoEvento != null) dtoInscripcionConsulta.setDtoEvento(dtoEvento);
-					else System.out.println(" ERROR recogiendo el dtoEvento.........id evento " );
-					
-					//Añadimos el Usuario
-					GestorUsuario gestorUsuario = new GestorUsuario(connection);
-					DTOUsuario dtoUsuario = gestorUsuario.consultaEntidadById(dtoInscripcionConsulta.getInscripcion().getCodigo());
-					DTOAsistente dtoAsistente = (DTOAsistente)dtoUsuario;
-					if(dtoAsistente != null) dtoInscripcionConsulta.setDtoAsistente(dtoAsistente);
-					else System.out.println(" ERROR recogiendo el DTOAsistente.........");
-					lstDTOInscripcionConsulta1.add(dtoInscripcionConsulta);
-					
-				}
-				
-				return lstDTOInscripcionConsulta1;
-			}
-		}catch(Exception e){
-			e.printStackTrace();
-			throw new Exception();
-			
-		}
 		
-		return null;
-	}
-
-	
-	
 	@Override
 	public void insertaEntidad(DTOInscripcion newobject) throws Exception{
 		try {
