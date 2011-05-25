@@ -26,6 +26,12 @@ import uoc.edu.tds.pec4.gestores.GestorRMI;
 import uoc.edu.tds.pec4.iface.RemoteInterface;
 import uoc.edu.tds.pec4.resources.TDSLanguageUtils;
 
+
+/**************************************************************
+ * CLASE ENCARGADA DE INICIACILAR LA PANTALLA PRINCIPAL **
+ **************************************************************/
+
+
 public class PantallaPrincipal extends JFrame {
 	
 	private static final long serialVersionUID = 1L;
@@ -86,6 +92,10 @@ public class PantallaPrincipal extends JFrame {
 
 	}
 	
+	/**************************************************************
+	 * Método para gestionar los permisos segun el tipo de usuario**
+	 **************************************************************/
+	
 	private void gestionarPermisos() throws Exception{
 		try {
 		if(dtoUsuario instanceof DTOAdministrador){
@@ -109,15 +119,15 @@ public class PantallaPrincipal extends JFrame {
 	}
 
 	
-	
+	/************************************************
+	 * Método para crear el menu e inicialiar datos**
+	 ************************************************/
 	private void crearMenuBar(){
 		try{
 			
-			System.out.println("Creando Objecto Menu Bar");
 			panelPrincipal = new JPanel();
 			super.getContentPane().add(panelPrincipal);
 			
-			//Crear el logo eGestioEvents en la pantalla principal
 			JLabel logo = new JLabel("",JLabel.CENTER);
 	        ImageIcon fondo = new ImageIcon("imagen/eGestio.jpg");
 			logo.setIcon(fondo);
@@ -206,7 +216,6 @@ public class PantallaPrincipal extends JFrame {
 	        menuConexion.add(cambioPwd);
 	        menuConexion.add(inscripcionEvento);
 	        menuConexion.add(historicoEventos);
-	        //menuConexion.add(validarAsistenciaEvento);
 	               
 	        menuEstadisticas.add(informePorcentajes);
 	        menuEstadisticas.add(informeIngresos);
@@ -267,7 +276,6 @@ public class PantallaPrincipal extends JFrame {
 			} 
     	} }); 
     
-
     inscripcionEvento.addActionListener(new ActionListener() { 
     	public void actionPerformed(ActionEvent evt) { 
     		showPanel(new PantallaCalendarioEventos(remote, dtoUsuario)); 
@@ -287,7 +295,7 @@ public class PantallaPrincipal extends JFrame {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} 
-    	} }); 	        
+    	} }); 	  
     
 
   
