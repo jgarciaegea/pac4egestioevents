@@ -39,7 +39,7 @@ public class DaoInscripcion extends DaoEntidad<Inscripcion>{
 			//ps.setDate(6, objecte.getFechaInscripcion());
 			ps.setDate(6, new java.sql.Date(System.currentTimeMillis()));
 			ps.setBoolean(7, objecte.getCheckIn());
-			ps.setString(8, objecte.getCodigoAsistencia());			
+			ps.setString(8, objecte.getCodigoAsistencia());
 			ps.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -174,7 +174,6 @@ public class DaoInscripcion extends DaoEntidad<Inscripcion>{
 			}else if(criteris.getFechaInicioBusqueda() != null && criteris.getFechaFinBusqueda()==null){
 				ps.setDate(i, criteris.getFechaInicioBusqueda()); i++;
 			}
-			System.out.println("Query ejecutada.... " +ps.toString() );
 			rs = ps.executeQuery();
 			while (rs.next()) {
 				DTOInscripcionConsulta dtoInscripcionConsulta = new DTOInscripcionConsulta();
