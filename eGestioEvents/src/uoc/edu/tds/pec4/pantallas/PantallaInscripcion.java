@@ -11,6 +11,9 @@ import java.rmi.RemoteException;
 
 import javax.swing.BorderFactory;
 
+import uoc.edu.tds.pec4.beans.Evento;
+import uoc.edu.tds.pec4.beans.Usuario;
+import uoc.edu.tds.pec4.dtos.DTOInscripcion;
 import uoc.edu.tds.pec4.dtos.DTOUsuario;
 import uoc.edu.tds.pec4.excepciones.OperationErrorBD;
 import uoc.edu.tds.pec4.excepciones.OperationErrorLogin;
@@ -28,16 +31,18 @@ public class PantallaInscripcion extends PanelComun implements Pantallas{
 	 */
 	private static final long serialVersionUID = 1L;
 	private RemoteInterface remote;
-	private DTOUsuario dtoUsuario;
+	private DTOUsuario dtousuario;
+	private Evento evento;
 
 
-	public PantallaInscripcion(RemoteInterface remote1,DTOUsuario dtoUsuario) throws OperationErrorLogin, RemoteException, OperationErrorBD{
+	public PantallaInscripcion(RemoteInterface remote1,DTOUsuario dtousuario1, Evento evento1) throws OperationErrorLogin, RemoteException, OperationErrorBD{
 		super("clientePEC4.panelInscripcion.titulo",750,600);
 		System.out.println("creando Pantalla inscripcion......");
 		remote = remote1;
-		this.dtoUsuario = dtoUsuario;
+		dtousuario = dtousuario;
+		evento = evento1;
 
-		if (dtoUsuario == null) throw new OperationErrorLogin("La session es invalida.....");
+		if (dtousuario == null) throw new OperationErrorLogin("La session es invalida.....");
 		try {
 			remote.testConexion();
 		} catch (RemoteException e1) {			
@@ -52,13 +57,13 @@ public class PantallaInscripcion extends PanelComun implements Pantallas{
 		
 		this.crearTitulo(20, 300, 140, 20, "clientePEC4.panelInscripcion.titulo1.nombreAsistente", "nombreAsistente");
 		this.crearTextField(160, 300, 250, 20,"cajaAsistente");
-		this.findTextField("cajaAsistente").setText(dtoUsuario.getUsuario().getNombre()+ ", " + dtoUsuario.getUsuario().getApellidos());
+		this.findTextField("cajaAsistente").setText(dtousuario.getUsuario().getNombre()+ ", " + dtousuario.getUsuario().getApellidos());
 		this.findTextField("cajaAsistente").setEditable(false);
 		
 		
 		this.crearTitulo(20, 330, 140, 20, "clientePEC4.panelInscripcion.titulo1.nombreDatosBancarios", "nombreDatosBancarios");
 		this.crearTextField(160, 330, 250, 20,"cajaDatosBancarios");
-		//this.findTextField("cajaDatosBancarios").setText(String.usuario.getIdDatosBancarios());
+		this.findTextField("cajaDatosBancarios").setText("PENDIENTE DE RELLENAR CON DATOS BANCARIOS");
 		this.findTextField("cajaDatosBancarios").setEditable(false);
 		
 		this.crearBoton(20, 360, 100, 30,"clientePEC4.panelInscripcion.boton1.botonConfirmar","botonConfirmar");
@@ -73,10 +78,15 @@ public class PantallaInscripcion extends PanelComun implements Pantallas{
 		this.removeAll();
 		this.setAlignmentX(LEFT_ALIGNMENT);
 		this.setAlignmentY(TOP_ALIGNMENT);
-		this.add((Component)new PantallaBuscarEventoInscripcion(remote,dtoUsuario));
+		this.add((Component)new PantallaCalendarioEventos(remote, dtousuario));
 		this.repaint();
 		this.revalidate();
 		this.updateUI();
+	}
+	
+	
+	public void crearInscripcion(){
+		DTOInscripcion dtoInscripcion = new DTOInscripcion();
 	}
 	
 	
@@ -110,6 +120,10 @@ public class PantallaInscripcion extends PanelComun implements Pantallas{
 			}
 		});
 	}
+	
+	
+	
+	
 
 	
 	
