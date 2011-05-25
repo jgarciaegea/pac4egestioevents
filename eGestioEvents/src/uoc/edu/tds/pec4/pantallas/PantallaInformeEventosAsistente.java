@@ -5,14 +5,20 @@ package uoc.edu.tds.pec4.pantallas;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.swing.ComboBoxModel;
+import javax.swing.DefaultComboBoxModel;
 
 import uoc.edu.tds.pec4.beans.Evento;
 import uoc.edu.tds.pec4.beans.Inscripcion;
 import uoc.edu.tds.pec4.dtos.DTOEvento;
 import uoc.edu.tds.pec4.dtos.DTOInscripcion;
+import uoc.edu.tds.pec4.dtos.DTOUniversidad;
 import uoc.edu.tds.pec4.dtos.DTOUsuario;
 //import uoc.edu.tds.pec4.dtos.DTOInscripcionConsulta;
 import uoc.edu.tds.pec4.dtos.DTOTipoEvento;
@@ -20,6 +26,7 @@ import uoc.edu.tds.pec4.excepciones.OperationErrorBD;
 import uoc.edu.tds.pec4.excepciones.OperationErrorDatosFormulario;
 import uoc.edu.tds.pec4.excepciones.OperationErrorLogin;
 import uoc.edu.tds.pec4.iface.RemoteInterface;
+import uoc.edu.tds.pec4.utils.Constantes;
 import uoc.edu.tds.pec4.utils.MostrarCombo;
 import uoc.edu.tds.pec4.utils.Utils;
 
@@ -55,7 +62,14 @@ public class PantallaInformeEventosAsistente extends PanelComun implements Panta
 		this.findTextField("cajaAsistente").setEditable(false);
 		this.crearTitulo(20, 60, 140, 20, "clientePEC4.panelInformeEventosAsistencia.titulo1.TipoEvento", "tTipoEvento");
 		this.crearCombo(100, 60, 200, 20, "comboTipoEvento", recuperarTiposEvento());
+		//ComboBoxModel jComboBoxCentroDocenteModel = new DefaultComboBoxModel(lstComboCentroDoc.toArray());
+		//jComboBoxCentroDocente.setModel(jComboBoxCentroDocenteModel);
+		this.findCombo("comboTipoEvento").setSelectedIndex(-1);
+		
 		this.crearTitulo(20, 90, 80, 20, "clientePEC4.panelInformeEventosAsistencia.titulo1.FechaDesde", "tFechaDesde");
+		
+		
+		
 		this.crearTextField(100, 90, 90, 20,"cajaFechaDeste");
 		this.crearTitulo(220, 90, 80, 20, "clientePEC4.panelInformeEventosAsistencia.titulo1.FechaHasta", "tFechaHasta");
 		this.crearTextField(300, 90, 90, 20,"cajaFechaHasta");
@@ -78,13 +92,18 @@ public class PantallaInformeEventosAsistente extends PanelComun implements Panta
 		List<DTOTipoEvento> lstdtoTipoEvento = remote.getTiposEventos();
 		List<MostrarCombo> lstComoTipoEvento = new ArrayList<MostrarCombo>();
 		for(DTOTipoEvento dtoTipoEventoRes : lstdtoTipoEvento){
-			lstComoTipoEvento.add(new MostrarCombo(dtoTipoEventoRes.getTipoEvento().getEstado(),
+			lstComoTipoEvento.add(new MostrarCombo(dtoTipoEventoRes.getTipoEvento().getIdTipoEvento(),
 					dtoTipoEventoRes.getTipoEvento().getDescripcion()));
 		
-		
+
 		}
 		return lstComoTipoEvento;
 	}
+	
+	
+
+	
+	
 	
 	
 	/**************************************************************
