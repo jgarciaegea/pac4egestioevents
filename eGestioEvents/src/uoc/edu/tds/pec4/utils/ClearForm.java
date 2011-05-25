@@ -1,5 +1,7 @@
 package uoc.edu.tds.pec4.utils;
 
+import javax.swing.JComboBox;
+
 public class ClearForm {
 	
 	/**
@@ -68,7 +70,8 @@ public class ClearForm {
 			((javax.swing.JTextField) comp).setText("");
 		} else if (nombre_clase.equals("javax.swing.JComboBox")) {
 			// Es un JComboBox asi que ponemos el primer elemento
-			((javax.swing.JComboBox) comp).setSelectedIndex(0);
+			JComboBox combo = ((javax.swing.JComboBox) comp);
+			if(combo.getItemCount() > 0) combo.setSelectedIndex(0);
 		} else if (nombre_clase.equals("javax.swing.JRadioButton")) {
 			// Es un JRadioButton así que deseleccionamos
 			((javax.swing.JRadioButton) comp).setSelected(false);
