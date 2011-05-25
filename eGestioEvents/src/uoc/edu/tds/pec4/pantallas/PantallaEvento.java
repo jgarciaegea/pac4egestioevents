@@ -304,7 +304,7 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 				for(DTOEventoRolPlazas dtEventoRolPlazas : lstDtoEventoRolPlazas){
 					 aobj[k][0] = new String(dtEventoRolPlazas.getDtoTipoRol().getTipoRol().getIdRol().toString());
 					 aobj[k][1] = new String(dtEventoRolPlazas.getDtoTipoRol().getTipoRol().getDescripcion());
-					 aobj[k][2] = new String(dtEventoRolPlazas.getEventoRolPlazas().getPlazas().toString());
+					 aobj[k][2] = new Integer(dtEventoRolPlazas.getEventoRolPlazas().getPlazas());
 					 k++;
 	       	 	}
 				

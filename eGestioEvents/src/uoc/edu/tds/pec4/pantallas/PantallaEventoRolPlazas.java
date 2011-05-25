@@ -14,16 +14,17 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-import uoc.edu.tds.pec4.beans.Evento;
 import uoc.edu.tds.pec4.beans.EventoRolPlazas;
+import uoc.edu.tds.pec4.beans.TipoEvento;
 import uoc.edu.tds.pec4.beans.TipoRol;
 import uoc.edu.tds.pec4.dtos.DTOEvento;
 import uoc.edu.tds.pec4.dtos.DTOEventoRolPlazas;
-import uoc.edu.tds.pec4.dtos.DTOInscripcion;
 import uoc.edu.tds.pec4.dtos.DTOTipoEvento;
+import uoc.edu.tds.pec4.dtos.DTOTipoEventoRol;
 import uoc.edu.tds.pec4.dtos.DTOTipoRol;
 import uoc.edu.tds.pec4.excepciones.OperationErrorDatosFormulario;
 import uoc.edu.tds.pec4.iface.RemoteInterface;
+import uoc.edu.tds.pec4.utils.Utils;
 
 /**
 * This code was edited or generated using CloudGarden's Jigloo
@@ -57,19 +58,32 @@ public class PantallaEventoRolPlazas extends javax.swing.JDialog {
 		initGUI(frame);
 		this.remote = remote1;
 		this.dtoEvento = dtoEvento1;
-		/*
-		if (dtoTipoEvento != null && dtoTipoEvento.getTipoEvento() != null){
+
+		if (dtoEvento != null && dtoEvento.getEvento() != null){
 			try
 			{
 				// TODO 1: si el tipo de evento no tiene tripoeventorol pues no hacemos nada y salimos
 				cargaDatosRoles();
-				//cargaRolPlazasActual();
+				cargaRolPlazasActual();
 			} catch (OperationErrorDatosFormulario e3) {
 				e3.showDialogError(jPanelBase);
 			}
-		}*/
+		}
 	}
 
+	private void cargaRolPlazasActual() {
+		for (int a=0; a<jTableDatos.getRowCount(); a++){
+			int valor = Integer.parseInt((jTableDatos.getValueAt(a,0).toString()));
+	    	List<DTOEventoRolPlazas> lstDTO = dtoEvento.getDtoEventoRolPlazas();
+	    	if(lstDTO != null && lstDTO.size() > 0){
+	    		for(DTOEventoRolPlazas dtoER : lstDTO){
+	    			if (valor == dtoER.getDtoTipoRol().getTipoRol().getIdRol()){ 
+	    				jTableDatos.setValueAt(new Integer(dtoER.getEventoRolPlazas().getPlazas()), a, 2);
+	    			}
+	    		}
+	        }
+		}
+	}
 	public List<DTOEventoRolPlazas> getDTOEventoRolPlazas() {
 		List<DTOEventoRolPlazas> lstDtoEventoRolPlazas = new ArrayList<DTOEventoRolPlazas>();
 		Boolean bDatos = false;
@@ -96,83 +110,43 @@ public class PantallaEventoRolPlazas extends javax.swing.JDialog {
 		return (bDatos?lstDtoEventoRolPlazas:null);
 	}
 	
+	private DTOTipoEvento consultaTipoEvento() {
+		DTOTipoEvento dtoTipoEventro = new DTOTipoEvento();
+		TipoEvento tipoEvento = new TipoEvento();
+		tipoEvento.setIdTipoEvento(dtoEvento.getEvento().getIdTipoEvento());
+		dtoTipoEventro.setTipoEvento(tipoEvento);
+
+		return dtoTipoEventro;
+	}
+	
 	private void cargaDatosRoles() throws OperationErrorDatosFormulario{
-		/*	try{
+		try{
+			dtm.getDataVector().removeAllElements();
 			
-			dtoTipoEvento = remote.getTiposEvento(dtoTipoEvento);
+			DTOTipoEvento dtoTipoEvento = null; //remote.getTipoEvento(consultaTipoEvento());
 			if(dtoTipoEvento == null){
 				Utils.mostraMensajeInformacion(jPanelBase, "El Tipo de evento no se puede consultar", "Evento Rol/Plazas");
 				return;
 			}
-			
-			for(DTOTipoEventoRol dtoTipoEventoRol : dtoTipoEvento.getDtoTipoEventoRol()){
-				dtoTipoEventoRol.ge
-			}
-			// rellenar la tabla con los tipos evento y ponerle los plazas de la lista y checkeado loas q esten
-			
-			for(DTOEventoRolPlazas dtoEventoRolPlazas : lstDtoEventoRolPlazas){
-				dtoEventoRolPlazas.getEventoRolPlazas().getIdRol()
-			}
-			
-			jLabelEvento.setText(dtoEvento.getEvento().getNombre());
-			jLabelCodigo.setText(dtoEvento.getEvento().getIdEvento().toString());
-		}catch(Exception e){
-			throw new OperationErrorDatosFormulario("Error en la carga de los datos del evento en asistencia/ausencia");
-		}*/		
-	}
-
-	/*
-	 * Parametrizamos el DTOInscripcion a consultar
-	 * @return
-	 * @throws OperationErrorDatosFormulario
-	 */
-		/*
-	private DTOInscripcion consultaInscripcion() throws OperationErrorDatosFormulario{
-		//Rellenamos la inscripcion
-		DTOInscripcion dtoInscripcion = new DTOInscripcion();
-		Inscripcion inscripcion = new Inscripcion();
-		inscripcion.setIdEvento(dtoEvento.getEvento().getIdEvento());
-		dtoInscripcion.setInscripcion(inscripcion);	
-
-		return dtoInscripcion;
-	}
-	
-	private void cargaInscripcionesByEvento() throws OperationErrorDatosFormulario{
-		try{
-			dtm.getDataVector().removeAllElements();
-			List<DTOInscripcion> lstDtoInscripcion = remote.getInscripcionesByEventoFinalizado(consultaInscripcion());
-			if(lstDtoInscripcion == null || lstDtoInscripcion.isEmpty()){
-				Utils.mostraMensajeInformacion(jPanelBase, "Evento no finalizado", "Asistencia/Ausencia del evento");
-				return;
-			}
-			muestraResultado(lstDtoInscripcion);
+			muestraResultado(dtoTipoEvento.getDtoTipoEventoRol());
 			actualizaTabla();
+			
 		}catch(Exception e){
-			throw new OperationErrorDatosFormulario("Error en la carga de la asistencia/ausencia");
-		}		
-	}
-	*/
-	private void actualizaTabla(){
-		jTableDatos.repaint();
-		jTableDatos.revalidate();
-		jTableDatos.updateUI();
+			throw new OperationErrorDatosFormulario("Error en la carga de los datos del evento en Rol/Plazas");
+		}	
 	}
 	
-	/*
-	 * Mostramos el resultado obtenido
-	 */
-	private void muestraResultado(List<DTOInscripcion> lstDtoInscripcion) throws OperationErrorDatosFormulario{
+	private void muestraResultado(List<DTOTipoEventoRol> lstDtoTipoEventoRol) throws OperationErrorDatosFormulario{
 		try{
 			dtm.getDataVector().removeAllElements();
 		     
-			Object[][] aobj = new Object[lstDtoInscripcion.size()][columnNames.length];
+			Object[][] aobj = new Object[lstDtoTipoEventoRol.size()][columnNames.length];
 			int k = 0;
-			if(lstDtoInscripcion != null){
-				for(DTOInscripcion dtoInscripcion : lstDtoInscripcion){
-					 aobj[k][0] = new String(dtoInscripcion.getInscripcion().getCodigoAsistencia());
-					 aobj[k][1] = new String(dtoInscripcion.getDtoAsistente().getUsuario().getNombreCompleto());
-					 aobj[k][2] = new String(dtoInscripcion.getInscripcion().getFechaInscripcion().toString());
-					 aobj[k][2] = new String(dtoInscripcion.getInscripcion().getAsistencia());
+			if(lstDtoTipoEventoRol != null){
+				for(DTOTipoEventoRol dtoTipoEventoRol : lstDtoTipoEventoRol){
+					 aobj[k][0] = new String(dtoTipoEventoRol.getDtoTipoRol().getTipoRol().getIdRol().toString());
+					 aobj[k][1] = new String(dtoTipoEventoRol.getDtoTipoRol().getTipoRol().getDescripcion());
+					 aobj[k][2] = new Integer(0);
 					 k++;
 	       	 	}
 				
@@ -183,9 +157,23 @@ public class PantallaEventoRolPlazas extends javax.swing.JDialog {
 	       	 	}
 			}
 		}catch(Exception e){
-			throw new OperationErrorDatosFormulario("Error en la carga de la asistencia/ausencia en la pantalla");
+			throw new OperationErrorDatosFormulario("Error en la carga de los datos del evento en Rol/Plazas en la pantalla");
 		}
 	}
+	
+	private void limpiaFormulario(){
+		//ClearForm.clearForm(jPanelBase);
+	    for (int a=0; a<jTableDatos.getRowCount(); a++){
+	    	jTableDatos.setValueAt(new Integer(0), a, 2);
+	    }
+	}
+
+	private void actualizaTabla(){
+		jTableDatos.repaint();
+		jTableDatos.revalidate();
+		jTableDatos.updateUI();
+	}
+	
 	private void initGUI(JFrame frame) {
 		this.setTitle("Evento Rol/Plazas");
 		this.setModal(true);
@@ -210,6 +198,7 @@ public class PantallaEventoRolPlazas extends javax.swing.JDialog {
 						}
 						jTableDatos = new JTable(dtm);
 						jScrollPane1.setViewportView(jTableDatos);
+						Utils.ocultaColumna(jTableDatos, 0);
 						jTableDatos.setPreferredSize(new java.awt.Dimension(538, 278));
 					}
 				}
@@ -223,7 +212,8 @@ public class PantallaEventoRolPlazas extends javax.swing.JDialog {
 					jButtonAceptar.setPreferredSize(new java.awt.Dimension(94, 32));
 					jButtonAceptar.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent e) {
-							// TODO 1: recorrer la tabla y pasar un dtoeventorolplaza
+							bExit = true;
+							dispose();
 						}
 					});
 				}
@@ -237,6 +227,7 @@ public class PantallaEventoRolPlazas extends javax.swing.JDialog {
 					jButtonCancelar.setBounds(275, 359, 90, 25);
 					jButtonCancelar.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent evt) {
+							bExit = false;
 							dispose();
 						}
 					});
@@ -251,7 +242,7 @@ public class PantallaEventoRolPlazas extends javax.swing.JDialog {
 					jButtonLimpiar.setBounds(275, 359, 90, 25);
 					jButtonLimpiar.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent evt) {
-							// TODO 1: poner todos las plazas a 0
+							limpiaFormulario();
 						}
 					});
 				}

@@ -196,6 +196,7 @@ public class PantallaEventoRequisitos extends javax.swing.JDialog {
 						}
 						jTableDatos = new JTable(dtm);
 						jScrollPane1.setViewportView(jTableDatos);
+						Utils.ocultaColumna(jTableDatos, 0);
 						jTableDatos.setPreferredSize(new java.awt.Dimension(538, 278));
 					}
 				}
