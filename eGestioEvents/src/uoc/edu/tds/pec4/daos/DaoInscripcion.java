@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import uoc.edu.tds.pec4.beans.Inscripcion;
-import uoc.edu.tds.pec4.dtos.DTOInscripcionConsulta;
 import uoc.edu.tds.pec4.utils.Constantes;
 
 public class DaoInscripcion extends DaoEntidad<Inscripcion>{
@@ -149,53 +148,7 @@ public class DaoInscripcion extends DaoEntidad<Inscripcion>{
 		return inscripcion;
 	}
 	
-	public List<DTOInscripcionConsulta> selectByDates(DTOInscripcionConsulta criteris) throws Exception {
-		PreparedStatement ps = null;
-		ResultSet rs = null;
-		List<DTOInscripcionConsulta> lstDTOInscripcionConsultaInscripcion = new ArrayList<DTOInscripcionConsulta>();
-		try{
-			StringBuffer sb = new StringBuffer();
-			sb.append("SELECT codigo,id_evento,estado,fecha_estado,motivo_estado,fecha_inscripcion,check_in,codigo_asistencia ");
-			sb.append("FROM INSCRIPCION ");
-			sb.append("WHERE (1=1) ");
-			if(criteris.getUsuario()!=null) sb.append("AND codigo = ? ");			
-			if(criteris.getFechaInicioBusqueda() != null && criteris.getFechaFinBusqueda()!=null){
-				sb.append("AND fecha_inscripcion BETWEEN ? AND ?");
-			}else if(criteris.getFechaInicioBusqueda() != null && criteris.getFechaFinBusqueda()==null){
-				sb.append("AND fecha_inscripcion >=  ? ");
-			}						
-			ps = con.prepareStatement(sb.toString(), ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
-			
-			int i=1;
-			if(criteris.getUsuario()!=null) {ps.setString(i, criteris.getUsuario()); i++;}
-			if(criteris.getFechaInicioBusqueda() != null && criteris.getFechaFinBusqueda()!=null){
-				ps.setDate(i, criteris.getFechaInicioBusqueda()); i++;
-				ps.setDate(i, criteris.getFechaFinBusqueda()); i++;
-			}else if(criteris.getFechaInicioBusqueda() != null && criteris.getFechaFinBusqueda()==null){
-				ps.setDate(i, criteris.getFechaInicioBusqueda()); i++;
-			}
-			rs = ps.executeQuery();
-			while (rs.next()) {
-				DTOInscripcionConsulta dtoInscripcionConsulta = new DTOInscripcionConsulta();
-				Inscripcion inscripcion = new Inscripcion();
-				dtoInscripcionConsulta.setInscripcion(inscripcion);
-				dtoInscripcionConsulta.getInscripcion().setCodigo(rs.getString("codigo"));
-				dtoInscripcionConsulta.getInscripcion().setIdEvento(rs.getInt("id_evento"));
-				dtoInscripcionConsulta.getInscripcion().setEstado(rs.getInt("estado"));
-				dtoInscripcionConsulta.getInscripcion().setFechaEstado(rs.getDate("fecha_estado"));
-				dtoInscripcionConsulta.getInscripcion().setMotivoEstado(rs.getString("motivo_estado"));
-				dtoInscripcionConsulta.getInscripcion().setFechaInscripcion(rs.getDate("fecha_inscripcion"));
-				dtoInscripcionConsulta.getInscripcion().setCheckIn(rs.getBoolean("check_in"));
-				dtoInscripcionConsulta.getInscripcion().setCodigoAsistencia(rs.getString("codigo_asistencia"));
-				lstDTOInscripcionConsultaInscripcion.add(dtoInscripcionConsulta);
-			}		
-			return (lstDTOInscripcionConsultaInscripcion.isEmpty() || lstDTOInscripcionConsultaInscripcion.size() == 0) ? null:lstDTOInscripcionConsultaInscripcion;
-		}catch(Exception e){
-			throw new Exception(e.getMessage());
-		} finally {
-			close(ps,rs);
-		}
-	}
+
 	
 	
 	@Override
