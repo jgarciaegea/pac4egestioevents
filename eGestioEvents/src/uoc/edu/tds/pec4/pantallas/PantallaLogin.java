@@ -30,7 +30,6 @@ import uoc.edu.tds.pec4.excepciones.OperationErrorRMI;
 import uoc.edu.tds.pec4.gestores.GestorRMI;
 import uoc.edu.tds.pec4.iface.RemoteInterface;
 import uoc.edu.tds.pec4.resources.TDSLanguageUtils;
-import uoc.edu.tds.pec4.utils.Base64Coder;
 import uoc.edu.tds.pec4.utils.JTextFieldLimit;
 import uoc.edu.tds.pec4.utils.Utils;
 
@@ -176,12 +175,9 @@ public class PantallaLogin extends JFrame {
 	public void inicializarAplicacion() throws Exception,RemoteException,MalformedURLException,NotBoundException,OperationErrorBD {
 		try{
 			authenticate(); 	
-    		if(usuarioEncontrado== null){
-    			throw new OperationErrorLogin(TDSLanguageUtils.getMessage("clientePEC4.error.login2"));
-			} 	
-    		if (!usuarioEncontrado.getContrasena().equals(Base64Coder.encodeString(usuario.getContrasena()))){
+    		if( usuarioEncontrado == null ){
     			throw new OperationErrorLogin(TDSLanguageUtils.getMessage("clientePEC4.error.login1"));
-    		} 
+			} 	
     		usuario = usuarioEncontrado;  
 			PantallaPrincipal aplicacion = new PantallaPrincipal(gestorRMI,remote,usuario);
 			this.setVisible(false);
@@ -208,7 +204,7 @@ public class PantallaLogin extends JFrame {
 		
 			usuario = new Usuario();
     		usuarioEncontrado = null;
-    		usuario.setCodigo(textoLogin.getText());
+    		usuario.setCodigo(textoLogin.getText().toUpperCase());
     		usuario.setContrasena(textoPwd.getText());
     		usuarioEncontrado = remote.loginUsuario(usuario);
 		} catch (RemoteException e) {
