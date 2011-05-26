@@ -58,7 +58,6 @@ public class PantallaPrincipal extends JFrame {
 	private JMenuItem consultaCentroDocente;
     // items eventos y inscripciones
 	private JMenuItem calendarioEventos;
-	private JMenuItem consultaInscripciones;
 	private JMenuItem acercaDe;
 	private JPanel panelPrincipal;
 	private GestorRMI gestorRMI;
@@ -206,12 +205,11 @@ public class PantallaPrincipal extends JFrame {
 	        	} }); 
 	        
 	        // items eventos y inscripciones
-	        calendarioEventos = new JMenuItem("Calendario de Eventos");
+	        calendarioEventos = new JMenuItem("Calendario de Eventos / Gesti—n Inscripciones");
 	        calendarioEventos.addActionListener(new ActionListener() { 
 	        	public void actionPerformed(ActionEvent evt) { 
 	        		showPanel(new PantallaCalendarioEventos(remote, dtoUsuario)); 
 	        	} }); 
-	        consultaInscripciones = new JMenuItem("Consulta de Inscripciones");
 	        
 	        menuConexion.add(cambioPwd);
 	        menuConexion.add(inscripcionEvento);
@@ -228,7 +226,6 @@ public class PantallaPrincipal extends JFrame {
 	        menuMantenimiento.add(consultaCentroDocente);
 
 	        menuProgramacionEvento.add(calendarioEventos);
-	        menuProgramacionEvento.add(consultaInscripciones);
 
 	        menuAyuda.add(acercaDe);
 	        menuSalir.add(salirAplicacion);
