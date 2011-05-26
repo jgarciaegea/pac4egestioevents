@@ -331,5 +331,6 @@ public interface RemoteInterface extends Remote{
 	public abstract Boolean validarInscripcion(DTOEvento dtoEvento, DTOUsuario dtoUsuario,DTOInscripcion dtoInscripcion ) throws Exception;
 	
 	public abstract List<DTOEventoRequisitos>  getRequisitosEvento(DTOEvento dtoEvento) throws Exception;
+	public abstract DTOInscripcion getCodigoAsistentica(DTOInscripcion dtoInscripcion) throws Exception;
 		
 }
