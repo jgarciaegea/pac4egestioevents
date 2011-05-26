@@ -715,7 +715,7 @@ public class RemotoImpl extends UnicastRemoteObject implements RemoteInterface{
 			
 	}
 	
-	public List<DTOEventoRequisitos>  getRequisitosEvento(DTOEvento dtoEvento) throws Exception{
+	public List<DTOEventoRequisitos>  getRequisitosEvento(DTOEvento dtoEvento) throws RemoteException, OperationErrorBD {
 		try {
 			GestorEventoRequisitos gestorEventoRequisitos = new GestorEventoRequisitos(gestorDB.getConnection());
 			List<DTOEventoRequisitos> listDTOEventoREquisitos = gestorEventoRequisitos.consultaEntidadById(dtoEvento.getEvento().getIdEvento());
@@ -728,65 +728,90 @@ public class RemotoImpl extends UnicastRemoteObject implements RemoteInterface{
 	
 	
 	// loggica de comprobacion de inscripcion
-	public Boolean validarInscripcion(DTOEvento dtoEvento, DTOUsuario dtoUsuario,DTOInscripcion dtoInscripcion ) throws Exception{
-		
-		DTOEventoPlus dtoEventoPlus = getPlazasEvento(dtoEvento);
-		// miramos que el evento disponga de plazas
-		if (dtoEventoPlus.getEventoPlus().getPlazasLibres() > 0 ){		
-			
-			dtoInscripcion.getInscripcion().setFechaInscripcion(null);
-			GestorInscripcion gestorInscripcion = new GestorInscripcion(gestorDB.getConnection());
-			List<DTOInscripcion> dtoInscripcionEncontrado = gestorInscripcion.consultaEntidades(dtoInscripcion);	
-			
-			if (dtoInscripcionEncontrado == null){
-				// el usuario no esta inscrito al mismo evento
-				GestorEventoRequisitos gestorEventoRequisitos = new GestorEventoRequisitos(gestorDB.getConnection());
-				List<DTOEventoRequisitos> listDTOEventoREquisitos = gestorEventoRequisitos.consultaEntidadById(dtoEvento.getEvento().getIdEvento());
+	public Boolean validarInscripcion(DTOEvento dtoEvento, DTOUsuario dtoUsuario,DTOInscripcion dtoInscripcion ) throws RemoteException, OperationErrorBD {
+		try{
+			DTOEventoPlus dtoEventoPlus = getPlazasEvento(dtoEvento);
+			// miramos que el evento disponga de plazas
+			if (dtoEventoPlus.getEventoPlus().getPlazasLibres() > 0 ){		
 				
-				// miramos los requisitos del eventos
-				if (listDTOEventoREquisitos != null){
+				dtoInscripcion.getInscripcion().setFechaInscripcion(null);
+				GestorInscripcion gestorInscripcion = new GestorInscripcion(gestorDB.getConnection());
+				List<DTOInscripcion> dtoInscripcionEncontrado = gestorInscripcion.consultaEntidades(dtoInscripcion);	
+				
+				if (dtoInscripcionEncontrado == null){
+					// el usuario no esta inscrito al mismo evento
+					GestorEventoRequisitos gestorEventoRequisitos = new GestorEventoRequisitos(gestorDB.getConnection());
+					List<DTOEventoRequisitos> listDTOEventoREquisitos = gestorEventoRequisitos.consultaEntidadById(dtoEvento.getEvento().getIdEvento());
 					
-					Inscripcion  insc = new Inscripcion(); 
-					insc.setCodigo(dtoUsuario.getUsuario().getCodigo());
-					DTOInscripcion dtoinsc	 = new DTOInscripcion();
-					dtoinsc.setInscripcion(insc);
-					// recogemos todas las inscripcones del usuario
-					List<DTOInscripcion> lstdtoInscripcionUsuario = gestorInscripcion.consultaEntidades(dtoinsc);					
-					if (lstdtoInscripcionUsuario == null){
-						return false; // el usuario no cumple los requisitos
-					}else{
+					// miramos los requisitos del eventos
+					if (listDTOEventoREquisitos != null){
 						
-						// comprobamos que el usuario tenga inscripciones para todos los requisitos.
-							boolean valido = false;
-							for(DTOEventoRequisitos dtoEventoREquisito : listDTOEventoREquisitos){
-								valido = false;
-								for(DTOInscripcion dtoInscripcionUsuario : lstdtoInscripcionUsuario){
-									
-									if (dtoInscripcionUsuario.getDtoEvento().getEvento().getIdEvento().
-											equals(dtoEventoREquisito.getDtoEventoReq().getEvento().getIdEvento())){
-										valido= true;
+						Inscripcion  insc = new Inscripcion(); 
+						insc.setCodigo(dtoUsuario.getUsuario().getCodigo());
+						DTOInscripcion dtoinsc	 = new DTOInscripcion();
+						dtoinsc.setInscripcion(insc);
+						// recogemos todas las inscripcones del usuario
+						List<DTOInscripcion> lstdtoInscripcionUsuario = gestorInscripcion.consultaEntidades(dtoinsc);					
+						if (lstdtoInscripcionUsuario == null){
+							return false; // el usuario no cumple los requisitos
+						}else{
+							
+							// comprobamos que el usuario tenga inscripciones para todos los requisitos.
+								boolean valido = false;
+								for(DTOEventoRequisitos dtoEventoREquisito : listDTOEventoREquisitos){
+									valido = false;
+									for(DTOInscripcion dtoInscripcionUsuario : lstdtoInscripcionUsuario){
+										
+										if (dtoInscripcionUsuario.getDtoEvento().getEvento().getIdEvento().
+												equals(dtoEventoREquisito.getDtoEventoReq().getEvento().getIdEvento())){
+											valido= true;
+										}
+										
 									}
-									
+	
 								}
-
-							}
-							if (valido == false) // el usuario no cumple los requisitos 
-								return false;				
-					}	
-					return true;
-			}else return true; /// no hay requistos para el evento
-					
+								if (valido == false) // el usuario no cumple los requisitos 
+									return false;				
+						}	
+						return true;
+				}else return true; /// no hay requistos para el evento
+						
+			}else 
+				return false; // el usuario ya esta inscrito en el mismo evento
+			
 		}else 
-			return false; // el usuario ya esta inscrito en el mismo evento
-		
-	}else 
-		return false; // ya no hay plazas disponibles
+			return false; // ya no hay plazas disponibles
+		} catch (Exception e) {
+			throw new OperationErrorBD("Error al validar la Inscripcion....: " + e.getMessage());
+		}	
+	}
 	
-}
-	
-	public  DTOInscripcion getCodigoAsistentica(DTOInscripcion dtoInscripcion) throws Exception{
-		GestorInscripcion gestorInscripcion = new GestorInscripcion(gestorDB.getConnection());
-		return gestorInscripcion.generarCodigoAsistencia(dtoInscripcion);
+	public  DTOInscripcion getCodigoAsistentica(DTOInscripcion dtoInscripcion) throws RemoteException, OperationErrorBD {
+		try {
+			gestorDB.getConnection().setAutoCommit(false);
+			
+			GestorInscripcion gestorInscripcion = new GestorInscripcion(gestorDB.getConnection());
+			DTOInscripcion dtoInscripcionRet = gestorInscripcion.generarCodigoAsistencia(dtoInscripcion);
+			gestorDB.getConnection().commit();
+			return dtoInscripcionRet;
+		} catch (Exception e) {
+			gestorDB.rollback();
+			throw new OperationErrorBD("Error al validar la Inscripcion....: " + e.getMessage());
+		}
+	}
+
+	@Override
+	public void bajaInscripcion(DTOInscripcion dtoInscripcion) throws RemoteException, OperationErrorBD {
+		try {
+			gestorDB.getConnection().setAutoCommit(false);
+			
+			GestorInscripcion gestorInscripcion = new GestorInscripcion(gestorDB.getConnection());
+			gestorInscripcion.eliminaEntidad(dtoInscripcion);
+			gestorDB.getConnection().commit();
+		} catch (Exception e) {
+			gestorDB.rollback();
+			throw new OperationErrorBD("Error al dar de baja la Inscripcion....: " + e.getMessage());
+		}
 	}
 	
 	
