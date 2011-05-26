@@ -26,6 +26,7 @@ import uoc.edu.tds.pec4.dtos.DTOInscripcion;
 import uoc.edu.tds.pec4.dtos.DTOPais;
 import uoc.edu.tds.pec4.dtos.DTOTipoDocumento;
 import uoc.edu.tds.pec4.dtos.DTOTipoEvento;
+import uoc.edu.tds.pec4.dtos.DTOTipoEventoRol;
 import uoc.edu.tds.pec4.dtos.DTOTipoRol;
 import uoc.edu.tds.pec4.dtos.DTOTipoTelefono;
 import uoc.edu.tds.pec4.dtos.DTOUniversidad;
@@ -812,6 +813,18 @@ public class RemotoImpl extends UnicastRemoteObject implements RemoteInterface{
 			gestorDB.rollback();
 			throw new OperationErrorBD("Error al dar de baja la Inscripcion....: " + e.getMessage());
 		}
+	}
+	
+	public  List<DTOTipoEventoRol> consultaTipoEventoRol(DTOTipoEventoRol dtoEventoRol) throws RemoteException, OperationErrorBD{
+		try {
+
+			GestorTipoEventoRol gestorTipoEventoRol = new GestorTipoEventoRol(gestorDB.getConnection());
+			return(gestorTipoEventoRol.consultaEntidades(dtoEventoRol));
+		} catch (Exception e) {
+
+			throw new OperationErrorBD("Error al recuperar la informacion de TipoEventoRol....: " + e.getMessage());
+		}
+		
 	}
 	
 	
