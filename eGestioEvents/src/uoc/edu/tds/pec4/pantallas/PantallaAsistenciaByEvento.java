@@ -22,6 +22,7 @@ import uoc.edu.tds.pec4.dtos.DTOEvento;
 import uoc.edu.tds.pec4.dtos.DTOInscripcion;
 import uoc.edu.tds.pec4.excepciones.OperationErrorDatosFormulario;
 import uoc.edu.tds.pec4.iface.RemoteInterface;
+import uoc.edu.tds.pec4.resources.TDSLanguageUtils;
 import uoc.edu.tds.pec4.utils.Utils;
 
 /**
@@ -52,7 +53,7 @@ public class PantallaAsistenciaByEvento extends javax.swing.JDialog {
 	private JLabel jLabelCodigo;
 	private JLabel jLabelCodigoText;
 	private JLabel jLabelEvento;
-	private String[] columnNames = {"C—digo", "Asistente", "Inscripci—n", "Asistencia", "codigo", "checkIN"};
+	private String[] columnNames = {TDSLanguageUtils.getMessage("clientePEC4.asistenciabyevento.colum1"), TDSLanguageUtils.getMessage("clientePEC4.asistenciabyevento.colum2"), TDSLanguageUtils.getMessage("clientePEC4.asistenciabyevento.colum3"), TDSLanguageUtils.getMessage("clientePEC4.asistenciabyevento.colum4"), TDSLanguageUtils.getMessage("clientePEC4.asistenciabyevento.colum5"), TDSLanguageUtils.getMessage("clientePEC4.asistenciabyevento.colum6")};
 	private DefaultTableModel dtm;
 	
 	private RemoteInterface remote;
@@ -91,13 +92,13 @@ public class PantallaAsistenciaByEvento extends javax.swing.JDialog {
 		try{
 			dtoEvento = remote.getEvento(dtoEvento);
 			if(dtoEvento == null){
-				Utils.mostraMensajeInformacion(jPanelBase, "El Evento no se puede consultar/No existen inscripciones.", "Asistencia/Ausencia del evento");
+				Utils.mostraMensajeInformacion(jPanelBase, TDSLanguageUtils.getMessage("clientePEC4.asistenciabyevento.MSG1"), TDSLanguageUtils.getMessage("clientePEC4.asistenciabyevento.MSG1.title"));
 				return;
 			}
 			jLabelEvento.setText(dtoEvento.getEvento().getNombre());
 			jLabelCodigo.setText(dtoEvento.getEvento().getIdEvento().toString());
 		}catch(Exception e){
-			throw new OperationErrorDatosFormulario("Error en la carga de los datos del evento en asistencia/ausencia");
+			throw new OperationErrorDatosFormulario(TDSLanguageUtils.getMessage("clientePEC4.asistenciabyevento.ERROR1"));
 		}		
 	}
 
@@ -121,13 +122,13 @@ public class PantallaAsistenciaByEvento extends javax.swing.JDialog {
 			dtm.getDataVector().removeAllElements();
 			List<DTOInscripcion> lstDtoInscripcion = remote.getInscripcionesByEventoFinalizado(consultaInscripcion());
 			if(lstDtoInscripcion == null || lstDtoInscripcion.isEmpty()){
-				Utils.mostraMensajeInformacion(jPanelBase, "Evento sin inscripciones", "Asistencia/Ausencia del evento");
+				Utils.mostraMensajeInformacion(jPanelBase, TDSLanguageUtils.getMessage("clientePEC4.asistenciabyevento.MSG2"), TDSLanguageUtils.getMessage("clientePEC4.asistenciabyevento.MSG2.title"));
 				return;
 			}
 			muestraResultado(lstDtoInscripcion);
 			actualizaTabla();
 		}catch(Exception e){
-			throw new OperationErrorDatosFormulario("Error en la carga de la asistencia/ausencia");
+			throw new OperationErrorDatosFormulario(TDSLanguageUtils.getMessage("clientePEC4.asistenciabyevento.ERROR2"));
 		}		
 	}
 	
@@ -164,11 +165,11 @@ public class PantallaAsistenciaByEvento extends javax.swing.JDialog {
 	       	 	}
 			}
 		}catch(Exception e){
-			throw new OperationErrorDatosFormulario("Error en la carga de la asistencia/ausencia en la pantalla");
+			throw new OperationErrorDatosFormulario(TDSLanguageUtils.getMessage("clientePEC4.asistenciabyevento.ERROR3"));
 		}
 	}
 	private void initGUI(JFrame frame) {
-		this.setTitle("Ver asistencia / ausencia a un eveto");
+		this.setTitle(TDSLanguageUtils.getMessage("clientePEC4.asistenciabyevento.title"));
 		this.setModal(true);
 		this.setLocationRelativeTo(frame);
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -188,7 +189,7 @@ public class PantallaAsistenciaByEvento extends javax.swing.JDialog {
 				{
 					jLabelEventoText = new JLabel();
 					jPanelCentro.add(jLabelEventoText);
-					jLabelEventoText.setText("Evento");
+					jLabelEventoText.setText(TDSLanguageUtils.getMessage("clientePEC4.calendarioeventos.column2"));
 					jLabelEventoText.setFont(new java.awt.Font("Arial",1,12));
 					jLabelEventoText.setLayout(null);
 					jLabelEventoText.setBounds(30, 14, 40, 14);
@@ -196,21 +197,21 @@ public class PantallaAsistenciaByEvento extends javax.swing.JDialog {
 				{
 					jLabelEvento = new JLabel();
 					jPanelCentro.add(jLabelEvento);
-					jLabelEvento.setText("xxxxxx");
+					jLabelEvento.setText(TDSLanguageUtils.getMessage("clientePEC4.asistenciabyevento.label1"));
 					jLabelEvento.setFont(new java.awt.Font("Arial",0,10));
 					jLabelEvento.setBounds(30, 34, 334, 13);
 				}
 				{
 					jLabelCodigoText = new JLabel();
 					jPanelCentro.add(jLabelCodigoText);
-					jLabelCodigoText.setText("C—digo");
+					jLabelCodigoText.setText(TDSLanguageUtils.getMessage("clientePEC4.asistenciabyevento.colum1"));
 					jLabelCodigoText.setFont(new java.awt.Font("Arial",1,12));
 					jLabelCodigoText.setBounds(429, 14, 40, 14);
 				}
 				{
 					jLabelCodigo = new JLabel();
 					jPanelCentro.add(jLabelCodigo);
-					jLabelCodigo.setText("xxxxxx");
+					jLabelCodigo.setText(TDSLanguageUtils.getMessage("clientePEC4.asistenciabyevento.label1"));
 					jLabelCodigo.setFont(new java.awt.Font("Arial",0,10));
 					jLabelCodigo.setBounds(429, 34, 30, 13);
 				}
@@ -267,13 +268,13 @@ public class PantallaAsistenciaByEvento extends javax.swing.JDialog {
 	private void jButtonCheckINActionPerformed(ActionEvent evt) {
 		System.out.println("jButtonCheckIN.actionPerformed, event="+evt);
 		if (jTableDatos.getSelectedRow() == -1) {
-			Utils.mostraMensajeInformacion(jPanelCentro, "No ha seleccionado ningœn registro de la tabla", "Asistencia");
+			Utils.mostraMensajeInformacion(jPanelCentro, TDSLanguageUtils.getMessage("clientePEC4.consultausuario.INFO.MSG1"), TDSLanguageUtils.getMessage("clientePEC4.asistenciabyevento.colum4"));
 		}else{
 			if (!isCheckIN()){
 				try {
 					DTOInscripcion dtoInscripcion = getSelectedInscripcion();
 					remote.checkIN(dtoInscripcion);
-					Utils.mostraMensajeInformacion(jPanelCentro, "Se ha marcado la asistenacia al evento", "Asistencia");
+					Utils.mostraMensajeInformacion(jPanelCentro, TDSLanguageUtils.getMessage("clientePEC4.asistenciabyevento.MSG3"), TDSLanguageUtils.getMessage("clientePEC4.asistenciabyevento.colum4"));
 					cargaInscripcionesByEvento();
 				} catch (Exception e1) {
 					try {
@@ -284,7 +285,7 @@ public class PantallaAsistenciaByEvento extends javax.swing.JDialog {
 				}
 			}
 			else{
-				Utils.mostraMensajeInformacion(jPanelCentro, "Ya se ha efectuado el marcaje con anterioridad", "Asistencia");
+				Utils.mostraMensajeInformacion(jPanelCentro, TDSLanguageUtils.getMessage("clientePEC4.asistenciabyevento.MSG4"), TDSLanguageUtils.getMessage("clientePEC4.asistenciabyevento.colum4"));
 			}
 		}
 	}
