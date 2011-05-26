@@ -328,7 +328,7 @@ public interface RemoteInterface extends Remote{
 	
 	public abstract DTOEventoPlus getPlazasEvento(DTOEvento criteris) throws RemoteException, OperationErrorBD;
 	
-	public abstract boolean validarInscripcion(DTOEvento dtoEvento, DTOUsuario dtoUsuario,DTOInscripcion dtoInscripcion ) throws Exception;
+	public abstract Boolean validarInscripcion(DTOEvento dtoEvento, DTOUsuario dtoUsuario,DTOInscripcion dtoInscripcion ) throws Exception;
 	
 	public abstract List<DTOEventoRequisitos>  getRequisitosEvento(DTOEvento dtoEvento) throws Exception;
 		
