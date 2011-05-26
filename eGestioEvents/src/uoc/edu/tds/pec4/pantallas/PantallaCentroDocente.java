@@ -33,6 +33,7 @@ import uoc.edu.tds.pec4.excepciones.OperationErrorBD;
 import uoc.edu.tds.pec4.excepciones.OperationErrorDatosFormulario;
 import uoc.edu.tds.pec4.excepciones.OperationErrorRMI;
 import uoc.edu.tds.pec4.iface.RemoteInterface;
+import uoc.edu.tds.pec4.resources.TDSLanguageUtils;
 import uoc.edu.tds.pec4.utils.ClearForm;
 import uoc.edu.tds.pec4.utils.EmailValidator;
 import uoc.edu.tds.pec4.utils.JTextFieldLimit;
@@ -129,7 +130,7 @@ public class PantallaCentroDocente extends javax.swing.JPanel implements Pantall
 				{
 					jLabelNombre = new JLabel();
 					jPanel2.add(jLabelNombre, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(4, 0, 0, 0), 0, 0));
-					jLabelNombre.setText("Universidad");
+					jLabelNombre.setText(TDSLanguageUtils.getMessage("clientePEC4.altausuario.label23"));
 					jLabelNombre.setLayout(null);
 				}
 				{
@@ -140,13 +141,13 @@ public class PantallaCentroDocente extends javax.swing.JPanel implements Pantall
 				{
 					jLabelApe = new JLabel();
 					jPanel2.add(jLabelApe, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0, GridBagConstraints.NORTHEAST, GridBagConstraints.NONE, new Insets(6, 0, 0, 0), 0, 0));
-					jLabelApe.setText("Nombre");
+					jLabelApe.setText(TDSLanguageUtils.getMessage("clientePEC4.altausuario.label5"));
 					jLabelApe.setLayout(null);
 				}
 				{
 					jLabelDirec = new JLabel();
 					jPanel2.add(jLabelDirec, new GridBagConstraints(0, 2, 1, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-					jLabelDirec.setText("Direccion");
+					jLabelDirec.setText(TDSLanguageUtils.getMessage("clientePEC4.altausuario.label8"));
 					jLabelDirec.setLayout(null);
 				}
 				{
@@ -157,7 +158,7 @@ public class PantallaCentroDocente extends javax.swing.JPanel implements Pantall
 				{
 					jLabelLocalidad = new JLabel();
 					jPanel2.add(jLabelLocalidad, new GridBagConstraints(0, 3, 1, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-					jLabelLocalidad.setText("Localidad");
+					jLabelLocalidad.setText(TDSLanguageUtils.getMessage("clientePEC4.altausuario.label9"));
 					jLabelLocalidad.setLayout(null);
 				}
 				{
@@ -168,7 +169,7 @@ public class PantallaCentroDocente extends javax.swing.JPanel implements Pantall
 				{
 					jLabelCP = new JLabel();
 					jPanel2.add(jLabelCP, new GridBagConstraints(0, 6, 1, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-					jLabelCP.setText("CP");
+					jLabelCP.setText(TDSLanguageUtils.getMessage("clientePEC4.altausuario.label18"));
 					jLabelCP.setLayout(null);
 					
 				}
@@ -181,7 +182,7 @@ public class PantallaCentroDocente extends javax.swing.JPanel implements Pantall
 				{
 					jLabelPais = new JLabel();
 					jPanel2.add(jLabelPais, new GridBagConstraints(0, 7, 1, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-					jLabelPais.setText("Pais");
+					jLabelPais.setText(TDSLanguageUtils.getMessage("clientePEC4.altausuario.label19"));
 					jLabelPais.setLayout(null);
 				}
 				{
@@ -193,7 +194,7 @@ public class PantallaCentroDocente extends javax.swing.JPanel implements Pantall
 				{
 					jLabelEmail = new JLabel();
 					jPanel2.add(jLabelEmail, new GridBagConstraints(0, 4, 1, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-					jLabelEmail.setText("Email");
+					jLabelEmail.setText(TDSLanguageUtils.getMessage("clientePEC4.altausuario.label10"));
 					jLabelEmail.setLayout(null);
 				}
 				{
@@ -204,7 +205,7 @@ public class PantallaCentroDocente extends javax.swing.JPanel implements Pantall
 				{
 					jLabelBlog = new JLabel();
 					jPanel2.add(jLabelBlog, new GridBagConstraints(0, 5, 1, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-					jLabelBlog.setText("Página Web o Blog");
+					jLabelBlog.setText(TDSLanguageUtils.getMessage("clientePEC4.altausuario.label11"));
 					jLabelBlog.setLayout(null);
 				}
 				{
@@ -215,7 +216,7 @@ public class PantallaCentroDocente extends javax.swing.JPanel implements Pantall
 				{
 					jLabelTelf = new JLabel();
 					jPanel2.add(jLabelTelf, new GridBagConstraints(0, 9, 1, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-					jLabelTelf.setText("Teléfono");
+					jLabelTelf.setText(TDSLanguageUtils.getMessage("clientePEC4.altausuario.label12"));
 					jLabelTelf.setLayout(null);
 				}
 				{
@@ -227,7 +228,7 @@ public class PantallaCentroDocente extends javax.swing.JPanel implements Pantall
 				{
 					jLabelExtension = new JLabel();
 					jPanel2.add(jLabelExtension, new GridBagConstraints(0, 10, 1, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-					jLabelExtension.setText("Extension");
+					jLabelExtension.setText(TDSLanguageUtils.getMessage("clientePEC4.altausuario.label13"));
 				}
 				{
 					jTextFieldExtension = new JTextField();
@@ -237,7 +238,7 @@ public class PantallaCentroDocente extends javax.swing.JPanel implements Pantall
 				{
 					jLabelTipo = new JLabel();
 					jPanel2.add(jLabelTipo, new GridBagConstraints(0, 12, 1, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-					jLabelTipo.setText("Tipo");
+					jLabelTipo.setText(TDSLanguageUtils.getMessage("clientePEC4.altausuario.label14"));
 				}
 				{
 					
@@ -254,7 +255,7 @@ public class PantallaCentroDocente extends javax.swing.JPanel implements Pantall
 				{
 					jLabelPrefijo = new JLabel();
 					jPanel2.add(jLabelPrefijo, new GridBagConstraints(0, 11, 1, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-					jLabelPrefijo.setText("Prefijo");
+					jLabelPrefijo.setText(TDSLanguageUtils.getMessage("clientePEC4.altausuario.label22"));
 				}
 				{
 					jTextFieldPrefijo = new JTextField();
@@ -270,7 +271,7 @@ public class PantallaCentroDocente extends javax.swing.JPanel implements Pantall
 				{
 					jButtonAcceptar = new JButton();
 					jPanelButtom.add(jButtonAcceptar);
-					jButtonAcceptar.setText("Acceptar");
+					jButtonAcceptar.setText(TDSLanguageUtils.getMessage("clientePEC4.altausuario.boton1"));
 					jButtonAcceptar.setLayout(null);
 					jButtonAcceptar.setBounds(277, -16, 64, 21);
 					
@@ -280,10 +281,10 @@ public class PantallaCentroDocente extends javax.swing.JPanel implements Pantall
 										validaFormulario(bCentroDocenteModif.booleanValue());
 										if(bCentroDocenteModif.booleanValue()){
 											remote.modificaCentroDocente(altaModificaCentroDocente(bCentroDocenteModif.booleanValue()));
-											Utils.mostraMensajeInformacion(jPanel2, "Registro modificado correctamente", "Modificación centro docente");
+											Utils.mostraMensajeInformacion(jPanel2, TDSLanguageUtils.getMessage("clientePEC4.altausuario.INFO.MSG1"), TDSLanguageUtils.getMessage("clientePEC4.altacentro.title2"));
 										}else{
 											remote.insertaCentroDocente(altaModificaCentroDocente(bCentroDocenteModif.booleanValue()));
-											Utils.mostraMensajeInformacion(jPanel2, "La alta de centro docente se ha registrado correctamente", "Alta de centro docente");
+											Utils.mostraMensajeInformacion(jPanel2, TDSLanguageUtils.getMessage("clientePEC4.altacentro.MSG1"), TDSLanguageUtils.getMessage("clientePEC4.altacentro.title"));
 											limpiaFormulario();
 										}
 									} catch (RemoteException e1) {
@@ -304,7 +305,7 @@ public class PantallaCentroDocente extends javax.swing.JPanel implements Pantall
 				{
 					jButtonCancelar = new JButton();
 					jPanelButtom.add(jButtonCancelar);
-					jButtonCancelar.setText("Limpiar");
+					jButtonCancelar.setText(TDSLanguageUtils.getMessage("clientePEC4.calendarioeventos.label10"));
 					jButtonCancelar.setLayout(null);
 					
 					jButtonCancelar.addActionListener(new ActionListener() {
@@ -335,24 +336,24 @@ public class PantallaCentroDocente extends javax.swing.JPanel implements Pantall
 		try{
 			
 			//Contacto y centro
-			if(Utils.valorisNull(jComboBoxUniver.getSelectedItem()))  throw new Exception(Utils.MESSAGE_ERROR + " universidad" );
-			if(Utils.valorisNull(jTextFieldNombre.getText())) throw new Exception(Utils.MESSAGE_ERROR + " nombre centro" );
-			if(Utils.valorisNull(jTextFieldDirec.getText())) throw new Exception(Utils.MESSAGE_ERROR + " direccion" );
-			if(Utils.valorisNull(jTextFieldLocalidad.getText())) throw new Exception(Utils.MESSAGE_ERROR + " localidad" );
+			if(Utils.valorisNull(jComboBoxUniver.getSelectedItem()))  throw new Exception(Utils.MESSAGE_ERROR + " " + TDSLanguageUtils.getMessage("clientePEC4.altausuario.label23"));
+			if(Utils.valorisNull(jTextFieldNombre.getText())) throw new Exception(Utils.MESSAGE_ERROR + " " + TDSLanguageUtils.getMessage("clientePEC4.altacentro.label1"));
+			if(Utils.valorisNull(jTextFieldDirec.getText())) throw new Exception(Utils.MESSAGE_ERROR + " " + TDSLanguageUtils.getMessage("clientePEC4.altausuario.label8"));
+			if(Utils.valorisNull(jTextFieldLocalidad.getText())) throw new Exception(Utils.MESSAGE_ERROR + " " + TDSLanguageUtils.getMessage("clientePEC4.altausuario.label9"));
 			
 			EmailValidator emailValidator = new EmailValidator();
 			if(!emailValidator.validate(jTextFieldEmail.getText())) throw new Exception (Utils.MESSAGE_EMAIL); 
-			if(Utils.valorisNull(jTextFieldCP.getText())) throw new Exception(Utils.MESSAGE_ERROR + " código postal" );
+			if(Utils.valorisNull(jTextFieldCP.getText())) throw new Exception(Utils.MESSAGE_ERROR + " " + TDSLanguageUtils.getMessage("clientePEC4.altausuario.label18"));
 			
 			//Pais
-			if(Utils.valorisNull(jComboBoxpais.getSelectedItem())) throw new Exception(Utils.MESSAGE_ERROR + " país" );
+			if(Utils.valorisNull(jComboBoxpais.getSelectedItem())) throw new Exception(Utils.MESSAGE_ERROR + " " + TDSLanguageUtils.getMessage("clientePEC4.altausuario.label19"));
 			
 			//Teléfono
-			if(Utils.valorisNull(jTextFieldTelefono.getText())) throw new Exception(Utils.MESSAGE_ERROR + " teléfono" );
-			if(Utils.valorisNull(jComboBoxTipo.getSelectedItem())) throw new Exception(Utils.MESSAGE_ERROR + " tipo teléfono" );
+			if(Utils.valorisNull(jTextFieldTelefono.getText())) throw new Exception(Utils.MESSAGE_ERROR + " " + TDSLanguageUtils.getMessage("clientePEC4.altausuario.label12"));
+			if(Utils.valorisNull(jComboBoxTipo.getSelectedItem())) throw new Exception(Utils.MESSAGE_ERROR + " "+ TDSLanguageUtils.getMessage("clientePEC4.altacentro.label2"));
 			
 		}catch(Exception e){
-			throw new OperationErrorDatosFormulario("Error al validar los campos del formulario");
+			throw new OperationErrorDatosFormulario(TDSLanguageUtils.getMessage("clientePEC4.error14"));
 		}
 			
 	}
@@ -402,7 +403,7 @@ public class PantallaCentroDocente extends javax.swing.JPanel implements Pantall
 			jComboBoxTipo.setModel(jComboBoxTipoModel);
 			
 		}catch(Exception e){
-			throw new OperationErrorDatosFormulario("Error al cargar los combos relacionados con la información del centro docente");
+			throw new OperationErrorDatosFormulario(TDSLanguageUtils.getMessage("clientePEC4.altacentro.MSG2"));
 		}
 		
 	}
@@ -561,13 +562,13 @@ public class PantallaCentroDocente extends javax.swing.JPanel implements Pantall
 			
 		} catch (RemoteException e) {
 			try {
-				throw new OperationErrorRMI("Error al cargar la pantalla de alta de centro docente");
+				throw new OperationErrorRMI(TDSLanguageUtils.getMessage("clientePEC4.altacentro.MSG3"));
 			} catch (OperationErrorRMI e1) {
 				e1.showDialogError();
 			}
 		} catch (OperationErrorBD e) {
 			try {
-				throw new OperationErrorBD("Error al cargar los datos del centro docente a modificar");
+				throw new OperationErrorBD(TDSLanguageUtils.getMessage("clientePEC4.altacentro.MSG4"));
 			} catch (OperationErrorBD e1) {
 				e1.showDialogError();
 			}
