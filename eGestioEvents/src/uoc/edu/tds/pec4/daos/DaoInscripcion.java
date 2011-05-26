@@ -164,10 +164,10 @@ public class DaoInscripcion extends DaoEntidad<Inscripcion>{
 			if(objecte.getFechaEstado()!=null) sql.append(" fecha_estado = ?,");
 			if(objecte.getMotivoEstado()!=null) sql.append(" motivo_estado = ?,");
 			if(objecte.getFechaInscripcion()!=null) sql.append(" fecha_inscripcion = ?,");
-			if(objecte.getCheckIn()!=null) sql.append(" check_in = ? ");
+			if(objecte.getCheckIn()!=null) sql.append(" check_in = ?,");
 			if(objecte.getCodigoAsistencia()!=null) sql.append(" codigo_asistencia = ?,");
 			sql = new StringBuffer(sql.substring(0,sql.length()-1) +" WHERE codigo = ? AND id_evento = ?");		
-			
+			System.out.println(sql.toString());
 			ps = con.prepareStatement(sql.toString());
 			int i=1;
 			if(objecte.getEstado()!=null) {ps.setInt(i, objecte.getEstado()); i++;}
@@ -176,8 +176,9 @@ public class DaoInscripcion extends DaoEntidad<Inscripcion>{
 			if(objecte.getFechaInscripcion()!=null) {ps.setDate(i, objecte.getFechaInscripcion()); i++;}
 			if(objecte.getCheckIn()!=null) {ps.setBoolean(i, objecte.getCheckIn()); i++;}
 			if(objecte.getCodigoAsistencia()!=null) {ps.setString(i, objecte.getCodigoAsistencia()); i++;}
-			ps.setString(i, objecte.getCodigo());
+			ps.setString(i++, objecte.getCodigo());
 			ps.setInt(i++, objecte.getIdEvento());
+			System.out.println(ps.toString());
 			ps.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();

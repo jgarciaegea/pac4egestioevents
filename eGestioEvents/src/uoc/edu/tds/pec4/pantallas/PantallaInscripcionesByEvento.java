@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
+import java.util.Vector;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -16,6 +17,7 @@ import javax.swing.JTable;
 import javax.swing.border.BevelBorder;
 import javax.swing.table.DefaultTableModel;
 
+import uoc.edu.tds.pec4.beans.Evento;
 import uoc.edu.tds.pec4.beans.Inscripcion;
 import uoc.edu.tds.pec4.dtos.DTOEvento;
 import uoc.edu.tds.pec4.dtos.DTOInscripcion;
@@ -48,7 +50,7 @@ public class PantallaInscripcionesByEvento extends javax.swing.JDialog {
 	private JLabel jLabelCodigo;
 	private JLabel jLabelCodigoText;
 	private JLabel jLabelEvento;
-	private String[] columnNames = {"C—digo","Asistente"};
+	private String[] columnNames = {"cAsistente","C—digo","Asistente"};
 	private DefaultTableModel dtm;
 	
 	private RemoteInterface remote;
@@ -84,6 +86,23 @@ public class PantallaInscripcionesByEvento extends javax.swing.JDialog {
 		return bIsEmpty;
 	}
 
+	private DTOInscripcion getSelectedInscripcion() throws OperationErrorDatosFormulario{
+		try {
+			@SuppressWarnings("unchecked")
+			List<Object> lstRes = (Vector<Object>) dtm.getDataVector().get(jTableDatos.getSelectedRow());
+			Inscripcion inscripcion = new Inscripcion();
+			DTOInscripcion dtoInscripcion = new DTOInscripcion();
+			inscripcion.setCodigo(lstRes.get(0).toString());
+			inscripcion.setIdEvento(dtoEvento.getEvento().getIdEvento());
+			dtoInscripcion.setInscripcion(inscripcion);
+			return dtoInscripcion;
+		} catch (NumberFormatException e1) {
+			throw new OperationErrorDatosFormulario(e1.getMessage());
+		} catch (Exception e1) {
+			throw new OperationErrorDatosFormulario(e1.getMessage());
+		}
+	}
+	
 	private void cargaDatosEvento() throws OperationErrorDatosFormulario{
 		try{
 			dtoEvento = remote.getEvento(dtoEvento);
@@ -145,8 +164,9 @@ public class PantallaInscripcionesByEvento extends javax.swing.JDialog {
 			int k = 0;
 			if(lstDtoInscripcion != null){
 				for(DTOInscripcion dtoInscripcion : lstDtoInscripcion){
-					 aobj[k][0] = new String(dtoInscripcion.getInscripcion().getCodigoAsistencia());
-					 aobj[k][1] = new String(dtoInscripcion.getDtoAsistente().getUsuario().getNombreCompleto());
+					 aobj[k][0] = new String(dtoInscripcion.getDtoAsistente().getUsuario().getCodigo());
+					 aobj[k][1] = new String(dtoInscripcion.getInscripcion().getCodigoAsistencia());
+					 aobj[k][2] = new String(dtoInscripcion.getDtoAsistente().getUsuario().getNombreCompleto());
 					 k++;
 	       	 	}
 				
@@ -220,6 +240,7 @@ public class PantallaInscripcionesByEvento extends javax.swing.JDialog {
 						}
 						jTableDatos = new JTable(dtm);
 						jScrollPane1.setViewportView(jTableDatos);
+						Utils.ocultaColumna(jTableDatos, 0);
 						jTableDatos.setPreferredSize(new java.awt.Dimension(538, 278));
 					}
 				}
@@ -289,6 +310,16 @@ public class PantallaInscripcionesByEvento extends javax.swing.JDialog {
 			Utils.mostraMensajeInformacion(jPanelCentro, "No ha seleccionado ningœn registro de la tabla", "Inscripciones");
 		}else{
 			// TODO
+			try {
+				DTOInscripcion dtoInscripcion = getSelectedInscripcion();
+				remote.bajaInscripcion(dtoInscripcion);
+			} catch (Exception e1) {
+				try {
+					throw new OperationErrorDatosFormulario(e1.getMessage());
+				} catch (OperationErrorDatosFormulario e2) {
+					e2.showDialogError();
+				}
+			}
 		}
 	}
 
