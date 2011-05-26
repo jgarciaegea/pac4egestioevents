@@ -67,7 +67,7 @@ public class PantallaPrincipal extends JFrame {
 	public PantallaPrincipal(GestorRMI gestorRMI,RemoteInterface remote,DTOUsuario dtoUsuario){
        try {
 		this.dtoUsuario = dtoUsuario;
-		if (dtoUsuario == null) throw new OperationErrorLogin("La session es invalida.....");
+		if (dtoUsuario == null) throw new OperationErrorLogin("clientePEC4.panelCambioPassword.ERROR1");
 		try {
 			remote.testConexion();
 		} catch (RemoteException e1) {
@@ -205,7 +205,7 @@ public class PantallaPrincipal extends JFrame {
 	        	} }); 
 	        
 	        // items eventos y inscripciones
-	        calendarioEventos = new JMenuItem("Calendario de Eventos / Gesti—n Inscripciones");
+	        calendarioEventos = new JMenuItem(TDSLanguageUtils.getMessage("clientePEC4.calendarioeventos.label11"));
 	        calendarioEventos.addActionListener(new ActionListener() { 
 	        	public void actionPerformed(ActionEvent evt) { 
 	        		showPanel(new PantallaCalendarioEventos(remote, dtoUsuario)); 

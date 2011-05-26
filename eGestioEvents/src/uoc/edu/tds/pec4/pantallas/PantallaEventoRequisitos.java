@@ -18,6 +18,7 @@ import uoc.edu.tds.pec4.dtos.DTOEvento;
 import uoc.edu.tds.pec4.dtos.DTOEventoRequisitos;
 import uoc.edu.tds.pec4.excepciones.OperationErrorDatosFormulario;
 import uoc.edu.tds.pec4.iface.RemoteInterface;
+import uoc.edu.tds.pec4.resources.TDSLanguageUtils;
 import uoc.edu.tds.pec4.utils.ClearForm;
 import uoc.edu.tds.pec4.utils.Utils;
 
@@ -41,7 +42,7 @@ public class PantallaEventoRequisitos extends javax.swing.JDialog {
 	private JButton jButtonCancelar;
 	private JButton jButtonLimpiar;
 	private JTable jTableDatos;
-	private String[] columnNames = {"idEvento", "Evento", "Requisito"};
+	private String[] columnNames = {"idEvento", TDSLanguageUtils.getMessage("clientePEC4.calendarioeventos.column2"), TDSLanguageUtils.getMessage("clientePEC4.evento.LABEL19")};
 	private DefaultTableModel dtm;
 	
 	private RemoteInterface remote;
@@ -131,13 +132,13 @@ public class PantallaEventoRequisitos extends javax.swing.JDialog {
 			dtm.getDataVector().removeAllElements();
 			List<DTOEvento> lstDtoEvento = remote.getEventosFinalizados(consultaEvento());
 			if(lstDtoEvento == null || lstDtoEvento.isEmpty()){
-				Utils.mostraMensajeInformacion(jPanelBase, "No hay eventos finalizados de ese tipo para poder selecionarlos como requisitos", "Asistencia/Ausencia del evento");
+				Utils.mostraMensajeInformacion(jPanelBase, TDSLanguageUtils.getMessage("clientePEC4.evento.MSG10"), TDSLanguageUtils.getMessage("clientePEC4.evento.LABEL20"));
 				return;
 			}
 			muestraResultado(lstDtoEvento);
 			actualizaTabla();
 		}catch(Exception e){
-			throw new OperationErrorDatosFormulario("Error en la carga de la asistencia/ausencia");
+			throw new OperationErrorDatosFormulario(TDSLanguageUtils.getMessage("clientePEC4.evento.MSG11"));
 		}		
 	}
 	
@@ -171,12 +172,12 @@ public class PantallaEventoRequisitos extends javax.swing.JDialog {
 	       	 	}
 			}
 		}catch(Exception e){
-			throw new OperationErrorDatosFormulario("Error en la carga de la asistencia/ausencia en la pantalla");
+			throw new OperationErrorDatosFormulario(TDSLanguageUtils.getMessage("clientePEC4.evento.MSG12"));
 		}
 	}
 	
 	private void initGUI(JFrame frame) {
-		this.setTitle("Eventos requisitos");
+		this.setTitle(TDSLanguageUtils.getMessage("clientePEC4.evento.LABEL21"));
 		this.setModal(true);
 		this.setLocationRelativeTo(frame);
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -217,7 +218,7 @@ public class PantallaEventoRequisitos extends javax.swing.JDialog {
 		if(jButtonLimpiar == null) {
 			jButtonLimpiar = new JButton();
 			jButtonLimpiar.setLayout(null);
-			jButtonLimpiar.setText("Desmarcar");
+			jButtonLimpiar.setText(TDSLanguageUtils.getMessage("clientePEC4.evento.LABEL22"));
 			jButtonLimpiar.setFont(new java.awt.Font("Arial",0,10));
 			jButtonLimpiar.setPreferredSize(new java.awt.Dimension(107, 40));
 			jButtonLimpiar.setBounds(275, 359, 90, 25);
@@ -235,7 +236,7 @@ public class PantallaEventoRequisitos extends javax.swing.JDialog {
 		if(jButtonCancelar == null) {
 			jButtonCancelar = new JButton();
 			jButtonCancelar.setLayout(null);
-			jButtonCancelar.setText("Cancelar");
+			jButtonCancelar.setText(TDSLanguageUtils.getMessage("clientePEC4.consultausuario.boton1"));
 			jButtonCancelar.setFont(new java.awt.Font("Arial",0,10));
 			jButtonCancelar.setPreferredSize(new java.awt.Dimension(113, 40));
 			jButtonCancelar.setBounds(275, 359, 90, 25);
@@ -254,7 +255,7 @@ public class PantallaEventoRequisitos extends javax.swing.JDialog {
 		if(jButtonAceptar == null) {
 			jButtonAceptar = new JButton();
 			jButtonAceptar.setLayout(null);
-			jButtonAceptar.setText("Aceptar");
+			jButtonAceptar.setText(TDSLanguageUtils.getMessage("clientePEC4.consultausuario.boton"));
 			jButtonAceptar.setFont(new java.awt.Font("Arial",0,10));
 			jButtonAceptar.setPreferredSize(new java.awt.Dimension(119, 40));
 			jButtonAceptar.setBounds(275, 359, 90, 25);

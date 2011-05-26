@@ -23,6 +23,7 @@ import uoc.edu.tds.pec4.excepciones.OperationErrorBD;
 import uoc.edu.tds.pec4.excepciones.OperationErrorDatosFormulario;
 import uoc.edu.tds.pec4.excepciones.OperationErrorLogin;
 import uoc.edu.tds.pec4.iface.RemoteInterface;
+import uoc.edu.tds.pec4.resources.TDSLanguageUtils;
 import uoc.edu.tds.pec4.utils.Constantes;
 import uoc.edu.tds.pec4.utils.Utils;
 
@@ -49,7 +50,7 @@ public class PantallaInscripcion extends PanelComun implements Pantallas{
 		dtousuario = dtousuario1;
 		dtoEvento = dtoEvento1;
 		cargarEvento();		
-		if (dtousuario == null) throw new OperationErrorLogin("La session es invalida.....");
+		if (dtousuario == null) throw new OperationErrorLogin(TDSLanguageUtils.getMessage("clientePEC4.panelCambioPassword.ERROR1"));
 		try {
 			remote.testConexion();
 		} catch (RemoteException e1) {			
@@ -121,28 +122,28 @@ public class PantallaInscripcion extends PanelComun implements Pantallas{
 		info = Constantes.SALTO_LINEA;
 		
 		if (dtoEvento.getEvento().getFechaInicioCelebracion() != null)
-		info = info + "Dia  " + Utils.convertFecha(dtoEvento.getEvento().getFechaInicioCelebracion().toString()) + Constantes.SALTO_LINEA;
+		info = info + TDSLanguageUtils.getMessage("clientePEC4.panelInscripcion.LABEL1") + " " + Utils.convertFecha(dtoEvento.getEvento().getFechaInicioCelebracion().toString()) + Constantes.SALTO_LINEA;
 		
 		if (dtoEvento.getEvento().getNombre() != null)
-		info = info + "Evento: " + dtoEvento.getEvento().getNombre() + Constantes.SALTO_LINEA;
+		info = info + TDSLanguageUtils.getMessage("clientePEC4.panelInscripcion.LABEL2") + ": " + dtoEvento.getEvento().getNombre() + Constantes.SALTO_LINEA;
 		if (dtoEvento.getEvento().getDescripcion() != null)
 		info = info + "        " + dtoEvento.getEvento().getDescripcion() + Constantes.SALTO_LINEA;
 		if (dtoEvento.getDtoCentroDocente().getDtoUniversidad().getUniversidad() != null)	
-			info = info + "Universidad: " + dtoEvento.getDtoCentroDocente().getDtoUniversidad().getUniversidad().getNombre() + Constantes.SALTO_LINEA;
+			info = info + TDSLanguageUtils.getMessage("clientePEC4.altausuario.label23") + ": " + dtoEvento.getDtoCentroDocente().getDtoUniversidad().getUniversidad().getNombre() + Constantes.SALTO_LINEA;
 		
 		if (dtoEvento.getDtoCentroDocente().getCentroDocente().getNombre() != null)
-		info = info + "               Centro Docente: " + dtoEvento.getDtoCentroDocente().getCentroDocente().getNombre()+ Constantes.SALTO_LINEA;
+		info = info + "               " + TDSLanguageUtils.getMessage("clientePEC4.altausuario.label24") + ": " + dtoEvento.getDtoCentroDocente().getCentroDocente().getNombre()+ Constantes.SALTO_LINEA;
 		
 		if (dtoEvento.getDtoCentroDocente().getDtoContacto().getContacto()!= null)
-		info = info + "                     Direccion : " + dtoEvento.getDtoCentroDocente().getDtoContacto().getContacto().getDomicilio()+ Constantes.SALTO_LINEA;
+		info = info + "                     " + TDSLanguageUtils.getMessage("clientePEC4.altausuario.label8") + " : " + dtoEvento.getDtoCentroDocente().getDtoContacto().getContacto().getDomicilio()+ Constantes.SALTO_LINEA;
 		
 		info = info + Constantes.SALTO_LINEA;
 		
 		if (dtoEvento.getEvento().getPrecio() != null)
-		info = info + "Precio: " + dtoEvento.getEvento().getPrecio() + Constantes.SALTO_LINEA;
+		info = info + TDSLanguageUtils.getMessage("clientePEC4.evento.LABEL6") + ": " + dtoEvento.getEvento().getPrecio() + Constantes.SALTO_LINEA;
 		
 		info = info + Constantes.SALTO_LINEA;
-		info = info + "Prerequisitos: " +Constantes.SALTO_LINEA;
+		info = info + TDSLanguageUtils.getMessage("clientePEC4.panelInscripcion.LABEL3") + ": " +Constantes.SALTO_LINEA;
 		try {
 			List<DTOEventoRequisitos> listDTOEventoREquisitos = remote.getRequisitosEvento(dtoEvento);
 			for(DTOEventoRequisitos dtoEventoREquisito : listDTOEventoREquisitos){
@@ -156,7 +157,7 @@ public class PantallaInscripcion extends PanelComun implements Pantallas{
 		
 		info = info + Constantes.SALTO_LINEA;
 		//TODO RECOGER LAS PLZAZAS LIBRES
-		info = info + "Quedan: " + remote.getPlazasEvento(dtoEvento).getEventoPlus().getPlazasLibres() + Constantes.SALTO_LINEA;
+		info = info + TDSLanguageUtils.getMessage("clientePEC4.panelInscripcion.LABEL4") + ": " + remote.getPlazasEvento(dtoEvento).getEventoPlus().getPlazasLibres() + Constantes.SALTO_LINEA;
 		return info;
 	}
 	
@@ -179,7 +180,7 @@ public class PantallaInscripcion extends PanelComun implements Pantallas{
 					ins.setEstado(Constantes.REGISTRO_ACTIVO);
 					ins.setMotivoEstado("ALTA INSCRIPCION");
 					remote.insertaInscripcion(dtoInscripcion);
-					Utils.mostraMensajeInformacion("Registro Insertado Correctamente", "Crear Inscripcion");
+					Utils.mostraMensajeInformacion(TDSLanguageUtils.getMessage("clientePEC4.evento.MSG9"), TDSLanguageUtils.getMessage("clientePEC4.panelInscripcion.LABEL5"));
 				} catch (RemoteException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -189,7 +190,7 @@ public class PantallaInscripcion extends PanelComun implements Pantallas{
 				}
 			}else 
 				
-				Utils.mostraMensajeInformacion("NO CUMPLE LOS REQUISITOS.....", "Crear Inscripcion");
+				Utils.mostraMensajeInformacion(TDSLanguageUtils.getMessage("clientePEC4.panelInscripcion.LABEL6"), TDSLanguageUtils.getMessage("clientePEC4.panelInscripcion.LABEL5"));
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

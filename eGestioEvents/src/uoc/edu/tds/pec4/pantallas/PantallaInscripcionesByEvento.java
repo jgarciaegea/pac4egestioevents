@@ -22,6 +22,7 @@ import uoc.edu.tds.pec4.dtos.DTOEvento;
 import uoc.edu.tds.pec4.dtos.DTOInscripcion;
 import uoc.edu.tds.pec4.excepciones.OperationErrorDatosFormulario;
 import uoc.edu.tds.pec4.iface.RemoteInterface;
+import uoc.edu.tds.pec4.resources.TDSLanguageUtils;
 import uoc.edu.tds.pec4.utils.Utils;
 
 /**
@@ -49,7 +50,7 @@ public class PantallaInscripcionesByEvento extends javax.swing.JDialog {
 	private JLabel jLabelCodigo;
 	private JLabel jLabelCodigoText;
 	private JLabel jLabelEvento;
-	private String[] columnNames = {"cAsistente","C—digo","Asistente"};
+	private String[] columnNames = {"cAsistente",TDSLanguageUtils.getMessage("clientePEC4.asistenciabyevento.colum1"),TDSLanguageUtils.getMessage("clientePEC4.asistenciabyevento.colum2")};
 	private DefaultTableModel dtm;
 	
 	private RemoteInterface remote;
@@ -111,13 +112,13 @@ public class PantallaInscripcionesByEvento extends javax.swing.JDialog {
 		try{
 			dtoEvento = remote.getEvento(dtoEvento);
 			if(dtoEvento == null){
-				Utils.mostraMensajeInformacion(jPanelBase, "El Evento no se puede consultar", "Inscripciones del evento");
+				Utils.mostraMensajeInformacion(jPanelBase, TDSLanguageUtils.getMessage("clientePEC4.panelInscripcion.LABEL7"), TDSLanguageUtils.getMessage("clientePEC4.panelInscripcion.LABEL8"));
 				return;
 			}
 			jLabelEvento.setText(dtoEvento.getEvento().getNombre());
 			jLabelCodigo.setText(dtoEvento.getEvento().getIdEvento().toString());
 		}catch(Exception e){
-			throw new OperationErrorDatosFormulario("Error en la carga de los datos del evento en inscripciones");
+			throw new OperationErrorDatosFormulario(TDSLanguageUtils.getMessage("clientePEC4.panelInscripcion.LABEL9"));
 		}		
 	}
 	/*
@@ -140,13 +141,13 @@ public class PantallaInscripcionesByEvento extends javax.swing.JDialog {
 			dtm.getDataVector().removeAllElements();
 			List<DTOInscripcion> lstDtoInscripcion = remote.getInscripciones(consultaInscripcion());
 			if(lstDtoInscripcion == null || lstDtoInscripcion.isEmpty()){
-				Utils.mostraMensajeInformacion(jPanelBase, "No existen inscripciones", "Inscripciones del evento");
+				Utils.mostraMensajeInformacion(jPanelBase, TDSLanguageUtils.getMessage("clientePEC4.panelInscripcion.LABEL10"), TDSLanguageUtils.getMessage("clientePEC4.panelInscripcion.LABEL8"));
 				return;
 			}
 			muestraResultado(lstDtoInscripcion);
 			actualizaTabla();
 		}catch(Exception e){
-			throw new OperationErrorDatosFormulario("Error en la carga de las inscripciones");
+			throw new OperationErrorDatosFormulario(TDSLanguageUtils.getMessage("clientePEC4.panelInscripcion.ERROR1"));
 		}
 		
 	}
@@ -181,7 +182,7 @@ public class PantallaInscripcionesByEvento extends javax.swing.JDialog {
 	       	 	}
 			}
 		}catch(Exception e){
-			throw new OperationErrorDatosFormulario("Error en la carga de las inscripciones en la pantalla");
+			throw new OperationErrorDatosFormulario(TDSLanguageUtils.getMessage("clientePEC4.panelInscripcion.ERROR2"));
 		}
 	}
 	private void initGUI() {
@@ -216,7 +217,7 @@ public class PantallaInscripcionesByEvento extends javax.swing.JDialog {
 					{
 						jLabelCodigoText = new JLabel();
 						jPanelCentro.add(jLabelCodigoText);
-						jLabelCodigoText.setText("C—digo");
+						jLabelCodigoText.setText(TDSLanguageUtils.getMessage("clientePEC4.asistenciabyevento.colum1"));
 						jLabelCodigoText.setFont(new java.awt.Font("Arial",1,12));
 						jLabelCodigoText.setBounds(429, 14, 40, 14);
 					}
@@ -252,7 +253,7 @@ public class PantallaInscripcionesByEvento extends javax.swing.JDialog {
 					jButtonCerrar = new JButton();
 					jPanelBase.add(jButtonCerrar);
 					jButtonCerrar.setLayout(null);
-					jButtonCerrar.setText("Cerrar");
+					jButtonCerrar.setText(TDSLanguageUtils.getMessage("clientePEC4.panelInscripcion.boton1.botonCerrar"));
 					jButtonCerrar.setFont(new java.awt.Font("Arial",0,10));
 					jButtonCerrar.setBounds(275, 359, 90, 25);
 					jButtonCerrar.setPreferredSize(new java.awt.Dimension(146, 32));
@@ -273,7 +274,7 @@ public class PantallaInscripcionesByEvento extends javax.swing.JDialog {
 		if(jButtonCodigoAssistencia == null) {
 			jButtonCodigoAssistencia = new JButton();
 			jButtonCodigoAssistencia.setLayout(null);
-			jButtonCodigoAssistencia.setText("Generar nuevo codigo");
+			jButtonCodigoAssistencia.setText(TDSLanguageUtils.getMessage("clientePEC4.panelInscripcion.boton2"));
 			jButtonCodigoAssistencia.setFont(new java.awt.Font("Arial",0,10));
 			jButtonCodigoAssistencia.setPreferredSize(new java.awt.Dimension(164, 32));
 			jButtonCodigoAssistencia.setBounds(275, 359, 90, 25);
@@ -289,13 +290,13 @@ public class PantallaInscripcionesByEvento extends javax.swing.JDialog {
 	private void jButtonCodigoAssistenciaActionPerformed(ActionEvent evt) {
 		System.out.println("jButtonCodigoAssistencia.actionPerformed, event="+evt);
 		if (jTableDatos.getSelectedRow() == -1) {
-			Utils.mostraMensajeInformacion(jPanelCentro, "No ha seleccionado ningœn registro de la tabla", "Inscripciones");
+			Utils.mostraMensajeInformacion(jPanelCentro, TDSLanguageUtils.getMessage("clientePEC4.consultausuario.INFO.MSG1"), TDSLanguageUtils.getMessage("clientePEC4.panelInscripcion.LABEL11"));
 		}else{
 			try {
 				DTOInscripcion dtoInscripcion = getSelectedInscripcion();
 				dtoInscripcion = remote.getInscripcion(dtoInscripcion);
 				dtoInscripcion = remote.getCodigoAsistentica(dtoInscripcion);
-				Utils.mostraMensajeInformacion(jPanelCentro, "C—digo de inscripci—n: " + dtoInscripcion.getInscripcion().getCodigoAsistencia(), "Inscripciones");
+				Utils.mostraMensajeInformacion(jPanelCentro, TDSLanguageUtils.getMessage("clientePEC4.panelInscripcion.LABEL12") + ": " + dtoInscripcion.getInscripcion().getCodigoAsistencia(), TDSLanguageUtils.getMessage("clientePEC4.panelInscripcion.LABEL11"));
 				cargaInscripcionesByEvento(); //setSelectedInscripcionCodigoAsistencia(dtoInscripcion.getInscripcion().getCodigoAsistencia());
 			} catch (Exception e1) {
 				try {
@@ -311,7 +312,7 @@ public class PantallaInscripcionesByEvento extends javax.swing.JDialog {
 		if(jButtonBaja == null) {
 			jButtonBaja = new JButton();
 			jButtonBaja.setLayout(null);
-			jButtonBaja.setText("Dar de baja");
+			jButtonBaja.setText(TDSLanguageUtils.getMessage("clientePEC4.panelInscripcion.LABEL13"));
 			jButtonBaja.setFont(new java.awt.Font("Arial",0,10));
 			jButtonBaja.setPreferredSize(new java.awt.Dimension(164, 32));
 			jButtonBaja.setBounds(275, 359, 90, 25);
@@ -327,12 +328,12 @@ public class PantallaInscripcionesByEvento extends javax.swing.JDialog {
 	private void jButtonBajaActionPerformed(ActionEvent evt) {
 		System.out.println("jButtonBaja.actionPerformed, event="+evt);
 		if (jTableDatos.getSelectedRow() == -1) {
-			Utils.mostraMensajeInformacion(jPanelCentro, "No ha seleccionado ningœn registro de la tabla", "Inscripciones");
+			Utils.mostraMensajeInformacion(jPanelCentro, TDSLanguageUtils.getMessage("clientePEC4.consultausuario.INFO.MSG1"), TDSLanguageUtils.getMessage("clientePEC4.panelInscripcion.LABEL11"));
 		}else{
 			try {
 				DTOInscripcion dtoInscripcion = getSelectedInscripcion();
 				remote.bajaInscripcion(dtoInscripcion);
-				Utils.mostraMensajeInformacion(jPanelCentro, "Baja efectuada correctamente", "Inscripciones");
+				Utils.mostraMensajeInformacion(jPanelCentro, TDSLanguageUtils.getMessage("clientePEC4.panelInscripcion.LABEL14"), TDSLanguageUtils.getMessage("clientePEC4.panelInscripcion.LABEL11"));
 				cargaInscripcionesByEvento();
 			} catch (Exception e1) {
 				try {

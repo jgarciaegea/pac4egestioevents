@@ -24,6 +24,7 @@ import uoc.edu.tds.pec4.dtos.DTOTipoEventoRol;
 import uoc.edu.tds.pec4.dtos.DTOTipoRol;
 import uoc.edu.tds.pec4.excepciones.OperationErrorDatosFormulario;
 import uoc.edu.tds.pec4.iface.RemoteInterface;
+import uoc.edu.tds.pec4.resources.TDSLanguageUtils;
 import uoc.edu.tds.pec4.utils.Utils;
 
 /**
@@ -46,7 +47,7 @@ public class PantallaEventoRolPlazas extends javax.swing.JDialog {
 	private JButton jButtonCancelar;
 	private JButton jButtonAceptar;
 	private JTable jTableDatos;
-	private String[] columnNames = {"idRol", "Rol", "Plazas"};
+	private String[] columnNames = {"idRol", TDSLanguageUtils.getMessage("clientePEC4.eventorol.LABEL1"), TDSLanguageUtils.getMessage("clientePEC4.evento.LABEL7")};
 	private DefaultTableModel dtm;
 	
 	private RemoteInterface remote;
@@ -129,14 +130,14 @@ public class PantallaEventoRolPlazas extends javax.swing.JDialog {
 			
 			DTOTipoEvento dtoTipoEvento = remote.getTipoEvento(consultaTipoEvento());
 			if(dtoTipoEvento == null){
-				Utils.mostraMensajeInformacion(jPanelBase, "El Tipo de evento no tiene roles asignados", "Evento Rol/Plazas");
+				Utils.mostraMensajeInformacion(jPanelBase, TDSLanguageUtils.getMessage("clientePEC4.eventorol.LABEL2"), TDSLanguageUtils.getMessage("clientePEC4.eventorol.TITLE"));
 				return;
 			}
 			muestraResultado(dtoTipoEvento.getDtoTipoEventoRol());
 			actualizaTabla();
 			
 		}catch(Exception e){
-			throw new OperationErrorDatosFormulario("Error en la carga de los datos del evento en Rol/Plazas");
+			throw new OperationErrorDatosFormulario(TDSLanguageUtils.getMessage("clientePEC4.eventorol.ERROR1"));
 		}	
 	}
 	
@@ -161,7 +162,7 @@ public class PantallaEventoRolPlazas extends javax.swing.JDialog {
 	       	 	}
 			}
 		}catch(Exception e){
-			throw new OperationErrorDatosFormulario("Error en la carga de los datos del evento en Rol/Plazas en la pantalla");
+			throw new OperationErrorDatosFormulario(TDSLanguageUtils.getMessage("clientePEC4.eventorol.ERROR2"));
 		}
 	}
 	
@@ -179,7 +180,7 @@ public class PantallaEventoRolPlazas extends javax.swing.JDialog {
 	}
 	
 	private void initGUI(JFrame frame) {
-		this.setTitle("Evento Rol/Plazas");
+		this.setTitle(TDSLanguageUtils.getMessage("clientePEC4.eventorol.TITLE"));
 		this.setModal(true);
 		this.setLocationRelativeTo(frame);
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -210,7 +211,7 @@ public class PantallaEventoRolPlazas extends javax.swing.JDialog {
 					jButtonAceptar = new JButton();
 					jPanelBase.add(jButtonAceptar);
 					jButtonAceptar.setLayout(null);
-					jButtonAceptar.setText("Aceptar");
+					jButtonAceptar.setText(TDSLanguageUtils.getMessage("clientePEC4.altausuario.boton1"));
 					jButtonAceptar.setFont(new java.awt.Font("Arial",0,10));
 					jButtonAceptar.setBounds(275, 359, 90, 25);
 					jButtonAceptar.setPreferredSize(new java.awt.Dimension(111, 32));
@@ -226,7 +227,7 @@ public class PantallaEventoRolPlazas extends javax.swing.JDialog {
 					jButtonCancelar = new JButton();
 					jPanelBase.add(jButtonCancelar);
 					jButtonCancelar.setLayout(null);
-					jButtonCancelar.setText("Cancelar");
+					jButtonCancelar.setText(TDSLanguageUtils.getMessage("clientePEC4.consultausuario.boton1"));
 					jButtonCancelar.setFont(new java.awt.Font("Arial",0,10));
 					jButtonCancelar.setPreferredSize(new java.awt.Dimension(110, 32));
 					jButtonCancelar.setBounds(275, 359, 90, 25);
@@ -242,7 +243,7 @@ public class PantallaEventoRolPlazas extends javax.swing.JDialog {
 					jButtonLimpiar = new JButton();
 					jPanelBase.add(jButtonLimpiar);
 					jButtonLimpiar.setLayout(null);
-					jButtonLimpiar.setText("Inicializar plazas");
+					jButtonLimpiar.setText(TDSLanguageUtils.getMessage("clientePEC4.eventorol.LABEL3"));
 					jButtonLimpiar.setFont(new java.awt.Font("Arial",0,10));
 					jButtonLimpiar.setPreferredSize(new java.awt.Dimension(117, 32));
 					jButtonLimpiar.setBounds(275, 359, 90, 25);
