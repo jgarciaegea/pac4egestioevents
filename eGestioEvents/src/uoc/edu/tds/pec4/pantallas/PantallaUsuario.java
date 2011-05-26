@@ -168,8 +168,8 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 			}
 			jTextFieldCon.setEnabled(false);
 			jButtonCancelar.setVisible(false);
-			
 		}
+		this.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder(null, bUserModificacion.booleanValue()?TDSLanguageUtils.getMessage("clientePEC4.altausuario.INFO.MSG1.title"):TDSLanguageUtils.getMessage("clientePEC4.altausuario.title"), 0, 0, new Font("Dialog", 1, 12), new Color(51, 51, 51)), null), null));
 		
 	}
 	
@@ -179,7 +179,6 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 	
 	private void initGUI() {
 		try {
-			this.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder(null, bUserModificacion.booleanValue()?TDSLanguageUtils.getMessage("clientePEC4.altausuario.INFO.MSG1.title"):TDSLanguageUtils.getMessage("clientePEC4.altausuario.title"), 0, 0, new Font("Dialog", 1, 12), new Color(51, 51, 51)), null), null));
 			this.setPreferredSize(new java.awt.Dimension(784, 650));
 			{
 				jPanel1 = new JPanel();

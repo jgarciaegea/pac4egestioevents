@@ -104,8 +104,8 @@ public class PantallaCentroDocente extends javax.swing.JPanel implements Pantall
 		if(dtoCentroDocenteModificar != null){
 			bCentroDocenteModif = true;//Significa que vamos a realizar la modificación
 			cargaCentroDocente();
-			
 		}
+		this.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder(null, bCentroDocenteModif.booleanValue()?TDSLanguageUtils.getMessage("clientePEC4.altacentro.title2"):TDSLanguageUtils.getMessage("clientePEC4.altacentro.title"), 0, 0, new Font("Dialog", 1, 12), new Color(51, 51, 51)), null), null));
 		
 	}
 	
@@ -115,7 +115,7 @@ public class PantallaCentroDocente extends javax.swing.JPanel implements Pantall
 	
 	private void initGUI() {
 		try {
-			this.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder(null, bCentroDocenteModif.booleanValue()?TDSLanguageUtils.getMessage("clientePEC4.altacentro.title2"):TDSLanguageUtils.getMessage("clientePEC4.altacentro.title"), 0, 0, new Font("Dialog", 1, 12), new Color(51, 51, 51)), null), null));
+			
 			this.setPreferredSize(new java.awt.Dimension(784, 634));
 			{
 				jPanel2 = new JPanel();
