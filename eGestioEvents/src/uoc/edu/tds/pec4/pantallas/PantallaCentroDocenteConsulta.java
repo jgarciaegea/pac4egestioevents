@@ -40,6 +40,7 @@ import uoc.edu.tds.pec4.dtos.DTOUniversidad;
 import uoc.edu.tds.pec4.excepciones.OperationErrorDatosFormulario;
 import uoc.edu.tds.pec4.gestores.GestorRMI;
 import uoc.edu.tds.pec4.iface.RemoteInterface;
+import uoc.edu.tds.pec4.resources.TDSLanguageUtils;
 import uoc.edu.tds.pec4.utils.ClearForm;
 import uoc.edu.tds.pec4.utils.Constantes;
 import uoc.edu.tds.pec4.utils.MostrarCombo;
@@ -59,7 +60,7 @@ import uoc.edu.tds.pec4.utils.Utils;
 * LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
 */
 public class PantallaCentroDocenteConsulta extends javax.swing.JPanel implements Pantallas {
-	private String[] columnNames = {"Codigo","Centro Docente","Universidad", "Fecha Alta", "Localidad"};
+	private String[] columnNames = {TDSLanguageUtils.getMessage("clientePEC4.asistenciabyevento.colum1"),TDSLanguageUtils.getMessage("clientePEC4.altausuario.label24"),TDSLanguageUtils.getMessage("clientePEC4.altausuario.label23"), TDSLanguageUtils.getMessage("clientePEC4.consultausuario.label1"), TDSLanguageUtils.getMessage("clientePEC4.altausuario.label9")};
 	private DefaultTableModel dtm;
 	private static final long serialVersionUID = 1L;
 	private JComboBox jComboBoxUniver;
@@ -103,7 +104,7 @@ public class PantallaCentroDocenteConsulta extends javax.swing.JPanel implements
 	
 	private void initGUI() {
 		try {
-			this.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder(null, "Consulta de centros docentes", 0, 0, new Font("Dialog", 1, 12), new Color(51, 51, 51)), null), null));
+			this.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder(null, "clientePEC4.consultacentro.title", 0, 0, new Font("Dialog", 1, 12), new Color(51, 51, 51)), null), null));
 			this.setPreferredSize(new java.awt.Dimension(784, 624));
 			{
 				jPanel2 = new JPanel();
@@ -123,19 +124,19 @@ public class PantallaCentroDocenteConsulta extends javax.swing.JPanel implements
 				{
 					jLabelNombre = new JLabel();
 					jPanel2.add(jLabelNombre, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(4, 0, 0, 0), 0, 0));
-					jLabelNombre.setText("Nombre");
+					jLabelNombre.setText(TDSLanguageUtils.getMessage("clientePEC4.altausuario.label5"));
 					jLabelNombre.setLayout(null);
 				}
 				{
 					jLabelDocIden = new JLabel();
 					jPanel2.add(jLabelDocIden, new GridBagConstraints(0, 3, 1, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-					jLabelDocIden.setText("CP");
+					jLabelDocIden.setText(TDSLanguageUtils.getMessage("clientePEC4.altausuario.label18"));
 					jLabelDocIden.setLayout(null);
 				}
 				{
 					jLabelLocalidad = new JLabel();
 					jPanel2.add(jLabelLocalidad, new GridBagConstraints(0, 2, 1, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-					jLabelLocalidad.setText("Localidad");
+					jLabelLocalidad.setText(TDSLanguageUtils.getMessage("clientePEC4.altausuario.label9"));
 					jLabelLocalidad.setLayout(null);
 				}
 				{
@@ -147,7 +148,7 @@ public class PantallaCentroDocenteConsulta extends javax.swing.JPanel implements
 				{
 					jLabelUniversidad = new JLabel();
 					jPanel2.add(jLabelUniversidad, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-					jLabelUniversidad.setText("Universidad");
+					jLabelUniversidad.setText(TDSLanguageUtils.getMessage("clientePEC4.altausuario.label23"));
 				}
 				{
 					
@@ -190,7 +191,7 @@ public class PantallaCentroDocenteConsulta extends javax.swing.JPanel implements
 					scrollPane.setVisible(true);
 
 					jLabelFechaAlta = new JLabel();
-					jLabelFechaAlta.setText("Fecha Alta");
+					jLabelFechaAlta.setText(TDSLanguageUtils.getMessage("clientePEC4.consultausuario.label1"));
 					jPanel2.add(jLabelFechaAlta, new GridBagConstraints(0, 6, 1, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 					
 					jTextFieldFechaIni = new JTextField();
@@ -198,11 +199,11 @@ public class PantallaCentroDocenteConsulta extends javax.swing.JPanel implements
 					jPanel2.add(jTextFieldFechaIni, new GridBagConstraints(1, 7, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 20), 0, 0));
 					
 					jLabelDesde = new JLabel();
-					jLabelDesde.setText("Desde");
+					jLabelDesde.setText(TDSLanguageUtils.getMessage("clientePEC4.consultausuario.label2"));
 					jPanel2.add(jLabelDesde, new GridBagConstraints(1, 7, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 10, 0, 0), 0, 0));
 					
 					jLabelHasta = new JLabel();
-					jLabelHasta.setText("Hasta");
+					jLabelHasta.setText(TDSLanguageUtils.getMessage("clientePEC4.consultausuario.label3"));
 					jPanel2.add(jLabelHasta, new GridBagConstraints(1, 7, 1, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 					jTextFieldHasta = new JTextField();
 					jTextFieldHasta.setPreferredSize(new java.awt.Dimension(100, 21));
@@ -217,7 +218,7 @@ public class PantallaCentroDocenteConsulta extends javax.swing.JPanel implements
 				{
 					jButtonAcceptar = new JButton();
 					jPanelButtom.add(jButtonAcceptar);
-					jButtonAcceptar.setText("Acceptar");
+					jButtonAcceptar.setText(TDSLanguageUtils.getMessage("clientePEC4.altausuario.boton1"));
 					jButtonAcceptar.setLayout(null);
 					jButtonAcceptar.setBounds(277, -16, 64, 21);
 					
@@ -236,7 +237,7 @@ public class PantallaCentroDocenteConsulta extends javax.swing.JPanel implements
 				{
 					jButtonCancelar = new JButton();
 					jPanelButtom.add(jButtonCancelar);
-					jButtonCancelar.setText("Cancelar");
+					jButtonCancelar.setText(TDSLanguageUtils.getMessage("clientePEC4.consultausuario.boton1"));
 					jButtonCancelar.setLayout(null);
 					
 					jButtonCancelar.addActionListener(new ActionListener() {
@@ -264,7 +265,7 @@ public class PantallaCentroDocenteConsulta extends javax.swing.JPanel implements
 			jLabelElimina.addMouseListener(new MouseListener(){
 				public void mouseClicked(MouseEvent e) {
 					if(jTableRes.getSelectedRow() == -1){
-						Utils.mostraMensajeInformacion(jPanel2, "No ha seleccionado ningún registro de la tabla", "Consulta centro docente");
+						Utils.mostraMensajeInformacion(jPanel2, TDSLanguageUtils.getMessage("clientePEC4.consultausuario.INFO.MSG1"), TDSLanguageUtils.getMessage("clientePEC4.consultacentro.title"));
 					}else{
 						try {
 							DTOCentroDocente dtoCentroDocente = getRecuperaCentroSeleccionado();
@@ -274,9 +275,9 @@ public class PantallaCentroDocenteConsulta extends javax.swing.JPanel implements
 							if(!remote.usuarioCentrosVinculados(usuario)){
 								remote.bajaCentroDocente(dtoCentroDocente);
 								cargaListadoCentroDocentes();
-								Utils.mostraMensajeInformacion(jPanel2,"Centro docente dado de baja correctamente", "Baja centro docente");
+								Utils.mostraMensajeInformacion(jPanel2,TDSLanguageUtils.getMessage("clientePEC4.bajacentrodocente.MSG"), TDSLanguageUtils.getMessage("clientePEC4.bajacentrodocente.title"));
 							}else{
-								Utils.mostraMensajeInformacion(jPanel2,"El centro docente tiene usuarios vinculados y no puede darse de baja", "Baja centro docente");
+								Utils.mostraMensajeInformacion(jPanel2,TDSLanguageUtils.getMessage("clientePEC4.bajacentrodocente.MSG2"), TDSLanguageUtils.getMessage("clientePEC4.bajacentrodocente.title"));
 							}
 						} catch (Exception e1) {
 							try {
@@ -303,7 +304,7 @@ public class PantallaCentroDocenteConsulta extends javax.swing.JPanel implements
 			jLabelModifica.addMouseListener(new MouseListener(){
 				public void mouseClicked(MouseEvent e) {
 					if(jTableRes.getSelectedRow() == -1){
-						Utils.mostraMensajeInformacion(jPanel2, "No ha seleccionado ningún registro de la tabla", "Consulta centro docente");
+						Utils.mostraMensajeInformacion(jPanel2, TDSLanguageUtils.getMessage("clientePEC4.consultausuario.INFO.MSG1"), TDSLanguageUtils.getMessage("clientePEC4.consultacentro.title"));
 					}else{
 						try {
 							DTOCentroDocente dtoCentroDocente = getRecuperaCentroSeleccionado();
@@ -324,7 +325,7 @@ public class PantallaCentroDocenteConsulta extends javax.swing.JPanel implements
 			
 		} catch (Exception e) {
 			try{
-				throw new OperationErrorDatosFormulario("Error al cargar la pantalla de consulta de centro docente");
+				throw new OperationErrorDatosFormulario(TDSLanguageUtils.getMessage("clientePEC4.altacentro.ERROR"));
 			}catch(OperationErrorDatosFormulario ex){
 				ex.showDialogError(jPanel2);
 			}
@@ -341,9 +342,9 @@ public class PantallaCentroDocenteConsulta extends javax.swing.JPanel implements
 			DTOCentroDocente dtoCentroDocente = obtenCentroDocente(Integer.parseInt(lstRes.get(0).toString()));
 			return dtoCentroDocente;
 		} catch (NumberFormatException e1) {
-			throw new OperationErrorDatosFormulario("Error al parsear un valor numérico");
+			throw new OperationErrorDatosFormulario(TDSLanguageUtils.getMessage("clientePEC4.error11"));
 		} catch (Exception e1) {
-			throw new OperationErrorDatosFormulario("Error al recuperar la información del centro seleccionado");
+			throw new OperationErrorDatosFormulario(TDSLanguageUtils.getMessage("clientePEC4.altacentro.MSG5"));
 		}
 	}
 	
@@ -374,7 +375,7 @@ public class PantallaCentroDocenteConsulta extends javax.swing.JPanel implements
 			dtoCentroDocente.setCentroDocente(centroDocente);
 			return dtoCentroDocente;
 		}catch(Exception e){
-			throw new OperationErrorDatosFormulario("Error al obtener la información del centro docente");
+			throw new OperationErrorDatosFormulario(TDSLanguageUtils.getMessage("clientePEC4.altacentro.MSG6"));
 		}
 	}
 	
@@ -387,13 +388,13 @@ public class PantallaCentroDocenteConsulta extends javax.swing.JPanel implements
 			List<DTOCentroDocente> lstDtoCentroDoc = remote.consultaCentrosDocentes(consultaCentroDocente());
 			if(lstDtoCentroDoc == null || lstDtoCentroDoc.isEmpty()){
 				actualizaTabla();
-				Utils.mostraMensajeInformacion(jPanel2,"No hay resultados","Búsqueda centro docentes");
+				Utils.mostraMensajeInformacion(jPanel2,TDSLanguageUtils.getMessage("clientePEC4.consultausuario.INFO.MSG4"),TDSLanguageUtils.getMessage("clientePEC4.consultacentro.title2"));
 			}else{
 				muestraResultado(lstDtoCentroDoc);
 				actualizaTabla();
 			}
 		}catch(Exception e){
-			throw new OperationErrorDatosFormulario("Error al cargar la lista de centros docentes");
+			throw new OperationErrorDatosFormulario(TDSLanguageUtils.getMessage("clientePEC4.altacentro.MSG7"));
 		}
 		
 	}
@@ -406,7 +407,7 @@ public class PantallaCentroDocenteConsulta extends javax.swing.JPanel implements
 		try{
 			
 			if(!"".equalsIgnoreCase(jTextFieldHasta.getText()) && "".equalsIgnoreCase(jTextFieldFechaIni.getText())){
-				 throw new Exception("No puede introducir la fecha final sin previamente informar la fecha de inicio");
+				 throw new Exception(TDSLanguageUtils.getMessage("clientePEC4.calendarioeventos.ERROR1"));
 			}
 			
 			if(!"".equalsIgnoreCase(jTextFieldFechaIni.getText())){
@@ -418,7 +419,7 @@ public class PantallaCentroDocenteConsulta extends javax.swing.JPanel implements
 			}
 			
 		}catch(Exception e){
-			throw new OperationErrorDatosFormulario("Error al validar los campos del formulario");
+			throw new OperationErrorDatosFormulario(TDSLanguageUtils.getMessage("clientePEC4.error14"));
 		}
 			
 	}
@@ -523,14 +524,14 @@ public class PantallaCentroDocenteConsulta extends javax.swing.JPanel implements
 	       	 	}
 			}
 		}catch(Exception e){
-			throw new OperationErrorDatosFormulario("Error al mostrar la información del centro docente");
+			throw new OperationErrorDatosFormulario(TDSLanguageUtils.getMessage("clientePEC4.altacentro.MSG8"));
 		}
 	}
 	
 	private JLabel getJLabelElimina() {
 		if(jLabelElimina == null) {
 			jLabelElimina = new JLabel();
-			jLabelElimina.setText("Elimina");
+			jLabelElimina.setText(TDSLanguageUtils.getMessage("clientePEC4.consultausuario.label8"));
 			ImageIcon icon = new ImageIcon("imagen/dcib022t.gif");
 			jLabelElimina.setIcon(icon);
 			jLabelElimina.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -542,7 +543,7 @@ public class PantallaCentroDocenteConsulta extends javax.swing.JPanel implements
 	private JLabel getJLabelModifica() {
 		if(jLabelModifica == null) {
 			jLabelModifica = new JLabel();
-			jLabelModifica.setText("Modifica");
+			jLabelModifica.setText(TDSLanguageUtils.getMessage("clientePEC4.consultausuario.label7"));
 			ImageIcon icon = new ImageIcon("imagen/dcib023t.gif");
 			jLabelModifica.setIcon(icon);
 			jLabelModifica.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -553,7 +554,7 @@ public class PantallaCentroDocenteConsulta extends javax.swing.JPanel implements
 	private JLabel getJLabelActivos() {
 		if(jLabelActivos == null) {
 			jLabelActivos = new JLabel();
-			jLabelActivos.setText("Incluir desactivados");
+			jLabelActivos.setText(TDSLanguageUtils.getMessage("clientePEC4.consultausuario.label4"));
 		}
 		return jLabelActivos;
 	}
@@ -561,7 +562,7 @@ public class PantallaCentroDocenteConsulta extends javax.swing.JPanel implements
 	private JRadioButton getJRadioButtonDesSi() {
 		if(jRadioButtonDesSi == null) {
 			jRadioButtonDesSi = new JRadioButton();
-			jRadioButtonDesSi.setText("Si");
+			jRadioButtonDesSi.setText(TDSLanguageUtils.getMessage("clientePEC4.consultausuario.label5"));
 		}
 		return jRadioButtonDesSi;
 	}
@@ -569,7 +570,7 @@ public class PantallaCentroDocenteConsulta extends javax.swing.JPanel implements
 	private JRadioButton getJRadioButtonDesaNo() {
 		if(jRadioButtonDesaNo == null) {
 			jRadioButtonDesaNo = new JRadioButton();
-			jRadioButtonDesaNo.setText("No");
+			jRadioButtonDesaNo.setText(TDSLanguageUtils.getMessage("clientePEC4.consultausuario.label6"));
 		}
 		return jRadioButtonDesaNo;
 	}
