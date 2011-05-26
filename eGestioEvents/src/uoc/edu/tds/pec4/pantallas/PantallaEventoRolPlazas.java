@@ -96,21 +96,23 @@ public class PantallaEventoRolPlazas extends javax.swing.JDialog {
 		List<DTOEventoRolPlazas> lstDtoEventoRolPlazas = new ArrayList<DTOEventoRolPlazas>();
 
 		for (int a=0; a<jTableDatos.getRowCount(); a++){
-			DTOEventoRolPlazas dtoEventoRolPlazas = new DTOEventoRolPlazas();
-			DTOTipoRol dtoTipoRol = new DTOTipoRol();
+			if (Integer.parseInt((jTableDatos.getValueAt(a,2).toString())) == 0){
+				DTOEventoRolPlazas dtoEventoRolPlazas = new DTOEventoRolPlazas();
+				DTOTipoRol dtoTipoRol = new DTOTipoRol();
 				
-			TipoRol tipoRol = new TipoRol();
-			tipoRol.setIdRol(Integer.parseInt((jTableDatos.getValueAt(a,0).toString())));
-			tipoRol.setDescripcion(jTableDatos.getValueAt(a,1).toString());
-			dtoTipoRol.setTipoRol(tipoRol);
-			dtoEventoRolPlazas.setDtoTipoRol(dtoTipoRol);
+				TipoRol tipoRol = new TipoRol();
+				tipoRol.setIdRol(Integer.parseInt((jTableDatos.getValueAt(a,0).toString())));
+				tipoRol.setDescripcion(jTableDatos.getValueAt(a,1).toString());
+				dtoTipoRol.setTipoRol(tipoRol);
+				dtoEventoRolPlazas.setDtoTipoRol(dtoTipoRol);
 				
-			EventoRolPlazas eventoRolPlazas = new EventoRolPlazas();
-			eventoRolPlazas.setIdRol(tipoRol.getIdRol());
-			eventoRolPlazas.setPlazas(Integer.parseInt((jTableDatos.getValueAt(a,2).toString())));
-			dtoEventoRolPlazas.setEventoRolPlazas(eventoRolPlazas);
+				EventoRolPlazas eventoRolPlazas = new EventoRolPlazas();
+				eventoRolPlazas.setIdRol(tipoRol.getIdRol());
+				eventoRolPlazas.setPlazas(Integer.parseInt((jTableDatos.getValueAt(a,2).toString())));
+				dtoEventoRolPlazas.setEventoRolPlazas(eventoRolPlazas);
 				
-			lstDtoEventoRolPlazas.add(dtoEventoRolPlazas);
+				lstDtoEventoRolPlazas.add(dtoEventoRolPlazas);
+			}
 		}
 		return ((jTableDatos.getRowCount() >0)?lstDtoEventoRolPlazas:null);
 	}
