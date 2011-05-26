@@ -154,12 +154,12 @@ public class PantallaLogin extends JFrame {
 			} catch (NotBoundException e) {
 				e.printStackTrace();
 			} catch (OperationErrorBD e) {
-				e.showDialogError();
+				e.showDialogError(panelPrincipal);
 				e.printStackTrace();
 			} catch (OperationErrorDatosFormulario e) {
-					e.showDialogError();
+					e.showDialogError(panelPrincipal);
 			} catch (OperationErrorLogin e) {
-				e.showDialogError();
+				e.showDialogError(panelPrincipal);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}	} });
