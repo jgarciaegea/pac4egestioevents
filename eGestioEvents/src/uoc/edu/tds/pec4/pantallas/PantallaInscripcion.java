@@ -3,6 +3,7 @@
  */
 package uoc.edu.tds.pec4.pantallas;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
@@ -11,6 +12,7 @@ import java.rmi.RemoteException;
 import java.util.List;
 
 import javax.swing.BorderFactory;
+import javax.swing.JScrollPane;
 
 import uoc.edu.tds.pec4.beans.Inscripcion;
 import uoc.edu.tds.pec4.dtos.DTOAsistente;
@@ -42,7 +44,7 @@ public class PantallaInscripcion extends PanelComun implements Pantallas{
 
 
 	public PantallaInscripcion(RemoteInterface remote1,DTOUsuario dtousuario1, DTOEvento dtoEvento1) throws OperationErrorLogin, RemoteException, OperationErrorBD, OperationErrorDatosFormulario{
-		super("clientePEC4.panelInscripcion.titulo",750,500);
+		super("clientePEC4.panelInscripcion.titulo",750,450);
 		System.out.println("creando Pantalla inscripcion......");
 		remote = remote1;
 		dtousuario = dtousuario1;
@@ -57,14 +59,21 @@ public class PantallaInscripcion extends PanelComun implements Pantallas{
 		
 		this.crearTitulo(20, 30, 140, 20, "clientePEC4.panelInscripcion.titulo1.datosEvento", "datosEvento");
 		
-		this.crearJTextArea(30, 60, 600, 200, "informacionEventoInscripcion");
+		this.crearJTextArea(30, 60, 675, 149, "informacionEventoInscripcion");
 		this.findJTextAreaString("informacionEventoInscripcion").setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		this.findJTextAreaString("informacionEventoInscripcion").setAutoscrolls(true);
+		this.findJTextAreaString("informacionEventoInscripcion").setLayout(null);
+		JScrollPane jScrollPane1 = new JScrollPane(this.findJTextAreaString("informacionEventoInscripcion"));
+		jScrollPane1.setBounds(30-15, 60-30, 713, 230);
+		jScrollPane1.setFont(new java.awt.Font("Arial",0,10));
+		this.add(jScrollPane1); 
+		
 
+		
 		// TODO HAY QUE METER MAS DATOS EN LA INFOM DEL EVENTO
 		System.out.println("evento...."+dtoEvento.getEvento().getDescripcion());
 		this.findJTextAreaString("informacionEventoInscripcion").setText(mostrarInfoEvento());
 		this.findJTextAreaString("informacionEventoInscripcion").setEditable(false);
-		this.findJTextAreaString("informacionEventoInscripcion");
 		this.crearTitulo(20, 300, 140, 20, "clientePEC4.panelInscripcion.titulo1.nombreAsistente", "nombreAsistente");
 		this.crearTextField(160, 300, 250, 20,"cajaAsistente");
 		this.findTextField("cajaAsistente").setText(dtousuario.getUsuario().getNombre()+ ", " + dtousuario.getUsuario().getApellidos());
