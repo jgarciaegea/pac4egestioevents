@@ -104,7 +104,7 @@ public class PantallaCentroDocenteConsulta extends javax.swing.JPanel implements
 	
 	private void initGUI() {
 		try {
-			this.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder(null, "clientePEC4.consultacentro.title", 0, 0, new Font("Dialog", 1, 12), new Color(51, 51, 51)), null), null));
+			this.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder(null, TDSLanguageUtils.getMessage("clientePEC4.consultacentro.title"), 0, 0, new Font("Dialog", 1, 12), new Color(51, 51, 51)), null), null));
 			this.setPreferredSize(new java.awt.Dimension(784, 624));
 			{
 				jPanel2 = new JPanel();
