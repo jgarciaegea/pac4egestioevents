@@ -24,6 +24,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.border.BevelBorder;
 import javax.swing.table.DefaultTableModel;
 
@@ -659,6 +660,7 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 			jTableDatos.setVerifyInputWhenFocusTarget(false);
 			jTableDatos.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 			jTableDatos.setPreferredSize(new java.awt.Dimension(753, 225));
+			jTableDatos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		}
 		return jTableDatos;
 	}
@@ -698,7 +700,6 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 						if (canUpdateEvento()){
 							try {
 								DTOEvento dtoEvento = getSelectedEvento();
-								// TODO 1: Modificar el evento siempre que podamos, llamamos a la pantalla de eventos.
 								goPantallaEvento(dtoEvento);
 							} catch (OperationErrorDatosFormulario e1) {
 								e1.showDialogError();
@@ -727,7 +728,7 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 					if(jTableDatos.getSelectedRow() == -1){
 						Utils.mostraMensajeInformacion(jPanelDatos, TDSLanguageUtils.getMessage("clientePEC4.consultausuario.INFO.MSG1"), TDSLanguageUtils.getMessage("clientePEC4.calendarioeventos.title"));
 					}else{
-						if (isCancelledEvento()){
+						if (!isCancelledEvento() && isCentroUsuario()){
 							try {
 								DTOEvento dtoEvento = getSelectedEvento();
 								remote.bajaEvento(dtoEvento);
