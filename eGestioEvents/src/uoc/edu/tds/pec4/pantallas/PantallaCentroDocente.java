@@ -115,7 +115,7 @@ public class PantallaCentroDocente extends javax.swing.JPanel implements Pantall
 	
 	private void initGUI() {
 		try {
-			this.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder(null, bCentroDocenteModif.booleanValue()?"Modificación de centro docente":"Alta de centro docente", 0, 0, new Font("Dialog", 1, 12), new Color(51, 51, 51)), null), null));
+			this.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder(null, bCentroDocenteModif.booleanValue()?TDSLanguageUtils.getMessage("clientePEC4.altacentro.title2"):TDSLanguageUtils.getMessage("clientePEC4.altacentro.title"), 0, 0, new Font("Dialog", 1, 12), new Color(51, 51, 51)), null), null));
 			this.setPreferredSize(new java.awt.Dimension(784, 634));
 			{
 				jPanel2 = new JPanel();
@@ -234,6 +234,7 @@ public class PantallaCentroDocente extends javax.swing.JPanel implements Pantall
 					jTextFieldExtension = new JTextField();
 					jPanel2.add(jTextFieldExtension, new GridBagConstraints(1, 10, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 8, 0, 0), 0, 0));
 					jTextFieldExtension.setPreferredSize(new java.awt.Dimension(200, 21));
+					jTextFieldExtension.setDocument(new JTextFieldLimit(9));
 				}
 				{
 					jLabelTipo = new JLabel();
@@ -261,6 +262,7 @@ public class PantallaCentroDocente extends javax.swing.JPanel implements Pantall
 					jTextFieldPrefijo = new JTextField();
 					jPanel2.add(jTextFieldPrefijo, new GridBagConstraints(1, 11, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 8, 0, 0), 0, 0));
 					jTextFieldPrefijo.setPreferredSize(new java.awt.Dimension(200, 21));
+					jTextFieldPrefijo.setDocument(new JTextFieldLimit(9));
 				}
 			}
 			{
