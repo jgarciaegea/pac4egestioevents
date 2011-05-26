@@ -392,6 +392,10 @@ public class RemotoImpl extends UnicastRemoteObject implements RemoteInterface{
 			GestorContacto gestorContacto = new GestorContacto(gestorDB.getConnection());
 			Integer idContacto = gestorContacto.insertaEntidadRetId(dtoCentroDocente.getDtoContacto());
 			
+			GestorTelefono gestorTelefono = new GestorTelefono(gestorDB.getConnection());
+			dtoCentroDocente.getDtoContacto().getDtoTelefono().getTelefono().setIdContacto(idContacto);
+			gestorTelefono.insertaEntidad(dtoCentroDocente.getDtoContacto().getDtoTelefono());
+			
 			//Insertamos la universidad
 			//GestorUniversidad gestorUniversidad = new GestorUniversidad(gestorDB.getConnection());
 			//Integer idUniversidad = gestorUniversidad.insertaEntidadRetId(dtoCentroDocente.getDtoUniversidad());
