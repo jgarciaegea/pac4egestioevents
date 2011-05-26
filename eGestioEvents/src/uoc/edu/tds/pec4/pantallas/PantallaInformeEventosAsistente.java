@@ -3,6 +3,7 @@
  */
 package uoc.edu.tds.pec4.pantallas;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -11,8 +12,10 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.BorderFactory;
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JScrollPane;
 
 import uoc.edu.tds.pec4.beans.Evento;
 import uoc.edu.tds.pec4.beans.Inscripcion;
@@ -62,19 +65,21 @@ public class PantallaInformeEventosAsistente extends PanelComun implements Panta
 		this.findTextField("cajaAsistente").setEditable(false);
 		this.crearTitulo(20, 60, 140, 20, "clientePEC4.panelInformeEventosAsistencia.titulo1.TipoEvento", "tTipoEvento");
 		this.crearCombo(100, 60, 200, 20, "comboTipoEvento", recuperarTiposEvento());
-		//ComboBoxModel jComboBoxCentroDocenteModel = new DefaultComboBoxModel(lstComboCentroDoc.toArray());
-		//jComboBoxCentroDocente.setModel(jComboBoxCentroDocenteModel);
+
+		
 		this.findCombo("comboTipoEvento").setSelectedIndex(-1);
 		
 		this.crearTitulo(20, 90, 80, 20, "clientePEC4.panelInformeEventosAsistencia.titulo1.FechaDesde", "tFechaDesde");
 		
-		
+
 		
 		this.crearTextField(100, 90, 90, 20,"cajaFechaDeste");
 		this.crearTitulo(220, 90, 80, 20, "clientePEC4.panelInformeEventosAsistencia.titulo1.FechaHasta", "tFechaHasta");
 		this.crearTextField(300, 90, 90, 20,"cajaFechaHasta");
-		this.crearTabla(20, 150, 700, 300,columnNames);
+		
+		this.crearTabla(20, 150, 675, 300,columnNames);
 	
+		
 		this.crearBoton(20, 470, 120, 30, "clientePEC4.panelInformeEventosAsistencia.boton.bBuscar","bBuscar");		
 		this.crearBoton(200, 470, 120, 30, "clientePEC4.panelInformeEventosAsistencia.boton.bLimpliar", "bLimpliar");
 		this.crearBoton(380, 470, 120, 30, "clientePEC4.panelInformeEventosAsistencia.boton.bCancel", "bCancel");
