@@ -686,16 +686,18 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 								dtoEventoAModficar.getEvento().setIdTipoEvento(Integer.parseInt(((MostrarCombo) jComboBoxTipoEvento.getSelectedItem()).getID().toString()));
 							}
 							PantallaEventoRequisitos v1 = new PantallaEventoRequisitos(null, remote, dtoEventoAModficar);
-							v1.setModal(true);
-							v1.setVisible(true);
-				             if (v1.getAceptar()) {
-				            	 dtoEventoAModficar.setDtoEventoRequisitos(v1.getDTOEventoRequisitos());
-				            	 try {
-									muestraRequisitos(dtoEventoAModficar.getDtoEventoRequisitos());
-								} catch (OperationErrorDatosFormulario e1) {
-									// TODO Auto-generated catch block
-									e1.printStackTrace();
-								}
+							if (!v1.isEmpty()) {
+								v1.setModal(true);
+								v1.setVisible(true);
+					             if (v1.getAceptar()) {
+					            	 dtoEventoAModficar.setDtoEventoRequisitos(v1.getDTOEventoRequisitos());
+					            	 try {
+										muestraRequisitos(dtoEventoAModficar.getDtoEventoRequisitos());
+									} catch (OperationErrorDatosFormulario e1) {
+										// TODO Auto-generated catch block
+										e1.printStackTrace();
+									}
+					             }
 				             }
 						}finally{
 						//jButtonClearActionPerformed();

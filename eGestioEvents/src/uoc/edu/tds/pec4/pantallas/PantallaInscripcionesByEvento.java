@@ -17,7 +17,6 @@ import javax.swing.JTable;
 import javax.swing.border.BevelBorder;
 import javax.swing.table.DefaultTableModel;
 
-import uoc.edu.tds.pec4.beans.Evento;
 import uoc.edu.tds.pec4.beans.Inscripcion;
 import uoc.edu.tds.pec4.dtos.DTOEvento;
 import uoc.edu.tds.pec4.dtos.DTOInscripcion;
@@ -284,7 +283,21 @@ public class PantallaInscripcionesByEvento extends javax.swing.JDialog {
 	
 	private void jButtonCodigoAssistenciaActionPerformed(ActionEvent evt) {
 		System.out.println("jButtonCodigoAssistencia.actionPerformed, event="+evt);
-		//TODO add your code for jButtonCodigoAssistencia.actionPerformed
+		if (jTableDatos.getSelectedRow() == -1) {
+			Utils.mostraMensajeInformacion(jPanelCentro, "No ha seleccionado ningœn registro de la tabla", "Inscripciones");
+		}else{
+			try {
+				DTOInscripcion dtoInscripcion = getSelectedInscripcion();
+				dtoInscripcion = remote.getCodigoAsistentica(dtoInscripcion);
+				Utils.mostraMensajeInformacion(jPanelCentro, "C—digo de inscripci—n: " + dtoInscripcion.getInscripcion().getCodigoAsistencia(), "Inscripciones");
+			} catch (Exception e1) {
+				try {
+					throw new OperationErrorDatosFormulario(e1.getMessage());
+				} catch (OperationErrorDatosFormulario e2) {
+					e2.showDialogError();
+				}
+			}
+		}
 	}
 	
 	private JButton getJButtonBaja() {
@@ -309,11 +322,11 @@ public class PantallaInscripcionesByEvento extends javax.swing.JDialog {
 		if (jTableDatos.getSelectedRow() == -1) {
 			Utils.mostraMensajeInformacion(jPanelCentro, "No ha seleccionado ningœn registro de la tabla", "Inscripciones");
 		}else{
-			// TODO
 			try {
 				DTOInscripcion dtoInscripcion = getSelectedInscripcion();
 				remote.bajaInscripcion(dtoInscripcion);
 				Utils.mostraMensajeInformacion(jPanelCentro, "Baja efectuada correctamente", "Inscripciones");
+				cargaInscripcionesByEvento();
 			} catch (Exception e1) {
 				try {
 					throw new OperationErrorDatosFormulario(e1.getMessage());

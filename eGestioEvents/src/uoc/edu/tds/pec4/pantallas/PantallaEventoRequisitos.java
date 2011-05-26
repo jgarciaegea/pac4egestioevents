@@ -47,6 +47,7 @@ public class PantallaEventoRequisitos extends javax.swing.JDialog {
 	private RemoteInterface remote;
 	private DTOEvento dtoEvento;
 	private Boolean bExit = false;
+	private Boolean bIsEmpty = false;
 
 	/**
 	* Auto-generated main method to display this JDialog
@@ -62,11 +63,16 @@ public class PantallaEventoRequisitos extends javax.swing.JDialog {
 			try {
 				cargaEventosByEventoCentro();
 				checkEventos();
+				bIsEmpty = (jTableDatos.getRowCount() == 0);
 			} catch (OperationErrorDatosFormulario e) {
 				e.showDialogError(jPanelBase);
 			}
 			
 		}
+	}
+	
+	public Boolean isEmpty(){
+		return bIsEmpty;
 	}
 
 	private void limpiaFormulario(){
@@ -125,7 +131,7 @@ public class PantallaEventoRequisitos extends javax.swing.JDialog {
 			dtm.getDataVector().removeAllElements();
 			List<DTOEvento> lstDtoEvento = remote.getEventosFinalizados(consultaEvento());
 			if(lstDtoEvento == null || lstDtoEvento.isEmpty()){
-				Utils.mostraMensajeInformacion(jPanelBase, "No hay eventos", "Asistencia/Ausencia del evento");
+				Utils.mostraMensajeInformacion(jPanelBase, "No hay eventos finalizados de ese tipo para poder selecionarlos como requisitos", "Asistencia/Ausencia del evento");
 				return;
 			}
 			muestraResultado(lstDtoEvento);
