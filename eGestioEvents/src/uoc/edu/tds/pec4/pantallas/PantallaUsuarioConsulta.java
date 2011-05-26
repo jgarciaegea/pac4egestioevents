@@ -123,7 +123,7 @@ public class PantallaUsuarioConsulta extends javax.swing.JPanel implements Panta
 	
 	private void initGUI() {
 		try {
-			this.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder(null, "Consulta de usuarios", 0, 0, new Font("Dialog", 1, 12), new Color(51, 51, 51)), null), null));
+			this.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder(null, TDSLanguageUtils.getMessage("clientePEC4.consultausuario.title"), 0, 0, new Font("Dialog", 1, 12), new Color(51, 51, 51)), null), null));
 			this.setPreferredSize(new java.awt.Dimension(784, 650));
 			{
 				jPanel2 = new JPanel();
@@ -452,7 +452,7 @@ public class PantallaUsuarioConsulta extends javax.swing.JPanel implements Panta
 			List<DTOUsuario> lstDtoUsuario = remote.getUsuarios(consultaUsuarios());
 			if(lstDtoUsuario == null || lstDtoUsuario.isEmpty()){
 				actualizaTabla();
-				Utils.mostraMensajeInformacion(jPanel2,TDSLanguageUtils.getMessage("clientePEC4.consultausuario.INFO.MSG3"),TDSLanguageUtils.getMessage("clientePEC4.consultausuario.title"));
+				Utils.mostraMensajeInformacion(jPanel2,TDSLanguageUtils.getMessage("clientePEC4.consultausuario.INFO.MSG4"),TDSLanguageUtils.getMessage("clientePEC4.consultausuario.title"));
 			}else{
 				muestraResultado(lstDtoUsuario);
 				actualizaTabla();
