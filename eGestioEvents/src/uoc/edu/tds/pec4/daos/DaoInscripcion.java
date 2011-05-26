@@ -100,7 +100,7 @@ public class DaoInscripcion extends DaoEntidad<Inscripcion>{
 		try{
 			StringBuffer sb = new StringBuffer();
 			sb.append("SELECT codigo, id_evento, estado, fecha_estado, motivo_estado, fecha_inscripcion, check_in, codigo_asistencia ");
-			sb.append("FROM v_consulta_inscipciones_eventos_celebrados ");
+			sb.append("FROM v_consulta_inscripciones_eventos_celebrados ");
 			sb.append("WHERE (1=1) ");
 			if(criteris.getCodigo()!=null) sb.append("AND codigo = ? ");
 			if(criteris.getIdEvento()!=null) sb.append("AND id_evento = ? ");

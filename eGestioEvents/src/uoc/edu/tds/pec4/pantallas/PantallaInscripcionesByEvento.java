@@ -313,6 +313,7 @@ public class PantallaInscripcionesByEvento extends javax.swing.JDialog {
 			try {
 				DTOInscripcion dtoInscripcion = getSelectedInscripcion();
 				remote.bajaInscripcion(dtoInscripcion);
+				Utils.mostraMensajeInformacion(jPanelCentro, "Baja efectuada correctamente", "Inscripciones");
 			} catch (Exception e1) {
 				try {
 					throw new OperationErrorDatosFormulario(e1.getMessage());

@@ -623,6 +623,7 @@ public class RemotoImpl extends UnicastRemoteObject implements RemoteInterface{
 			System.out.println("Recuperando inscripciones.....");
 			GestorInscripcion gestorInscripcion = new GestorInscripcion(gestorDB.getConnection());
 			System.out.println("gestorinscripcion Creado......");
+			dtoInscripcion.getInscripcion().setEstado(Constantes.REGISTRO_ACTIVO);
 			return gestorInscripcion.consultaEntidades(dtoInscripcion);
 		}catch(Exception e){
 			throw new OperationErrorBD("Error al recuperar la informaci—n de las inscripciones......");
@@ -641,6 +642,7 @@ public class RemotoImpl extends UnicastRemoteObject implements RemoteInterface{
 			System.out.println("Recuperando inscripciones.....");
 			GestorInscripcion gestorInscripcion = new GestorInscripcion(gestorDB.getConnection());
 			System.out.println("gestorinscripcion Creado......");
+			dtoInscripcion.getInscripcion().setEstado(Constantes.REGISTRO_ACTIVO);
 			return gestorInscripcion.consultaEntidadesByEventoFinalizado(dtoInscripcion);
 		}catch(Exception e){
 			throw new OperationErrorBD("Error al recuperar la informaci—n de las inscripciones......");
