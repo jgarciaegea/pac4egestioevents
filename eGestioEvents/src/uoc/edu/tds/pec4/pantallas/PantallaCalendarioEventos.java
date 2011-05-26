@@ -29,12 +29,14 @@ import javax.swing.table.DefaultTableModel;
 
 import uoc.edu.tds.pec4.beans.Evento;
 import uoc.edu.tds.pec4.beans.EventoCalendario;
+import uoc.edu.tds.pec4.beans.TipoEventoRol;
 import uoc.edu.tds.pec4.dtos.DTOAsistente;
 import uoc.edu.tds.pec4.dtos.DTOCentroDocente;
 import uoc.edu.tds.pec4.dtos.DTOEvento;
 import uoc.edu.tds.pec4.dtos.DTOEventoCalendario;
 import uoc.edu.tds.pec4.dtos.DTOPersonalSecretaria;
 import uoc.edu.tds.pec4.dtos.DTOTipoEvento;
+import uoc.edu.tds.pec4.dtos.DTOTipoEventoRol;
 import uoc.edu.tds.pec4.dtos.DTOUniversidad;
 import uoc.edu.tds.pec4.dtos.DTOUsuario;
 import uoc.edu.tds.pec4.excepciones.OperationErrorBD;
@@ -98,6 +100,7 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 
 	private RemoteInterface remote;
 	private DTOUsuario dtoUsuario;
+	private List<DTOTipoEventoRol> lstDTOTipoEventoRol;
 
 	public PantallaCalendarioEventos(RemoteInterface remote1, DTOUsuario dtoUsuario1) {
 		super();
@@ -121,7 +124,9 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 			this.add(getJPanelDatos());
 			jButtonClearActionPerformed();
 			//Rellenamos inforamci—n de los filtros
+			if (dtoUsuario instanceof DTOAsistente) recuperarPermisosTipRol();
 			cargaCombos();
+
 			gestionarPermisos();
 		} catch (Exception e) {
 			try{
@@ -317,17 +322,37 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 				jComboBoxUniveridad.setSelectedIndex(0);
 				rellenaCentrosDocentes(((MostrarCombo)jComboBoxUniveridad.getSelectedItem()).getID());
 			}*/
-
 			//Cargamos los Tipos de eventos
 			List<DTOTipoEvento> lstDtoTipoEvento = remote.getTiposEventos();
 			List<MostrarCombo> lstComboTipoEvento = new ArrayList<MostrarCombo>();
-			if(lstDtoTipoEvento != null){
-				lstComboTipoEvento.add(new MostrarCombo(0, Constantes.NOMBRE_TODOS));
-				for(DTOTipoEvento dtoTipoEvento : lstDtoTipoEvento){
-					lstComboTipoEvento.add(new MostrarCombo(dtoTipoEvento.getTipoEvento().getIdTipoEvento(),
-							dtoTipoEvento.getTipoEvento().getDescripcion()));
+			
+			// para los asistentes segun sus permisos...
+			if (dtoUsuario instanceof DTOAsistente) {
+				if(lstDtoTipoEvento != null){
+					
+					for(DTOTipoEvento dtoTipoEvento : lstDtoTipoEvento){	
+						for (DTOTipoEventoRol dtoTipoEventoRol:lstDTOTipoEventoRol){
+							if (dtoTipoEventoRol.getTipoEventoRol().getIdTipoEvento().equals(dtoTipoEvento.getTipoEvento().getIdTipoEvento())){
+								lstComboTipoEvento.add(new MostrarCombo(dtoTipoEvento.getTipoEvento().getIdTipoEvento(),
+										dtoTipoEvento.getTipoEvento().getDescripcion()));
+							}
+						}
+					}
+				}
+				
+			}else{// para el resto de usuarios...
+				if(lstDtoTipoEvento != null){
+					lstComboTipoEvento.add(new MostrarCombo(0, Constantes.NOMBRE_TODOS));
+					for(DTOTipoEvento dtoTipoEvento : lstDtoTipoEvento){
+						lstComboTipoEvento.add(new MostrarCombo(dtoTipoEvento.getTipoEvento().getIdTipoEvento(),
+								dtoTipoEvento.getTipoEvento().getDescripcion()));
+					}
 				}
 			}
+			
+
+
+
 			ComboBoxModel jComboBoxTipoEventoEventoModel = new DefaultComboBoxModel(lstComboTipoEvento.toArray());
 			jComboBoxTipoEvento.setModel(jComboBoxTipoEventoEventoModel);
 		}catch(Exception e){
@@ -806,6 +831,27 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 		}
 		return jButtonInscripcion;
 	}
+	
+	public void recuperarPermisosTipRol(){
+		DTOTipoEventoRol dtoTipoEventoRol = new DTOTipoEventoRol();
+		TipoEventoRol tipoEventoRol = new TipoEventoRol();
+		tipoEventoRol.setIdRol(dtoUsuario.getUsuario().getIdRol());
+		dtoTipoEventoRol.setTipoEventoRol(tipoEventoRol);
+		lstDTOTipoEventoRol = new ArrayList<DTOTipoEventoRol>();
+		try {
+			lstDTOTipoEventoRol=remote.consultaTipoEventoRol(dtoTipoEventoRol);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		} catch (OperationErrorBD e) {
+			e.printStackTrace();
+			e.showDialogError();
+		}
+		if (lstDTOTipoEventoRol!=null)
+			System.out.println("hemos encontrado datos de permisos de TipoRol");
+		else
+			System.out.println("No hemos encontrado datos de permisos de TipoRol");
+	}
+	
 	
 	public void gestionarPermisos(){
 		jButtonNew.setVisible((dtoUsuario instanceof DTOPersonalSecretaria));
