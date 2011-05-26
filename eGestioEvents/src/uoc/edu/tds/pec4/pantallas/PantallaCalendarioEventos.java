@@ -43,6 +43,7 @@ import uoc.edu.tds.pec4.excepciones.OperationErrorBD;
 import uoc.edu.tds.pec4.excepciones.OperationErrorDatosFormulario;
 import uoc.edu.tds.pec4.excepciones.OperationErrorLogin;
 import uoc.edu.tds.pec4.iface.RemoteInterface;
+import uoc.edu.tds.pec4.resources.TDSLanguageUtils;
 import uoc.edu.tds.pec4.utils.ClearForm;
 import uoc.edu.tds.pec4.utils.Constantes;
 import uoc.edu.tds.pec4.utils.MostrarCombo;
@@ -90,7 +91,7 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 	private JPanel jPanelDatos;
 	private JScrollPane jScrollPane1;
 	private DefaultTableModel dtm;
-	private String[] columnNames = {"idEvento", "Fecha", "Evento", "Universidad", "Centro docente", "Tipo Evento", "Duracion", "Cancelado", "Celebrado", "idCentro"};
+	private String[] columnNames = {"idEvento", TDSLanguageUtils.getMessage("clientePEC4.calendarioeventos.column1"), TDSLanguageUtils.getMessage("clientePEC4.calendarioeventos.column2"), TDSLanguageUtils.getMessage("clientePEC4.calendarioeventos.column3"), TDSLanguageUtils.getMessage("clientePEC4.calendarioeventos.column4"), TDSLanguageUtils.getMessage("clientePEC4.calendarioeventos.column8"), TDSLanguageUtils.getMessage("clientePEC4.calendarioeventos.column5"), TDSLanguageUtils.getMessage("clientePEC4.calendarioeventos.column6"), TDSLanguageUtils.getMessage("clientePEC4.calendarioeventos.column7"), "idCentro"};
 	private JTable jTableDatos;
 	private JButton jButtonNew;
 	private JButton jButtonUpdate;
@@ -118,7 +119,7 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 	
 	private void initGUI() {
 		try {
-			this.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder(null, "Calendario de Eventos", 0, 0, new Font("Dialog", 1, 12), new Color(51, 51, 51)), null), null));
+			this.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder(null, TDSLanguageUtils.getMessage("clientePEC4.calendarioeventos.title"), 0, 0, new Font("Dialog", 1, 12), new Color(51, 51, 51)), null), null));
 			this.setPreferredSize(new java.awt.Dimension(823, 501));
 			
 			this.add(getJPanelFiltro());
@@ -246,7 +247,7 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 			dtm.getDataVector().removeAllElements();
 			List<DTOEventoCalendario> lstDtoEventoCalendario = remote.getEventosCalendario(getDTOFiltro());
 			if(lstDtoEventoCalendario == null || lstDtoEventoCalendario.isEmpty()){
-				Utils.mostraMensajeInformacion(jPanelDatos, "No hay resultados","Bœsqueda eventos");
+				Utils.mostraMensajeInformacion(jPanelDatos, TDSLanguageUtils.getMessage("clientePEC4.consultausuario.INFO.MSG3"),TDSLanguageUtils.getMessage("clientePEC4.calendarioeventos.INFO.MSG1.TITLE"));
 				return;
 			}
 			muestraResultado(lstDtoEventoCalendario);
@@ -294,10 +295,10 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 			if(Utils.valorisNull(jTextFieldFechaFin.getText())) throw new Exception(Utils.MESSAGE_ERROR + " fecha fin celebraci—n" );
 			if(!Utils.parseaFecha(jTextFieldFechaFin.getText())) throw new Exception(Utils.MESSAGE_ERROR + " fecha fin celebraci—n " + Utils.MESSAGE_FECHA );
 			if(!"".equalsIgnoreCase(jTextFieldFechaFin.getText()) && "".equalsIgnoreCase(jTextFieldFechaIni.getText())){
-				throw new Exception("No puede introducir la fecha final sin previamente informar la fecha de inicio celebracion");
+				throw new Exception(TDSLanguageUtils.getMessage("clientePEC4.calendarioeventos.ERROR1"));
 			}
 			if (Utils.transformFecha(jTextFieldFechaFin.getText()).before(Utils.transformFecha(jTextFieldFechaIni.getText()))){
-				throw new Exception( "La fecha inicio es mayor que la fecha final");
+				throw new Exception(TDSLanguageUtils.getMessage("clientePEC4.error16"));
 			}
 		}catch(Exception e){
 			throw new OperationErrorDatosFormulario(e.getMessage());
@@ -364,7 +365,7 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 			ComboBoxModel jComboBoxTipoEventoEventoModel = new DefaultComboBoxModel(lstComboTipoEvento.toArray());
 			jComboBoxTipoEvento.setModel(jComboBoxTipoEventoEventoModel);
 		}catch(Exception e){
-			throw new OperationErrorDatosFormulario("Error al cargar las listas seleccionables");
+			throw new OperationErrorDatosFormulario(TDSLanguageUtils.getMessage("clientePEC4.error17"));
 		}
 		
 	}
@@ -461,7 +462,7 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 	private JLabel getJLabelFiltro() {
 		if(jLabelFiltro == null) {
 			jLabelFiltro = new JLabel();
-			jLabelFiltro.setText("Filtro");
+			jLabelFiltro.setText(TDSLanguageUtils.getMessage("clientePEC4.calendarioeventos.label1"));
 			jLabelFiltro.setLayout(null);
 			jLabelFiltro.setBounds(14, 9, 49, 15);
 			jLabelFiltro.setFont(new java.awt.Font("Arial",1,12));
@@ -472,7 +473,7 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 	private JLabel getJLabelUniversidad() {
 		if(jLabelUniversidad == null) {
 			jLabelUniversidad = new JLabel();
-			jLabelUniversidad.setText("Universidad");
+			jLabelUniversidad.setText(TDSLanguageUtils.getMessage("clientePEC4.calendarioeventos.column3"));
 			jLabelUniversidad.setLayout(null);
 			jLabelUniversidad.setBounds(76, 17, 68, 15);
 			jLabelUniversidad.setFont(new java.awt.Font("Arial",0,10));
@@ -504,7 +505,7 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 	private JLabel getJLabelCentroDocente() {
 		if(jLabelCentroDocente == null) {
 			jLabelCentroDocente = new JLabel();
-			jLabelCentroDocente.setText("Centro Docente");
+			jLabelCentroDocente.setText(TDSLanguageUtils.getMessage("clientePEC4.calendarioeventos.column4"));
 			jLabelCentroDocente.setLayout(null);
 			jLabelCentroDocente.setBounds(76, 43, 89, 15);
 			jLabelCentroDocente.setFont(new java.awt.Font("Arial",0,10));
@@ -525,7 +526,7 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 	private JLabel getJLabelFechaIni() {
 		if(jLabelFechaIni == null) {
 			jLabelFechaIni = new JLabel();
-			jLabelFechaIni.setText("Fecha Celebraci—n desde");
+			jLabelFechaIni.setText(TDSLanguageUtils.getMessage("clientePEC4.calendarioeventos.label6"));
 			jLabelFechaIni.setLayout(null);
 			jLabelFechaIni.setBounds(76, 71, 119, 15);
 			jLabelFechaIni.setFont(new java.awt.Font("Arial",0,10));
@@ -554,7 +555,7 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 	private JCheckBox getJCheckBoxShowAll() {
 		if(jCheckBoxShowAll == null) {
 			jCheckBoxShowAll = new JCheckBox();
-			jCheckBoxShowAll.setText("Mostrar eventos cancelados");
+			jCheckBoxShowAll.setText(TDSLanguageUtils.getMessage("clientePEC4.calendarioeventos.label7"));
 			jCheckBoxShowAll.setBounds(183, 115, 185, 23);
 			jCheckBoxShowAll.setFont(new java.awt.Font("Arial",0,10));
 		}
@@ -564,7 +565,7 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 	private JCheckBox getJCheckBoxShowEventoFinalizado() {
 		if(jCheckBoxShowEventoFinalizado == null) {
 			jCheckBoxShowEventoFinalizado = new JCheckBox();
-			jCheckBoxShowEventoFinalizado.setText("Mostrar eventos finalizados");
+			jCheckBoxShowEventoFinalizado.setText(TDSLanguageUtils.getMessage("clientePEC4.calendarioeventos.label8"));
 			jCheckBoxShowEventoFinalizado.setBounds(397, 115, 183, 23);
 			jCheckBoxShowEventoFinalizado.setFont(new java.awt.Font("Arial",0,10));
 		}
@@ -575,7 +576,7 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 		if(jButtonSearch == null) {
 			jButtonSearch = new JButton();
 			jButtonSearch.setLayout(null);
-			jButtonSearch.setText("Buscar");
+			jButtonSearch.setText(TDSLanguageUtils.getMessage("clientePEC4.calendarioeventos.label9"));
 			jButtonSearch.setBounds(635, 26, 85, 25);
 			jButtonSearch.setFont(new java.awt.Font("Arial",0,10));
 			jButtonSearch.addActionListener(new ActionListener() {
@@ -596,7 +597,7 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 		if (jButtonClear == null) {
 			jButtonClear = new JButton();
 			jButtonClear.setLayout(null);
-			jButtonClear.setText("Limpiar");
+			jButtonClear.setText(TDSLanguageUtils.getMessage("clientePEC4.calendarioeventos.label10"));
 			jButtonClear.setBounds(635, 51, 85, 25);
 			jButtonClear.setFont(new java.awt.Font("Arial",0,10));
 			jButtonClear.addActionListener(new ActionListener() {
@@ -662,7 +663,7 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 			jButtonNew = new JButton();
 			jButtonNew.setIcon(icon);
 			jButtonNew.setLayout(null);
-			jButtonNew.setText("Nuevo Evento");
+			jButtonNew.setText(TDSLanguageUtils.getMessage("clientePEC4.calendarioeventos.boton1"));
 			jButtonNew.setBounds(13, 256, 138, 25);
 			jButtonNew.setFont(new java.awt.Font("Arial",0,10));
 			jButtonNew.setSize(138, 25);
@@ -680,13 +681,13 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 		if(jButtonUpdate == null) {
 			jButtonUpdate = new JButton();
 			jButtonUpdate.setLayout(null);
-			jButtonUpdate.setText("Modificar Evento");
+			jButtonUpdate.setText(TDSLanguageUtils.getMessage("clientePEC4.calendarioeventos.boton2"));
 			jButtonUpdate.setBounds(158, 256, 138, 25);
 			jButtonUpdate.setFont(new java.awt.Font("Arial",0,10));
 			jButtonUpdate.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					if(jTableDatos.getSelectedRow() == -1){
-						Utils.mostraMensajeInformacion(jPanelDatos, "No ha seleccionado ningœn registro de la tabla", "Calendario Eventos");
+						Utils.mostraMensajeInformacion(jPanelDatos, TDSLanguageUtils.getMessage("clientePEC4.consultausuario.INFO.MSG1"), TDSLanguageUtils.getMessage("clientePEC4.calendarioeventos.title"));
 					}else{
 						if (canUpdateEvento()){
 							try {
@@ -697,7 +698,7 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 								e1.showDialogError();
 							}
 						}else{
-							Utils.mostraMensajeInformacion(jPanelDatos, "Evento cancelado/finalizado o no tienes permisos en ese centro", "Calendario Eventos");
+							Utils.mostraMensajeInformacion(jPanelDatos, TDSLanguageUtils.getMessage("clientePEC4.calendarioeventos.INFO.MSG2"), TDSLanguageUtils.getMessage("clientePEC4.calendarioeventos.title"));
 						}
 					}
 				}
@@ -712,20 +713,20 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 			ImageIcon icon = new ImageIcon("imagen/dcib022t.gif");
 			jButtonDelete.setIcon(icon);
 			jButtonDelete.setLayout(null);
-			jButtonDelete.setText("Cancelar Evento");
+			jButtonDelete.setText(TDSLanguageUtils.getMessage("clientePEC4.calendarioeventos.boton3"));
 			jButtonDelete.setBounds(304, 256, 138, 25);
 			jButtonDelete.setFont(new java.awt.Font("Arial",0,10));
 			jButtonDelete.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					if(jTableDatos.getSelectedRow() == -1){
-						Utils.mostraMensajeInformacion(jPanelDatos, "No ha seleccionado ningœn registro de la tabla", "Calendario Eventos");
+						Utils.mostraMensajeInformacion(jPanelDatos, TDSLanguageUtils.getMessage("clientePEC4.consultausuario.INFO.MSG1"), TDSLanguageUtils.getMessage("clientePEC4.calendarioeventos.title"));
 					}else{
 						if (isCancelledEvento()){
 							try {
 								DTOEvento dtoEvento = getSelectedEvento();
 								remote.bajaEvento(dtoEvento);
 								getEventosCalendario();
-								Utils.mostraMensajeInformacion(jPanelDatos, "Evento dado de baja correctamente", "Calendario Eventos");
+								Utils.mostraMensajeInformacion(jPanelDatos, TDSLanguageUtils.getMessage("clientePEC4.calendarioeventos.INFO.MSG3"), TDSLanguageUtils.getMessage("clientePEC4.calendarioeventos.title"));
 							} catch (Exception e1) {
 								try {
 									throw new OperationErrorDatosFormulario(e1.getMessage());
@@ -736,7 +737,7 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 								jButtonClearActionPerformed();
 							}
 						}else{
-							Utils.mostraMensajeInformacion(jPanelDatos, "El evento ya est‡ cancelado", "Calendario Eventos");
+							Utils.mostraMensajeInformacion(jPanelDatos, TDSLanguageUtils.getMessage("clientePEC4.calendarioeventos.INFO.MSG4"), TDSLanguageUtils.getMessage("Calendario Eventos"));
 						}
 					}
 				}
@@ -749,13 +750,13 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 		if(jButtonViewInscripciones == null) {
 			jButtonViewInscripciones = new JButton();
 			jButtonViewInscripciones.setLayout(null);
-			jButtonViewInscripciones.setText("Ver Inscripciones");
+			jButtonViewInscripciones.setText(TDSLanguageUtils.getMessage("clientePEC4.calendarioeventos.boton5"));
 			jButtonViewInscripciones.setBounds(504, 256, 118, 25);
 			jButtonViewInscripciones.setFont(new java.awt.Font("Arial",0,10));
 			jButtonViewInscripciones.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					if (jTableDatos.getSelectedRow() == -1) {
-						Utils.mostraMensajeInformacion(jPanelDatos, "No ha seleccionado ningœn registro de la tabla", "Consulta Eventos");
+						Utils.mostraMensajeInformacion(jPanelDatos, TDSLanguageUtils.getMessage("clientePEC4.consultausuario.INFO.MSG1"), TDSLanguageUtils.getMessage("Consulta Eventos"));
 					}else{
 						try {
 							DTOEvento dtoEvento = getSelectedEvento();
@@ -779,13 +780,13 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 		if(jButtonViewAsistenciaAusencia == null) {
 			jButtonViewAsistenciaAusencia = new JButton();
 			jButtonViewAsistenciaAusencia.setLayout(null);
-			jButtonViewAsistenciaAusencia.setText("Ver Asistencia/Ausencia");
+			jButtonViewAsistenciaAusencia.setText(TDSLanguageUtils.getMessage("clientePEC4.calendarioeventos.boton6"));
 			jButtonViewAsistenciaAusencia.setBounds(622, 256, 149, 25);
 			jButtonViewAsistenciaAusencia.setFont(new java.awt.Font("Arial",0,10));
 			jButtonViewAsistenciaAusencia.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					if (jTableDatos.getSelectedRow() == -1) {
-						Utils.mostraMensajeInformacion(jPanelDatos, "No ha seleccionado ningœn registro de la tabla", "Consulta Eventos");
+						Utils.mostraMensajeInformacion(jPanelDatos, TDSLanguageUtils.getMessage("clientePEC4.consultausuario.INFO.MSG1"), TDSLanguageUtils.getMessage("clientePEC4.calendarioeventos.title"));
 					}else{
 						if (isCelebradoEvento()){
 							try {
@@ -798,7 +799,7 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 								//jButtonClearActionPerformed();
 							}
 						}else{
-							Utils.mostraMensajeInformacion(jPanelDatos, "El evento aœn no ha finalizado", "Calendario Eventos");
+							Utils.mostraMensajeInformacion(jPanelDatos, TDSLanguageUtils.getMessage("clientePEC4.calendarioeventos.INFO.MSG5"), TDSLanguageUtils.getMessage("Calendario Eventos"));
 						}
 					}
 				}
@@ -811,13 +812,13 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 		if(jButtonInscripcion == null) {
 			jButtonInscripcion = new JButton();
 			jButtonInscripcion.setLayout(null);
-			jButtonInscripcion.setText("Inscripci—n");
+			jButtonInscripcion.setText(TDSLanguageUtils.getMessage("clientePEC4.calendarioeventos.boton7"));
 			jButtonInscripcion.setFont(new java.awt.Font("Arial",0,10));
 			jButtonInscripcion.setBounds(659, 253, 112, 25);
 			jButtonInscripcion.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					if(jTableDatos.getSelectedRow() == -1){
-						Utils.mostraMensajeInformacion(jPanelDatos, "No ha seleccionado ningœn registro de la tabla", "Calendario Eventos");
+						Utils.mostraMensajeInformacion(jPanelDatos, TDSLanguageUtils.getMessage("clientePEC4.consultausuario.INFO.MSG1"), TDSLanguageUtils.getMessage("clientePEC4.calendarioeventos.title"));
 					}else{
 						try {
 							DTOEvento dtoEvento = getSelectedEvento();
@@ -887,7 +888,7 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 		if(jButtonCancelar == null) {
 			jButtonCancelar = new JButton();
 			jButtonCancelar.setLayout(null);
-			jButtonCancelar.setText("Cancelar");
+			jButtonCancelar.setText(TDSLanguageUtils.getMessage("clientePEC4.consultausuario.boton1"));
 			jButtonCancelar.setFont(new java.awt.Font("Arial",0,10));
 			jButtonCancelar.setBounds(635, 105, 60, 22);
 			jButtonCancelar.setSize(85, 25);
@@ -904,7 +905,7 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 	private JLabel getJLabelFechaFinCelebracion() {
 		if(jLabelFechaFinCelebracion == null) {
 			jLabelFechaFinCelebracion = new JLabel();
-			jLabelFechaFinCelebracion.setText("hasta");
+			jLabelFechaFinCelebracion.setText(TDSLanguageUtils.getMessage("clientePEC4.consultausuario.label3"));
 			jLabelFechaFinCelebracion.setFont(new java.awt.Font("Arial",0,10));
 			jLabelFechaFinCelebracion.setLayout(null);
 			jLabelFechaFinCelebracion.setBounds(326, 71, 42, 15);
@@ -915,7 +916,7 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 	private JLabel getJLabelTipoEvento() {
 		if(jLabelTipoEvento == null) {
 			jLabelTipoEvento = new JLabel();
-			jLabelTipoEvento.setText("Tipo Evento");
+			jLabelTipoEvento.setText(TDSLanguageUtils.getMessage("clientePEC4.calendarioeventos.column8"));
 			jLabelTipoEvento.setFont(new java.awt.Font("Arial",0,10));
 			jLabelTipoEvento.setLayout(null);
 			jLabelTipoEvento.setBounds(76, 95, 89, 15);
