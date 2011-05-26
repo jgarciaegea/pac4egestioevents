@@ -159,7 +159,7 @@ public class GestorInscripcion extends GestorEntidad<DTOInscripcion>{
 	}
 	
 
-	public DTOInscripcion generarCodigoAsistencia(DTOInscripcion dtoInscripcion){
+	public DTOInscripcion generarCodigoAsistencia(DTOInscripcion dtoInscripcion) throws Exception{
 		
 		String codigoUsuario = dtoInscripcion.getDtoAsistente().getUsuario().getCodigo();
 		Integer codigoUniv = dtoInscripcion.getDtoEvento().getDtoCentroDocente().getDtoUniversidad().getUniversidad().getIdUniversidad();
@@ -172,6 +172,7 @@ public class GestorInscripcion extends GestorEntidad<DTOInscripcion>{
 					today.getTime());
 
         dtoInscripcion.getInscripcion().setCodigoAsistencia(codigoAsistencia);
+        this.modificaEntidad(dtoInscripcion);
         return(dtoInscripcion);
 	}
 	

@@ -338,5 +338,7 @@ public interface RemoteInterface extends Remote{
 	public abstract void bajaInscripcion(DTOInscripcion dtoInscripcion) throws RemoteException, OperationErrorBD;
 	
 	public abstract List<DTOTipoEventoRol> consultaTipoEventoRol(DTOTipoEventoRol dtoEventoRol) throws RemoteException, OperationErrorBD;
+	
+	public abstract DTOInscripcion getInscripcion(DTOInscripcion dtoInscripcion) throws RemoteException, OperationErrorBD;
 		
 }

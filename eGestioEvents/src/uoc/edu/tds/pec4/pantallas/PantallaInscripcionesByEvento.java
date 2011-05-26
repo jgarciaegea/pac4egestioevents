@@ -102,6 +102,11 @@ public class PantallaInscripcionesByEvento extends javax.swing.JDialog {
 		}
 	}
 	
+	/*
+	private void setSelectedInscripcionCodigoAsistencia(String codigoAsistencia){
+		jTableDatos.setValueAt(new String(codigoAsistencia), jTableDatos.getSelectedRow(), 1);
+	}*/
+	
 	private void cargaDatosEvento() throws OperationErrorDatosFormulario{
 		try{
 			dtoEvento = remote.getEvento(dtoEvento);
@@ -288,8 +293,10 @@ public class PantallaInscripcionesByEvento extends javax.swing.JDialog {
 		}else{
 			try {
 				DTOInscripcion dtoInscripcion = getSelectedInscripcion();
+				dtoInscripcion = remote.getInscripcion(dtoInscripcion);
 				dtoInscripcion = remote.getCodigoAsistentica(dtoInscripcion);
 				Utils.mostraMensajeInformacion(jPanelCentro, "C—digo de inscripci—n: " + dtoInscripcion.getInscripcion().getCodigoAsistencia(), "Inscripciones");
+				cargaInscripcionesByEvento(); //setSelectedInscripcionCodigoAsistencia(dtoInscripcion.getInscripcion().getCodigoAsistencia());
 			} catch (Exception e1) {
 				try {
 					throw new OperationErrorDatosFormulario(e1.getMessage());

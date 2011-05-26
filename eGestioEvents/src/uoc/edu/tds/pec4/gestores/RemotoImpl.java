@@ -828,7 +828,17 @@ public class RemotoImpl extends UnicastRemoteObject implements RemoteInterface{
 		}
 		
 	}
-	
-	
+
+	@Override
+	public DTOInscripcion getInscripcion(DTOInscripcion dtoInscripcion) throws RemoteException, OperationErrorBD {
+		try{
+			System.out.println("Recuperando la inscripcion..... "+ dtoInscripcion.getInscripcion().getCodigo());
+			GestorInscripcion gestorInscripcion = new GestorInscripcion(gestorDB.getConnection());
+			return gestorInscripcion.consultaEntidad(dtoInscripcion);
+		}catch(Exception e){
+			throw new OperationErrorBD("Error al recuperar la inscripci—n......");
+		}
+
+	}	
 		
 }
