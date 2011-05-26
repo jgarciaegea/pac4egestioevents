@@ -19,8 +19,7 @@ import uoc.edu.tds.pec4.dtos.DTOAsistente;
 import uoc.edu.tds.pec4.dtos.DTOEvento;
 import uoc.edu.tds.pec4.dtos.DTOEventoPlus;
 import uoc.edu.tds.pec4.dtos.DTOInscripcion;
-import uoc.edu.tds.pec4.excepciones.OperationErrorDatosFormulario;
-import uoc.edu.tds.pec4.utils.Utils;
+
 
 public class GestorInscripcion extends GestorEntidad<DTOInscripcion>{
 
