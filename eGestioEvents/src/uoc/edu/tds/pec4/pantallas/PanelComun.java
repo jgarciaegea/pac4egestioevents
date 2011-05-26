@@ -276,7 +276,6 @@ public abstract class PanelComun extends JPanel  {
 		this.panelScroll = new JScrollPane(tablaResultados);
 		panelScroll.setBounds(new Rectangle(x, y, ancho, alto));	
 		panelScroll.setAutoscrolls(true);
-		panelScroll.getVerticalScrollBar().setMaximum(8);
 		panelScroll.setVisible(true);
 		this.add(panelScroll,null);
 	}
@@ -310,6 +309,7 @@ public abstract class PanelComun extends JPanel  {
 	}
 	
 	protected void crearJTextArea(Integer x,Integer y,Integer ancho, Integer alto,/*String clave,*/String nombre){
+	
 		JTextArea area = new JTextArea();
 		area.setBounds(new Rectangle(x, y, ancho, alto));
 		this.addJTextArea(area, nombre);
@@ -317,7 +317,7 @@ public abstract class PanelComun extends JPanel  {
 	
 	protected void addJTextArea(JTextArea area,String name){
 		this.areas.put(name,area);
-		this.add(area,null);
+		//this.add(area,null);
 		
 	}
 	
