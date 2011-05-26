@@ -134,7 +134,13 @@ public class RemotoImpl extends UnicastRemoteObject implements RemoteInterface{
 			
 			//Modificamos telefono
 			GestorTelefono gestorTelefono = new GestorTelefono(gestorDB.getConnection());
-			gestorTelefono.modificaEntidad(dtoUsuario.getDtoContacto().getDtoTelefono());
+			
+			//Si vemos que no tiene telefono damos de alta el telefono
+			if(dtoUsuario.getDtoContacto().getDtoTelefono().getTelefono().getIdTelefono() == null){
+				gestorTelefono.insertaEntidad(dtoUsuario.getDtoContacto().getDtoTelefono());
+			}else{
+				gestorTelefono.modificaEntidad(dtoUsuario.getDtoContacto().getDtoTelefono());
+			}
 			
 			//Modificamos documentoIdentificación
 			GestorDocumentoIdentificacion gestorDocumIden = new GestorDocumentoIdentificacion(gestorDB.getConnection());
@@ -154,7 +160,7 @@ public class RemotoImpl extends UnicastRemoteObject implements RemoteInterface{
 			
 		}catch(Exception e){
 			gestorDB.rollback();
-			throw new OperationErrorBD("Error al recuperar la información de los usuarios......");
+			throw new OperationErrorBD("Error al modificar el usuario......");
 		}
 		
 	}
