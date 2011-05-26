@@ -1015,7 +1015,7 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 							Utils.mostraMensajeInformacion(jPanelDatos, TDSLanguageUtils.getMessage("clientePEC4.altausuario.INFO.MSG1"), TDSLanguageUtils.getMessage("clientePEC4.evento.LABEL17"));
 						}else{
 							remote.insertaEvento(altaModificaEvento(bEventoModificacion.booleanValue()));
-							Utils.mostraMensajeInformacion(jPanelDatos, TDSLanguageUtils.getMessage("clientePEC4.evento.MSG9."), TDSLanguageUtils.getMessage("clientePEC4.evento.LABEL18"));
+							Utils.mostraMensajeInformacion(jPanelDatos, TDSLanguageUtils.getMessage("clientePEC4.evento.MSG9"), TDSLanguageUtils.getMessage("clientePEC4.evento.LABEL18"));
 							limpiaFormulario();
 						}
 					} catch (RemoteException e1) {
