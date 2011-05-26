@@ -3,7 +3,6 @@
  */
 package uoc.edu.tds.pec4.pantallas;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.ActionEvent;

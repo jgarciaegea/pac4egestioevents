@@ -10,7 +10,6 @@ import java.util.List;
 
 import uoc.edu.tds.pec4.beans.TipoEventoRol;
 import uoc.edu.tds.pec4.daos.DaoTipoEventoRol;
-import uoc.edu.tds.pec4.dtos.DTOTipoEvento;
 import uoc.edu.tds.pec4.dtos.DTOTipoEventoRol;
 import uoc.edu.tds.pec4.dtos.DTOTipoRol;
 
