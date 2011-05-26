@@ -26,6 +26,7 @@ import javax.swing.border.BevelBorder;
 import javax.swing.table.DefaultTableModel;
 
 import uoc.edu.tds.pec4.beans.Evento;
+import uoc.edu.tds.pec4.beans.TipoEvento;
 import uoc.edu.tds.pec4.dtos.DTOCentroDocente;
 import uoc.edu.tds.pec4.dtos.DTOEvento;
 import uoc.edu.tds.pec4.dtos.DTOEventoRequisitos;
@@ -368,9 +369,36 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 			if(Utils.valorisNull(jTextFieldDuracion.getText())) throw new Exception(Utils.MESSAGE_ERROR + " duraci—n" );
 			if(!Utils.validaNumerico(jTextFieldDuracion.getText())) throw new Exception(Utils.MESSAGE_ERROR + " duraci—n " + Utils.MESSAGE_NUMERIC );
 			if(Integer.parseInt((jTextFieldDuracion.getText())) <= 0) throw new Exception(Utils.MESSAGE_ERROR + " duraci—n " + Utils.MESSAGE_NUMERIC_MAS0 );
+			
+			// TODO 1: validar que si el tipo evento tinee definidos roles que se mire si ha puesto las plazas
+			DTOTipoEvento dtoTipoEventro = new DTOTipoEvento();
+			TipoEvento tipoEvento = new TipoEvento();
+			tipoEvento.setIdTipoEvento(Integer.parseInt(((MostrarCombo) jComboBoxTipoEvento.getSelectedItem()).getID().toString()));
+			dtoTipoEventro.setTipoEvento(tipoEvento);
+			DTOTipoEvento dtoTipoEvento = remote.getTipoEvento(dtoTipoEventro);
+			if(dtoTipoEvento != null && dtoTipoEvento.getDtoTipoEventoRol() != null){
+				Integer iPlazas = Integer.parseInt(jTextFieldPlazas.getText());
+				Integer iTabla = 0;
+			    for (int a=0; a<jTableRolPlazas.getRowCount(); a++){
+			    	iTabla = iTabla + Integer.parseInt((jTableRolPlazas.getValueAt(a,2).toString()));
+			    }
+				if (!iPlazas.equals(iTabla)) throw new Exception("El nœmero de plazas asignadas a los roles es diferente a las del evento.");
+			}
 		}catch(Exception e){
 			throw new OperationErrorDatosFormulario(e.getMessage());
 		}
+	}
+	
+	private Boolean validaPlazas(){
+		if(Utils.valorisNull(jTextFieldPlazas.getText())) return false;
+		try {
+			if(!Utils.validaNumerico(jTextFieldPlazas.getText())) return false;
+		} catch (OperationErrorDatosFormulario e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if(Integer.parseInt((jTextFieldPlazas.getText())) <= 0) return false;
+		return true;
 	}
 	
 	/**
@@ -726,21 +754,26 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 							if (!bEventoModificacion){
 								dtoEventoAModficar.getEvento().setIdTipoEvento(Integer.parseInt(((MostrarCombo) jComboBoxTipoEvento.getSelectedItem()).getID().toString()));
 							}
-							dtoEventoAModficar.getEvento().setPlazas(Integer.parseInt(jTextFieldPlazas.getText()));
-							PantallaEventoRolPlazas v2 = new PantallaEventoRolPlazas(null, remote, dtoEventoAModficar);
-							if (!v2.isEmpty()) {
-								v2.setModal(true);
-								v2.setVisible(true);
-								if (v2.getAceptar()) {
-									dtoEventoAModficar.setDtoEventoRolPlazas(v2.getDTOEventoRolPlazas());
-									try {
-										muestraRolPlazas(dtoEventoAModficar.getDtoEventoRolPlazas());
-									} catch (OperationErrorDatosFormulario e1) {
-										// TODO Auto-generated catch block
-										e1.printStackTrace();
+							if (validaPlazas()){
+								dtoEventoAModficar.getEvento().setPlazas(Integer.parseInt(jTextFieldPlazas.getText()));
+								PantallaEventoRolPlazas v2 = new PantallaEventoRolPlazas(null, remote, dtoEventoAModficar);
+								if (!v2.isEmpty()) {
+									v2.setModal(true);
+									v2.setVisible(true);
+									if (v2.getAceptar()) {
+										dtoEventoAModficar.setDtoEventoRolPlazas(v2.getDTOEventoRolPlazas());
+										try {
+											muestraRolPlazas(dtoEventoAModficar.getDtoEventoRolPlazas());
+										} catch (OperationErrorDatosFormulario e1) {
+											// TODO Auto-generated catch block
+											e1.printStackTrace();
+										}
 									}
-								}
-				             }
+					             }
+							}
+							else {
+								Utils.mostraMensajeInformacion(jPanelDatos, "Se debe infomar del nœmero de plazas", "Evento");
+							}
 						}finally{
 						//jButtonClearActionPerformed();
 						}

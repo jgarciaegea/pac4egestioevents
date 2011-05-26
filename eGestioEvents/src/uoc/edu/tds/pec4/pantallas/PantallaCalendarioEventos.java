@@ -65,6 +65,7 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 	private static final long serialVersionUID = 1L;
 	private static final Integer COL_CANCELADO = 7;
 	private static final Integer COL_CELEBRADO = 8;
+	private static final Integer COL_CENTRO = 9;
 
 	// Controles del apartado de filtros
 	private JPanel jPanelFiltro;
@@ -89,7 +90,7 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 	private JPanel jPanelDatos;
 	private JScrollPane jScrollPane1;
 	private DefaultTableModel dtm;
-	private String[] columnNames = {"idEvento", "Fecha", "Evento", "Universidad", "Centro docente", "Tipo Evento", "Duracion", "Cancelado", "Celebrado"};
+	private String[] columnNames = {"idEvento", "Fecha", "Evento", "Universidad", "Centro docente", "Tipo Evento", "Duracion", "Cancelado", "Celebrado", "idCentro"};
 	private JTable jTableDatos;
 	private JButton jButtonNew;
 	private JButton jButtonUpdate;
@@ -158,7 +159,7 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 	}
 	
 	private Boolean canUpdateEvento() {
-		return (!isCancelledEvento() && !isCelebradoEvento());
+		return (!isCancelledEvento() && !isCelebradoEvento() && isCentroUsuario());
 	}
 	
 	private Boolean isCancelledEvento() {
@@ -173,6 +174,13 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 		List<Object> lstRes = (Vector<Object>) dtm.getDataVector().get(jTableDatos.getSelectedRow());
 		
 		return (Boolean.parseBoolean(lstRes.get(COL_CELEBRADO).toString()));
+	}
+	
+	private Boolean isCentroUsuario() {
+		@SuppressWarnings("unchecked")
+		List<Object> lstRes = (Vector<Object>) dtm.getDataVector().get(jTableDatos.getSelectedRow());
+		Integer iCentro = Integer.parseInt(lstRes.get(COL_CENTRO).toString());
+		return (iCentro.equals(dtoUsuario.getDtoCentroDocente().getCentroDocente().getIdCentro()));
 	}
 
 	/**
@@ -403,6 +411,7 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 	                aobj[k][6] = new String(dtoEventoCalendario.getEvento().getUmbral().toString());
 	                aobj[k][7] = new String(dtoEventoCalendario.getEventoCalendario().getEventoCancelado().toString());
 	                aobj[k][8] = new String(dtoEventoCalendario.getEventoCalendario().getEventoFinalizado().toString());
+	                aobj[k][9] = new Integer(dtoEventoCalendario.getDtoCentroDocente().getCentroDocente().getIdCentro());
 	                k++;
 	       	 	}
 	       	 
@@ -637,6 +646,7 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 			for(int i=0;i<columnNames.length;i++){dtm.addColumn(columnNames[i]);}
 			jTableDatos = new JTable(dtm);
 			Utils.ocultaColumna(jTableDatos, 0);
+			Utils.ocultaColumna(jTableDatos, 9);
 			jTableDatos.setLayout(null);
 			jTableDatos.setBounds(30, 33, 675, 149);
 			jTableDatos.setVerifyInputWhenFocusTarget(false);
@@ -687,7 +697,7 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 								e1.showDialogError();
 							}
 						}else{
-							Utils.mostraMensajeInformacion(jPanelDatos, "Evento cancelado o finalizado", "Calendario Eventos");
+							Utils.mostraMensajeInformacion(jPanelDatos, "Evento cancelado/finalizado o no tienes permisos en ese centro", "Calendario Eventos");
 						}
 					}
 				}
@@ -780,7 +790,7 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 						if (isCelebradoEvento()){
 							try {
 								DTOEvento dtoEvento = getSelectedEvento();
-								PantallaAsistenciaByEvento v4 = new PantallaAsistenciaByEvento(null, remote, dtoEvento, (!isCancelledEvento() && isCelebradoEvento()));
+								PantallaAsistenciaByEvento v4 = new PantallaAsistenciaByEvento(null, remote, dtoEvento, (!isCancelledEvento() && isCelebradoEvento() && isCentroUsuario()));
 								if (!v4.isEmpty()) v4.setVisible(true);
 							} catch (OperationErrorDatosFormulario e1) {
 								e1.showDialogError();
@@ -812,9 +822,6 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 						try {
 							DTOEvento dtoEvento = getSelectedEvento();
 							goPantallaInscripcion(dtoEvento);
-							//remote.bajaEvento(dtoEvento);
-							//getEventosCalendario();
-							//Utils.mostraMensajeInformacion(jPanelDatos, "Evento dado de baja correctamente", "Calendario Eventos");
 						} catch (Exception e1) {
 							try {
 								throw new OperationErrorDatosFormulario(e1.getMessage());

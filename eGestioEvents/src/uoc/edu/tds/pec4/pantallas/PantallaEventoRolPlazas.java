@@ -129,7 +129,7 @@ public class PantallaEventoRolPlazas extends javax.swing.JDialog {
 			
 			DTOTipoEvento dtoTipoEvento = remote.getTipoEvento(consultaTipoEvento());
 			if(dtoTipoEvento == null){
-				Utils.mostraMensajeInformacion(jPanelBase, "El Tipo de evento tiene roles asignados", "Evento Rol/Plazas");
+				Utils.mostraMensajeInformacion(jPanelBase, "El Tipo de evento no tiene roles asignados", "Evento Rol/Plazas");
 				return;
 			}
 			muestraResultado(dtoTipoEvento.getDtoTipoEventoRol());
