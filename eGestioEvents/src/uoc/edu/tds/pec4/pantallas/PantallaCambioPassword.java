@@ -11,6 +11,7 @@ import uoc.edu.tds.pec4.dtos.DTOUsuario;
 import uoc.edu.tds.pec4.excepciones.OperationErrorDatosFormulario;
 import uoc.edu.tds.pec4.excepciones.OperationErrorLogin;
 import uoc.edu.tds.pec4.iface.RemoteInterface;
+import uoc.edu.tds.pec4.resources.TDSLanguageUtils;
 import uoc.edu.tds.pec4.utils.Base64Coder;
 import uoc.edu.tds.pec4.utils.Utils;
 
@@ -30,7 +31,7 @@ public class PantallaCambioPassword extends PanelComun implements Pantallas{
 		super("clientePEC4.panelCambioPassword.titulo",400,210);
 		remote = remote1;
 		dtoUsuario = dtoUsuario1;
-		if (dtoUsuario == null) throw new OperationErrorLogin("La session es invalida.....");
+		if (dtoUsuario == null) throw new OperationErrorLogin(TDSLanguageUtils.getMessage("clientePEC4.panelCambioPassword.ERROR1"));
 		try {
 			remote.testConexion();
 		} catch (RemoteException e1) {
@@ -72,7 +73,7 @@ public class PantallaCambioPassword extends PanelComun implements Pantallas{
 		passActual =  Base64Coder.encodeString(passActual);
 		
 		if (!passActual.equals(dtoUsuario.getUsuario().getContrasena())){
-			throw new OperationErrorLogin("Contrasenya Actual incorrecta");
+			throw new OperationErrorLogin(TDSLanguageUtils.getMessage("Contrasenya Actual incorrecta"));
 		}  
 		dtoUsuario.getUsuario().setContrasena(passNueva);
 		remote.updatePassword(dtoUsuario);
@@ -91,7 +92,7 @@ public class PantallaCambioPassword extends PanelComun implements Pantallas{
 			public void actionPerformed(ActionEvent e) {
 				try {
 					acutalizaPassword();
-					Utils.mostraMensajeInformacion("Registro Modificado Correctamente", "Cambio Password");
+					Utils.mostraMensajeInformacion(TDSLanguageUtils.getMessage("clientePEC4.altausuario.INFO.MSG1"), TDSLanguageUtils.getMessage("clientePEC4.panelCambioPassword.titulo"));
 				} catch (OperationErrorLogin e1) {
 					// TODO Auto-generated catch block
 					e1.showDialogError();
@@ -122,11 +123,11 @@ public class PantallaCambioPassword extends PanelComun implements Pantallas{
 	private void validaFormulario() throws OperationErrorDatosFormulario{
 		try{
 					
-		if(Utils.valorisNull(this.findJPasswordField("cajaPwd").getText())) throw new OperationErrorDatosFormulario(Utils.MESSAGE_ERROR + " Password Actual");
-		if(Utils.valorisNull(this.findJPasswordField("cajaPwdNew").getText())) throw new OperationErrorDatosFormulario(Utils.MESSAGE_ERROR + " Password Nova");
-		if(Utils.valorisNull(this.findJPasswordField("cajaRPwdNew").getText())) throw new OperationErrorDatosFormulario(Utils.MESSAGE_ERROR + " Repetir Password ");
+		if(Utils.valorisNull(this.findJPasswordField("cajaPwd").getText())) throw new OperationErrorDatosFormulario(Utils.MESSAGE_ERROR + " " + TDSLanguageUtils.getMessage("clientePEC4.panelCamioPassword.titulo2.Pwd"));
+		if(Utils.valorisNull(this.findJPasswordField("cajaPwdNew").getText())) throw new OperationErrorDatosFormulario(Utils.MESSAGE_ERROR + " " + TDSLanguageUtils.getMessage("clientePEC4.panelCamioPassword.titulo3.PwdNew"));
+		if(Utils.valorisNull(this.findJPasswordField("cajaRPwdNew").getText())) throw new OperationErrorDatosFormulario(Utils.MESSAGE_ERROR + " " + TDSLanguageUtils.getMessage("clientePEC4.panelCamioPassword.titulo4.RPwdNew"));
 		if (!this.findJPasswordField("cajaPwdNew").getText().equals(this.findJPasswordField("cajaRPwdNew").getText())){
-			throw new OperationErrorDatosFormulario(Utils.MESSAGE_ERROR + " la Nueva Password no coincide ");
+			throw new OperationErrorDatosFormulario(Utils.MESSAGE_ERROR + " " + TDSLanguageUtils.getMessage("clientePEC4.panelCambioPassword.ERROR3"));
 		}
 			
 		}catch(OperationErrorDatosFormulario ex){
