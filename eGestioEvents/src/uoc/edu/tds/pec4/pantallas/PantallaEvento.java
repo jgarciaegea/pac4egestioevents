@@ -356,6 +356,9 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 			if (Utils.transformFecha(jTextFieldFechaInicioCelebracion.getText()).before(Utils.transformFecha(jTextFieldFechaInicioInscripcion.getText()))){
 				throw new Exception(TDSLanguageUtils.getMessage("clientePEC4.evento.MSG5"));
 			}
+			if (Utils.transformFecha(jTextFieldFechaInicioCelebracion.getText()).before(Utils.transformFecha(jTextFieldFechaFinInscripcion.getText()))){
+				throw new Exception(TDSLanguageUtils.getMessage("La fecha fin inscripci—n ha de ser menor que la fecha inicio del evento"));
+			}
 			if (Utils.transformFecha(jTextFieldFechaFinInscripcion.getText()).before(Utils.transformFecha(jTextFieldFechaInicioInscripcion.getText()))){
 				throw new Exception(TDSLanguageUtils.getMessage("clientePEC4.evento.MSG6"));
 			}
