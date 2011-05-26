@@ -179,7 +179,7 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 	
 	private void initGUI() {
 		try {
-			this.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder(null, bUserModificacion.booleanValue()?"Modificación de usuarios":"Alta de usuarios", 0, 0, new Font("Dialog", 1, 12), new Color(51, 51, 51)), null), null));
+			this.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder(null, bUserModificacion.booleanValue()?TDSLanguageUtils.getMessage("clientePEC4.altausuario.INFO.MSG1.title"):TDSLanguageUtils.getMessage("clientePEC4.altausuario.title"), 0, 0, new Font("Dialog", 1, 12), new Color(51, 51, 51)), null), null));
 			this.setPreferredSize(new java.awt.Dimension(784, 650));
 			{
 				jPanel1 = new JPanel();
@@ -852,7 +852,7 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 	
 	private void muestraMensajeNoCentros(){
 		if(jComboBoxCentroDocente.getItemCount() < 1 && (jRadioButtonSecr.isSelected() || jRadioButtonAsis.isSelected())){
-			Utils.mostraMensajeInformacion(jPanel2, "La universidad no tiene centros docentes al que poder asignar el usuario.\nPor favor registre un centro docente para la universidad elegida","Alta usuario");
+			Utils.mostraMensajeInformacion(jPanel2, TDSLanguageUtils.getMessage("clientePEC4.altausuario.INFO.MSG4"),TDSLanguageUtils.getMessage("clientePEC4.altausuario.title"));
 		}
 	}
 	
@@ -983,7 +983,10 @@ public class PantallaUsuario extends javax.swing.JPanel implements Pantallas {
 		if(modificacion){
 			//MUY IMPORTANTE EL ID DEL TELEFONO Y DEL CONTACTO SE HA DE DE RELLENAR DEL QUE PASAMOS PARA CONSULTAR. Digamos que es como si fuera un campo hidden
 			telefono.setIdContacto(dtoUsuarioaModificar.getUsuario().getIdContacto());
-			telefono.setIdTelefono(dtoUsuarioaModificar.getDtoContacto().getDtoTelefono().getTelefono().getIdTelefono());
+			if(dtoUsuarioaModificar.getDtoContacto().getDtoTelefono() != null){
+				telefono.setIdTelefono(dtoUsuarioaModificar.getDtoContacto().getDtoTelefono().getTelefono().getIdTelefono());
+			}
+			
 		}
 		dtoTelefono.setTelefono(telefono);
 		dtoContacto.setDtoTelefono(dtoTelefono);
