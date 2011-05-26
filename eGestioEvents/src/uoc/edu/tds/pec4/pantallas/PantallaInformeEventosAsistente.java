@@ -3,33 +3,23 @@
  */
 package uoc.edu.tds.pec4.pantallas;
 
-import java.awt.Color;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-
-import javax.swing.BorderFactory;
-import javax.swing.ComboBoxModel;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JScrollPane;
-
 import uoc.edu.tds.pec4.beans.Evento;
 import uoc.edu.tds.pec4.beans.Inscripcion;
 import uoc.edu.tds.pec4.dtos.DTOEvento;
 import uoc.edu.tds.pec4.dtos.DTOInscripcion;
-import uoc.edu.tds.pec4.dtos.DTOUniversidad;
 import uoc.edu.tds.pec4.dtos.DTOUsuario;
-//import uoc.edu.tds.pec4.dtos.DTOInscripcionConsulta;
 import uoc.edu.tds.pec4.dtos.DTOTipoEvento;
 import uoc.edu.tds.pec4.excepciones.OperationErrorBD;
 import uoc.edu.tds.pec4.excepciones.OperationErrorDatosFormulario;
 import uoc.edu.tds.pec4.excepciones.OperationErrorLogin;
 import uoc.edu.tds.pec4.iface.RemoteInterface;
-import uoc.edu.tds.pec4.utils.Constantes;
 import uoc.edu.tds.pec4.utils.MostrarCombo;
 import uoc.edu.tds.pec4.utils.Utils;
 
@@ -197,7 +187,13 @@ public class PantallaInformeEventosAsistente extends PanelComun implements Panta
 	                 aobj[k][3] = new String(dtoInscripcion.getDtoEvento().getDtoTipoEvento().getTipoEvento().getDescripcion());
 	                 aobj[k][4] = new String(Utils.convertFecha(dtoInscripcion.getDtoEvento().getEvento().getFechaInicioCelebracion().toString()));
 	                 aobj[k][5] = new String(Utils.convertFecha(dtoInscripcion.getDtoEvento().getEvento().getFechaFinCelebracion().toString()));
-	                 aobj[k][6] = new String("Si"); // TODO comprobar si aun te puedes inscribir en el evento
+	                 Date today = new java.util.Date(System.currentTimeMillis());
+	                 // entendemos CERRADO CUANDO YA NO SE PUEDEN INSCRIBIR
+	                 if (dtoInscripcion.getDtoEvento().getEvento().getFechaFinInscripcion().before(today) || 
+	                		 dtoInscripcion.getDtoEvento().getEvento().getFechaFinInscripcion().equals(today)){
+	                	 aobj[k][6] = new String("SI");
+	                 }else 
+	                	 aobj[k][6] = new String("NO");
 	                 if (dtoInscripcion.getInscripcion().getCheckIn())
 	                	 aobj[k][7] = new String("Asistio");
 	                 else 
