@@ -728,7 +728,7 @@ public class RemotoImpl extends UnicastRemoteObject implements RemoteInterface{
 	
 	
 	// loggica de comprobacion de inscripcion
-	public boolean validarInscripcion(DTOEvento dtoEvento, DTOUsuario dtoUsuario,DTOInscripcion dtoInscripcion ) throws Exception{
+	public Boolean validarInscripcion(DTOEvento dtoEvento, DTOUsuario dtoUsuario,DTOInscripcion dtoInscripcion ) throws Exception{
 		
 		DTOEventoPlus dtoEventoPlus = getPlazasEvento(dtoEvento);
 		// miramos que el evento disponga de plazas
