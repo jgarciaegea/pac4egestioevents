@@ -734,7 +734,7 @@ public class PantallaUsuarioConsulta extends javax.swing.JPanel implements Panta
 				jButtonCancelar = new JButton();
 				BoxLayout jButtonCancelarLayout = new BoxLayout(jButtonCancelar, javax.swing.BoxLayout.Y_AXIS);
 				jPanel1.add(jButtonCancelar);
-				jButtonCancelar.setText(TDSLanguageUtils.getMessage("clientePEC4.consultausuario.boton"));
+				jButtonCancelar.setText(TDSLanguageUtils.getMessage("clientePEC4.consultausuario.boton1"));
 				jButtonCancelar.setLayout(jButtonCancelarLayout);
 				jButtonCancelar.setPreferredSize(new java.awt.Dimension(119, 24));
 
