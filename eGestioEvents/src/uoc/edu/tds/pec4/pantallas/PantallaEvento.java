@@ -37,6 +37,7 @@ import uoc.edu.tds.pec4.excepciones.OperationErrorBD;
 import uoc.edu.tds.pec4.excepciones.OperationErrorDatosFormulario;
 import uoc.edu.tds.pec4.excepciones.OperationErrorRMI;
 import uoc.edu.tds.pec4.iface.RemoteInterface;
+import uoc.edu.tds.pec4.resources.TDSLanguageUtils;
 import uoc.edu.tds.pec4.utils.ClearForm;
 import uoc.edu.tds.pec4.utils.MostrarCombo;
 import uoc.edu.tds.pec4.utils.Utils;
@@ -291,7 +292,7 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 			}
 			actualizaTablaRequisitos();
 		}catch(Exception e){
-			throw new OperationErrorDatosFormulario("Error en la carga de los eventos requisitos en la pantalla");
+			throw new OperationErrorDatosFormulario(TDSLanguageUtils.getMessage("clientePEC4.evento.MSG1"));
 		}
 	}
 	
@@ -317,7 +318,7 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 			}
 			actualizaTablaRolPlazas();
 		}catch(Exception e){
-			throw new OperationErrorDatosFormulario("Error en la carga los evento Rol/Plazas en la pantalla");
+			throw new OperationErrorDatosFormulario(TDSLanguageUtils.getMessage("clientePEC4.evento.MSG2"));
 		}
 	}
 	
@@ -327,48 +328,48 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 	 */
 	private void validaFormulario(boolean modificacion) throws OperationErrorDatosFormulario{
 		try{
-			if(Utils.valorisNull(jTextFieldNombre.getText())) throw new Exception(Utils.MESSAGE_ERROR + " nombre" );
+			if(Utils.valorisNull(jTextFieldNombre.getText())) throw new Exception(Utils.MESSAGE_ERROR + " " + TDSLanguageUtils.getMessage("clientePEC4.altausuario.label5"));
 			//Desde la pantalla de modificaci—n no se puede cambiar el tipo evento
 			if(!modificacion){
-				if(Utils.valorisNull(jComboBoxTipoEvento.getSelectedItem())) throw new Exception(Utils.MESSAGE_ERROR + " tipo evento" );
+				if(Utils.valorisNull(jComboBoxTipoEvento.getSelectedItem())) throw new Exception(Utils.MESSAGE_ERROR + " "+ TDSLanguageUtils.getMessage("clientePEC4.calendarioeventos.column8"));
 			}
-			if(Utils.valorisNull(jTextFieldFechaInicioCelebracion.getText())) throw new Exception(Utils.MESSAGE_ERROR + " fecha inicio celebraci—n" );
-			if(!Utils.parseaFecha(jTextFieldFechaInicioCelebracion.getText())) throw new Exception(Utils.MESSAGE_ERROR + " fecha inicio celebraci—n " + Utils.MESSAGE_FECHA );
-			if(Utils.valorisNull(jTextFieldFechaFinCelebracion.getText())) throw new Exception(Utils.MESSAGE_ERROR + " fecha fin celebraci—n" );
-			if(!Utils.parseaFecha(jTextFieldFechaFinCelebracion.getText())) throw new Exception(Utils.MESSAGE_ERROR + " fecha fin celebraci—n " + Utils.MESSAGE_FECHA );
+			if(Utils.valorisNull(jTextFieldFechaInicioCelebracion.getText())) throw new Exception(Utils.MESSAGE_ERROR + " " + TDSLanguageUtils.getMessage("clientePEC4.evento.LABEL1"));
+			if(!Utils.parseaFecha(jTextFieldFechaInicioCelebracion.getText())) throw new Exception(Utils.MESSAGE_ERROR + " " + TDSLanguageUtils.getMessage("clientePEC4.evento.LABEL1") + Utils.MESSAGE_FECHA );
+			if(Utils.valorisNull(jTextFieldFechaFinCelebracion.getText())) throw new Exception(Utils.MESSAGE_ERROR + " " + TDSLanguageUtils.getMessage("clientePEC4.evento.LABEL2"));
+			if(!Utils.parseaFecha(jTextFieldFechaFinCelebracion.getText())) throw new Exception(Utils.MESSAGE_ERROR + " "+ TDSLanguageUtils.getMessage("clientePEC4.evento.LABEL2") + Utils.MESSAGE_FECHA );
 			if(!"".equalsIgnoreCase(jTextFieldFechaFinCelebracion.getText()) && "".equalsIgnoreCase(jTextFieldFechaInicioCelebracion.getText())){
-				 throw new Exception("No puede introducir la fecha final sin previamente informar la fecha de inicio celebracion");
+				 throw new Exception(TDSLanguageUtils.getMessage("clientePEC4.evento.MSG3"));
 			}
 			if (Utils.transformFecha(jTextFieldFechaFinCelebracion.getText()).before(Utils.transformFecha(jTextFieldFechaInicioCelebracion.getText()))){
 				throw new Exception( "La fecha inicio es mayor que la fecha final de celebraci—n");
 			}
-			if(Utils.valorisNull(jTextFieldFechaInicioInscripcion.getText())) throw new Exception(Utils.MESSAGE_ERROR + " fecha inicio inscripci—n" );
-			if(!Utils.parseaFecha(jTextFieldFechaInicioInscripcion.getText())) throw new Exception(Utils.MESSAGE_ERROR + " fecha inicio inscripci—n " + Utils.MESSAGE_FECHA );
-			if(Utils.valorisNull(jTextFieldFechaFinInscripcion.getText())) throw new Exception(Utils.MESSAGE_ERROR + " fecha fin inscripci—n" );
-			if(!Utils.parseaFecha(jTextFieldFechaFinInscripcion.getText())) throw new Exception(Utils.MESSAGE_ERROR + " fecha fin inscripci—n " + Utils.MESSAGE_FECHA );
+			if(Utils.valorisNull(jTextFieldFechaInicioInscripcion.getText())) throw new Exception(Utils.MESSAGE_ERROR + " " + TDSLanguageUtils.getMessage("clientePEC4.evento.LABEL3"));
+			if(!Utils.parseaFecha(jTextFieldFechaInicioInscripcion.getText())) throw new Exception(Utils.MESSAGE_ERROR + " " + TDSLanguageUtils.getMessage("clientePEC4.evento.LABEL3") + Utils.MESSAGE_FECHA );
+			if(Utils.valorisNull(jTextFieldFechaFinInscripcion.getText())) throw new Exception(Utils.MESSAGE_ERROR + " " + TDSLanguageUtils.getMessage("clientePEC4.evento.LABEL4"));
+			if(!Utils.parseaFecha(jTextFieldFechaFinInscripcion.getText())) throw new Exception(Utils.MESSAGE_ERROR + " " + TDSLanguageUtils.getMessage("clientePEC4.evento.LABEL4") + Utils.MESSAGE_FECHA );
 			if(!"".equalsIgnoreCase(jTextFieldFechaFinInscripcion.getText()) && "".equalsIgnoreCase(jTextFieldFechaInicioInscripcion.getText())){
-				 throw new Exception("No puede introducir la fecha final sin previamente informar la fecha de inicio celebracion");
+				 throw new Exception(TDSLanguageUtils.getMessage("clientePEC4.evento.MSG3"));
 			}
 			if (Utils.transformFecha(jTextFieldFechaFinInscripcion.getText()).before(Utils.transformFecha(jTextFieldFechaInicioInscripcion.getText()))){
-				throw new Exception( "La fecha inicio es mayor que la fecha final de inscripci—n");
+				throw new Exception(TDSLanguageUtils.getMessage("clientePEC4.evento.MSG4"));
 			}
 			if (Utils.transformFecha(jTextFieldFechaInicioCelebracion.getText()).before(Utils.transformFecha(jTextFieldFechaInicioInscripcion.getText()))){
-				throw new Exception( "La fecha inicio de inscipcion es mayor que la fecha inicial de celebraci—n");
+				throw new Exception(TDSLanguageUtils.getMessage("clientePEC4.evento.MSG5"));
 			}
 			if (Utils.transformFecha(jTextFieldFechaFinInscripcion.getText()).before(Utils.transformFecha(jTextFieldFechaInicioInscripcion.getText()))){
-				throw new Exception( "La fecha fin de inscipcion es mayor que la fecha final de celebraci—n");
+				throw new Exception(TDSLanguageUtils.getMessage("clientePEC4.evento.MSG6"));
 			}
-			if(Utils.valorisNull(jTextFieldUmbral.getText())) throw new Exception(Utils.MESSAGE_ERROR + " umbral" );
-			if(!Utils.validaNumerico(jTextFieldUmbral.getText())) throw new Exception(Utils.MESSAGE_ERROR + " umbral " + Utils.MESSAGE_NUMERIC );
-			if(Integer.parseInt((jTextFieldUmbral.getText())) <= 0) throw new Exception(Utils.MESSAGE_ERROR + " umbral " + Utils.MESSAGE_NUMERIC_MAS0 );
-			if(Utils.valorisNull(jTextFieldPrecio.getText())) throw new Exception(Utils.MESSAGE_ERROR + " precio" );
-			if(!Utils.validaNumerico(jTextFieldPrecio.getText())) throw new Exception(Utils.MESSAGE_ERROR + " precio " + Utils.MESSAGE_NUMERIC );
-			if(Utils.valorisNull(jTextFieldPlazas.getText())) throw new Exception(Utils.MESSAGE_ERROR + " plazas" );
-			if(!Utils.validaNumerico(jTextFieldPlazas.getText())) throw new Exception(Utils.MESSAGE_ERROR + " plazas " + Utils.MESSAGE_NUMERIC );
-			if(Integer.parseInt((jTextFieldPlazas.getText())) <= 0) throw new Exception(Utils.MESSAGE_ERROR + " plazas " + Utils.MESSAGE_NUMERIC_MAS0 );
-			if(Utils.valorisNull(jTextFieldDuracion.getText())) throw new Exception(Utils.MESSAGE_ERROR + " duraci—n" );
-			if(!Utils.validaNumerico(jTextFieldDuracion.getText())) throw new Exception(Utils.MESSAGE_ERROR + " duraci—n " + Utils.MESSAGE_NUMERIC );
-			if(Integer.parseInt((jTextFieldDuracion.getText())) <= 0) throw new Exception(Utils.MESSAGE_ERROR + " duraci—n " + Utils.MESSAGE_NUMERIC_MAS0 );
+			if(Utils.valorisNull(jTextFieldUmbral.getText())) throw new Exception(Utils.MESSAGE_ERROR + " " + TDSLanguageUtils.getMessage("clientePEC4.evento.LABEL5"));
+			if(!Utils.validaNumerico(jTextFieldUmbral.getText())) throw new Exception(Utils.MESSAGE_ERROR + " " + TDSLanguageUtils.getMessage("clientePEC4.evento.LABEL5") + Utils.MESSAGE_NUMERIC );
+			if(Integer.parseInt((jTextFieldUmbral.getText())) <= 0) throw new Exception(Utils.MESSAGE_ERROR + " " + TDSLanguageUtils.getMessage("clientePEC4.evento.LABEL5") + Utils.MESSAGE_NUMERIC_MAS0 );
+			if(Utils.valorisNull(jTextFieldPrecio.getText())) throw new Exception(Utils.MESSAGE_ERROR + " " + TDSLanguageUtils.getMessage("clientePEC4.evento.LABEL6"));
+			if(!Utils.validaNumerico(jTextFieldPrecio.getText())) throw new Exception(Utils.MESSAGE_ERROR + " " + TDSLanguageUtils.getMessage("clientePEC4.evento.LABEL6") + Utils.MESSAGE_NUMERIC );
+			if(Utils.valorisNull(jTextFieldPlazas.getText())) throw new Exception(Utils.MESSAGE_ERROR + " " + TDSLanguageUtils.getMessage("clientePEC4.evento.LABEL7"));
+			if(!Utils.validaNumerico(jTextFieldPlazas.getText())) throw new Exception(Utils.MESSAGE_ERROR + " " + TDSLanguageUtils.getMessage("clientePEC4.evento.LABEL7") + Utils.MESSAGE_NUMERIC );
+			if(Integer.parseInt((jTextFieldPlazas.getText())) <= 0) throw new Exception(Utils.MESSAGE_ERROR + " " + TDSLanguageUtils.getMessage("clientePEC4.evento.LABEL7") + Utils.MESSAGE_NUMERIC_MAS0 );
+			if(Utils.valorisNull(jTextFieldDuracion.getText())) throw new Exception(Utils.MESSAGE_ERROR + " " + TDSLanguageUtils.getMessage("clientePEC4.evento.LABEL8"));
+			if(!Utils.validaNumerico(jTextFieldDuracion.getText())) throw new Exception(Utils.MESSAGE_ERROR + " " + TDSLanguageUtils.getMessage("clientePEC4.evento.LABEL8") + Utils.MESSAGE_NUMERIC );
+			if(Integer.parseInt((jTextFieldDuracion.getText())) <= 0) throw new Exception(Utils.MESSAGE_ERROR + " " + TDSLanguageUtils.getMessage("clientePEC4.evento.LABEL8") + Utils.MESSAGE_NUMERIC_MAS0 );
 			
 			// TODO 1: validar que si el tipo evento tinee definidos roles que se mire si ha puesto las plazas
 			DTOTipoEvento dtoTipoEventro = new DTOTipoEvento();
@@ -382,7 +383,7 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 			    for (int a=0; a<jTableRolPlazas.getRowCount(); a++){
 			    	iTabla = iTabla + Integer.parseInt((jTableRolPlazas.getValueAt(a,2).toString()));
 			    }
-				if (!iPlazas.equals(iTabla)) throw new Exception("El nœmero de plazas asignadas a los roles es diferente a las del evento.");
+				if (!iPlazas.equals(iTabla)) throw new Exception(TDSLanguageUtils.getMessage("clientePEC4.evento.MSG7"));
 			}
 		}catch(Exception e){
 			throw new OperationErrorDatosFormulario(e.getMessage());
@@ -420,7 +421,7 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 			jComboBoxTipoEvento.setModel(jComboBoxTipoEventoEventoModel);
 
 		}catch(Exception e){
-			throw new OperationErrorDatosFormulario("Error al cargar las listas seleccionables");
+			throw new OperationErrorDatosFormulario(TDSLanguageUtils.getMessage("clientePEC4.error17"));
 		}
 		
 	}
@@ -529,7 +530,7 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 	private JLabel getJLabelNombreCentroText() {
 		if(jLabelNombreCentroText == null) {
 			jLabelNombreCentroText = new JLabel();
-			jLabelNombreCentroText.setText("Nombre del Centro");
+			jLabelNombreCentroText.setText(TDSLanguageUtils.getMessage("clientePEC4.evento.LABEL9"));
 			jLabelNombreCentroText.setLayout(null);
 			jLabelNombreCentroText.setBounds(14, 9, 235, 15);
 			jLabelNombreCentroText.setFont(new java.awt.Font("Arial",1,12));
@@ -540,7 +541,7 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 	private JLabel getJLabelNombreCentro() {
 		if(jLabelNombreCentro == null) {
 			jLabelNombreCentro = new JLabel();
-			jLabelNombreCentro.setText("xxxxxx");
+			jLabelNombreCentro.setText(TDSLanguageUtils.getMessage("clientePEC4.asistenciabyevento.label1"));
 			jLabelNombreCentro.setBounds(14, 31, 409, 15);
 			jLabelNombreCentro.setFont(new java.awt.Font("Arial",0,10));
 		}
@@ -550,7 +551,7 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 	private JLabel getJLabelCodigoText() {
 		if(jLabelCodigoText == null) {
 			jLabelCodigoText = new JLabel();
-			jLabelCodigoText.setText("C—digo");
+			jLabelCodigoText.setText(TDSLanguageUtils.getMessage("clientePEC4.asistenciabyevento.colum1"));
 			jLabelCodigoText.setBounds(453, 9, 75, 15);
 			jLabelCodigoText.setFont(new java.awt.Font("Arial",1,12));
 		}
@@ -560,7 +561,7 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 	private JLabel getJLabelCodigo() {
 		if(jLabelCodigo == null) {
 			jLabelCodigo = new JLabel();
-			jLabelCodigo.setText("xxxxxx");
+			jLabelCodigo.setText(TDSLanguageUtils.getMessage("clientePEC4.asistenciabyevento.label1"));
 			jLabelCodigo.setBounds(453, 31, 85, 15);
 			jLabelCodigo.setFont(new java.awt.Font("Arial",0,10));
 		}
@@ -618,7 +619,7 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 	private JLabel getJLabelTipoEvento() {
 		if(jLabelTipoEvento == null) {
 			jLabelTipoEvento = new JLabel();
-			jLabelTipoEvento.setText("Tipo");
+			jLabelTipoEvento.setText(TDSLanguageUtils.getMessage("clientePEC4.altausuario.label14"));
 			jLabelTipoEvento.setLayout(null);
 			jLabelTipoEvento.setBounds(14, 71, 61, 15);
 			jLabelTipoEvento.setFont(new java.awt.Font("Arial",0,10));
@@ -647,7 +648,7 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 	private JLabel getJLabelFechaFinInscripcion() {
 		if(jLabelFechaFinInscripcion == null) {
 			jLabelFechaFinInscripcion = new JLabel();
-			jLabelFechaFinInscripcion.setText("hasta");
+			jLabelFechaFinInscripcion.setText(TDSLanguageUtils.getMessage("clientePEC4.consultausuario.label3"));
 			jLabelFechaFinInscripcion.setLayout(null);
 			jLabelFechaFinInscripcion.setBounds(198, 134, 66, 15);
 			jLabelFechaFinInscripcion.setFont(new java.awt.Font("Arial",0,10));
@@ -667,7 +668,7 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 	private JLabel getJLabelFechaFinCelebracion() {
 		if(jLabelFechaFinCelebracion == null) {
 			jLabelFechaFinCelebracion = new JLabel();
-			jLabelFechaFinCelebracion.setText("Fecha Final");
+			jLabelFechaFinCelebracion.setText(TDSLanguageUtils.getMessage("clientePEC4.calendarioeventos.label3"));
 			jLabelFechaFinCelebracion.setLayout(null);
 			jLabelFechaFinCelebracion.setBounds(198, 105, 72, 15);
 			jLabelFechaFinCelebracion.setFont(new java.awt.Font("Arial",0,10));
@@ -700,13 +701,13 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 			jButtonRequisitos = new JButton();
 			jButtonRequisitos.setIcon(icon);
 			jButtonRequisitos.setLayout(null);
-			jButtonRequisitos.setText("Requisitos");
+			jButtonRequisitos.setText(TDSLanguageUtils.getMessage("clientePEC4.evento.LABEL10"));
 			jButtonRequisitos.setBounds(443, 199, 120, 25);
 			jButtonRequisitos.setFont(new java.awt.Font("Arial",0,10));
 			jButtonRequisitos.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					if(Utils.valorisNull(jComboBoxTipoEvento.getSelectedItem())) {
-						Utils.mostraMensajeInformacion(jPanelDatos, Utils.MESSAGE_ERROR + " tipo evento", "Evento");
+						Utils.mostraMensajeInformacion(jPanelDatos, Utils.MESSAGE_ERROR + " " + TDSLanguageUtils.getMessage("clientePEC4.calendarioeventos.column8"), "Evento");
 					}
 					else {
 						try {
@@ -747,7 +748,7 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 			jButtonRolPlazas.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					if(Utils.valorisNull(jComboBoxTipoEvento.getSelectedItem())) {
-						Utils.mostraMensajeInformacion(jPanelDatos, Utils.MESSAGE_ERROR + " tipo evento", "Evento");
+						Utils.mostraMensajeInformacion(jPanelDatos, Utils.MESSAGE_ERROR + " " + TDSLanguageUtils.getMessage("clientePEC4.calendarioeventos.column8"), TDSLanguageUtils.getMessage("clientePEC4.calendarioeventos.column2"));
 					}
 					else {
 						try {
@@ -772,7 +773,7 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 					             }
 							}
 							else {
-								Utils.mostraMensajeInformacion(jPanelDatos, "Se debe infomar del nœmero de plazas", "Evento");
+								Utils.mostraMensajeInformacion(jPanelDatos, TDSLanguageUtils.getMessage("clientePEC4.evento.MSG8"), TDSLanguageUtils.getMessage("clientePEC4.calendarioeventos.column2"));
 							}
 						}finally{
 						//jButtonClearActionPerformed();
@@ -787,7 +788,7 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 	private JLabel getJLabelEventoText() {
 		if(jLabelEventoText == null) {
 			jLabelEventoText = new JLabel();
-			jLabelEventoText.setText("Datos del evento");
+			jLabelEventoText.setText(TDSLanguageUtils.getMessage("clientePEC4.evento.LABEL11"));
 			jLabelEventoText.setBounds(14, 12, 143, 15);
 			jLabelEventoText.setFont(new java.awt.Font("Arial",1,12));
 		}
@@ -797,7 +798,7 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 	private JLabel getJLabelNombreText() {
 		if(jLabelNombreText == null) {
 			jLabelNombreText = new JLabel();
-			jLabelNombreText.setText("Nombre");
+			jLabelNombreText.setText(TDSLanguageUtils.getMessage("clientePEC4.altausuario.label5"));
 			jLabelNombreText.setBounds(14, 39, 57, 15);
 			jLabelNombreText.setFont(new java.awt.Font("Arial",0,10));
 		}
@@ -807,7 +808,7 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 	private JLabel getJLabelFechaInicioCelebracion() {
 		if(jLabelFechaInicioCelebracion == null) {
 			jLabelFechaInicioCelebracion = new JLabel();
-			jLabelFechaInicioCelebracion.setText("Comienzo");
+			jLabelFechaInicioCelebracion.setText(TDSLanguageUtils.getMessage("clientePEC4.evento.LABEL12"));
 			jLabelFechaInicioCelebracion.setBounds(14, 103, 57, 15);
 			jLabelFechaInicioCelebracion.setFont(new java.awt.Font("Arial",0,10));
 		}
@@ -817,7 +818,7 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 	private JLabel getJLabelFechaInicioInscripcion() {
 		if(jLabelFechaInicioInscripcion == null) {
 			jLabelFechaInicioInscripcion = new JLabel();
-			jLabelFechaInicioInscripcion.setText("Inscripcion");
+			jLabelFechaInicioInscripcion.setText(TDSLanguageUtils.getMessage("clientePEC4.evento.LABEL13"));
 			jLabelFechaInicioInscripcion.setBounds(14, 134, 61, 15);
 			jLabelFechaInicioInscripcion.setFont(new java.awt.Font("Arial",0,10));
 		}
@@ -845,7 +846,7 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 	private JLabel getJLabelUmbral() {
 		if(jLabelUmbral == null) {
 			jLabelUmbral = new JLabel();
-			jLabelUmbral.setText("Umbral %");
+			jLabelUmbral.setText(TDSLanguageUtils.getMessage("clientePEC4.evento.LABEL14"));
 			jLabelUmbral.setBounds(14, 165, 53, 15);
 			jLabelUmbral.setFont(new java.awt.Font("Arial",0,10));
 		}
@@ -865,7 +866,7 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 		if(jLabelPrecio == null) {
 			jLabelPrecio = new JLabel();
 			jLabelPrecio.setBounds(198, 165, 65, 15);
-			jLabelPrecio.setText("Precio");
+			jLabelPrecio.setText(TDSLanguageUtils.getMessage("clientePEC4.evento.LABEL6"));
 			jLabelPrecio.setFont(new java.awt.Font("Arial",0,10));
 		}
 		return jLabelPrecio;
@@ -916,7 +917,7 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 	private JLabel getJLabelRequisitos() {
 		if(jLabelRequisitos == null) {
 			jLabelRequisitos = new JLabel();
-			jLabelRequisitos.setText("Requisitos");
+			jLabelRequisitos.setText(TDSLanguageUtils.getMessage("clientePEC4.evento.LABEL10"));
 			jLabelRequisitos.setBounds(447, 39, 119, 15);
 			jLabelRequisitos.setFont(new java.awt.Font("Arial",0,10));
 		}
@@ -926,7 +927,7 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 	private JLabel getJLabelRolPlazas() {
 		if(jLabelRolPlazas == null) {
 			jLabelRolPlazas = new JLabel();
-			jLabelRolPlazas.setText("Rol / Plazas");
+			jLabelRolPlazas.setText(TDSLanguageUtils.getMessage("clientePEC4.evento.LABEL15"));
 			jLabelRolPlazas.setBounds(587, 39, 120, 15);
 			jLabelRolPlazas.setFont(new java.awt.Font("Arial",0,10));
 		}
@@ -936,7 +937,7 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 	private JLabel getJLabelDescripcion() {
 		if(jLabelDescripcion == null) {
 			jLabelDescripcion = new JLabel();
-			jLabelDescripcion.setText("Descripci—n");
+			jLabelDescripcion.setText(TDSLanguageUtils.getMessage("clientePEC4.evento.LABEL16"));
 			jLabelDescripcion.setBounds(14, 225, 90, 15);
 			jLabelDescripcion.setFont(new java.awt.Font("Arial",0,10));
 		}
@@ -968,7 +969,7 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 	private JLabel getJLabelPlazas() {
 		if(jLabelPlazas == null) {
 			jLabelPlazas = new JLabel();
-			jLabelPlazas.setText("Plazas");
+			jLabelPlazas.setText(TDSLanguageUtils.getMessage("clientePEC4.evento.LABEL7"));
 			jLabelPlazas.setBounds(14, 196, 47, 15);
 			jLabelPlazas.setFont(new java.awt.Font("Arial",0,10));
 		}
@@ -990,7 +991,7 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 			ImageIcon icon = new ImageIcon("imagen/dcib023t.gif");
 			jButtonAlta.setIcon(icon);
 			jButtonAlta.setLayout(null);
-			jButtonAlta.setText("Grabar");
+			jButtonAlta.setText(TDSLanguageUtils.getMessage("clientePEC4.evento.BOTON1"));
 			jButtonAlta.setBounds(275, 359, 90, 25);
 			jButtonAlta.setFont(new java.awt.Font("Arial",0,10));
 			jButtonAlta.addActionListener(new ActionListener() {
@@ -999,10 +1000,10 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 						validaFormulario(bEventoModificacion.booleanValue());
 						if(bEventoModificacion.booleanValue()){
 							remote.modificaEvento(altaModificaEvento(bEventoModificacion.booleanValue()));
-							Utils.mostraMensajeInformacion(jPanelDatos, "Registro modificado correctamente", "Modificaci—n evento");
+							Utils.mostraMensajeInformacion(jPanelDatos, TDSLanguageUtils.getMessage("clientePEC4.altausuario.INFO.MSG1"), TDSLanguageUtils.getMessage("clientePEC4.evento.LABEL17"));
 						}else{
 							remote.insertaEvento(altaModificaEvento(bEventoModificacion.booleanValue()));
-							Utils.mostraMensajeInformacion(jPanelDatos, "Registro insertado correctamente.", "Alta evento");
+							Utils.mostraMensajeInformacion(jPanelDatos, TDSLanguageUtils.getMessage("clientePEC4.evento.MSG9."), TDSLanguageUtils.getMessage("clientePEC4.evento.LABEL18"));
 							limpiaFormulario();
 						}
 					} catch (RemoteException e1) {
@@ -1026,7 +1027,7 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 		if(jButtonCancelar == null) {
 			jButtonCancelar = new JButton();
 			jButtonCancelar.setLayout(null);
-			jButtonCancelar.setText("Cancelar");
+			jButtonCancelar.setText(TDSLanguageUtils.getMessage("clientePEC4.consultausuario.boton1"));
 			jButtonCancelar.setBounds(369, 359, 90, 25);
 			jButtonCancelar.setFont(new java.awt.Font("Arial",0,10));
 			jButtonCancelar.addActionListener(new ActionListener() {
@@ -1043,7 +1044,7 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 		if (JButtonClear == null) {
 			JButtonClear = new JButton();
 			JButtonClear.setLayout(null);
-			JButtonClear.setText("Limpiar");
+			JButtonClear.setText(TDSLanguageUtils.getMessage("clientePEC4.calendarioeventos.label10"));
 			JButtonClear.setBounds(464, 359, 90, 25);
 			JButtonClear.setFont(new java.awt.Font("Arial",0,10));
 			JButtonClear.addActionListener(new ActionListener() {
@@ -1058,7 +1059,7 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 	private JLabel getJLabelDuracion() {
 		if(jLabelDuracion == null) {
 			jLabelDuracion = new JLabel();
-			jLabelDuracion.setText("Duraci—n");
+			jLabelDuracion.setText(TDSLanguageUtils.getMessage("clientePEC4.evento.LABEL8"));
 			jLabelDuracion.setBounds(198, 197, 60, 15);
 			jLabelDuracion.setFont(new java.awt.Font("Arial",0,10));
 		}
