@@ -643,7 +643,13 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 
 	private JTable getJTableDatos() {
 		if(jTableDatos == null) {
-			dtm = new DefaultTableModel();
+			dtm = new DefaultTableModel(){
+				private static final long serialVersionUID = 1L;
+				@Override
+			     public boolean isCellEditable (int fila, int columna) {
+			         return false;
+			     }
+			 };
 			for(int i=0;i<columnNames.length;i++){dtm.addColumn(columnNames[i]);}
 			jTableDatos = new JTable(dtm);
 			Utils.ocultaColumna(jTableDatos, 0);

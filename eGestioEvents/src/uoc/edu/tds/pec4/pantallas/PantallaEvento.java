@@ -902,7 +902,13 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 	
 	private JTable getJTableRolPlazas() {
 		if(jTableRolPlazas == null) {
-			dtmRolPlazas = new DefaultTableModel();
+			dtmRolPlazas = new DefaultTableModel(){
+				private static final long serialVersionUID = 1L;
+				@Override
+			     public boolean isCellEditable (int fila, int columna) {
+			         return false;
+			     }
+			 };
 			for(int i=0;i<columnNamesRolPlazas.length;i++){dtmRolPlazas.addColumn(columnNamesRolPlazas[i]);}
 			jTableRolPlazas = new JTable(dtmRolPlazas);
 			Utils.ocultaColumna(jTableRolPlazas, 0);
@@ -954,7 +960,13 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 	}
 	private JTable getJTableRequisitos() {
 		if(jTableRequisitos == null) {
-			dtmRequisitos = new DefaultTableModel();
+			dtmRequisitos = new DefaultTableModel(){
+				private static final long serialVersionUID = 1L;
+				@Override
+			     public boolean isCellEditable (int fila, int columna) {
+			         return false;
+			     }
+			 };
 			for(int i=0;i<columnNamesRequisitos.length;i++){dtmRequisitos.addColumn(columnNamesRequisitos[i]);}
 			jTableRequisitos = new JTable(dtmRequisitos);
 			Utils.ocultaColumna(jTableRequisitos, 0);

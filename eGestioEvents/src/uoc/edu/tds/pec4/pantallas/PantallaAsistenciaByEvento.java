@@ -299,7 +299,13 @@ public class PantallaAsistenciaByEvento extends javax.swing.JDialog {
 				jPanel1.add(getJButtonCheckIN());
 				jScrollPane1.setPreferredSize(new java.awt.Dimension(559, 295));
 				{
-					dtm = new DefaultTableModel();
+					dtm = new DefaultTableModel(){
+						private static final long serialVersionUID = 1L;
+						@Override
+					     public boolean isCellEditable (int fila, int columna) {
+					         return false;
+					     }
+					 };
 					{
 						for(int i=0;i<columnNames.length;i++){
 							dtm.addColumn(columnNames[i]);
