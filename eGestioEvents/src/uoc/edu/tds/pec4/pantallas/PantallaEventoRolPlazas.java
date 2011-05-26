@@ -96,7 +96,7 @@ public class PantallaEventoRolPlazas extends javax.swing.JDialog {
 		List<DTOEventoRolPlazas> lstDtoEventoRolPlazas = new ArrayList<DTOEventoRolPlazas>();
 
 		for (int a=0; a<jTableDatos.getRowCount(); a++){
-			if (Integer.parseInt((jTableDatos.getValueAt(a,2).toString())) == 0){
+			if (Integer.parseInt((jTableDatos.getValueAt(a,2).toString())) > 0){
 				DTOEventoRolPlazas dtoEventoRolPlazas = new DTOEventoRolPlazas();
 				DTOTipoRol dtoTipoRol = new DTOTipoRol();
 				

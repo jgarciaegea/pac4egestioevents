@@ -138,7 +138,18 @@ public class GestorEvento extends GestorEntidad<DTOEvento>{
 	public void insertaEntidad(DTOEvento newobject) throws Exception{
 		try {
 			DaoEvento dao = new DaoEvento(connection);
-			dao.insert(newobject.getEvento());
+			
+			EventoCalendario evento = new EventoCalendario();
+			evento.setFechaInicioCelebracion(newobject.getEvento().getFechaInicioCelebracion());
+			evento.setFechaFinCelebracion(newobject.getEvento().getFechaFinCelebracion());
+			evento.setIdTipoEvento(newobject.getEvento().getIdTipoEvento());
+			evento.setIdCentro(newobject.getEvento().getIdCentro());
+			List<EventoCalendario> lstEC = dao.selectEventosCalendario(evento);
+			
+			if(lstEC == null && lstEC.size() == 0)
+				dao.insert(newobject.getEvento());
+			else
+				throw new Exception("Ya existe un evento de ese tipo en ese centro para las fechas indicadas.");
 		} catch (Exception e) {
 			throw e;
 		}
@@ -168,12 +179,34 @@ public class GestorEvento extends GestorEntidad<DTOEvento>{
 	@Override
 	public void modificaEntidad(DTOEvento criteris) throws Exception {
 		try {
+			Boolean bOk = true;
 			DaoEvento dao = new DaoEvento(connection);
-			dao.update(criteris.getEvento());
-			GestorEventoRequisitos gestorEventoRequisitos = new GestorEventoRequisitos(connection);
-			gestorEventoRequisitos.eliminaEntidadById(criteris);
-			GestorEventoRolPlazas gestorEventoRolPlazas = new GestorEventoRolPlazas(connection);
-			gestorEventoRolPlazas.eliminaEntidadById(criteris);
+			EventoCalendario evento = new EventoCalendario();
+			evento.setFechaInicioCelebracion(criteris.getEvento().getFechaInicioCelebracion());
+			evento.setFechaFinCelebracion(criteris.getEvento().getFechaFinCelebracion());
+			evento.setIdTipoEvento(criteris.getEvento().getIdTipoEvento());
+			evento.setIdCentro(criteris.getEvento().getIdCentro());
+			
+			List<EventoCalendario> lstEC = dao.selectEventosCalendario(evento);
+			
+			if(lstEC == null || lstEC.size() == 0)
+				bOk = false;
+			else{
+				if (lstEC.size() == 1 && lstEC.get(0).getIdEvento() == criteris.getEvento().getIdEvento()) 
+					bOk = false;
+				else
+					bOk = true;
+			}
+			
+			if (!bOk){
+				dao.update(criteris.getEvento());
+				GestorEventoRequisitos gestorEventoRequisitos = new GestorEventoRequisitos(connection);
+				gestorEventoRequisitos.eliminaEntidadById(criteris);
+				GestorEventoRolPlazas gestorEventoRolPlazas = new GestorEventoRolPlazas(connection);
+				gestorEventoRolPlazas.eliminaEntidadById(criteris);
+			}
+			else
+				throw new Exception("Ya existe un evento de ese tipo en ese centro para las fechas indicadas.");
 		} catch (Exception e) {
 			throw e;
 		}

@@ -146,8 +146,10 @@ public class PantallaInscripcion extends PanelComun implements Pantallas{
 		info = info + TDSLanguageUtils.getMessage("clientePEC4.panelInscripcion.LABEL3") + ": " +Constantes.SALTO_LINEA;
 		try {
 			List<DTOEventoRequisitos> listDTOEventoREquisitos = remote.getRequisitosEvento(dtoEvento);
-			for(DTOEventoRequisitos dtoEventoREquisito : listDTOEventoREquisitos){
-				info = info + "     "+dtoEventoREquisito.getDtoEventoReq().getEvento().getNombre() +Constantes.SALTO_LINEA;
+			if(listDTOEventoREquisitos != null && listDTOEventoREquisitos.size() > 0){
+				for(DTOEventoRequisitos dtoEventoREquisito : listDTOEventoREquisitos){
+					info = info + "     "+dtoEventoREquisito.getDtoEventoReq().getEvento().getNombre() +Constantes.SALTO_LINEA;
+				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
