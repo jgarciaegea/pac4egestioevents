@@ -784,5 +784,11 @@ public class RemotoImpl extends UnicastRemoteObject implements RemoteInterface{
 	
 }
 	
+	public  DTOInscripcion getCodigoAsistentica(DTOInscripcion dtoInscripcion) throws Exception{
+		GestorInscripcion gestorInscripcion = new GestorInscripcion(gestorDB.getConnection());
+		return gestorInscripcion.generarCodigoAsistencia(dtoInscripcion);
+	}
+	
+	
 		
 }
