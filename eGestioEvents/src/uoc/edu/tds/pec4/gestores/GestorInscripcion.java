@@ -10,6 +10,7 @@ package uoc.edu.tds.pec4.gestores;
 
 import java.sql.Connection;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import uoc.edu.tds.pec4.beans.Inscripcion;
@@ -18,6 +19,8 @@ import uoc.edu.tds.pec4.dtos.DTOAsistente;
 import uoc.edu.tds.pec4.dtos.DTOEvento;
 import uoc.edu.tds.pec4.dtos.DTOEventoPlus;
 import uoc.edu.tds.pec4.dtos.DTOInscripcion;
+import uoc.edu.tds.pec4.excepciones.OperationErrorDatosFormulario;
+import uoc.edu.tds.pec4.utils.Utils;
 
 public class GestorInscripcion extends GestorEntidad<DTOInscripcion>{
 
@@ -156,17 +159,36 @@ public class GestorInscripcion extends GestorEntidad<DTOInscripcion>{
 		return null;
 	}
 	
+
+	public DTOInscripcion generarCodigoAsistencia(DTOInscripcion dtoInscripcion){
+		
+		String codigoUsuario = dtoInscripcion.getDtoAsistente().getUsuario().getCodigo();
+		Integer codigoUniv = dtoInscripcion.getDtoEvento().getDtoCentroDocente().getDtoUniversidad().getUniversidad().getIdUniversidad();
+		Integer codigoCentro = dtoInscripcion.getDtoEvento().getDtoCentroDocente().getCentroDocente().getIdCentro();
+		Integer codigoTipoEvento = dtoInscripcion.getDtoEvento().getEvento().getIdTipoEvento();
+		Integer codigoEvento = dtoInscripcion.getDtoEvento().getEvento().getIdEvento();
+        Date today = new java.util.Date(System.currentTimeMillis());
+        String codigoAsistencia ="";
+			codigoAsistencia = (codigoUsuario +"-"+ codigoUniv+"-"+codigoCentro+"-"+codigoTipoEvento+"-"+codigoEvento+"-"+
+					today.getTime());
+
+        dtoInscripcion.getInscripcion().setCodigoAsistencia(codigoAsistencia);
+        return(dtoInscripcion);
+	}
+	
 		
 	@Override
 	public void insertaEntidad(DTOInscripcion newobject) throws Exception{
 		try {
 			GestorEvento gestorEvento = new GestorEvento(connection);
 			DTOEventoPlus dtoEventoPlus = gestorEvento.getPlazasEvento(newobject.getDtoEvento());
+			
 			if(dtoEventoPlus == null || dtoEventoPlus.getEventoPlus().getEventoCerrado()) {
 				throw new Exception("No quedan plazas libres.");
 			}	
 			DaoInscripcion dao = new DaoInscripcion(connection);
-			dao.insert(newobject.getInscripcion());
+			DTOInscripcion dtoInscripcion = generarCodigoAsistencia(newobject);
+			dao.insert(dtoInscripcion.getInscripcion());
 		} catch (Exception e) {
 			throw e;
 		}
