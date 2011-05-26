@@ -8,10 +8,10 @@ echo
 echo "Gestionar carpetas"
 echo "------------------"
 echo "Eliminar bin..."
-#rm -rf bin
+rm -rf bin
 echo "....OK"
 echo "Crear bin..."
-#mkdir bin
+mkdir bin
 cp -rf src/i18n bin
 cp -rf conf bin
 echo "....OK"
@@ -25,22 +25,16 @@ echo -n "Fecha: "
 date
 echo
 echo "Beans...."
-javac -d bin src/uoc/edu/tds/pec4/beans/*.java
-echo "....OK"
-echo "Utils...."
-javac -d bin -cp bin src/uoc/edu/tds/pec4/utils/*.java
-echo "....OK"
-echo "Resources...."
-javac -d bin -cp bin src/uoc/edu/tds/pec4/resources/*.java
-echo "....OK"
-echo "Excepciones...."
+javac -d bin src/uoc/edu/tds/pec4/resources/*.java
+javac -d bin -cp bin src/uoc/edu/tds/pec4/beans/*.java
 javac -d bin -cp bin src/uoc/edu/tds/pec4/excepciones/*.java
-echo "....OK"
-echo "Daos...."
-javac -d bin -cp bin src/uoc/edu/tds/pec4/daos/*.java
+javac -d bin -cp bin src/uoc/edu/tds/pec4/utils/*.java
 echo "....OK"
 echo "Dtos...."
 javac -d bin -cp bin src/uoc/edu/tds/pec4/dtos/*.java
+echo "....OK"
+echo "Daos...."
+javac -d bin -cp bin src/uoc/edu/tds/pec4/daos/*.java
 echo "....OK"
 echo "iFace...."
 javac -d bin -cp bin src/uoc/edu/tds/pec4/iface/*.java
