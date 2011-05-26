@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
+import java.util.Vector;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -37,16 +38,21 @@ import uoc.edu.tds.pec4.utils.Utils;
 */
 public class PantallaAsistenciaByEvento extends javax.swing.JDialog {
 	private static final long serialVersionUID = 2300404848702162002L;
+	private static final Integer COL_CODIGO = 4;
+	private static final Integer COL_CHECKIN = 5;
+	
 	private JPanel jPanelBase;
 	private JPanel jPanelCentro;
 	private JLabel jLabelEventoText;
 	private JScrollPane jScrollPane1;
+	private JPanel jPanel1;
+	private JButton jButtonCheckIN;
 	private JButton jButtonCerrar;
 	private JTable jTableDatos;
 	private JLabel jLabelCodigo;
 	private JLabel jLabelCodigoText;
 	private JLabel jLabelEvento;
-	private String[] columnNames = {"C—digo", "Asistente", "Inscripci—n", "Asistencia"};
+	private String[] columnNames = {"C—digo", "Asistente", "Inscripci—n", "Asistencia", "codigo", "checkIN"};
 	private DefaultTableModel dtm;
 	
 	private RemoteInterface remote;
@@ -57,7 +63,7 @@ public class PantallaAsistenciaByEvento extends javax.swing.JDialog {
 	* Auto-generated main method to display this JDialog
 	*/
 		
-	public PantallaAsistenciaByEvento(JFrame frame, RemoteInterface remote1, DTOEvento dtoEvento1) {
+	public PantallaAsistenciaByEvento(JFrame frame, RemoteInterface remote1, DTOEvento dtoEvento1, Boolean bUpdate) {
 		super(frame);
 		initGUI(frame);
 		this.remote = remote1;
@@ -66,10 +72,12 @@ public class PantallaAsistenciaByEvento extends javax.swing.JDialog {
 		if (dtoEvento != null && dtoEvento.getEvento() != null){
 			try
 			{
+				jButtonCheckIN.setVisible(bUpdate);
 				cargaDatosEvento();
 				cargaInscripcionesByEvento();
 				bIsEmpty = (jTableDatos.getRowCount() == 0);
 			} catch (OperationErrorDatosFormulario e3) {
+				bIsEmpty = true;
 				e3.showDialogError(jPanelBase);
 			}
 		}
@@ -144,6 +152,8 @@ public class PantallaAsistenciaByEvento extends javax.swing.JDialog {
 					 aobj[k][1] = new String(dtoInscripcion.getDtoAsistente().getUsuario().getNombreCompleto());
 					 aobj[k][2] = new String(dtoInscripcion.getInscripcion().getFechaInscripcion().toString());
 					 aobj[k][3] = new String(dtoInscripcion.getInscripcion().getAsistencia());
+					 aobj[k][4] = new String(dtoInscripcion.getInscripcion().getCodigo());
+					 aobj[k][5] = new Boolean(dtoInscripcion.getInscripcion().getCheckIn());
 					 k++;
 	       	 	}
 				
@@ -162,85 +172,163 @@ public class PantallaAsistenciaByEvento extends javax.swing.JDialog {
 		this.setModal(true);
 		this.setLocationRelativeTo(frame);
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		try {
+		{
+			jPanelBase = new JPanel();
+			getContentPane().add(jPanelBase, BorderLayout.CENTER);
+			jPanelBase.setPreferredSize(new java.awt.Dimension(618, 418));
 			{
-				jPanelBase = new JPanel();
-				getContentPane().add(jPanelBase, BorderLayout.CENTER);
-				jPanelBase.setPreferredSize(new java.awt.Dimension(618, 418));
+				jPanelCentro = new JPanel();
+				jPanelBase.add(jPanelCentro);
+				jPanelBase.add(getJPanel1());
+				jPanelCentro.setFont(new java.awt.Font("Arial",0,10));
+				jPanelCentro.setPreferredSize(new java.awt.Dimension(559, 62));
+				jPanelCentro.setBorder(BorderFactory.createEtchedBorder(BevelBorder.LOWERED));
+				jPanelCentro.setBounds(17, 32, 744, 58);
+				jPanelCentro.setLayout(null);
 				{
-					jPanelCentro = new JPanel();
-					jPanelBase.add(jPanelCentro);
-					jPanelCentro.setFont(new java.awt.Font("Arial",0,10));
-					jPanelCentro.setPreferredSize(new java.awt.Dimension(559, 62));
-					jPanelCentro.setBorder(BorderFactory.createEtchedBorder(BevelBorder.LOWERED));
-					jPanelCentro.setBounds(17, 32, 744, 58);
-					jPanelCentro.setLayout(null);
-					{
-						jLabelEventoText = new JLabel();
-						jPanelCentro.add(jLabelEventoText);
-						jLabelEventoText.setText("Evento");
-						jLabelEventoText.setFont(new java.awt.Font("Arial",1,12));
-						jLabelEventoText.setLayout(null);
-						jLabelEventoText.setBounds(30, 14, 40, 14);
-					}
-					{
-						jLabelEvento = new JLabel();
-						jPanelCentro.add(jLabelEvento);
-						jLabelEvento.setText("xxxxxx");
-						jLabelEvento.setFont(new java.awt.Font("Arial",0,10));
-						jLabelEvento.setBounds(30, 34, 334, 13);
-					}
-					{
-						jLabelCodigoText = new JLabel();
-						jPanelCentro.add(jLabelCodigoText);
-						jLabelCodigoText.setText("C—digo");
-						jLabelCodigoText.setFont(new java.awt.Font("Arial",1,12));
-						jLabelCodigoText.setBounds(429, 14, 40, 14);
-					}
-					{
-						jLabelCodigo = new JLabel();
-						jPanelCentro.add(jLabelCodigo);
-						jLabelCodigo.setText("xxxxxx");
-						jLabelCodigo.setFont(new java.awt.Font("Arial",0,10));
-						jLabelCodigo.setBounds(429, 34, 30, 13);
-					}
+					jLabelEventoText = new JLabel();
+					jPanelCentro.add(jLabelEventoText);
+					jLabelEventoText.setText("Evento");
+					jLabelEventoText.setFont(new java.awt.Font("Arial",1,12));
+					jLabelEventoText.setLayout(null);
+					jLabelEventoText.setBounds(30, 14, 40, 14);
 				}
 				{
-					jScrollPane1 = new JScrollPane();
-					jPanelBase.add(jScrollPane1);
-					jScrollPane1.setPreferredSize(new java.awt.Dimension(559, 295));
-					{
-						dtm = new DefaultTableModel();
-						{
-							for(int i=0;i<columnNames.length;i++){
-					        	dtm.addColumn(columnNames[i]);
-					        }
-							
-						}
-						jTableDatos = new JTable(dtm);
-						jScrollPane1.setViewportView(jTableDatos);
-						jTableDatos.setPreferredSize(new java.awt.Dimension(538, 278));
-					}
+					jLabelEvento = new JLabel();
+					jPanelCentro.add(jLabelEvento);
+					jLabelEvento.setText("xxxxxx");
+					jLabelEvento.setFont(new java.awt.Font("Arial",0,10));
+					jLabelEvento.setBounds(30, 34, 334, 13);
 				}
 				{
-					jButtonCerrar = new JButton();
-					jPanelBase.add(jButtonCerrar);
-					jButtonCerrar.setLayout(null);
-					jButtonCerrar.setText("Cerrar");
-					jButtonCerrar.setFont(new java.awt.Font("Arial",0,10));
-					jButtonCerrar.setBounds(275, 359, 90, 25);
-					jButtonCerrar.setPreferredSize(new java.awt.Dimension(94, 32));
-					jButtonCerrar.addActionListener(new ActionListener() {
-						public void actionPerformed(ActionEvent e) {
-						    dispose(); 
-						}
-					});
+					jLabelCodigoText = new JLabel();
+					jPanelCentro.add(jLabelCodigoText);
+					jLabelCodigoText.setText("C—digo");
+					jLabelCodigoText.setFont(new java.awt.Font("Arial",1,12));
+					jLabelCodigoText.setBounds(429, 14, 40, 14);
+				}
+				{
+					jLabelCodigo = new JLabel();
+					jPanelCentro.add(jLabelCodigo);
+					jLabelCodigo.setText("xxxxxx");
+					jLabelCodigo.setFont(new java.awt.Font("Arial",0,10));
+					jLabelCodigo.setBounds(429, 34, 30, 13);
 				}
 			}
+		}
+		try {
 			this.setSize(618, 468);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	private JButton getJButtonCheckIN() {
+		if(jButtonCheckIN == null) {
+			jButtonCheckIN = new JButton();
+			jButtonCheckIN.setLayout(null);
+			jButtonCheckIN.setText("Check-IN");
+			jButtonCheckIN.setFont(new java.awt.Font("Arial",0,10));
+			jButtonCheckIN.setPreferredSize(new java.awt.Dimension(110, 29));
+			jButtonCheckIN.setBounds(275, 359, 90, 25);
+			jButtonCheckIN.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent evt) {
+					jButtonCheckINActionPerformed(evt);
+				}
+			});
+		}
+		return jButtonCheckIN;
+	}
+	
+	private DTOInscripcion getSelectedInscripcion() throws OperationErrorDatosFormulario{
+		try {
+			@SuppressWarnings("unchecked")
+			List<Object> lstRes = (Vector<Object>) dtm.getDataVector().get(jTableDatos.getSelectedRow());
+			Inscripcion inscripcion = new Inscripcion();
+			DTOInscripcion dtoInscripcion = new DTOInscripcion();
+			inscripcion.setCodigo(lstRes.get(COL_CODIGO).toString());
+			inscripcion.setIdEvento(dtoEvento.getEvento().getIdEvento());
+			dtoInscripcion.setInscripcion(inscripcion);
+			return dtoInscripcion;
+		} catch (NumberFormatException e1) {
+			throw new OperationErrorDatosFormulario(e1.getMessage());
+		} catch (Exception e1) {
+			throw new OperationErrorDatosFormulario(e1.getMessage());
+		}
+	}
+	
+	private Boolean isCheckIN() {
+		@SuppressWarnings("unchecked")
+		List<Object> lstRes = (Vector<Object>) dtm.getDataVector().get(jTableDatos.getSelectedRow());
+		
+		return (Boolean.parseBoolean(lstRes.get(COL_CHECKIN).toString()));
+	}
+	
+	private void jButtonCheckINActionPerformed(ActionEvent evt) {
+		System.out.println("jButtonCheckIN.actionPerformed, event="+evt);
+		if (jTableDatos.getSelectedRow() == -1) {
+			Utils.mostraMensajeInformacion(jPanelCentro, "No ha seleccionado ningœn registro de la tabla", "Asistencia");
+		}else{
+			if (!isCheckIN()){
+				try {
+					DTOInscripcion dtoInscripcion = getSelectedInscripcion();
+					remote.checkIN(dtoInscripcion);
+					Utils.mostraMensajeInformacion(jPanelCentro, "Se ha marcado la asistenacia al evento", "Asistencia");
+					cargaInscripcionesByEvento();
+				} catch (Exception e1) {
+					try {
+						throw new OperationErrorDatosFormulario(e1.getMessage());
+					} catch (OperationErrorDatosFormulario e2) {
+						e2.showDialogError();
+					}
+				}
+			}
+			else{
+				Utils.mostraMensajeInformacion(jPanelCentro, "Ya se ha efectuado el marcaje con anterioridad", "Asistencia");
+			}
+		}
+	}
+	
+	private JPanel getJPanel1() {
+		if(jPanel1 == null) {
+			jPanel1 = new JPanel();
+			{
+				jScrollPane1 = new JScrollPane();
+				jPanel1.add(jScrollPane1);
+				jPanel1.add(getJButtonCheckIN());
+				jScrollPane1.setPreferredSize(new java.awt.Dimension(559, 295));
+				{
+					dtm = new DefaultTableModel();
+					{
+						for(int i=0;i<columnNames.length;i++){
+							dtm.addColumn(columnNames[i]);
+						}
+						
+					}
+					jTableDatos = new JTable(dtm);
+					jScrollPane1.setViewportView(jTableDatos);
+					Utils.ocultaColumna(jTableDatos, COL_CODIGO);
+					Utils.ocultaColumna(jTableDatos, COL_CHECKIN);
+					jTableDatos.setPreferredSize(new java.awt.Dimension(538, 278));
+				}
+			}
+			{
+				jButtonCerrar = new JButton();
+				jPanel1.add(jButtonCerrar);
+				jPanel1.setPreferredSize(new java.awt.Dimension(567, 346));
+				jButtonCerrar.setLayout(null);
+				jButtonCerrar.setText("Cerrar");
+				jButtonCerrar.setFont(new java.awt.Font("Arial",0,10));
+				jButtonCerrar.setBounds(275, 359, 90, 25);
+				jButtonCerrar.setPreferredSize(new java.awt.Dimension(110, 29));
+				jButtonCerrar.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						dispose(); 
+					}
+				});
+			}
+		}
+		return jPanel1;
 	}
 
 }

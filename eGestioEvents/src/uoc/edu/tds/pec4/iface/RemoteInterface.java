@@ -177,7 +177,7 @@ public interface RemoteInterface extends Remote{
 	 * @throws RemoteException
 	 * @throws OperationErrorLogin
 	 */
-	public abstract void checkIN(DTOInscripcion inscripcion) throws RemoteException, OperationErrorBD;
+	public abstract void checkIN(DTOInscripcion dtoInscripcion) throws RemoteException, OperationErrorBD;
 	
 	/**
 	 * A efectos de error, que podamos desmarcar la asistencia a un evento del asistente.
@@ -185,7 +185,7 @@ public interface RemoteInterface extends Remote{
 	 * @throws RemoteException
 	 * @throws OperationErrorLogin
 	 */
-	public abstract void checkOUT(DTOInscripcion inscripcion) throws RemoteException, OperationErrorBD;
+	public abstract void checkOUT(DTOInscripcion dtoInscripcion) throws RemoteException, OperationErrorBD;
 	
 	/*
 	 * Tratamiento de Eventos
@@ -340,5 +340,7 @@ public interface RemoteInterface extends Remote{
 	public abstract List<DTOTipoEventoRol> consultaTipoEventoRol(DTOTipoEventoRol dtoEventoRol) throws RemoteException, OperationErrorBD;
 	
 	public abstract DTOInscripcion getInscripcion(DTOInscripcion dtoInscripcion) throws RemoteException, OperationErrorBD;
+	
+	public abstract DTOTipoEvento getTipoEvento(DTOTipoEvento dtoTipoEvento) throws RemoteException, OperationErrorBD;
 		
 }

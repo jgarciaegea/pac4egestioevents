@@ -4,12 +4,14 @@
 package uoc.edu.tds.pec4.gestores;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import uoc.edu.tds.pec4.beans.TipoEvento;
 import uoc.edu.tds.pec4.daos.DaoTipoEvento;
 import uoc.edu.tds.pec4.dtos.DTOTipoEvento;
+import uoc.edu.tds.pec4.dtos.DTOTipoEventoRol;
 
 /**
  * @author ML019882
@@ -37,6 +39,8 @@ public class GestorTipoEvento extends GestorEntidad<DTOTipoEvento> {
 				for(TipoEvento tipoEvento : lstTipoEventos){
 					DTOTipoEvento dtotipoEvento = new DTOTipoEvento();
 					dtotipoEvento.setTipoEvento(tipoEvento);
+					rellenaObjeto(dtotipoEvento);
+					
 					lstDTOTipoEvento.add(dtotipoEvento);
 				}
 				return lstDTOTipoEvento;
@@ -47,6 +51,17 @@ public class GestorTipoEvento extends GestorEntidad<DTOTipoEvento> {
 		return null;
 	}
 
+	private void rellenaObjeto (DTOTipoEvento dtoTipoEvento) throws Exception{
+		try{
+			//A–adimos el TipoEventoRol
+			GestorTipoEventoRol gestorTipoEventoRol = new GestorTipoEventoRol(connection);
+			List<DTOTipoEventoRol> lstDtoTipoEventoRol = gestorTipoEventoRol.consultaEntidadById(dtoTipoEvento.getTipoEvento().getIdTipoEvento());
+			if(lstDtoTipoEventoRol != null) dtoTipoEvento.setDtoTipoEventoRol(lstDtoTipoEventoRol);
+		}catch(Exception e){
+			throw new SQLException();
+		}
+	}
+	
 	@Override
 	public DTOTipoEvento consultaEntidad(DTOTipoEvento criteris) throws Exception{
 	try{

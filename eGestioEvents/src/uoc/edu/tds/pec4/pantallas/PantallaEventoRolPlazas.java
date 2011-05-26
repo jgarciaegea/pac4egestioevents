@@ -68,6 +68,7 @@ public class PantallaEventoRolPlazas extends javax.swing.JDialog {
 				cargaRolPlazasActual();
 				bIsEmpty = (jTableDatos.getRowCount() == 0);
 			} catch (OperationErrorDatosFormulario e3) {
+				bIsEmpty = true;
 				e3.showDialogError(jPanelBase);
 			}
 		}
@@ -92,28 +93,25 @@ public class PantallaEventoRolPlazas extends javax.swing.JDialog {
 	}
 	public List<DTOEventoRolPlazas> getDTOEventoRolPlazas() {
 		List<DTOEventoRolPlazas> lstDtoEventoRolPlazas = new ArrayList<DTOEventoRolPlazas>();
-		Boolean bDatos = false;
+
 		for (int a=0; a<jTableDatos.getRowCount(); a++){
-			if (Boolean.parseBoolean((jTableDatos.getValueAt(a,2).toString()))){
-				bDatos = true;
-				DTOEventoRolPlazas dtoEventoRolPlazas = new DTOEventoRolPlazas();
-				DTOTipoRol dtoTipoRol = new DTOTipoRol();
+			DTOEventoRolPlazas dtoEventoRolPlazas = new DTOEventoRolPlazas();
+			DTOTipoRol dtoTipoRol = new DTOTipoRol();
 				
-				TipoRol tipoRol = new TipoRol();
-				tipoRol.setIdRol(Integer.parseInt((jTableDatos.getValueAt(a,0).toString())));
-				tipoRol.setDescripcion(jTableDatos.getValueAt(a,1).toString());
-				dtoTipoRol.setTipoRol(tipoRol);
-				dtoEventoRolPlazas.setDtoTipoRol(dtoTipoRol);
+			TipoRol tipoRol = new TipoRol();
+			tipoRol.setIdRol(Integer.parseInt((jTableDatos.getValueAt(a,0).toString())));
+			tipoRol.setDescripcion(jTableDatos.getValueAt(a,1).toString());
+			dtoTipoRol.setTipoRol(tipoRol);
+			dtoEventoRolPlazas.setDtoTipoRol(dtoTipoRol);
 				
-				EventoRolPlazas eventoRolPlazas = new EventoRolPlazas();
-				eventoRolPlazas.setIdRol(tipoRol.getIdRol());
-				eventoRolPlazas.setPlazas(Integer.parseInt((jTableDatos.getValueAt(a,2).toString())));
-				dtoEventoRolPlazas.setEventoRolPlazas(eventoRolPlazas);
+			EventoRolPlazas eventoRolPlazas = new EventoRolPlazas();
+			eventoRolPlazas.setIdRol(tipoRol.getIdRol());
+			eventoRolPlazas.setPlazas(Integer.parseInt((jTableDatos.getValueAt(a,2).toString())));
+			dtoEventoRolPlazas.setEventoRolPlazas(eventoRolPlazas);
 				
-				lstDtoEventoRolPlazas.add(dtoEventoRolPlazas);
-			}
+			lstDtoEventoRolPlazas.add(dtoEventoRolPlazas);
 		}
-		return (bDatos?lstDtoEventoRolPlazas:null);
+		return ((jTableDatos.getRowCount() >0)?lstDtoEventoRolPlazas:null);
 	}
 	
 	private DTOTipoEvento consultaTipoEvento() {
@@ -129,7 +127,7 @@ public class PantallaEventoRolPlazas extends javax.swing.JDialog {
 		try{
 			dtm.getDataVector().removeAllElements();
 			
-			DTOTipoEvento dtoTipoEvento = null; //remote.getTipoEvento(consultaTipoEvento());
+			DTOTipoEvento dtoTipoEvento = remote.getTipoEvento(consultaTipoEvento());
 			if(dtoTipoEvento == null){
 				Utils.mostraMensajeInformacion(jPanelBase, "El Tipo de evento tiene roles asignados", "Evento Rol/Plazas");
 				return;

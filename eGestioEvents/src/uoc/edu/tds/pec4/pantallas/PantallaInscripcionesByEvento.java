@@ -69,13 +69,13 @@ public class PantallaInscripcionesByEvento extends javax.swing.JDialog {
 		if (dtoEvento != null && dtoEvento.getEvento() != null){
 			try
 			{
-				
 				jButtonBaja.setVisible(bUpdate);
 				jButtonCodigoAssistencia.setVisible(bUpdate);
 				cargaDatosEvento();
 				cargaInscripcionesByEvento();
 				bIsEmpty = (jTableDatos.getRowCount() == 0);
 			} catch (OperationErrorDatosFormulario e3) {
+				bIsEmpty = true;
 				e3.showDialogError(jPanelBase);
 			}
 		}

@@ -307,11 +307,11 @@ public class RemotoImpl extends UnicastRemoteObject implements RemoteInterface{
 	 * @throws RemoteException
 	 * @throws OperationErrorLogin
 	 */
-	public void checkIN(DTOInscripcion inscripcion) throws RemoteException, OperationErrorBD{
+	public void checkIN(DTOInscripcion dtoInscripcion) throws RemoteException, OperationErrorBD{
 		try{
 			gestorDB.getConnection().setAutoCommit(false);
 			GestorInscripcion gestorInscripcion = new GestorInscripcion(gestorDB.getConnection());
-			gestorInscripcion.checkIN(inscripcion);
+			gestorInscripcion.checkIN(dtoInscripcion);
 			gestorDB.getConnection().commit();
 		}catch(Exception e){
 			gestorDB.rollback();
@@ -325,11 +325,11 @@ public class RemotoImpl extends UnicastRemoteObject implements RemoteInterface{
 	 * @throws RemoteException
 	 * @throws OperationErrorLogin
 	 */
-	public void checkOUT(DTOInscripcion inscripcion) throws RemoteException, OperationErrorBD{
+	public void checkOUT(DTOInscripcion dtoInscripcion) throws RemoteException, OperationErrorBD{
 		try{
 			gestorDB.getConnection().setAutoCommit(false);
 			GestorInscripcion gestorInscripcion = new GestorInscripcion(gestorDB.getConnection());
-			gestorInscripcion.checkOUT(inscripcion);
+			gestorInscripcion.checkOUT(dtoInscripcion);
 			gestorDB.getConnection().commit();
 		}catch(Exception e){
 			gestorDB.rollback();
@@ -701,7 +701,6 @@ public class RemotoImpl extends UnicastRemoteObject implements RemoteInterface{
 		
 	}
 
-	@Override
 	public DTOEventoPlus getPlazasEvento(DTOEvento criteris) throws RemoteException, OperationErrorBD {
 		try {
 			gestorDB.getConnection().setAutoCommit(false);
@@ -803,7 +802,6 @@ public class RemotoImpl extends UnicastRemoteObject implements RemoteInterface{
 		}
 	}
 
-	@Override
 	public void bajaInscripcion(DTOInscripcion dtoInscripcion) throws RemoteException, OperationErrorBD {
 		try {
 			gestorDB.getConnection().setAutoCommit(false);
@@ -829,7 +827,6 @@ public class RemotoImpl extends UnicastRemoteObject implements RemoteInterface{
 		
 	}
 
-	@Override
 	public DTOInscripcion getInscripcion(DTOInscripcion dtoInscripcion) throws RemoteException, OperationErrorBD {
 		try{
 			System.out.println("Recuperando la inscripcion..... "+ dtoInscripcion.getInscripcion().getCodigo());
@@ -838,7 +835,16 @@ public class RemotoImpl extends UnicastRemoteObject implements RemoteInterface{
 		}catch(Exception e){
 			throw new OperationErrorBD("Error al recuperar la inscripci—n......");
 		}
+	}
 
-	}	
+	public DTOTipoEvento getTipoEvento(DTOTipoEvento dtoTipoEvento) throws RemoteException, OperationErrorBD {
+		try{
+			System.out.println("Recuperando el tipo evento..... "+ dtoTipoEvento.getTipoEvento().getIdTipoEvento().toString());
+			GestorTipoEvento gestorTipoEvento = new GestorTipoEvento(gestorDB.getConnection());
+			return gestorTipoEvento.consultaEntidad(dtoTipoEvento);
+		}catch(Exception e){
+			throw new OperationErrorBD("Error al recuperar el tipo evento......");
+		}
+	}
 		
 }

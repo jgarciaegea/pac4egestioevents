@@ -158,14 +158,14 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 	}
 	
 	private Boolean canUpdateEvento() {
-		return (isCancelledEvento() && !isCelebradoEvento());
+		return (!isCancelledEvento() && !isCelebradoEvento());
 	}
 	
 	private Boolean isCancelledEvento() {
 		@SuppressWarnings("unchecked")
 		List<Object> lstRes = (Vector<Object>) dtm.getDataVector().get(jTableDatos.getSelectedRow());
 		
-		return (!Boolean.parseBoolean(lstRes.get(COL_CANCELADO).toString()));
+		return (Boolean.parseBoolean(lstRes.get(COL_CANCELADO).toString()));
 	}
 
 	private Boolean isCelebradoEvento() {
@@ -780,7 +780,7 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 						if (isCelebradoEvento()){
 							try {
 								DTOEvento dtoEvento = getSelectedEvento();
-								PantallaAsistenciaByEvento v4 = new PantallaAsistenciaByEvento(null, remote, dtoEvento);
+								PantallaAsistenciaByEvento v4 = new PantallaAsistenciaByEvento(null, remote, dtoEvento, (!isCancelledEvento() && isCelebradoEvento()));
 								if (!v4.isEmpty()) v4.setVisible(true);
 							} catch (OperationErrorDatosFormulario e1) {
 								e1.showDialogError();

@@ -110,7 +110,7 @@ public class DaoInscripcion extends DaoEntidad<Inscripcion>{
 			if(criteris.getFechaInscripcion()!=null) sb.append("AND fecha_inscripcion = ? ");
 			if(criteris.getCheckIn()!=null) sb.append("AND check_in = ? ");
 			if(criteris.getCodigoAsistencia()!=null) sb.append("AND codigo_asistencia = ? ");
-						
+			System.out.println(sb.toString());			
 			ps = con.prepareStatement(sb.toString(), ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
 			
 			int i=1;
@@ -122,7 +122,7 @@ public class DaoInscripcion extends DaoEntidad<Inscripcion>{
 			if(criteris.getFechaInscripcion()!=null) {ps.setDate(i, criteris.getFechaInscripcion()); i++;}
 			if(criteris.getCheckIn()!=null) {ps.setBoolean(i, criteris.getCheckIn()); i++;}
 			if(criteris.getCodigoAsistencia()!=null) {ps.setString(i, criteris.getCodigoAsistencia()); i++;}
-
+			System.out.println(ps.toString());
 			rs = ps.executeQuery();
 			while (rs.next()) {
 				Inscripcion inscripcion = retornaInscripcion(rs);
