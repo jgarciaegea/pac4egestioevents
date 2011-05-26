@@ -211,9 +211,9 @@ public class PantallaEventoRequisitos extends javax.swing.JDialog {
 		if(jButtonLimpiar == null) {
 			jButtonLimpiar = new JButton();
 			jButtonLimpiar.setLayout(null);
-			jButtonLimpiar.setText("Limpiar");
+			jButtonLimpiar.setText("Desmarcar");
 			jButtonLimpiar.setFont(new java.awt.Font("Arial",0,10));
-			jButtonLimpiar.setPreferredSize(new java.awt.Dimension(92, 40));
+			jButtonLimpiar.setPreferredSize(new java.awt.Dimension(107, 40));
 			jButtonLimpiar.setBounds(275, 359, 90, 25);
 			jButtonLimpiar.setSize(90, 40);
 			jButtonLimpiar.addActionListener(new ActionListener() {
@@ -231,7 +231,7 @@ public class PantallaEventoRequisitos extends javax.swing.JDialog {
 			jButtonCancelar.setLayout(null);
 			jButtonCancelar.setText("Cancelar");
 			jButtonCancelar.setFont(new java.awt.Font("Arial",0,10));
-			jButtonCancelar.setPreferredSize(new java.awt.Dimension(92, 40));
+			jButtonCancelar.setPreferredSize(new java.awt.Dimension(113, 40));
 			jButtonCancelar.setBounds(275, 359, 90, 25);
 			jButtonCancelar.setSize(90, 40);
 			jButtonCancelar.addActionListener(new ActionListener() {
@@ -250,7 +250,7 @@ public class PantallaEventoRequisitos extends javax.swing.JDialog {
 			jButtonAceptar.setLayout(null);
 			jButtonAceptar.setText("Aceptar");
 			jButtonAceptar.setFont(new java.awt.Font("Arial",0,10));
-			jButtonAceptar.setPreferredSize(new java.awt.Dimension(96, 40));
+			jButtonAceptar.setPreferredSize(new java.awt.Dimension(119, 40));
 			jButtonAceptar.setBounds(275, 359, 90, 25);
 			jButtonAceptar.setSize(90, 40);
 			jButtonAceptar.addActionListener(new ActionListener() {

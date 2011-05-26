@@ -726,15 +726,17 @@ public class PantallaEvento extends javax.swing.JPanel implements Pantallas {
 							}
 							dtoEventoAModficar.getEvento().setPlazas(Integer.parseInt(jTextFieldPlazas.getText()));
 							PantallaEventoRolPlazas v2 = new PantallaEventoRolPlazas(null, remote, dtoEventoAModficar);
-							v2.setModal(true);
-							v2.setVisible(true);
-				             if (v2.getAceptar()) {
-				            	 dtoEventoAModficar.setDtoEventoRolPlazas(v2.getDTOEventoRolPlazas());
-				            	 try {
-									muestraRolPlazas(dtoEventoAModficar.getDtoEventoRolPlazas());
-								} catch (OperationErrorDatosFormulario e1) {
-									// TODO Auto-generated catch block
-									e1.printStackTrace();
+							if (!v2.isEmpty()) {
+								v2.setModal(true);
+								v2.setVisible(true);
+								if (v2.getAceptar()) {
+									dtoEventoAModficar.setDtoEventoRolPlazas(v2.getDTOEventoRolPlazas());
+									try {
+										muestraRolPlazas(dtoEventoAModficar.getDtoEventoRolPlazas());
+									} catch (OperationErrorDatosFormulario e1) {
+										// TODO Auto-generated catch block
+										e1.printStackTrace();
+									}
 								}
 				             }
 						}finally{

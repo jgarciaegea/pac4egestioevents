@@ -41,6 +41,8 @@ public class PantallaInscripcionesByEvento extends javax.swing.JDialog {
 	private JPanel jPanelCentro;
 	private JLabel jLabelEventoText;
 	private JScrollPane jScrollPane1;
+	private JButton jButtonBaja;
+	private JButton jButtonCodigoAssistencia;
 	private JButton jButtonCerrar;
 	private JTable jTableDatos;
 	private JLabel jLabelCodigo;
@@ -57,7 +59,7 @@ public class PantallaInscripcionesByEvento extends javax.swing.JDialog {
 	* Auto-generated main method to display this JDialog
 	*/
 		
-	public PantallaInscripcionesByEvento(JFrame frame, RemoteInterface remote1, DTOEvento dtoEvento1) {
+	public PantallaInscripcionesByEvento(JFrame frame, RemoteInterface remote1, DTOEvento dtoEvento1, Boolean bUpdate) {
 		super(frame);
 		initGUI();
 		this.remote = remote1;
@@ -66,6 +68,9 @@ public class PantallaInscripcionesByEvento extends javax.swing.JDialog {
 		if (dtoEvento != null && dtoEvento.getEvento() != null){
 			try
 			{
+				
+				jButtonBaja.setVisible(bUpdate);
+				jButtonCodigoAssistencia.setVisible(bUpdate);
 				cargaDatosEvento();
 				cargaInscripcionesByEvento();
 				bIsEmpty = (jTableDatos.getRowCount() == 0);
@@ -202,6 +207,8 @@ public class PantallaInscripcionesByEvento extends javax.swing.JDialog {
 				{
 					jScrollPane1 = new JScrollPane();
 					jPanelBase.add(jScrollPane1);
+					jPanelBase.add(getJButtonBaja());
+					jPanelBase.add(getJButtonCodigoAssistencia());
 					jScrollPane1.setPreferredSize(new java.awt.Dimension(559, 295));
 					{
 						dtm = new DefaultTableModel();
@@ -223,7 +230,7 @@ public class PantallaInscripcionesByEvento extends javax.swing.JDialog {
 					jButtonCerrar.setText("Cerrar");
 					jButtonCerrar.setFont(new java.awt.Font("Arial",0,10));
 					jButtonCerrar.setBounds(275, 359, 90, 25);
-					jButtonCerrar.setPreferredSize(new java.awt.Dimension(94, 32));
+					jButtonCerrar.setPreferredSize(new java.awt.Dimension(146, 32));
 					jButtonCerrar.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent e) {
 						    dispose(); 
@@ -231,9 +238,57 @@ public class PantallaInscripcionesByEvento extends javax.swing.JDialog {
 					});
 				}
 			}
-			this.setSize(618, 468);
+			this.setSize(618, 440);
 		} catch (Exception e) {
 			e.printStackTrace();
+		}
+	}
+	
+	private JButton getJButtonCodigoAssistencia() {
+		if(jButtonCodigoAssistencia == null) {
+			jButtonCodigoAssistencia = new JButton();
+			jButtonCodigoAssistencia.setLayout(null);
+			jButtonCodigoAssistencia.setText("Generar nuevo codigo");
+			jButtonCodigoAssistencia.setFont(new java.awt.Font("Arial",0,10));
+			jButtonCodigoAssistencia.setPreferredSize(new java.awt.Dimension(164, 32));
+			jButtonCodigoAssistencia.setBounds(275, 359, 90, 25);
+			jButtonCodigoAssistencia.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent evt) {
+					jButtonCodigoAssistenciaActionPerformed(evt);
+				}
+			});
+		}
+		return jButtonCodigoAssistencia;
+	}
+	
+	private void jButtonCodigoAssistenciaActionPerformed(ActionEvent evt) {
+		System.out.println("jButtonCodigoAssistencia.actionPerformed, event="+evt);
+		//TODO add your code for jButtonCodigoAssistencia.actionPerformed
+	}
+	
+	private JButton getJButtonBaja() {
+		if(jButtonBaja == null) {
+			jButtonBaja = new JButton();
+			jButtonBaja.setLayout(null);
+			jButtonBaja.setText("Dar de baja");
+			jButtonBaja.setFont(new java.awt.Font("Arial",0,10));
+			jButtonBaja.setPreferredSize(new java.awt.Dimension(164, 32));
+			jButtonBaja.setBounds(275, 359, 90, 25);
+			jButtonBaja.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent evt) {
+					jButtonBajaActionPerformed(evt);
+				}
+			});
+		}
+		return jButtonBaja;
+	}
+	
+	private void jButtonBajaActionPerformed(ActionEvent evt) {
+		System.out.println("jButtonBaja.actionPerformed, event="+evt);
+		if (jTableDatos.getSelectedRow() == -1) {
+			Utils.mostraMensajeInformacion(jPanelCentro, "No ha seleccionado ningœn registro de la tabla", "Inscripciones");
+		}else{
+			// TODO
 		}
 	}
 

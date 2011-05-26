@@ -725,7 +725,7 @@ public class PantallaCalendarioEventos extends javax.swing.JPanel implements Pan
 						try {
 							DTOEvento dtoEvento = getSelectedEvento();
 					        //this.setVisible(false);
-					        PantallaInscripcionesByEvento v3 = new PantallaInscripcionesByEvento(null, remote, dtoEvento);
+					        PantallaInscripcionesByEvento v3 = new PantallaInscripcionesByEvento(null, remote, dtoEvento, canUpdateEvento());
 					        if (!v3.isEmpty()) v3.setVisible(true);
 							//goPantallaUsuario(dtoUsuario);
 						} catch (OperationErrorDatosFormulario e1) {

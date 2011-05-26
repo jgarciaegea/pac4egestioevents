@@ -52,6 +52,7 @@ public class PantallaEventoRolPlazas extends javax.swing.JDialog {
 	private RemoteInterface remote;
 	private DTOEvento dtoEvento;
 	private Boolean bExit = false;
+	private Boolean bIsEmpty = false;
 
 	public PantallaEventoRolPlazas(JFrame frame, RemoteInterface remote1, DTOEvento dtoEvento1) {
 		super(frame);
@@ -65,12 +66,17 @@ public class PantallaEventoRolPlazas extends javax.swing.JDialog {
 				// TODO 1: si el tipo de evento no tiene tripoeventorol pues no hacemos nada y salimos
 				cargaDatosRoles();
 				cargaRolPlazasActual();
+				bIsEmpty = (jTableDatos.getRowCount() == 0);
 			} catch (OperationErrorDatosFormulario e3) {
 				e3.showDialogError(jPanelBase);
 			}
 		}
 	}
 
+	public Boolean isEmpty(){
+		return bIsEmpty;
+	}
+	
 	private void cargaRolPlazasActual() {
 		for (int a=0; a<jTableDatos.getRowCount(); a++){
 			int valor = Integer.parseInt((jTableDatos.getValueAt(a,0).toString()));
@@ -125,7 +131,7 @@ public class PantallaEventoRolPlazas extends javax.swing.JDialog {
 			
 			DTOTipoEvento dtoTipoEvento = null; //remote.getTipoEvento(consultaTipoEvento());
 			if(dtoTipoEvento == null){
-				Utils.mostraMensajeInformacion(jPanelBase, "El Tipo de evento no se puede consultar", "Evento Rol/Plazas");
+				Utils.mostraMensajeInformacion(jPanelBase, "El Tipo de evento tiene roles asignados", "Evento Rol/Plazas");
 				return;
 			}
 			muestraResultado(dtoTipoEvento.getDtoTipoEventoRol());
@@ -209,7 +215,8 @@ public class PantallaEventoRolPlazas extends javax.swing.JDialog {
 					jButtonAceptar.setText("Aceptar");
 					jButtonAceptar.setFont(new java.awt.Font("Arial",0,10));
 					jButtonAceptar.setBounds(275, 359, 90, 25);
-					jButtonAceptar.setPreferredSize(new java.awt.Dimension(94, 32));
+					jButtonAceptar.setPreferredSize(new java.awt.Dimension(111, 32));
+					jButtonAceptar.setSize(110, 32);
 					jButtonAceptar.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent e) {
 							bExit = true;
@@ -223,8 +230,9 @@ public class PantallaEventoRolPlazas extends javax.swing.JDialog {
 					jButtonCancelar.setLayout(null);
 					jButtonCancelar.setText("Cancelar");
 					jButtonCancelar.setFont(new java.awt.Font("Arial",0,10));
-					jButtonCancelar.setPreferredSize(new java.awt.Dimension(94,32));
+					jButtonCancelar.setPreferredSize(new java.awt.Dimension(110, 32));
 					jButtonCancelar.setBounds(275, 359, 90, 25);
+					jButtonCancelar.setSize(110, 32);
 					jButtonCancelar.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent evt) {
 							bExit = false;
@@ -236,10 +244,11 @@ public class PantallaEventoRolPlazas extends javax.swing.JDialog {
 					jButtonLimpiar = new JButton();
 					jPanelBase.add(jButtonLimpiar);
 					jButtonLimpiar.setLayout(null);
-					jButtonLimpiar.setText("Limpiar");
+					jButtonLimpiar.setText("Inicializar plazas");
 					jButtonLimpiar.setFont(new java.awt.Font("Arial",0,10));
-					jButtonLimpiar.setPreferredSize(new java.awt.Dimension(94,32));
+					jButtonLimpiar.setPreferredSize(new java.awt.Dimension(117, 32));
 					jButtonLimpiar.setBounds(275, 359, 90, 25);
+					jButtonLimpiar.setSize(110, 32);
 					jButtonLimpiar.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent evt) {
 							limpiaFormulario();
