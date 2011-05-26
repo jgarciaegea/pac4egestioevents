@@ -603,7 +603,13 @@ public class RemotoImpl extends UnicastRemoteObject implements RemoteInterface{
 			
 			//Modificamos telefono
 			GestorTelefono gestorTelefono = new GestorTelefono(gestorDB.getConnection());
-			gestorTelefono.modificaEntidad(dtoCentroDocente.getDtoContacto().getDtoTelefono());
+			
+			//Si vemos que no tiene telefono damos de alta el telefono
+			if(dtoCentroDocente.getDtoContacto().getDtoTelefono().getTelefono().getIdTelefono() == null){
+				gestorTelefono.insertaEntidad(dtoCentroDocente.getDtoContacto().getDtoTelefono());
+			}else{
+				gestorTelefono.modificaEntidad(dtoCentroDocente.getDtoContacto().getDtoTelefono());
+			}
 			System.out.println("telefono modificado correctamente");
 			
 			//Modificamos el centro docente
