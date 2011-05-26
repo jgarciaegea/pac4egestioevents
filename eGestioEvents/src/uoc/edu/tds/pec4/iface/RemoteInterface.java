@@ -14,6 +14,7 @@ import uoc.edu.tds.pec4.dtos.DTOInscripcion;
 import uoc.edu.tds.pec4.dtos.DTOPais;
 import uoc.edu.tds.pec4.dtos.DTOTipoDocumento;
 import uoc.edu.tds.pec4.dtos.DTOTipoEvento;
+import uoc.edu.tds.pec4.dtos.DTOTipoEventoRol;
 import uoc.edu.tds.pec4.dtos.DTOTipoRol;
 import uoc.edu.tds.pec4.dtos.DTOTipoTelefono;
 import uoc.edu.tds.pec4.dtos.DTOUniversidad;
@@ -335,5 +336,7 @@ public interface RemoteInterface extends Remote{
 	public abstract DTOInscripcion getCodigoAsistentica(DTOInscripcion dtoInscripcion) throws RemoteException, OperationErrorBD;
 	
 	public abstract void bajaInscripcion(DTOInscripcion dtoInscripcion) throws RemoteException, OperationErrorBD;
+	
+	public abstract List<DTOTipoEventoRol> consultaTipoEventoRol(DTOTipoEventoRol dtoEventoRol) throws RemoteException, OperationErrorBD;
 		
 }
