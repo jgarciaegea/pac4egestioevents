@@ -412,64 +412,83 @@ public class PantallaCentroDocente extends javax.swing.JPanel implements Pantall
 	
 	private DTOCentroDocente altaModificaCentroDocente(boolean modificacion) throws OperationErrorDatosFormulario{
 		
-		/*****************************************
-		 * DATOS ESPECÍFICOS DEL CONRATO
-		 *****************************************/
-		DTOContacto dtoContacto = new DTOContacto();
-		Contacto contacto = new Contacto();
-		contacto.setDomicilio(jTextFieldDirec.getText());
-		contacto.setCp(Integer.parseInt(jTextFieldCP.getText()));
-		contacto.setLocalidad(jTextFieldLocalidad.getText());
-		contacto.setIdPais(Integer.parseInt(((MostrarCombo) jComboBoxpais.getSelectedItem()).getID().toString()));
-		contacto.setEmail(jTextFieldEmail.getText());
-		contacto.setWeb(jTextFieldWebBlog.getText());
+		DTOCentroDocente dtoCentroDocente = null;
+		try{
+			/*****************************************
+			 * DATOS ESPECÍFICOS DEL CONRATO
+			 *****************************************/
+			DTOContacto dtoContacto = new DTOContacto();
+			Contacto contacto = new Contacto();
+			contacto.setDomicilio(jTextFieldDirec.getText());
+			try{
+				contacto.setCp(Integer.parseInt(jTextFieldCP.getText()));
+			}catch (NumberFormatException e) {
+				throw new OperationErrorDatosFormulario("El campo código postal ha de ser numérico"); 
+			}
+			
+			contacto.setLocalidad(jTextFieldLocalidad.getText());
+			contacto.setIdPais(Integer.parseInt(((MostrarCombo) jComboBoxpais.getSelectedItem()).getID().toString()));
+			contacto.setEmail(jTextFieldEmail.getText());
+			contacto.setWeb(jTextFieldWebBlog.getText());
+			
+			if(!modificacion){
+				contacto.setMotivoEstado("alta de usuario");
+			}else{
+				contacto.setMotivoEstado("Modificación de usuario");
+				//MUY IMPORTANTE EL ID DEL CONTACTO SE HA DE DE RELLENAR DEL QUE PASAMOS PARA CONSULTAR. Digamos que es como si fuera un campo hidden
+				contacto.setIdContacto(dtoCentroDocenteModificar.getCentroDocente().getIdContacto());
+			}
+			dtoContacto.setContacto(contacto);
+			
+			/*****************************************
+			 * DATOS ESPECÍFICOS DEL TELEFONO
+			 *****************************************/
+			DTOTelefono dtoTelefono = new DTOTelefono();
+			Telefono telefono = new Telefono();
+			
+			try{
+				if(!Utils.valorisNull(jTextFieldExtension.getText())) telefono.setExtension(Integer.parseInt(jTextFieldExtension.getText()));
+			}catch (NumberFormatException e) {
+				throw new OperationErrorDatosFormulario("El campo extensión ha de ser numérico"); 
+			}
+			
+			try{
+				if(!Utils.valorisNull(jTextFieldPrefijo.getText())) telefono.setPrefijoPais(jTextFieldPrefijo.getText());
+			}catch (NumberFormatException e) {
+				throw new OperationErrorDatosFormulario("El campo extensión ha de ser numérico"); 
+			}
+			
+			telefono.setTelefono(jTextFieldTelefono.getText());
+			telefono.setIdTipoTelefono(Integer.parseInt(((MostrarCombo) jComboBoxTipo.getSelectedItem()).getID().toString()));
+			if(modificacion){
+				//MUY IMPORTANTE EL ID DEL TELEFONO Y DEL CONTACTO SE HA DE DE RELLENAR DEL QUE PASAMOS PARA CONSULTAR. Digamos que es como si fuera un campo hidden
+				telefono.setIdContacto(dtoCentroDocenteModificar.getCentroDocente().getIdContacto());
+				if(dtoCentroDocenteModificar.getDtoContacto().getDtoTelefono() != null) telefono.setIdTelefono(dtoCentroDocenteModificar.getDtoContacto().getDtoTelefono().getTelefono().getIdTelefono());
+			}
+			dtoTelefono.setTelefono(telefono);
+			dtoContacto.setDtoTelefono(dtoTelefono);
+			
+			/*****************************************
+			 * DATOS DEL CENTRO DOCENTE
+			 *****************************************/
+			dtoCentroDocente = new DTOCentroDocente();
+			CentroDocente centroDocente = new CentroDocente();
+			centroDocente.setNombre(jTextFieldNombre.getText());
+			centroDocente.setIdUniversidad(Integer.parseInt(((MostrarCombo) jComboBoxUniver.getSelectedItem()).getID().toString()));
+			if(modificacion){
+				//MUY IMPORTANTE EL ID DEL CONTACTO SE HA DE DE RELLENAR DEL QUE PASAMOS PARA CONSULTAR. Digamos que es como si fuera un campo hidden
+				contacto.setIdContacto(dtoCentroDocenteModificar.getCentroDocente().getIdContacto());
+				centroDocente.setIdCentro(dtoCentroDocenteModificar.getCentroDocente().getIdCentro());
+				centroDocente.setMotivoEstado("Modificación de centro docente");
+			}else{
+				centroDocente.setMotivoEstado("Alta de centro docente");
+			}
+			dtoCentroDocente.setCentroDocente(centroDocente);
+			dtoCentroDocente.setDtoContacto(dtoContacto);
 		
-		if(!modificacion){
-			contacto.setMotivoEstado("alta de usuario");
-		}else{
-			contacto.setMotivoEstado("Modificación de usuario");
-			//MUY IMPORTANTE EL ID DEL CONTACTO SE HA DE DE RELLENAR DEL QUE PASAMOS PARA CONSULTAR. Digamos que es como si fuera un campo hidden
-			contacto.setIdContacto(dtoCentroDocenteModificar.getCentroDocente().getIdContacto());
+		}catch(Exception e){
+			throw new OperationErrorDatosFormulario(e.getMessage()); 
 		}
-		dtoContacto.setContacto(contacto);
-		
-		/*****************************************
-		 * DATOS ESPECÍFICOS DEL TELEFONO
-		 *****************************************/
-		DTOTelefono dtoTelefono = new DTOTelefono();
-		Telefono telefono = new Telefono();
-		if(!Utils.valorisNull(jTextFieldExtension.getText())) telefono.setExtension(Integer.parseInt(jTextFieldExtension.getText()));
-		if(!Utils.valorisNull(jTextFieldPrefijo.getText())) telefono.setPrefijoPais(jTextFieldPrefijo.getText());
-		
-		telefono.setTelefono(jTextFieldTelefono.getText());
-		telefono.setIdTipoTelefono(Integer.parseInt(((MostrarCombo) jComboBoxTipo.getSelectedItem()).getID().toString()));
-		if(modificacion){
-			//MUY IMPORTANTE EL ID DEL TELEFONO Y DEL CONTACTO SE HA DE DE RELLENAR DEL QUE PASAMOS PARA CONSULTAR. Digamos que es como si fuera un campo hidden
-			telefono.setIdContacto(dtoCentroDocenteModificar.getCentroDocente().getIdContacto());
-			if(dtoCentroDocenteModificar.getDtoContacto().getDtoTelefono() != null) telefono.setIdTelefono(dtoCentroDocenteModificar.getDtoContacto().getDtoTelefono().getTelefono().getIdTelefono());
-		}
-		dtoTelefono.setTelefono(telefono);
-		dtoContacto.setDtoTelefono(dtoTelefono);
-		
-		/*****************************************
-		 * DATOS DEL CENTRO DOCENTE
-		 *****************************************/
-		DTOCentroDocente dtoCentroDocente = new DTOCentroDocente();
-		CentroDocente centroDocente = new CentroDocente();
-		centroDocente.setNombre(jTextFieldNombre.getText());
-		centroDocente.setIdUniversidad(Integer.parseInt(((MostrarCombo) jComboBoxUniver.getSelectedItem()).getID().toString()));
-		if(modificacion){
-			//MUY IMPORTANTE EL ID DEL CONTACTO SE HA DE DE RELLENAR DEL QUE PASAMOS PARA CONSULTAR. Digamos que es como si fuera un campo hidden
-			contacto.setIdContacto(dtoCentroDocenteModificar.getCentroDocente().getIdContacto());
-			centroDocente.setIdCentro(dtoCentroDocenteModificar.getCentroDocente().getIdCentro());
-			centroDocente.setMotivoEstado("Modificación de centro docente");
-		}else{
-			centroDocente.setMotivoEstado("Alta de centro docente");
-		}
-		dtoCentroDocente.setCentroDocente(centroDocente);
-		dtoCentroDocente.setDtoContacto(dtoContacto);
-		
-		
 		return dtoCentroDocente;
 	}
 	
